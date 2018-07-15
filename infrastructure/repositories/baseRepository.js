@@ -1,4 +1,4 @@
-const Constant = require('../constants/constants');
+const Constant = require('../../constants/constants');
 
 class BaseRepository
 {
@@ -18,7 +18,9 @@ class BaseRepository
     }
 
     preGet(conditions, options) {
+        options.page = parseInt(options.page) || 1;
         conditions.deletedAt = null;
+
         return this.model
             .paginate(conditions, { page: options.page, limit: Constant.limit })
             .sort({ createdAt: -1 });
@@ -30,11 +32,14 @@ class BaseRepository
         data.firstPageUrl = `${options.pageUrl}?page=1`;
         data.lastPageUrl = `${options.pageUrl}?page=${data.pages}`;
         if (!options.page || (options.page >= 1 && options.page < data.pages)) {
-            data.nextPageUrl = `${options.pageUrl}?page=${(options.page || 1) + 1}`;
+            data.nextPageUrl = `${options.pageUrl}?page=${options.page + 1}`;
         }
         if (options.page > 1 && options.page <= data.pages) {
-            data.previousPageUrl = `${options.pageUrl}?page=${(options.page || 1) - 1}`;
+            data.previousPageUrl = `${options.pageUrl}?page=${options.page - 1}`;
         }
+        delete data.limit;
+        delete data.page;
+        delete data.pages;
 
         return data;
     }
