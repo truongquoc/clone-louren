@@ -11,6 +11,7 @@ const server = http.createServer(app);
 const { session } = require('./config/app')(app, express);
 require('./config/database')(mongoose);
 
+app.engine('ejs', require('ejs-locals'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(morgan('dev')); // like a middleware
