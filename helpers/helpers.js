@@ -9,6 +9,17 @@ module.exports = function (res) {
         return value;
     };
 
+    res.locals.errors = (key) => {
+        if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.errors) {
+            const errors = res.locals.flashMessages.errors;
+            if (errors[0] && errors[0][key]) {
+                return errors[0][key].msg;
+            }
+        }
+
+        return null;
+    };
+
     res.locals.hasRole = RoleHelper.hasRole;
 
     res.locals.checkValidUser = RoleHelper.checkValidUser;

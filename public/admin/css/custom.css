@@ -1,0 +1,11 @@
+.select2-search__field {
+    border: none !important;
+}
+
+.property-form__container__number {
+    justify-content: space-between;
+}
+
+.property-form__input__number {
+    max-width: 70px;
+}
