@@ -3,7 +3,7 @@ const Constant = require('../../constants/constants');
 class BaseRepository
 {
     constructor() {
-        if (new.target === BaseRepository) {
+        if (new.target === BaseRepository || this.constructor !== BaseRepository) {
             throw new TypeError("Cannot construct Abstract instances directly");
         }
         this.model = this.model();
@@ -14,10 +14,10 @@ class BaseRepository
      ** Implementation required
      */
     model() {
-        throw new Error('You have to implement the method doSomething!');
+        throw new Error('You have to implement this method!');
     }
 
-    preGet(conditions, options) {
+    prePaginate(conditions, options) {
         options.page = parseInt(options.page) || 1;
         conditions.deletedAt = null;
 
@@ -26,8 +26,8 @@ class BaseRepository
             .sort({ createdAt: -1 });
     }
 
-    async get(conditions = {}, options = {}) {
-        const data = await this.preGet(conditions, options);
+    async paginate(conditions = {}, options = {}) {
+        const data = await this.prePaginate(conditions, options);
 
         data.firstPageUrl = `${options.pageUrl}?page=1`;
         data.lastPageUrl = `${options.pageUrl}?page=${data.pages}`;
@@ -42,6 +42,12 @@ class BaseRepository
         delete data.pages;
 
         return data;
+    }
+
+    get(conditions = {}, options) {
+        conditions.deletedAt = null;
+
+        return this.model.find(conditions).sort({ createdAt: -1 });
     }
 
     getDetail(conditions, options = {}) {
