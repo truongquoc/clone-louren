@@ -3,7 +3,7 @@ const Constant = require('../../constants/constants');
 class BaseRepository
 {
     constructor() {
-        if (new.target === BaseRepository) {
+        if (new.target === BaseRepository || this.constructor !== BaseRepository) {
             throw new TypeError("Cannot construct Abstract instances directly");
         }
         this.model = this.model();
