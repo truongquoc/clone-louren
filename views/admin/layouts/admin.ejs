@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 3 | Simple Tables</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <%- stylesheets %>
+    <link rel="stylesheet" href="/public/admin/css/adminlte.min.css">
+    <link rel="stylesheet" href="/public/admin/css/custom.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <% include partials/navbar.ejs %>
+    <% include partials/aside.ejs %>
+
+    <div class="content-wrapper">
+        <%- body %>
+    </div>
+
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.0.0-alpha
+        </div>
+        <strong>Copyright &copy; 2014-2018 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        reserved.
+    </footer>
+
+    <aside class="control-sidebar control-sidebar-dark"></aside>
+</div>
+
+<script src="/public/vendors/jquery/jquery.min.js"></script>
+<script src="/public/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/public/vendors/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="/public/vendors/fastclick/fastclick.js"></script>
+<script src="/public/admin/js/adminlte.min.js"></script>
+<script src="/public/admin/js/demo.js"></script>
+<%- scripts %>
+</body>
+</html>
