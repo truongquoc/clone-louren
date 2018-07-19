@@ -1,3 +1,5 @@
+const Constant = require('../../constants/constants');
+
 class BaseRepository
 {
     constructor() {
@@ -8,26 +10,38 @@ class BaseRepository
     }
 
     /**
-     * Implementation required
+     * Return model to use other methods
+     ** Implementation required
      */
     model() {
         throw new Error('You have to implement the method doSomething!');
     }
 
-    get(conditions = {}, options = {}) {
-        const pagination = {
-            limit: options.limit || 15,
-            skip: ((options.page || 1) - 1) * limit
-        };
-
+    preGet(conditions, options) {
+        options.page = parseInt(options.page) || 1;
         conditions.deletedAt = null;
-        let query = this.model.find(conditions);
-        // Put more conditions here
-        query.sort({ createdAt: -1 });
-        query.skip(pagination.skip);
-        query.limit(pagination.limit);
 
-        return query;
+        return this.model
+            .paginate(conditions, { page: options.page, limit: Constant.limit })
+            .sort({ createdAt: -1 });
+    }
+
+    async get(conditions = {}, options = {}) {
+        const data = await this.preGet(conditions, options);
+
+        data.firstPageUrl = `${options.pageUrl}?page=1`;
+        data.lastPageUrl = `${options.pageUrl}?page=${data.pages}`;
+        if (!options.page || (options.page >= 1 && options.page < data.pages)) {
+            data.nextPageUrl = `${options.pageUrl}?page=${options.page + 1}`;
+        }
+        if (options.page > 1 && options.page <= data.pages) {
+            data.previousPageUrl = `${options.pageUrl}?page=${options.page - 1}`;
+        }
+        delete data.limit;
+        delete data.page;
+        delete data.pages;
+
+        return data;
     }
 
     getDetail(conditions, options = {}) {
