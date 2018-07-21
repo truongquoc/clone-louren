@@ -11,7 +11,7 @@ const success = (data) => {
     };
 };
 
-const error = (message, code = 404) => {
+const error = (message, code = 500) => {
     message = (typeof data !== 'object') ? [message] : message;
 
     return {
