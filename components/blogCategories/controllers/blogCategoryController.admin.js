@@ -13,7 +13,7 @@ const index = async (req, res, next) => {
         });
         blogCategories.renderPagination = PaginationHelper.renderPagination;
 
-        return res.render('admin/components/blogCategories/admin/list', {
+        return res.render('components/blogCategories/admin/list', {
             blogCategories,
             page: parseInt(query.page)
         });
