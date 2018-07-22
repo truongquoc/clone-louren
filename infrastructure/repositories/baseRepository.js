@@ -1,9 +1,10 @@
-const Constant = require('../../constants/constants');
+const Constant = require('../../constants/commonConstant');
+const PaginationHelper = require('../../helpers/pagination.helper');
 
 class BaseRepository
 {
     constructor() {
-        if (new.target === BaseRepository || this.constructor !== BaseRepository) {
+        if (new.target === BaseRepository/* || this.constructor !== BaseRepository*/) {
             throw new TypeError("Cannot construct Abstract instances directly");
         }
         this.model = this.model();
@@ -17,29 +18,19 @@ class BaseRepository
         throw new Error('You have to implement this method!');
     }
 
-    prePaginate(conditions, options) {
-        options.page = parseInt(options.page) || 1;
-        conditions.deletedAt = null;
-
-        return this.model
-            .paginate(conditions, { page: options.page, limit: Constant.limit })
-            .sort({ createdAt: -1 });
-    }
-
     async paginate(conditions = {}, options = {}) {
-        const data = await this.prePaginate(conditions, options);
-
-        data.firstPageUrl = `${options.pageUrl}?page=1`;
-        data.lastPageUrl = `${options.pageUrl}?page=${data.pages}`;
-        if (!options.page || (options.page >= 1 && options.page < data.pages)) {
-            data.nextPageUrl = `${options.pageUrl}?page=${options.page + 1}`;
+        options.query.page = (options.query.page === undefined) ? 1 : parseInt(options.query.page);
+        conditions.deletedAt = null;
+        const data = await this.model.paginate(conditions, { sort: { createdAt: -1 }, page: options.query.page, limit: Constant.limit });
+        // Pagination url
+        PaginationHelper.setUpQueryParameters(data, 'pageUrl', options, false);
+        if (options.query.page > 1) {
+            PaginationHelper.setUpQueryParameters(data, 'prevPageUrl', options, -1);
         }
-        if (options.page > 1 && options.page <= data.pages) {
-            data.previousPageUrl = `${options.pageUrl}?page=${options.page - 1}`;
+        PaginationHelper.setUpQueryParameters(data, 'currentPageUrl', options);
+        if (!options.query.page || (options.query.page >= 1 && options.query.page < data.pages)) {
+            PaginationHelper.setUpQueryParameters(data, 'nextPageUrl', options, 1);
         }
-        delete data.limit;
-        delete data.page;
-        delete data.pages;
 
         return data;
     }
@@ -50,21 +41,35 @@ class BaseRepository
         return this.model.find(conditions).sort({ createdAt: -1 });
     }
 
+    checkExist(conditions) {
+        conditions.deletedAt = null;
+
+        return this.model.count(conditions);
+    }
+
     getDetail(conditions, options = {}) {
         conditions.deletedAt = null;
 
         return this.model.findOne(conditions);
     }
 
-    create(data) {
+    getDetailWithTrashed(conditions, options = {}) {
+        return this.model.findOne(conditions);
+    }
+
+    baseCreate(data) {
         return this.model.create(data);
     }
 
-    update(data, conditions) {
-        return this.model.update(conditions, { $set: data });
+    baseUpdate(data, conditions) {
+        conditions.deletedAt = null;
+
+        return this.model.update(conditions, data);
     }
 
     delete(conditions) {
-        return this.update({ deletedAt: new Date() }, conditions);
+        return this.baseUpdate({ deletedAt: new Date() }, conditions);
     }
 }
+
+module.exports.BaseRepository = BaseRepository;

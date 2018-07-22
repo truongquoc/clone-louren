@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const getSlug = require('speakingurl');
+
 const Schema = mongoose.Schema;
 
 const BlogCategory = new Schema({
@@ -20,6 +22,13 @@ const BlogCategory = new Schema({
     }
 }, {
     timestamps: true
+});
+
+BlogCategory.pre('validate', function (next) {
+    if (this.isModified('slug')) {
+        this.slug = getSlug(this.slug || this.name);
+    }
+    next();
 });
 
 BlogCategory.plugin(mongoosePaginate);
