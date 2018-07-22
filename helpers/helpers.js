@@ -1,5 +1,6 @@
 const moment = require('moment');
 const RoleHelper = require('./role.helper');
+const Constant = require('../constants/commonConstant');
 
 module.exports = function (res) {
     res.locals.old = (key, value) => {
@@ -18,6 +19,10 @@ module.exports = function (res) {
         }
 
         return null;
+    };
+
+    res.locals.getPageIndex = (page) => {
+        return (!page || page <= 1) ? 0 : (page - 1) * Constant.limit;
     };
 
     res.locals.hasRole = RoleHelper.hasRole;
