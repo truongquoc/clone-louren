@@ -7,13 +7,13 @@ class BlogCategoryRepository extends BaseRepository
         return BlogCategory;
     }
 
-    async store(data) {
+    store(data) {
         const category = {
             name: data.name,
             slug: data.slug || data.name,
         };
 
-        return await this.baseCreate(category);
+        return this.baseCreate(category);
     }
 
     async update(data, id) {
