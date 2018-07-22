@@ -13,18 +13,24 @@ class BlogCategoryRepository extends BaseRepository
             slug: data.slug || data.name,
         };
 
-        return await this.create(category);
+        return await this.baseCreate(category);
     }
 
-    async update(data) {
-        const category = await this.getDetail({ $or: [{ name: data.name, slug: data.slug }], deletedAt: { $ne: null } });
+    async update(data, id) {
+        let category = await this.getDetailWithTrashed({
+            _id: { $ne: id },
+            $or: [{ name: data.name, slug: data.slug }]
+        });
         if (category) {
-            category.deletedAt = null;
-
-            return category.save();
+            // Move deleted articles from this category to the category which will be updated.
+            await category.remove();
         }
+        category = {
+            name: data.name,
+            slug: data.slug || data.name,
+        };
 
-        // const
+        return this.model.findOneAndUpdate({ _id: id, deletedAt: null }, category, { new: true });
     }
 }
 

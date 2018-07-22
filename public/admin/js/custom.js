@@ -94,11 +94,10 @@ function init_createSubComponent() {
                 if (!res.status) {
                     if (res.error.code === 500) {
                         swal(
-                            'Error!',
-                            'Internal server error',
+                            'Lỗi!',
+                            'Đã có lỗi hệ thống',
                             'Error'
                         );
-
                         return false;
                     }
                     const messages = res.error.message[0];
@@ -127,9 +126,13 @@ function init_createSubComponent() {
                             ${moment(category.updatedAt).format('HH:mm DD/MM/YYYY')}
                         </td>
                         <td>
-                            <button class="badge bg-warning-gradient"
-                                    data-toggle="modal" data-target="#myModal2"><i class="fa fa-pencil"></i></button>
-                            <button class="badge bg-danger-gradient"><i class="fa fa-times"></i></button>
+                            <button class="badge bg-warning-gradient sub-component__edit-btn"
+                                    type="button" data-toggle="modal" data-target="#myModal2">
+                                    <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="badge bg-danger-gradient sub-component__delete-btn">
+                                <i class="fa fa-times"></i>
+                            </button>
                         </td>
                     </tr>`
                 );
@@ -140,16 +143,92 @@ function init_createSubComponent() {
     }
 }
 
+function init_editSubComponent() {
+    $(document).on('click', '.sub-component__edit-btn', function (e) {
+        e.preventDefault();
+        const name = $(this).closest('tr').find('.sub-component__table__name').text();
+        const slug = $(this).closest('tr').find('.sub-component__table__slug').text();
+        const key = $(this).closest('tr').data('key');
+        const $form = $('.sub-component__edit-form');
+        $form.find('.sub-component__form__name').val(name);
+        $form.find('.sub-component__form__slug').val(slug);
+        $form.find('.sub-component__form__key').val(key);
+    });
+
+    $(document).on('submit', '.sub-component__edit-form', function (e) {
+        e.preventDefault();
+        const name = $(this).find('.sub-component__form__name').val();
+        const slug = $(this).find('.sub-component__form__slug').val();
+        const url = $(this).attr('action');
+        const key = $(this).find('.sub-component__form__key').val();
+        editSubComponent({
+            key: key,
+            url: `${url}/${key}`,
+            name: name,
+            slug: slug
+        })
+    });
+
+    function editSubComponent(data) {
+        $.ajax({
+            url: data.url,
+            method: 'PUT',
+            dataType: 'json',
+            data: {
+                _method: 'PUT',
+                name: data.name,
+                slug: data.slug
+            },
+            success: function (res) {
+                if (!res.status) {
+                    if (res.error.code === 404) {
+                        swal(
+                            'Lỗi!',
+                            'Không tìm thấy dữ liệu',
+                            'Error'
+                        );
+
+                        return false;
+                    }
+                    if (res.error.code === 500) {
+                        swal(
+                            'Lỗi!',
+                            'Đã có lỗi hệ thống',
+                            'Error'
+                        );
+
+                        return false;
+                    }
+                    res.error.message[0].forEach(function (message) {
+                        $('.sub-component__edit-form')
+                            .find(`.sub-component__form__error-${message.param}`)
+                            .html(message.msg);
+                    });
+                    return false;
+                }
+                const category = res.data;
+                const $row = $(`.sub-component__table tr[data-key="${category._id}"]`);
+                $row.find('.sub-component__table__name').text(category.name).html();
+                $row.find('.sub-component__table__slug').text(category.slug).html();
+                $row.find('.sub-component__table__update-time').text(moment(category.updatedAt).format('MM/DD/YYYY HH:mm')).html();
+
+                const $form = $('.sub-component__edit-form');
+                $form.find('.form__error-message').html('');
+            }
+        });
+    }
+}
+
 function init_deleteSubComponent() {
     $(document).on('click', '.sub-component__delete-btn', function (e) {
         const key = $(this).closest('tr').data('key');
-        console.log(`/admin/blog/categories/delete/${key}`);
+        const url = $('.sub-component__table').data('delete-url');
         deleteRecord({
-            url: `/admin/blog/categories/delete/${key}`,
+            url: `${url}/${key}`,
             element: this,
             successResponse: {
-                title: 'Deleted!',
-                description: 'Your category has been deleted.',
+                title: 'Đã xóa!',
+                description: 'Thành công.',
                 type: 'success'
             }
         });
@@ -159,5 +238,6 @@ function init_deleteSubComponent() {
 $(document).ready(function () {
     init_parseSlug();
     init_createSubComponent();
+    init_editSubComponent();
     init_deleteSubComponent();
 });

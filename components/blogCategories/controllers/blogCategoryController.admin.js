@@ -37,10 +37,25 @@ const store = async (req, res) => {
     }
 };
 
-const destroy = (req, res) => {
+const update = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.json(ResponseHelper.error(errors.mapped(), 400));
+    }
+    try {
+        const data = req.body;
+        const category = await BlogCategoryRepository.update(data, req.params.id);
+
+        return res.json(ResponseHelper.success(category));
+    } catch (e) {
+        return res.json(ResponseHelper.error(e.message))
+    }
+};
+
+const destroy = async (req, res) => {
     const { id } = req.params;
     try {
-        BlogCategoryRepository.delete({ _id: id });
+        await BlogCategoryRepository.delete({ _id: id });
 
         return res.json(ResponseHelper.success());
     } catch (e) {
@@ -48,4 +63,4 @@ const destroy = (req, res) => {
     }
 };
 
-module.exports = { index, store, destroy };
+module.exports = { index, store, update, destroy };

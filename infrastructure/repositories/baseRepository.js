@@ -53,18 +53,22 @@ class BaseRepository
         return this.model.findOne(conditions);
     }
 
-    create(data) {
+    getDetailWithTrashed(conditions, options = {}) {
+        return this.model.findOne(conditions);
+    }
+
+    baseCreate(data) {
         return this.model.create(data);
     }
 
-    update(data, conditions) {
+    baseUpdate(data, conditions) {
         conditions.deletedAt = null;
 
         return this.model.update(conditions, data);
     }
 
-    async delete(conditions) {
-        return await this.update({ deletedAt: new Date() }, conditions);
+    delete(conditions) {
+        return this.baseUpdate({ deletedAt: new Date() }, conditions);
     }
 }
 
