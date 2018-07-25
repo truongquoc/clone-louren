@@ -38,3 +38,15 @@ button.badge {
     color: red;
     font-weight: bold;
 }
+
+.form-control-feedback {
+    margin-right: 5px;
+}
+
+.register-box {
+    padding: 3% 0;
+}
+
+.user__form__gender span, .user__form__gender label {
+    margin: 0 8px 0 0;
+}

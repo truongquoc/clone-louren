@@ -15,5 +15,15 @@ module.exports = function (app) {
         }
     }));
 
+    app.use(function (req, res, next) {
+        res.redirectBack = () => {
+            const backURL = req.header('Referer') || '/';
+
+            return res.redirect(backURL);
+        };
+
+        next();
+    });
+
     app.use(router);
 };

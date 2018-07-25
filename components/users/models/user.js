@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const bcrypt = require('bcryptjs');
+
 const Schema = mongoose.Schema;
 
 const User = new Schema({
@@ -24,7 +26,7 @@ const User = new Schema({
         required: true,
         trim: true
     },
-    sex: {
+    gender: {
         type: Number,
         min: 1,
         max: 3,
@@ -57,6 +59,14 @@ const User = new Schema({
     }
 }, {
     timestamps: true
+});
+
+User.pre('validate', function (next) {
+    if (this.isModified('password')) {
+        const salt = bcrypt.genSaltSync(10);
+        this.password = bcrypt.hashSync(this.password, salt);
+    }
+    next();
 });
 
 User.plugin(mongoosePaginate);

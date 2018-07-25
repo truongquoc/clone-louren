@@ -72,4 +72,4 @@ class BaseRepository
     }
 }
 
-module.exports.BaseRepository = BaseRepository;
+module.exports = BaseRepository;
