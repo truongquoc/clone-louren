@@ -48,7 +48,7 @@ const update = async (req, res) => {
 
         return res.json(ResponseHelper.success(category));
     } catch (e) {
-        return res.json(ResponseHelper.error(e.message))
+        return res.json(ResponseHelper.error(e.message));
     }
 };
 

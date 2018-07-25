@@ -1,47 +1,44 @@
 const { check } = require('express-validator/check');
 const getSlug = require('speakingurl');
 
-const BlogCategory = require('../models/blogCategory');
+const BlogCategoryRepository = new (require('../repositories/blogCategoryRepository'))();
 
 const createCategoryRequest = [
     check('name')
-        .not().isEmpty().withMessage('Name is required')
-        .custom(value => {
-            return BlogCategory.findOne({ name: value, deletedAt: null }).then(category => {
-                if (category) {
-                    return Promise.reject('Category name already in use');
-                }
-            });
+        .not().isEmpty().withMessage('Tên không được bỏ trống')
+        .custom(async value => {
+            const check = await BlogCategoryRepository.checkExist({ name: value });
+            if (check) {
+                return Promise.reject('Tên đã được sử dụng');
+            }
         }),
     check('slug')
-        .custom(value => {
-            return BlogCategory.findOne({ slug: value, deletedAt: null }).then(category => {
-                if (category) {
-                    return Promise.reject('Category slug already in use');
-                }
-            });
+        .custom(async value => {
+            const check = await BlogCategoryRepository.checkExist({ slug: getSlug(value) });
+            if (check) {
+                return Promise.reject('Đường dẫn đã được sử dụng');
+            }
         })
 ];
 
 const editCategoryRequest = [
     check('name')
         .not().isEmpty().withMessage('Tên không được bỏ trống')
-        .custom((value, { req }) => {
-            return BlogCategory.findOne({ _id: { $ne: req.params.id }, name: value, deletedAt: null }).then(category => {
-                if (category) {
-                    return Promise.reject('Tên đã được sử dụng');
-                }
-            });
+        .custom(async (value, { req }) => {
+            const check = await BlogCategoryRepository.checkExist({ _id: { $ne: req.params.id }, name: value });
+            if (check) {
+                return Promise.reject('Tên đã được sử dụng');
+            }
         }),
     check('slug')
-        .custom((value, { req }) => {
-            return BlogCategory.findOne({ _id: { $ne: req.params.id }, slug: getSlug(value), deletedAt: null })
-                .then(category => {
-                    if (category) {
-                        return Promise.reject('Đường dẫn đã được sử dụng');
-                    }
-                }
-            );
+        .custom(async (value, { req }) => {
+            const check = await BlogCategoryRepository.checkExist({
+                _id: { $ne: req.params.id },
+                slug: getSlug(value)
+            });
+            if (check) {
+                return Promise.reject('Đường dẫn đã được sử dụng');
+            }
         })
 ];
 
