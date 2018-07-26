@@ -4,9 +4,9 @@ const BlogCategoryAuthorize = require('./middleware/blogCategoryAuthorize');
 const BlogCategoryRequest = require('./requests/blogCategoryRequest');
 const BlogCategoryController = require('./controllers/blogCategoryController.admin');
 
-router.get('/', BlogCategoryController.index);
+router.get('/', BlogCategoryAuthorize.indexAuthorize, BlogCategoryController.index);
 
-router.post('/create', BlogCategoryRequest.createCategoryRequest, BlogCategoryController.store);
+router.post('/create', BlogCategoryAuthorize.indexAuthorize, BlogCategoryRequest.createCategoryRequest, BlogCategoryController.store);
 
 router.put('/edit/:id', BlogCategoryAuthorize.editAuthorize, BlogCategoryRequest.editCategoryRequest, BlogCategoryController.update);
 

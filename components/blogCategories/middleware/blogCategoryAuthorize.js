@@ -1,6 +1,10 @@
 const ResponseHelper = require('../../../helpers/response.helper');
 const BlogCategoryRepository = new (require('../repositories/blogCategoryRepository'))();
 
+const indexAuthorize = (req, res, next) => {
+    next();
+};
+
 const editAuthorize = async (req, res, next) => {
     const { id } = req.params;
     try {
@@ -15,4 +19,4 @@ const editAuthorize = async (req, res, next) => {
     }
 };
 
-module.exports = { editAuthorize };
+module.exports = { indexAuthorize, editAuthorize };

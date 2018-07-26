@@ -1,3 +1,14 @@
+const setUpUrl = (data, options) => {
+    setUpQueryParameters(data, 'pageUrl', options, false);
+    if (options.query.page > 1) {
+        setUpQueryParameters(data, 'prevPageUrl', options, -1);
+    }
+    setUpQueryParameters(data, 'currentPageUrl', options);
+    if (!options.query.page || (options.query.page >= 1 && options.query.page < data.pages)) {
+        setUpQueryParameters(data, 'nextPageUrl', options, 1);
+    }
+};
+
 const setUpQueryParameters = (data, name, options, num = 0) => {
     data[name] = `${options.pageUrl}?`;
     for (const key in options.query) {
@@ -79,4 +90,4 @@ const renderPagination = (data, page) => {
     return html;
 };
 
-module.exports = { setUpQueryParameters, renderPagination };
+module.exports = { setUpUrl, renderPagination };
