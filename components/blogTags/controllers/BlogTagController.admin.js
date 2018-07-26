@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator/check');
 
-const BlogTagReponsitory = new (require('../repositories/blogTagRepositotiy'));
+const BlogTagRepository = new (require('../repositories/blogTagRepository'))();
 const ResponseHelper = require('../../../helpers/response.helper');
 const PaginationHelper = require('../../../helpers/pagination.helper');
 
@@ -8,7 +8,7 @@ const PaginationHelper = require('../../../helpers/pagination.helper');
 const index = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogTags = await BlogTagReponsitory.paginate({}, {
+        const blogTags = await BlogTagRepository.paginate({}, {
             pageUrl: req.baseUrl,
             query: query,
         });
@@ -18,7 +18,6 @@ const index = async (req, res, next) => {
             blogTags,
             page: parseInt(query.page)
         });
-
     } catch (e) {
         next(ResponseHelper.error(e.message));
     }
@@ -31,7 +30,7 @@ const store = async (req, res) => {
     }
     try {
         const data = req.body;
-        const tag = await BlogTagReponsitory.store(data);
+        const tag = await BlogTagRepository.create(data);
 
         return res.json(ResponseHelper.success(tag));
     } catch (e) {
@@ -46,29 +45,23 @@ const update = async (req, res) => {
     }
     try {
         const data = req.body;
-        const tag = await BlogTagReponsitory.update(data, req.params.id);
-        return res.json(ResponseHelper.success(tag));
+        const tag = await BlogTagRepository.update(data, req.params.id);
 
-    } catch( e ) {
+        return res.json(ResponseHelper.success(tag));
+    } catch (e) {
         return res.json(ResponseHelper.error(e.message));
     }
 };
 
 const destroy = async (req, res ) => {
     const { id } = req.params;
-
     try {
-        await BlogTagReponsitory.delete({ _id: id });
-        return res.json(ResponseHelper.success());
+        await BlogTagRepository.delete({ _id: id });
 
-    } catch ( e ) {
+        return res.json(ResponseHelper.success());
+    } catch (e) {
         return res.json(ResponseHelper.error(e.message));
     }
 };
 
-module.exports = {
-    index,
-    store,
-    update,
-    destroy,
-};
+module.exports = { index, store, update, destroy };

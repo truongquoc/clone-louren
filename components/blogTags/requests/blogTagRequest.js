@@ -1,7 +1,7 @@
 const { check } = require('express-validator/check');
 const getSlug = require('speakingurl');
 
-const BlogTagRepository = new (require('../repositories/blogTagRepositotiy'));
+const BlogTagRepository = new (require('../repositories/blogTagRepository'));
 
 const createTagRequest = [
     check('name')
@@ -10,14 +10,13 @@ const createTagRequest = [
             try {
                 const check =  await BlogTagRepository.checkExist({ name: value });
                 if (check) {
-                    return Promise.reject('Tag đã được sử dụng');
+                    return Promise.reject('Tên đã được sử dụng');
                 }
             } catch (e) {
                 return Promise.reject(e.message);
             }
         }),
     check('slug')
-        .not().isEmpty().withMessage('Đường dẫn không được bỏ trống.')
         .custom(async value => {
             try {
                 const check =  await BlogTagRepository.checkExist({ slug: getSlug(value) });
@@ -35,9 +34,9 @@ const editTagRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống.') 
         .custom(async (value, { req }) => {
             try {
-                const check =  await BlogTagRepository.checkExist({ _id: { $ne: req.params.id }, name: value });
+                const check = await BlogTagRepository.checkExist({ _id: { $ne: req.params.id }, name: value });
                 if (check) {
-                    return Promise.reject('Tag đã được sử dụng');
+                    return Promise.reject('Tên đã được sử dụng');
                 }
             } catch (e) {
                 return Promise.reject(e.message);
@@ -45,10 +44,9 @@ const editTagRequest = [
         } 
     ),
     check('slug')
-        .not().isEmpty().withMessage('Đường dẫn không được bỏ trống.')
         .custom(async (value, { req }) => {
             try {
-                const check =  await BlogTagRepository.checkExist({ _id: { $ne: req.params.id }, slug: value });
+                const check = await BlogTagRepository.checkExist({ _id: { $ne: req.params.id }, slug: value });
                 if (check) {
                     return Promise.reject('Đường dẫn đã được sử dụng');
                 }

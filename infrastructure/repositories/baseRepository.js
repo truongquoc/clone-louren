@@ -42,7 +42,7 @@ class BaseRepository
     checkExistOnlyTrashed(conditions) {
         conditions.deletedAt = { $ne: null };
 
-        return this.model.count(conditions);
+        return this.model.findOne(conditions).select('_id');
     }
 
     getDetail(conditions, options = {}) {
@@ -72,4 +72,4 @@ class BaseRepository
     }
 }
 
-module.exports.BaseRepository = BaseRepository;
+module.exports = BaseRepository;

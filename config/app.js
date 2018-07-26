@@ -38,5 +38,5 @@ module.exports = function (app, express) {
 
     return {
         session: sessionMiddleware
-    }
+    };
 };

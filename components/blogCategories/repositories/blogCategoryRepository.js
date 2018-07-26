@@ -1,7 +1,7 @@
 const getSlug = require('speakingurl');
 
 const BlogCategory = require('../models/blogCategory');
-const BaseRepository = require('../../../infrastructure/repositories/baseRepository').BaseRepository;
+const BaseRepository = require('../../../infrastructure/repositories/baseRepository');
 
 class BlogCategoryRepository extends BaseRepository
 {
@@ -23,7 +23,6 @@ class BlogCategoryRepository extends BaseRepository
         }
         category = {
             name: data.name,
-            
             slug: data.slug || data.name,
         };
 

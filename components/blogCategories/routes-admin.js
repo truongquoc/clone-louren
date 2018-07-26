@@ -13,4 +13,3 @@ router.put('/edit/:id', BlogCategoryAuthorize.editAuthorize, BlogCategoryRequest
 router.delete('/delete/:id', BlogCategoryAuthorize.editAuthorize, BlogCategoryController.destroy);
 
 module.exports = router;
- 

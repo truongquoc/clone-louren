@@ -1,12 +1,13 @@
 const BlogTag = require('../models/blogTag');
-const BaseRepository = require('../../../infrastructure/repositories/baseRepository').BaseRepository;
+const BaseRepository = require('../../../infrastructure/repositories/baseRepository');
 
-class BlogTagRepository extends BaseRepository {
+class BlogTagRepository extends BaseRepository
+{
     model() {
         return BlogTag;
     }
 
-    store(data) {
+    create(data) {
         const tag = {
             name: data.name,
             slug: data.slug || data.name,
@@ -15,11 +16,11 @@ class BlogTagRepository extends BaseRepository {
     }
 
     async update(data, id) {
-        let tag = await this.getDetailWithTrashed({
-            _id: { $ne: id }, //???
-            $or: [{ name: data.name, slug: data.slug }],
+        let tag = await this.getDetailOnlyTrashed({
+            _id: { $ne: id },
+            $or: [{ name: data.name }, { slug: data.slug }],
         });
-        if( tag ) {
+        if (tag) {
             await tag.remove();
         }
         tag = {
