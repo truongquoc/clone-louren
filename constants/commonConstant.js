@@ -1,3 +1,3 @@
 module.exports = {
-    limit: 15
+    limit: 5
 };

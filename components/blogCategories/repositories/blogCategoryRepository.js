@@ -10,6 +10,7 @@ class BlogCategoryRepository extends BaseRepository
     store(data) {
         const category = {
             name: data.name,
+            
             slug: data.slug || data.name,
         };
 
