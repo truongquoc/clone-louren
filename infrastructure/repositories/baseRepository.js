@@ -5,7 +5,7 @@ class BaseRepository
 {
     constructor() {
         if (new.target === BaseRepository/* || this.constructor !== BaseRepository*/) {
-            throw new TypeError("Cannot construct Abstract instances directly");
+            throw new TypeError('Cannot construct Abstract instances directly');
         }
         this.model = this.model();
     }
@@ -36,7 +36,7 @@ class BaseRepository
     checkExist(conditions) {
         conditions.deletedAt = null;
 
-        return this.model.count(conditions);
+        return this.model.findOne(conditions).select('_id');
     }
 
     checkExistOnlyTrashed(conditions) {

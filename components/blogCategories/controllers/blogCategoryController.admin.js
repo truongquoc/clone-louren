@@ -4,14 +4,15 @@ const BlogCategoryRepository = new (require('../repositories/blogCategoryReposit
 const ResponseHelper = require('../../../helpers/response.helper');
 const PaginationHelper = require('../../../helpers/pagination.helper');
 
-const index = async (req, res, next) => {
+//
+const index = async (req, res, next) => { 
     try {
-        const { query } = req;
-        const blogCategories = await BlogCategoryRepository.paginate({}, {
+        const { query } = req;      //lấy page
+        const blogCategories = await BlogCategoryRepository.paginate({}, { //chuyền vào query
             pageUrl: req.baseUrl,
             query: query
         });
-        blogCategories.renderPagination = PaginationHelper.renderPagination;
+        blogCategories.renderPagination = PaginationHelper.renderPagination; //
 
         return res.render('components/blogCategories/admin/list', {
             blogCategories,

@@ -23,6 +23,7 @@ class BlogCategoryRepository extends BaseRepository
         }
         category = {
             name: data.name,
+            
             slug: data.slug || data.name,
         };
 

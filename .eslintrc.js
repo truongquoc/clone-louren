@@ -11,6 +11,7 @@ module.exports = {
     "rules": {
         "no-undef": 0,
         "indent": 0,
+        "no-unused-vars": 1,
         "linebreak-style": [
             "error",
             "unix"
@@ -22,6 +23,7 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+
     }
 };
