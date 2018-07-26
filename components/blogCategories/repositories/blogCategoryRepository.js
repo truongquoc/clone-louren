@@ -9,7 +9,7 @@ class BlogCategoryRepository extends BaseRepository
         return BlogCategory;
     }
 
-    async store(data) {
+    async create(data) {
         let category = await this.getDetailOnlyTrashed({
             $or: [{ name: data.name }, { slug: getSlug(data.slug) }]
         });

@@ -29,7 +29,7 @@ const store = async (req, res) => {
     }
     try {
         const data = req.body;
-        const category = await BlogCategoryRepository.store(data);
+        const category = await BlogCategoryRepository.create(data);
 
         return res.json(ResponseHelper.success(category));
     } catch (e) {
