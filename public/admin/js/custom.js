@@ -23,7 +23,7 @@ function parseSlug(title) {
 function deleteRecord(data) {
     swal({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: 'You won\'t be able to revert this!',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -46,7 +46,7 @@ function deleteRecord(data) {
                         'Error!',
                         'Cannot delete.',
                         'Error'
-                    )
+                    );
                 } else {
                     $(data.element).closest('tr').fadeOut();
                     swal(
@@ -80,7 +80,7 @@ function init_createSubComponent() {
         createCategory(url, {
             name: name,
             slug: slug
-        })
+        });
     });
 
     function createCategory(url, data) {
@@ -100,6 +100,7 @@ function init_createSubComponent() {
                         );
                         return false;
                     }
+                    $form.find('.form__error-message').text('');
                     const messages = res.error.message[0];
                     for (const message in messages) {
                         $form.find(`.sub-component__form__error-${message}`)
@@ -166,7 +167,7 @@ function init_editSubComponent() {
             url: `${url}/${key}`,
             name: name,
             slug: slug
-        })
+        });
     });
 
     function editSubComponent(data) {
@@ -180,6 +181,7 @@ function init_editSubComponent() {
                 slug: data.slug
             },
             success: function (res) {
+                const $form = $('.sub-component__edit-form');
                 if (!res.status) {
                     if (res.error.code === 404) {
                         swal(
@@ -199,11 +201,12 @@ function init_editSubComponent() {
 
                         return false;
                     }
-                    res.error.message[0].forEach(function (message) {
-                        $('.sub-component__edit-form')
-                            .find(`.sub-component__form__error-${message.param}`)
-                            .html(message.msg);
-                    });
+                    $form.find('.form__error-message').text('');
+                    const messages = res.error.message[0];
+                    for (const message in messages) {
+                        $form.find(`.sub-component__form__error-${message}`)
+                            .html(messages[message].msg);
+                    }
                     return false;
                 }
                 const category = res.data;
@@ -211,8 +214,6 @@ function init_editSubComponent() {
                 $row.find('.sub-component__table__name').text(category.name).html();
                 $row.find('.sub-component__table__slug').text(category.slug).html();
                 $row.find('.sub-component__table__update-time').text(moment(category.updatedAt).format('MM/DD/YYYY HH:mm')).html();
-
-                const $form = $('.sub-component__edit-form');
                 $form.find('.form__error-message').html('');
             }
         });
