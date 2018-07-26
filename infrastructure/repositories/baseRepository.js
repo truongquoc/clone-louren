@@ -5,7 +5,7 @@ class BaseRepository
 {
     constructor() {
         if (new.target === BaseRepository/* || this.constructor !== BaseRepository*/) {
-            throw new TypeError("Cannot construct Abstract instances directly");
+            throw new TypeError('Cannot construct Abstract instances directly');
         }
         this.model = this.model();
     }
@@ -22,15 +22,7 @@ class BaseRepository
         options.query.page = (options.query.page === undefined) ? 1 : parseInt(options.query.page);
         conditions.deletedAt = null;
         const data = await this.model.paginate(conditions, { sort: { createdAt: -1 }, page: options.query.page, limit: Constant.limit });
-        // Pagination url
-        PaginationHelper.setUpQueryParameters(data, 'pageUrl', options, false);
-        if (options.query.page > 1) {
-            PaginationHelper.setUpQueryParameters(data, 'prevPageUrl', options, -1);
-        }
-        PaginationHelper.setUpQueryParameters(data, 'currentPageUrl', options);
-        if (!options.query.page || (options.query.page >= 1 && options.query.page < data.pages)) {
-            PaginationHelper.setUpQueryParameters(data, 'nextPageUrl', options, 1);
-        }
+        PaginationHelper.setUpUrl(data, options);
 
         return data;
     }
@@ -44,7 +36,13 @@ class BaseRepository
     checkExist(conditions) {
         conditions.deletedAt = null;
 
-        return this.model.count(conditions);
+        return this.model.findOne(conditions).select('_id');
+    }
+
+    checkExistOnlyTrashed(conditions) {
+        conditions.deletedAt = { $ne: null };
+
+        return this.model.findOne(conditions).select('_id');
     }
 
     getDetail(conditions, options = {}) {
@@ -53,7 +51,9 @@ class BaseRepository
         return this.model.findOne(conditions);
     }
 
-    getDetailWithTrashed(conditions, options = {}) {
+    getDetailOnlyTrashed(conditions, options = {}) {
+        conditions.deletedAt = { $ne: null };
+
         return this.model.findOne(conditions);
     }
 

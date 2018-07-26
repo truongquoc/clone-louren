@@ -1,7 +1,8 @@
 const router = require('express').Router();
 
 const AdminAuthRoutes = require('../components/users/routes-auth-admin');
-const AdminBlogCategoryRoutes = require('../components/blogCategories/routes-admin');
+const AdminBlogCategoryRouter = require('../components/blogCategories/routes-admin');
+const AdminBlogTagRouter = require('../components/blogTags/routers-admin');
 const HandleExceptionHelper = require('../helpers/handleException.helper');
 
 router.get('/test', (req, res) => {
@@ -16,8 +17,8 @@ router.use(function (req, res, next) {
 });
 
 router.use('/admin', AdminAuthRoutes);
-
-router.use('/admin/blog/categories', AdminBlogCategoryRoutes);
+router.use('/admin/blog/categories', AdminBlogCategoryRouter);
+router.use('/admin/blog/tags', AdminBlogTagRouter);
 
 router.use(HandleExceptionHelper.handleException);
 

@@ -1,20 +1,21 @@
 const { validationResult } = require('express-validator/check');
 
-const BlogCategoryRepository = new (require('../repositories/blogCategoryRepository'))();
+const BlogTagRepository = new (require('../repositories/blogTagRepository'))();
 const ResponseHelper = require('../../../helpers/response.helper');
 const PaginationHelper = require('../../../helpers/pagination.helper');
+
 
 const index = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogCategories = await BlogCategoryRepository.paginate({}, {
+        const blogTags = await BlogTagRepository.paginate({}, {
             pageUrl: req.baseUrl,
-            query: query
+            query: query,
         });
-        blogCategories.renderPagination = PaginationHelper.renderPagination;
+        blogTags.renderPagination = PaginationHelper.renderPagination;
 
-        return res.render('components/blogCategories/admin/list', {
-            blogCategories,
+        return res.render('components/blogTags/admin/list', {
+            blogTags,
             page: parseInt(query.page)
         });
     } catch (e) {
@@ -24,16 +25,16 @@ const index = async (req, res, next) => {
 
 const store = async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.json(ResponseHelper.error(errors.mapped(), 400));
+    if(!errors.isEmpty()) {
+        return res.json(ResponseHelper.error(errors.mapped(),400));
     }
     try {
         const data = req.body;
-        const category = await BlogCategoryRepository.create(data);
+        const tag = await BlogTagRepository.create(data);
 
-        return res.json(ResponseHelper.success(category));
+        return res.json(ResponseHelper.success(tag));
     } catch (e) {
-        return res.json(ResponseHelper.error(e.message));
+        return res.json(ResponseHelper.error(Element.message));
     }
 };
 
@@ -44,18 +45,18 @@ const update = async (req, res) => {
     }
     try {
         const data = req.body;
-        const category = await BlogCategoryRepository.update(data, req.params.id);
+        const tag = await BlogTagRepository.update(data, req.params.id);
 
-        return res.json(ResponseHelper.success(category));
+        return res.json(ResponseHelper.success(tag));
     } catch (e) {
         return res.json(ResponseHelper.error(e.message));
     }
 };
 
-const destroy = async (req, res) => {
+const destroy = async (req, res ) => {
     const { id } = req.params;
     try {
-        await BlogCategoryRepository.delete({ _id: id });
+        await BlogTagRepository.delete({ _id: id });
 
         return res.json(ResponseHelper.success());
     } catch (e) {
