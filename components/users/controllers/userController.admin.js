@@ -21,7 +21,6 @@ const register = async (req, res, next) => {
 
         return res.redirect('/admin/login');
     } catch (e) {
-        console.log(e.message);
         next(ResponseHelper.error(e.message));
     }
 };

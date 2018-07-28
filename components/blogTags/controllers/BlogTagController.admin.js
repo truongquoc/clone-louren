@@ -56,7 +56,7 @@ const update = async (req, res) => {
 const destroy = async (req, res ) => {
     const { id } = req.params;
     try {
-        await BlogTagRepository.delete({ _id: id });
+        await BlogTagRepository.delete(id);
 
         return res.json(ResponseHelper.success());
     } catch (e) {

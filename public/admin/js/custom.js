@@ -220,10 +220,38 @@ function init_editSubComponent() {
     }
 }
 
-function init_deleteSubComponent() {
-    $(document).on('click', '.component__delete-btn', function (e) {
+function init_approveComponent() {
+    $('.component__approve-btn').on('click', function () {
+        const url = $('.component__table').data('approve-url');
         const key = $(this).closest('tr').data('key');
+        const that = this;
+        $.ajax({
+            url: `${url}/${key}`,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+                _method: 'PUT'
+            },
+            success: function (res) {
+                if (!res.status) {
+                    swal(
+                        'Lỗi!',
+                        'Không thể duyệt',
+                        'Error'
+                    );
+                } else {
+                    $(that).fadeOut();
+                    swal('Đã duyệt!', 'Thành công.', 'success');
+                }
+            }
+        });
+    });
+}
+
+function init_deleteComponent() {
+    $(document).on('click', '.component__delete-btn', function (e) {
         const url = $('.component__table').data('delete-url');
+        const key = $(this).closest('tr').data('key');
         deleteRecord({
             url: `${url}/${key}`,
             element: this,
@@ -240,5 +268,6 @@ $(document).ready(function () {
     init_parseSlug();
     init_createSubComponent();
     init_editSubComponent();
-    init_deleteSubComponent();
+    init_approveComponent();
+    init_deleteComponent();
 });

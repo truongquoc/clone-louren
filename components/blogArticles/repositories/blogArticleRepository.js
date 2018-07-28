@@ -11,7 +11,6 @@ class BlogArticleRepository extends BaseRepository
 
     async adminList(userSlug, options) {
         options.query.page = (options.query.page === undefined) ? 1 : parseInt(options.query.page);
-        let conditions = { deletedAt: null };
         let populate = [{
             path: 'category',
             select: '-_id name'
@@ -19,16 +18,19 @@ class BlogArticleRepository extends BaseRepository
         if (!userSlug) {
             populate.push({
                 path: 'author',
-                select: '-_id name slug',
-                match: { slug: userSlug }
+                select: '-_id name'
             });
         } else {
-            conditions.user.slug = userSlug;
+            populate.push({
+                path: 'author',
+                select: '-_id',
+                match: { slug: userSlug }
+            });
         }
         let articles = await this.model.paginate(
-            conditions,
+            { deletedAt: null },
             {
-                select: 'title slug createdAt',
+                select: 'title isApprove slug createdAt',
                 populate: populate,
                 sort: { createdAt: -1 }, page: options.query.page, limit: CommonConstant.limit
             }
@@ -36,6 +38,10 @@ class BlogArticleRepository extends BaseRepository
         PaginationHelper.setUpUrl(articles, options);
 
         return articles;
+    }
+
+    approve(id) {
+        return this.baseUpdate({ isApprove: true }, { _id: id });
     }
 }
 
