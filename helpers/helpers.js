@@ -22,6 +22,8 @@ module.exports = function (res) {
     };
 
     res.locals.getPageIndex = (page) => {
+        page = parseInt(page);
+
         return (!page || page <= 1) ? 0 : (page - 1) * Constant.limit;
     };
 
