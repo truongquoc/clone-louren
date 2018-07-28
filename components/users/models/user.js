@@ -54,6 +54,12 @@ const User = new Schema({
             type: String
         }
     },
+    slug: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
     deletedAt: {
         type: Date
     }

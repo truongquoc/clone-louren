@@ -1,0 +1,65 @@
+<% layout('/layouts/admin/app') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Simple Tables</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Simple Tables</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Bordered Table</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Tiêu đề</th>
+                        <th>Thể loại</th>
+                        <th>Người viết</th>
+                        <th>Ngày tạo</th>
+                        <th style="width: 120px">Label</th>
+                    </tr>
+                    <% pageIndex = getPageIndex(page) %>
+                    <% blogArticles.docs.forEach(function (article, index) { %>
+                        <tr>
+                            <td><%- pageIndex + index + 1 %></td>
+                            <td><%- article.title %></td>
+                            <td><%- article.category.name %></td>
+                            <td>
+                                <% if (article.author) { %>
+                                    <a href="/admin/blog/articles/<%- article.author.slug %>"><%- article.author.name %></a>
+                                <% } %>
+                            </td>
+                            <td><%- moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
+                            <td>
+                                <a href="#" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
+                                <a href="#" class="badge bg-success-gradient"><i class="fa fa-check"></i></a>
+                                <a href="#" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="badge bg-danger-gradient"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </table>
+            </div>
+            <div class="card-footer clearfix">
+                <div class=" pagination-sm m-0 float-right">
+                    <%- blogArticles.renderPagination(blogArticles, page) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
