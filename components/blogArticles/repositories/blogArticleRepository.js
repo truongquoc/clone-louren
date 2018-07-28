@@ -11,7 +11,6 @@ class BlogArticleRepository extends BaseRepository
 
     async adminList(userSlug, options) {
         options.query.page = (options.query.page === undefined) ? 1 : parseInt(options.query.page);
-        let conditions = { deletedAt: null };
         let populate = [{
             path: 'category',
             select: '-_id name'
@@ -29,7 +28,7 @@ class BlogArticleRepository extends BaseRepository
             });
         }
         let articles = await this.model.paginate(
-            conditions,
+            { deletedAt: null },
             {
                 select: 'title isApprove slug createdAt',
                 populate: populate,
