@@ -50,3 +50,7 @@ button.badge {
 .user__form__gender span, .user__form__gender label {
     margin: 0 8px 0 0;
 }
+
+.list__table__date {
+    width: 12%;
+}

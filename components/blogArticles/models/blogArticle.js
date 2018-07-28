@@ -11,6 +11,7 @@ const BlogArticle = new Schema({
     tags: [{
         type: Schema.Types.ObjectId,
         ref: 'blog_tags',
+        // unique: true
     }],
     author: {
         type: Schema.Types.ObjectId,
