@@ -43,7 +43,7 @@
                         <th>Ngày chỉnh sửa</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
-                    <% pageIndex = getPageIndex(page) %>
+                    <% pageIndex = getPageIndex(query.page) %>
                     <% blogTags.docs.forEach(function (tag, index) { %>
                         <tr data-key="<%- tag._id %>">
                             <td><%- pageIndex + index + 1 %></td>
@@ -67,7 +67,7 @@
             </div>
             <div class="card-footer clearfix">
                 <div class=" pagination-sm m-0 float-right">
-                    <%- blogTags.renderPagination(blogTags, page) %>
+                    <%- blogTags.renderPagination(blogTags, query.page) %>
                 </div>
             </div>
         </div>

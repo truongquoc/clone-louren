@@ -16,7 +16,7 @@ const index = async (req, res, next) => {
 
         return res.render('components/blogTags/admin/list', {
             blogTags,
-            page: query.page
+            query: query
         });
     } catch (e) {
         next(ResponseHelper.error(e.message));
