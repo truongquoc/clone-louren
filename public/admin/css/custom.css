@@ -54,3 +54,13 @@ button.badge {
 .list__table__date {
     width: 12%;
 }
+
+.search-form__input {
+    height: 32px;
+    border-radius: 0;
+}
+
+.search-form__btn {
+    padding: 3px 12px;
+    border-radius: 0 15px 15px 0;
+}

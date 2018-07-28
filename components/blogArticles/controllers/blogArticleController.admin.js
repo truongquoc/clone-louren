@@ -13,7 +13,7 @@ const index = async (req, res, next) => {
 
         return res.render('components/blogArticles/admin/list', {
             blogArticles,
-            page: query.page
+            query: query
         });
     } catch (e) {
         next(ResponseHelper.error(e.message));
@@ -31,7 +31,7 @@ const showMyArticles = async (req, res, next) => {
 
         return res.render('components/blogArticles/admin/me', {
             blogArticles,
-            page: query.page
+            query: query
         });
     } catch (e) {
         next(ResponseHelper.error(e.message));
