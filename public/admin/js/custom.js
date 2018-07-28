@@ -65,16 +65,16 @@ function deleteRecord(data) {
 }
 
 function init_parseSlug() {
-    $('.sub-component__form__name').on('keyup', function () {
-        $('.sub-component__form__slug').val(parseSlug($(this).val()));
+    $('form .component__form__name').on('keyup', function () {
+        $(this).closest('form').find('.component__form__slug').val(parseSlug($(this).val()));
     });
 }
 
 function init_createSubComponent() {
-    $('.sub-component__create-form').on('submit', function (e) {
+    $('.component__create-form').on('submit', function (e) {
         e.preventDefault();
-        const name = $(this).find('.sub-component__form__name').val();
-        const slug = $(this).find('.sub-component__form__slug').val();
+        const name = $(this).find('.component__form__name').val();
+        const slug = $(this).find('.component__form__slug').val();
         const url = $(this).attr('action');
 
         createCategory(url, {
@@ -90,7 +90,7 @@ function init_createSubComponent() {
             dataType: 'json',
             data: data,
             success: function (res) {
-                const $form = $('.sub-component__create-form');
+                const $form = $('.component__create-form');
                 if (!res.status) {
                     if (res.error.code === 500) {
                         swal(
@@ -103,13 +103,13 @@ function init_createSubComponent() {
                     $form.find('.form__error-message').text('');
                     const messages = res.error.message[0];
                     for (const message in messages) {
-                        $form.find(`.sub-component__form__error-${message}`)
+                        $form.find(`.component__form__error-${message}`)
                              .html(messages[message].msg);
                     }
                     return false;
                 }
                 const category = res.data;
-                const $totalRow = $('.sub-component__table tbody tr');
+                const $totalRow = $('.component__table tbody tr');
                 if ($totalRow.length >= 16) {
                     $($totalRow[15]).hide();
                 }
@@ -118,20 +118,20 @@ function init_createSubComponent() {
                         $($row).find('td:first-child').html(index + 1);
                     }
                 });
-                $('.sub-component__table tbody tr:nth-child(1)').after(
+                $('.component__table tbody tr:nth-child(1)').after(
                     `<tr data-key="${category._id}">
                         <td>1</td>
-                        <td class="sub-component__table__name">${category.name}</td>
-                        <td class="sub-component__table__slug">${category.slug}</td>
-                        <td class="sub-component__table__update-time">
+                        <td class="component__table__name">${category.name}</td>
+                        <td class="component__table__slug">${category.slug}</td>
+                        <td class="component__table__update-time">
                             ${moment(category.updatedAt).format('HH:mm DD/MM/YYYY')}
                         </td>
                         <td>
-                            <button class="badge bg-warning-gradient sub-component__edit-btn"
+                            <button class="badge bg-warning-gradient component__edit-btn"
                                     type="button" data-toggle="modal" data-target="#myModal2">
                                     <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="badge bg-danger-gradient sub-component__delete-btn">
+                            <button class="badge bg-danger-gradient component__delete-btn">
                                 <i class="fa fa-times"></i>
                             </button>
                         </td>
@@ -145,23 +145,23 @@ function init_createSubComponent() {
 }
 
 function init_editSubComponent() {
-    $(document).on('click', '.sub-component__edit-btn', function (e) {
+    $(document).on('click', '.component__edit-btn', function (e) {
         e.preventDefault();
-        const name = $(this).closest('tr').find('.sub-component__table__name').text();
-        const slug = $(this).closest('tr').find('.sub-component__table__slug').text();
+        const name = $(this).closest('tr').find('.component__table__name').text();
+        const slug = $(this).closest('tr').find('.component__table__slug').text();
         const key = $(this).closest('tr').data('key');
-        const $form = $('.sub-component__edit-form');
-        $form.find('.sub-component__form__name').val(name);
-        $form.find('.sub-component__form__slug').val(slug);
-        $form.find('.sub-component__form__key').val(key);
+        const $form = $('.component__edit-form');
+        $form.find('.component__form__name').val(name);
+        $form.find('.component__form__slug').val(slug);
+        $form.find('.component__form__key').val(key);
     });
 
-    $(document).on('submit', '.sub-component__edit-form', function (e) {
+    $(document).on('submit', '.component__edit-form', function (e) {
         e.preventDefault();
-        const name = $(this).find('.sub-component__form__name').val();
-        const slug = $(this).find('.sub-component__form__slug').val();
+        const name = $(this).find('.component__form__name').val();
+        const slug = $(this).find('.component__form__slug').val();
         const url = $(this).attr('action');
-        const key = $(this).find('.sub-component__form__key').val();
+        const key = $(this).find('.component__form__key').val();
         editSubComponent({
             key: key,
             url: `${url}/${key}`,
@@ -181,7 +181,7 @@ function init_editSubComponent() {
                 slug: data.slug
             },
             success: function (res) {
-                const $form = $('.sub-component__edit-form');
+                const $form = $('.component__edit-form');
                 if (!res.status) {
                     if (res.error.code === 404) {
                         swal(
@@ -204,26 +204,54 @@ function init_editSubComponent() {
                     $form.find('.form__error-message').text('');
                     const messages = res.error.message[0];
                     for (const message in messages) {
-                        $form.find(`.sub-component__form__error-${message}`)
+                        $form.find(`.component__form__error-${message}`)
                             .html(messages[message].msg);
                     }
                     return false;
                 }
                 const category = res.data;
-                const $row = $(`.sub-component__table tr[data-key="${category._id}"]`);
-                $row.find('.sub-component__table__name').text(category.name).html();
-                $row.find('.sub-component__table__slug').text(category.slug).html();
-                $row.find('.sub-component__table__update-time').text(moment(category.updatedAt).format('MM/DD/YYYY HH:mm')).html();
+                const $row = $(`.component__table tr[data-key="${category._id}"]`);
+                $row.find('.component__table__name').text(category.name).html();
+                $row.find('.component__table__slug').text(category.slug).html();
+                $row.find('.component__table__update-time').text(moment(category.updatedAt).format('MM/DD/YYYY HH:mm')).html();
                 $form.find('.form__error-message').html('');
             }
         });
     }
 }
 
-function init_deleteSubComponent() {
-    $(document).on('click', '.sub-component__delete-btn', function (e) {
+function init_approveComponent() {
+    $('.component__approve-btn').on('click', function () {
+        const url = $('.component__table').data('approve-url');
         const key = $(this).closest('tr').data('key');
-        const url = $('.sub-component__table').data('delete-url');
+        const that = this;
+        $.ajax({
+            url: `${url}/${key}`,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+                _method: 'PUT'
+            },
+            success: function (res) {
+                if (!res.status) {
+                    swal(
+                        'Lỗi!',
+                        'Không thể duyệt',
+                        'Error'
+                    );
+                } else {
+                    $(that).fadeOut();
+                    swal('Đã duyệt!', 'Thành công.', 'success');
+                }
+            }
+        });
+    });
+}
+
+function init_deleteComponent() {
+    $(document).on('click', '.component__delete-btn', function (e) {
+        const url = $('.component__table').data('delete-url');
+        const key = $(this).closest('tr').data('key');
         deleteRecord({
             url: `${url}/${key}`,
             element: this,
@@ -240,5 +268,6 @@ $(document).ready(function () {
     init_parseSlug();
     init_createSubComponent();
     init_editSubComponent();
-    init_deleteSubComponent();
+    init_approveComponent();
+    init_deleteComponent();
 });

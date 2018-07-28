@@ -33,10 +33,10 @@ class BaseRepository
         return this.model.find(conditions).sort({ createdAt: -1 });
     }
 
-    checkExist(conditions) {
+    checkExist(conditions, options = {}) {
         conditions.deletedAt = null;
 
-        return this.model.findOne(conditions).select('_id');
+        return this.model.findOne(conditions).select(options.select || '_id');
     }
 
     checkExistOnlyTrashed(conditions) {
@@ -67,8 +67,12 @@ class BaseRepository
         return this.model.update(conditions, data);
     }
 
-    delete(conditions) {
+    baseDelete(conditions) {
         return this.baseUpdate({ deletedAt: new Date() }, conditions);
+    }
+
+    delete(id) {
+        return this.baseDelete({ _id: id });
     }
 }
 

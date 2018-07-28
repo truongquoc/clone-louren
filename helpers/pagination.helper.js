@@ -23,6 +23,7 @@ const setUpQueryParameters = (data, name, options, num = 0) => {
 };
 
 const renderPagination = (data, page) => {
+    page = parseInt(page);
     let html = `
         <ul class="pagination">
             <li class="page-item">

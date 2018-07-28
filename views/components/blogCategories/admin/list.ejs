@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered sub-component__table" data-delete-url="/admin/blog/categories/delete">
+                <table class="table table-bordered component__table" data-delete-url="/admin/blog/categories/delete">
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Tên</th>
@@ -47,17 +47,17 @@
                     <% blogCategories.docs.forEach(function (category, index) { %>
                         <tr data-key="<%- category._id %>">
                             <td><%- pageIndex + index + 1 %></td>
-                            <td class="sub-component__table__name"><%- category.name %></td>
-                            <td class="sub-component__table__slug"><%- category.slug %></td>
-                            <td class="sub-component__table__update-time">
+                            <td class="component__table__name"><%- category.name %></td>
+                            <td class="component__table__slug"><%- category.slug %></td>
+                            <td class="component__table__update-time">
                                 <%- moment(category.updatedAt).format('HH:mm DD/MM/YYYY') %>
                             </td>
                             <td>
-                                <button class="badge bg-warning-gradient sub-component__edit-btn"
+                                <button class="badge bg-warning-gradient component__edit-btn"
                                         type="button" data-toggle="modal" data-target="#myModal2">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="badge bg-danger-gradient sub-component__delete-btn">
+                                <button class="badge bg-danger-gradient component__delete-btn">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </td>
@@ -84,16 +84,16 @@
             </div>
 
             <div class="modal-body">
-                <form class="sub-component__create-form" action="/admin/blog/categories/create">
+                <form class="component__create-form" action="/admin/blog/categories/create">
                     <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" class="form-control sub-component__form__name">
-                        <p class="form__error-message sub-component__form__error-name"></p>
+                        <input type="text" class="form-control component__form__name">
+                        <p class="form__error-message component__form__error-name"></p>
                     </div>
                     <div class="form-group">
                         <label>Đường dẫn</label>
-                        <input type="text" class="form-control sub-component__form__slug">
-                        <p class="form__error-message sub-component__form__error-slug"></p>
+                        <input type="text" class="form-control component__form__slug">
+                        <p class="form__error-message component__form__error-slug"></p>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Đóng</button>
@@ -115,17 +115,17 @@
             </div>
 
             <div class="modal-body">
-                <form class="sub-component__edit-form" action="/admin/blog/categories/edit">
-                    <input type="hidden" class="sub-component__form__key">
+                <form class="component__edit-form" action="/admin/blog/categories/edit">
+                    <input type="hidden" class="component__form__key">
                     <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" class="form-control sub-component__form__name">
-                        <p class="form__error-message sub-component__form__error-name"></p>
+                        <input type="text" class="form-control component__form__name">
+                        <p class="form__error-message component__form__error-name"></p>
                     </div>
                     <div class="form-group">
                         <label>Đường dẫn</label>
-                        <input type="text" class="form-control sub-component__form__slug">
-                        <p class="form__error-message sub-component__form__error-slug"></p>
+                        <input type="text" class="form-control component__form__slug">
+                        <p class="form__error-message component__form__error-slug"></p>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Đóng</button>

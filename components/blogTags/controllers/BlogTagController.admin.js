@@ -16,7 +16,7 @@ const index = async (req, res, next) => {
 
         return res.render('components/blogTags/admin/list', {
             blogTags,
-            page: parseInt(query.page)
+            page: query.page
         });
     } catch (e) {
         next(ResponseHelper.error(e.message));
@@ -56,7 +56,7 @@ const update = async (req, res) => {
 const destroy = async (req, res ) => {
     const { id } = req.params;
     try {
-        await BlogTagRepository.delete({ _id: id });
+        await BlogTagRepository.delete(id);
 
         return res.json(ResponseHelper.success());
     } catch (e) {

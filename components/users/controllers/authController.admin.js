@@ -29,6 +29,7 @@ const login = async (req, res, next) => {
                 name: user.name,
                 email: user.email,
                 avatar: user.avatar,
+                slug: user.slug,
                 createdAt: user.createdAt
             };
 
@@ -43,21 +44,4 @@ const login = async (req, res, next) => {
     }
 };
 
-const showRegisterForm = (req, res) => {
-    return res.render('components/users/admin/auth/register');
-};
-
-const register = (req, res, next) => {
-    const data = req.body;
-    const errors = validationResult(req);
-    console.log(errors.mapped());
-    if (!errors.isEmpty()) {
-        req.flash('oldValue', data);
-        req.flash('errors', errors.mapped());
-
-        return res.redirectBack();
-    }
-
-};
-
-module.exports = { index, showLoginForm, login, showRegisterForm, register };
+module.exports = { index, showLoginForm, login };
