@@ -9416,7 +9416,7 @@ fcViews.agenda = View.extend({ // AgendaView
 
 
 	// Builds the HTML skeleton for the view.
-	// The day-grid and time-grid components will render inside containers defined by this HTML.
+	// The day-grid and time-grid modules will render inside containers defined by this HTML.
 	renderHtml: function() {
 		return '' +
 			'<table>' +

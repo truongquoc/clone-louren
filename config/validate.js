@@ -5,7 +5,7 @@ const User = require('../models/users/user.model');
 const Article = require('../models/blog/article.model');
 const Category = require('../models/blog/category.model');
 const ChatRoom = require('../models/chat/chat-room.model');
-const DateHelper = require('../helpers/date.helper');
+const DateHelper = require('../helpers/dateHelper');
 
 const loginRequest = [
     check('email')

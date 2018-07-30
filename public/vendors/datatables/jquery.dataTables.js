@@ -11191,7 +11191,7 @@
 	
 	
 		/**
-		 * Classes that DataTables assigns to the various components and features
+		 * Classes that DataTables assigns to the various modules and features
 		 * that it adds to the HTML table. This allows classes to be configured
 		 * during initialisation in addition to through the static
 		 * {@link DataTable.ext.oStdClasses} object).
