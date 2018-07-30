@@ -9,6 +9,7 @@ class AuthRepository extends BaseRepository {
 
     async login(data) {
         const user = await this.getDetail({ email: data.email });
+        console.log(data.password, user);
         if (user && bcrypt.compareSync(data.password, user.password)) {
             return user;
         }
