@@ -14,7 +14,7 @@
  *   DTTT                  DataTables TableTools
  *
  * Style sheet provides:
- *   CONTAINER             TableTools container element and styles applying to all components
+ *   CONTAINER             TableTools container element and styles applying to all modules
  *   BUTTON_STYLES         Action specific button styles
  *   SELECTING             Row selection styles
  *   COLLECTIONS           Drop down list (collection) styles
@@ -24,7 +24,7 @@
 
 /*
  * CONTAINER
- * TableTools container element and styles applying to all components
+ * TableTools container element and styles applying to all modules
  */
 div.DTTT_container {
 	position: relative;

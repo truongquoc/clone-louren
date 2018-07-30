@@ -3,7 +3,7 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    "extends": "eslint:recommended",
+    "extends": "airbnb",
     "parserOptions": {
         "ecmaVersion": 2017,
         "sourceType": "module"
@@ -12,6 +12,9 @@ module.exports = {
         "no-undef": 0,
         "indent": 0,
         "no-unused-vars": 1,
+        "no-param-reassign": 0,
+        "no-underscore-dangle": 0,
+        "class-methods-use-this": 0,
         "linebreak-style": [
             "error",
             "unix"
