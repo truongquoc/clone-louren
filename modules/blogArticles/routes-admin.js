@@ -4,7 +4,7 @@ const blogArticleAuthorize = require('./middleware/blogArticleAuthorize');
 const blogArticleRequest = require('./requests/blogArticleRequest');
 const blogArticleController = require('./controllers/blogArticleController.admin');
 
-const upload = multer({ dest: '/tmp' });
+const upload = multer({ dest: 'public/tmp/images' });
 
 router.get('/', blogArticleAuthorize.indexAuthorize, blogArticleController.index);
 

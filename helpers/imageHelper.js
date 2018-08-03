@@ -1,8 +1,13 @@
 const sharp = require('sharp');
 const fs = require('fs');
+const { promisify } = require('util');
+
+const unlinkAsync = promisify(fs.unlink);
 
 const optimizeImage = (file, image = {}) => {
-    return fs.createReadStream(file.path);
+    const data = fs.createReadStream(file.path);
+    unlinkAsync(file.path);
+    return data;
     // return sharp(readStream)
     //     .resize(image.width, image.height)
     //     .jpeg({
