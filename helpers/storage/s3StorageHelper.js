@@ -16,11 +16,13 @@ function upload(path, body, readType, callback) {
         Key: `${path}/${dateHelper.getSlugCurrentTime()}.jpg`,
         ACL: readType,
     };
-    return s3.upload(params, (err, data) => {
-        if (err) {
-            throw err;
-        }
-        callback(data.Location);
+    return new Promise((resolve, reject) => {
+        s3.upload(params, (err, data) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(data.Location);
+        });
     });
 }
 

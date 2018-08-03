@@ -89,10 +89,10 @@
                             <% let check = false; blogTags.forEach(function (element) { %>
                                 <% if (old('tags')) { %>
                                     <% old('tags').forEach(function (oldTags) { %>
-                                        <% check = oldTags === element.name %>
+                                        <% check = (oldTags === element.name) %>
                                     <% }) %>
                                 <% } %>
-                                <option <%= check ? 'selected' : '' %>><%= element.name %></option>
+                                <option value="<%= element._id %>" <%= check ? 'selected' : '' %>><%= element.name %></option>
                             <% }) %>
                         </select>
                         <p class="form__error-message form__tags__error-message"><%= errors('tags') %></p>
