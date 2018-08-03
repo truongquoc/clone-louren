@@ -3,7 +3,7 @@ const RoleHelper = require('./roleHelper');
 const Constant = require('../constants/commonConstant');
 
 module.exports = (res) => {
-    res.locals.old = (key, value) => {
+    res.locals.old = (key, value = '') => {
         if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.oldValue) {
             return res.locals.flashMessages.oldValue[0][key];
         }
@@ -18,7 +18,7 @@ module.exports = (res) => {
             }
         }
 
-        return null;
+        return '';
     };
 
     res.locals.getPageIndex = (page) => {

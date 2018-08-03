@@ -11,6 +11,10 @@ const showMyArticlesAuthorize = (req, res, next) => {
     next();
 };
 
+const createArticleAuthorize = (req, res, next) => {
+    next();
+};
+
 const approveAuthorize = async (req, res, next) => {
     try {
         // Validate Role Here
@@ -40,5 +44,9 @@ const deleteAuthorize = async (req, res, next) => {
 };
 
 module.exports = {
-    indexAuthorize, showMyArticlesAuthorize, approveAuthorize, deleteAuthorize,
+    indexAuthorize,
+    showMyArticlesAuthorize,
+    createArticleAuthorize,
+    approveAuthorize,
+    deleteAuthorize,
 };

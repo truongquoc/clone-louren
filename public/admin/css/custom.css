@@ -64,3 +64,15 @@ button.badge {
     padding: 3px 12px;
     border-radius: 0 15px 15px 0;
 }
+
+.clearbox {
+    clear: both;
+}
+
+.nav-tabs--border-none {
+    border: none;
+}
+
+.nav-tabs li {
+    padding: 0 12px 4px 0;
+}

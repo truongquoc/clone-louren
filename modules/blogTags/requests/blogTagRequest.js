@@ -13,6 +13,7 @@ const createTagRequest = [
                 if (validate) {
                     throw new Error('Tên đã được sử dụng');
                 }
+                return true;
             } catch (e) {
                 return Promise.reject(e.message);
             }
@@ -24,6 +25,7 @@ const createTagRequest = [
                 if (validate) {
                     throw new Error('Đường dẫn đã được sử dụng');
                 }
+                return true;
             } catch (e) {
                 return Promise.reject(e.message);
             }
@@ -42,6 +44,7 @@ const editTagRequest = [
                 if (validate) {
                     throw new Error('Tên đã được sử dụng');
                 }
+                return true;
             } catch (e) {
                 return Promise.reject(e.message);
             }
@@ -56,6 +59,7 @@ const editTagRequest = [
                 if (validate) {
                     throw new Error('Đường dẫn đã được sử dụng');
                 }
+                return true;
             } catch (e) {
                 return Promise.reject(e.message);
             }

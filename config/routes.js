@@ -2,7 +2,7 @@ const methodOverride = require('method-override');
 const router = require('../routes/routes'); // if file is index, we can import without file name
 
 // add more methods to router
-module.exports = function (app) {
+module.exports = function callback(app) {
     app.use(methodOverride('X-HTTP-Method-Override'));
 
     app.use(methodOverride((req, res) => {
@@ -18,10 +18,8 @@ module.exports = function (app) {
     app.use((req, res, next) => {
         res.redirectBack = () => {
             const backURL = req.header('Referer') || '/';
-
             return res.redirect(backURL);
         };
-
         next();
     });
 
