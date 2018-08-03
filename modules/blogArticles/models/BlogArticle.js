@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const getSlug = require('speakingurl');
 
 const { Schema } = mongoose;
 
@@ -41,6 +42,10 @@ const BlogArticle = new Schema({
             default: false,
         },
     },
+    isDraft: {
+        type: Boolean,
+        default: false,
+    },
     isApprove: {
         type: Boolean,
         default: false,
@@ -59,5 +64,12 @@ const BlogArticle = new Schema({
 });
 
 BlogArticle.plugin(mongoosePaginate);
+
+BlogArticle.pre('validate', function callback(next) {
+    if (this.isModified('slug')) {
+        this.slug = getSlug(this.slug || this.name);
+    }
+    next();
+});
 
 module.exports = mongoose.model('blog_articles', BlogArticle);

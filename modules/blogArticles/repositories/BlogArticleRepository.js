@@ -42,6 +42,24 @@ class BlogArticleRepository extends BaseRepository {
         return articles;
     }
 
+    create(data, user) {
+        const article = {
+            category: data.category,
+            tags: data.tags,
+            author: user.id,
+            title: data.title,
+            content: data.content,
+            display: {
+                image: data.image,
+                video: data.video,
+                useVideo: !!data.useVideo,
+            },
+            isDraft: !!data.isDraft,
+            slug: `${data.slug || data.title}-${data.createdTime}`,
+        };
+        return this.baseCreate(article);
+    }
+
     approve(id) {
         return this.baseUpdate({ isApprove: true }, { _id: id });
     }

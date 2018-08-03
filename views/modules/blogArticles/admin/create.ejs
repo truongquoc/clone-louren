@@ -1,0 +1,164 @@
+<% layout('/layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/flat/green.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
+<% script('/public/vendors/ckeditor/ckeditor.js') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Blog</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">General Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tạo bài viết</h3>
+            </div>
+            <div class="card-body">
+                <form class="blog-articles__form" action="" enctype="multipart/form-data" method="POST">
+                    <div class="form-group">
+                        <label for="title">Tiêu đề</label>
+                        <input type="text" class="form-control form__title__input" value="<%= old('title') %>"
+                               name="title" placeholder="Nhập tiêu đề">
+                        <p class="form__error-message form__title__error-message"><%= errors('title') %></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Thể loại</label>
+                        <select class="form-control form__category__input select2" name="category" style="width: 100%;">
+                            <option value="0">Chọn thể loại</option>
+                            <% blogCategories.forEach(function (element) { %>
+                                <option <%= old('category') == element._id ? 'selected' : '' %>
+                                    value="<%= element._id %>"><%= element.name %></option>
+                            <% }) %>
+                        </select>
+                        <p class="form__error-message form__category__error-message"><%= errors('category') %></p>
+                    </div>
+                    <div>
+                        <ul class="nav nav-tabs float-left nav-tabs--border-none">
+                            <li class="active"><a data-toggle="tab" href="#image">Ảnh</a></li>
+                            <li><a data-toggle="tab" href="#video">Video</a></li>
+                        </ul>
+                        <div class="float-right">
+                            <label>
+                                <input type="checkbox" name="useVideo" class="flat-red" <%= old('useVideo') ? 'checked' : '' %>> Dùng video
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="clearbox"></div>
+
+                    <div class="tab-content">
+                        <div id="image" class="tab-pane fade <%= !old('useVideo') ? 'in active show' : '' %>">
+                            <div class="form-group">
+                                <label>Ảnh</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input form__image__input" name="image" id="validatedCustomFile">
+                                    <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
+                                </div>
+                                <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
+                            </div>
+                        </div>
+                        <div id="video" class="tab-pane fade <%= old('useVideo') ? 'in active show' : '' %>">
+                            <div class="form-group">
+                                <label for="title">Video</label>
+                                <input type="text" class="form-control form__video__input" value="<%= old('video') %>"
+                                       name="video" placeholder="Nhập đường dẫn video">
+                                <p class="form__error-message form__video__error-message"><%= errors('video') || errors('useVideo') %></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Thẻ</label>
+                        <select class="form-control form__tags__input select2" multiple style="width: 100%;" name="tags">
+                            <% let check = false; blogTags.forEach(function (element) { %>
+                                <% if (old('tags')) { %>
+                                    <% old('tags').forEach(function (oldTags) { %>
+                                        <% check = oldTags === element.name %>
+                                    <% }) %>
+                                <% } %>
+                                <option <%= check ? 'selected' : '' %>><%= element.name %></option>
+                            <% }) %>
+                        </select>
+                        <p class="form__error-message form__tags__error-message"><%= errors('tags') %></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Nội dung</label>
+                        <textarea name="content" class="form-control form__content__input ckeditor" id="ckeditor"><%= old('content') %></textarea>
+                        <p class="form__error-message form__content__error-message"><%= errors('content') %></p>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="isDraft" class="flat-red" <%= old('isDraft') ? 'checked' : '' %>> Nháp
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts', `
+<script>
+    let editor = CKEDITOR.replace('ckeditor', {
+        uiColor: '#ffffff',
+        height: '450px',
+        toolbar: [
+            {
+                name: 'basicstyles',
+                    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Link']
+            },
+            {
+                name: 'paragraph',
+                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv',
+                    '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+            },
+            {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+            {
+                name: 'insert',
+                items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']
+            },
+            '/',
+            {
+                name: 'document',
+                items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates']
+            },
+            {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt']},
+            {
+                name: 'forms',
+                items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                    'HiddenField']
+            },
+            '/',
+            {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+            {name: 'colors', items: ['TextColor', 'BGColor']},
+            {name: 'tools', items: ['Maximize', 'ShowBlocks']}
+        ],
+        allowedContent: true
+    });
+    $(document).ready(function () {
+        $('.select2').select2();
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    });
+</script>
+`) %>
