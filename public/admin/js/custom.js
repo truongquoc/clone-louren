@@ -14,7 +14,7 @@ function parseSlug(title) {
     slug = slug.replace(/\-\-\-\-/gi, '-');
     slug = slug.replace(/\-\-\-/gi, '-');
     slug = slug.replace(/\-\-/gi, '-');
-    slug = '@' + slug + '@';
+    slug = `@${slug}@`;
     slug = slug.replace(/\@\-|\-\@|\@/gi, '');
 
     return slug;
@@ -31,33 +31,33 @@ function deleteRecord(data) {
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
         confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger'
-    }).then(function () {
+        cancelButtonClass: 'btn btn-danger',
+    }).then(() => {
         $.ajax({
             url: data.url,
             dataType: 'json',
             method: 'DELETE',
             data: {
-                _method: 'DELETE'
+                _method: 'DELETE',
             },
             success: (res) => {
                 if (!res.status) {
                     swal(
                         'Error!',
                         'Cannot delete.',
-                        'Error'
+                        'Error',
                     );
                 } else {
                     $(data.element).closest('tr').fadeOut();
                     swal(
                         data.successResponse.title,
                         data.successResponse.description,
-                        data.successResponse.type
+                        data.successResponse.type,
                     );
                 }
-            }
+            },
         });
-    }, function (dismiss) {
+    }, (dismiss) => {
         if (dismiss === 'cancel') {
             return false;
         }
@@ -71,32 +71,20 @@ function init_parseSlug() {
 }
 
 function init_createSubComponent() {
-    $('.component__create-form').on('submit', function (e) {
-        e.preventDefault();
-        const name = $(this).find('.component__form__name').val();
-        const slug = $(this).find('.component__form__slug').val();
-        const url = $(this).attr('action');
-
-        createCategory(url, {
-            name: name,
-            slug: slug
-        });
-    });
-
     function createCategory(url, data) {
         $.ajax({
-            url: url,
+            url,
             method: 'POST',
             dataType: 'json',
-            data: data,
-            success: function (res) {
+            data,
+            success(res) {
                 const $form = $('.component__create-form');
                 if (!res.status) {
                     if (res.error.code === 500) {
                         swal(
                             'Lỗi!',
                             'Đã có lỗi hệ thống',
-                            'Error'
+                            'Error',
                         );
                         return false;
                     }
@@ -104,7 +92,7 @@ function init_createSubComponent() {
                     const messages = res.error.message[0];
                     for (const message in messages) {
                         $form.find(`.component__form__error-${message}`)
-                             .html(messages[message].msg);
+                            .html(messages[message].msg);
                     }
                     return false;
                 }
@@ -113,7 +101,7 @@ function init_createSubComponent() {
                 if ($totalRow.length >= 16) {
                     $($totalRow[15]).hide();
                 }
-                $totalRow.each(function (index, $row) {
+                $totalRow.each((index, $row) => {
                     if (index !== 0) {
                         $($row).find('td:first-child').html(index + 1);
                     }
@@ -135,41 +123,28 @@ function init_createSubComponent() {
                                 <i class="fa fa-times"></i>
                             </button>
                         </td>
-                    </tr>`
+                    </tr>`,
                 );
                 $form.find('.form__error-message').html('');
                 $form.trigger('reset');
-            }
+            },
         });
     }
-}
 
-function init_editSubComponent() {
-    $(document).on('click', '.component__edit-btn', function (e) {
-        e.preventDefault();
-        const name = $(this).closest('tr').find('.component__table__name').text();
-        const slug = $(this).closest('tr').find('.component__table__slug').text();
-        const key = $(this).closest('tr').data('key');
-        const $form = $('.component__edit-form');
-        $form.find('.component__form__name').val(name);
-        $form.find('.component__form__slug').val(slug);
-        $form.find('.component__form__key').val(key);
-    });
-
-    $(document).on('submit', '.component__edit-form', function (e) {
+    $('.component__create-form').on('submit', function (e) {
         e.preventDefault();
         const name = $(this).find('.component__form__name').val();
         const slug = $(this).find('.component__form__slug').val();
         const url = $(this).attr('action');
-        const key = $(this).find('.component__form__key').val();
-        editSubComponent({
-            key: key,
-            url: `${url}/${key}`,
-            name: name,
-            slug: slug
+
+        createCategory(url, {
+            name,
+            slug,
         });
     });
+}
 
+function init_editSubComponent() {
     function editSubComponent(data) {
         $.ajax({
             url: data.url,
@@ -178,16 +153,16 @@ function init_editSubComponent() {
             data: {
                 _method: 'PUT',
                 name: data.name,
-                slug: data.slug
+                slug: data.slug,
             },
-            success: function (res) {
+            success(res) {
                 const $form = $('.component__edit-form');
                 if (!res.status) {
                     if (res.error.code === 404) {
                         swal(
                             'Lỗi!',
                             'Không tìm thấy dữ liệu',
-                            'Error'
+                            'Error',
                         );
 
                         return false;
@@ -196,7 +171,7 @@ function init_editSubComponent() {
                         swal(
                             'Lỗi!',
                             'Đã có lỗi hệ thống',
-                            'Error'
+                            'Error',
                         );
 
                         return false;
@@ -215,9 +190,34 @@ function init_editSubComponent() {
                 $row.find('.component__table__slug').text(category.slug).html();
                 $row.find('.component__table__update-time').text(moment(category.updatedAt).format('MM/DD/YYYY HH:mm')).html();
                 $form.find('.form__error-message').html('');
-            }
+            },
         });
     }
+
+    $(document).on('click', '.component__edit-btn', function (e) {
+        e.preventDefault();
+        const name = $(this).closest('tr').find('.component__table__name').text();
+        const slug = $(this).closest('tr').find('.component__table__slug').text();
+        const key = $(this).closest('tr').data('key');
+        const $form = $('.component__edit-form');
+        $form.find('.component__form__name').val(name);
+        $form.find('.component__form__slug').val(slug);
+        $form.find('.component__form__key').val(key);
+    });
+
+    $(document).on('submit', '.component__edit-form', function (e) {
+        e.preventDefault();
+        const name = $(this).find('.component__form__name').val();
+        const slug = $(this).find('.component__form__slug').val();
+        const url = $(this).attr('action');
+        const key = $(this).find('.component__form__key').val();
+        editSubComponent({
+            key,
+            url: `${url}/${key}`,
+            name,
+            slug,
+        });
+    });
 }
 
 function init_approveComponent() {
@@ -230,20 +230,20 @@ function init_approveComponent() {
             type: 'PUT',
             dataType: 'json',
             data: {
-                _method: 'PUT'
+                _method: 'PUT',
             },
-            success: function (res) {
+            success(res) {
                 if (!res.status) {
                     swal(
                         'Lỗi!',
                         'Không thể duyệt',
-                        'Error'
+                        'Error',
                     );
                 } else {
                     $(that).fadeOut();
                     swal('Đã duyệt!', 'Thành công.', 'success');
                 }
-            }
+            },
         });
     });
 }
@@ -258,16 +258,47 @@ function init_deleteComponent() {
             successResponse: {
                 title: 'Đã xóa!',
                 description: 'Thành công.',
-                type: 'success'
-            }
+                type: 'success',
+            },
         });
     });
 }
 
-$(document).ready(function () {
+function init_validateBlogArticle() {
+    // $('.blog-articles__form').on('submit', function () {
+    //     let check = true;
+    //     if (!$(this).find('.form__title__input').val()) {
+    //         $(this).find('.form__title__error-message').html('');
+    //         check = false;
+    //     } else {
+    //         $(this).find('.form__title__error-message').html('');
+    //     }
+    //
+    //     if (!$(this).find('.form__category__input option:selected')) {
+    //         $(this).find('.form__category__error-message').html('');
+    //         check = false;
+    //     } else {
+    //         $(this).find('.form__category__error-message').html('');
+    //     }
+    //
+    //     if (!$(this).find('.form__content__input option:selected')) {
+    //         $(this).find('.form__content__error-message').html('');
+    //         check = false;
+    //     } else {
+    //         $(this).find('.form__content__error-message').html('');
+    //     }
+    //
+    //     if (!check) {
+    //         return false;
+    //     }
+    // });
+}
+
+$(document).ready(() => {
     init_parseSlug();
     init_createSubComponent();
     init_editSubComponent();
     init_approveComponent();
     init_deleteComponent();
+    init_validateBlogArticle();
 });
