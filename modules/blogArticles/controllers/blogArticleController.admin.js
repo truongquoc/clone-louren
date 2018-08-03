@@ -70,19 +70,15 @@ const store = async (req, res, next) => {
     }
     data.createdTime = req.attributes.createdTime;
     try {
-        if (!req.file) {
-            await BlogArticleRepository.create(data, req.session.cUser);
-            return res.redirect('/admin/blog/articles/me');
+        if (req.file) {
+            const buffer = imageHelper.optimizeImage(req.file, {
+                width: 750,
+                quality: 75,
+            });
+            data.image = await storageHelper.storage('s3').upload('articles', buffer, 'public-read');
         }
-        const buffer = imageHelper.optimizeImage(req.file, {
-            width: 750,
-            quality: 75,
-        });
-        storageHelper.storage('s3').upload('articles', buffer, 'public-read', async (imageUrl) => {
-            data.image = imageUrl;
-            await BlogArticleRepository.create(data, req.session.cUser);
-            return res.redirect('/admin/blog/articles/me');
-        });
+        await BlogArticleRepository.create(data, req.session.cUser);
+        return res.redirect('/admin/blog/articles/me');
     } catch (e) {
         return next(responseHelper.error(e.message));
     }
