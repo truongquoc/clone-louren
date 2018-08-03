@@ -12,7 +12,7 @@ const success = (data) => {
 };
 
 const error = (message, code = 500) => {
-    message = (typeof data !== 'object') ? [message] : message;
+    message = (typeof message !== 'object') ? [message] : message;
 
     return {
         status: false,
@@ -22,7 +22,7 @@ const error = (message, code = 500) => {
 };
 
 const notFound = () => (
-    error('RESOURCE_NOT_FOUND')
+    error('RESOURCE_NOT_FOUND', 404)
 );
 
 const notAuthorized = () => (
