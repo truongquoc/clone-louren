@@ -5,6 +5,7 @@ const BlogTagRepositoryClass = require('../../blogTags/repositories/BlogTagRepos
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
+const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 
 const BlogArticleRepository = new BlogArticleRepositoryClass();
@@ -75,7 +76,7 @@ const store = async (req, res, next) => {
                 width: 750,
                 quality: 75,
             });
-            data.image = await storageHelper.storage('s3').upload('articles', buffer, 'public-read');
+            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, buffer, 'public-read');
         }
         await BlogArticleRepository.create(data, req.session.cUser);
         return res.redirect('/admin/blog/articles/me');

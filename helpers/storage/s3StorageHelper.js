@@ -1,7 +1,5 @@
 require('dotenv/config');
 const AWS = require('aws-sdk');
-const fs = require('fs');
-const dateHelper = require('../dateHelper');
 
 AWS.config.update({
     accessKeyId: process.env.AWS_KEY,
@@ -13,7 +11,7 @@ function upload(path, body, readType, callback) {
     const params = {
         Bucket: process.env.AWS_BUCKET,
         Body: body,
-        Key: `${path}/${dateHelper.getSlugCurrentTime()}.jpg`,
+        Key: path,
         ACL: readType,
     };
     return new Promise((resolve, reject) => {
