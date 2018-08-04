@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Blog</h1>
+                <h1>Bất động sản</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered module__table" data-delete-url="/admin/blog/categories/delete">
+                <table class="table table-bordered module__table" data-delete-url="/admin/property/categories/delete">
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Tên</th>
@@ -44,7 +44,7 @@
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
-                    <% blogCategories.docs.forEach(function (category, index) { %>
+                    <% propertyCategories.docs.forEach(function (category, index) { %>
                         <tr data-key="<%- category._id %>">
                             <td><%- pageIndex + index + 1 %></td>
                             <td class="module__table__name"><%- category.name %></td>
@@ -67,7 +67,7 @@
             </div>
             <div class="card-footer clearfix">
                 <div class=" pagination-sm m-0 float-right">
-                    <%- blogCategories.renderPagination(blogCategories, query.page) %>
+                    <%- propertyCategories.renderPagination(propertyCategories, query.page) %>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="module__create-form" action="/admin/blog/categories/create">
+                <form class="module__create-form" action="/admin/property/categories/create">
                     <div class="form-group">
                         <label>Tên</label>
                         <input type="text" class="form-control module__form__name">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="module__edit-form" action="/admin/blog/categories/edit">
+                <form class="module__edit-form" action="/admin/property/categories/edit">
                     <input type="hidden" class="module__form__key">
                     <div class="form-group">
                         <label>Tên</label>
