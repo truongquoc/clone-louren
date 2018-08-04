@@ -19,6 +19,10 @@ class BlogArticleRepository extends BaseRepository {
             populate.push({
                 path: 'author',
                 select: '-_id name',
+                populate: {
+                    path: 'roles',
+                    select: '-_id name',
+                },
             });
         } else {
             populate.push({

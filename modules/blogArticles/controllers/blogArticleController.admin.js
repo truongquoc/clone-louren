@@ -72,11 +72,11 @@ const store = async (req, res, next) => {
     data.createdTime = req.attributes.createdTime;
     try {
         if (req.file) {
-            const buffer = imageHelper.optimizeImage(req.file, {
+            const image = await imageHelper.optimizeImage(req.file, {
                 width: 750,
                 quality: 75,
             });
-            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, buffer, 'public-read');
+            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await BlogArticleRepository.create(data, req.session.cUser);
         return res.redirect('/admin/blog/articles/me');

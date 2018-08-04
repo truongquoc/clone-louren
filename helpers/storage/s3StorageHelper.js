@@ -7,7 +7,7 @@ AWS.config.update({
 });
 const s3 = new AWS.S3();
 
-function upload(path, body, readType, callback) {
+function upload(path, body, readType) {
     const params = {
         Bucket: process.env.AWS_BUCKET,
         Body: body,
@@ -24,4 +24,12 @@ function upload(path, body, readType, callback) {
     });
 }
 
-module.exports = { upload };
+function destroy(path) {
+    const params = {
+        Bucket: process.env.AWS_BUCKET,
+        Key: path,
+    };
+    s3.deleteObject(params);
+}
+
+module.exports = { upload, destroy };

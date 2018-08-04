@@ -52,7 +52,9 @@
                             <td><%- pageIndex + index + 1 %></td>
                             <td><%- article.title %></td>
                             <td><%- article.category.name %></td>
-                            <td><%- article.author.name %></td>
+                            <td title="<% article.author.roles.forEach(function (role) { %>
+                                <%= role.name %>
+                            <% }) %>"><%- article.author.name %> </td>
                             <td><%- moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
                                 <a href="#" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
