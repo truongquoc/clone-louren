@@ -65,12 +65,12 @@ function deleteRecord(data) {
 }
 
 function init_parseSlug() {
-    $('form .component__form__name').on('keyup', function () {
-        $(this).closest('form').find('.component__form__slug').val(parseSlug($(this).val()));
+    $('form .module__form__name').on('keyup', function () {
+        $(this).closest('form').find('.module__form__slug').val(parseSlug($(this).val()));
     });
 }
 
-function init_createSubComponent() {
+function init_createSubModule() {
     function createCategory(url, data) {
         $.ajax({
             url,
@@ -78,7 +78,7 @@ function init_createSubComponent() {
             dataType: 'json',
             data,
             success(res) {
-                const $form = $('.component__create-form');
+                const $form = $('.module__create-form');
                 if (!res.status) {
                     if (res.error.code === 500) {
                         swal(
@@ -89,15 +89,15 @@ function init_createSubComponent() {
                         return false;
                     }
                     $form.find('.form__error-message').text('');
-                    const messages = res.error.message[0];
+                    const messages = res.error.message;
                     for (const message in messages) {
-                        $form.find(`.component__form__error-${message}`)
+                        $form.find(`.module__form__error-${message}`)
                             .html(messages[message].msg);
                     }
                     return false;
                 }
                 const category = res.data;
-                const $totalRow = $('.component__table tbody tr');
+                const $totalRow = $('.module__table tbody tr');
                 if ($totalRow.length >= 16) {
                     $($totalRow[15]).hide();
                 }
@@ -106,20 +106,20 @@ function init_createSubComponent() {
                         $($row).find('td:first-child').html(index + 1);
                     }
                 });
-                $('.component__table tbody tr:nth-child(1)').after(
+                $('.module__table tbody tr:nth-child(1)').after(
                     `<tr data-key="${category._id}">
                         <td>1</td>
-                        <td class="component__table__name">${category.name}</td>
-                        <td class="component__table__slug">${category.slug}</td>
-                        <td class="component__table__update-time">
+                        <td class="module__table__name">${category.name}</td>
+                        <td class="module__table__slug">${category.slug}</td>
+                        <td class="module__table__update-time">
                             ${moment(category.updatedAt).format('HH:mm DD/MM/YYYY')}
                         </td>
                         <td>
-                            <button class="badge bg-warning-gradient component__edit-btn"
+                            <button class="badge bg-warning-gradient module__edit-btn"
                                     type="button" data-toggle="modal" data-target="#myModal2">
                                     <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="badge bg-danger-gradient component__delete-btn">
+                            <button class="badge bg-danger-gradient module__delete-btn">
                                 <i class="fa fa-times"></i>
                             </button>
                         </td>
@@ -131,10 +131,10 @@ function init_createSubComponent() {
         });
     }
 
-    $('.component__create-form').on('submit', function (e) {
+    $('.module__create-form').on('submit', function (e) {
         e.preventDefault();
-        const name = $(this).find('.component__form__name').val();
-        const slug = $(this).find('.component__form__slug').val();
+        const name = $(this).find('.module__form__name').val();
+        const slug = $(this).find('.module__form__slug').val();
         const url = $(this).attr('action');
 
         createCategory(url, {
@@ -144,8 +144,8 @@ function init_createSubComponent() {
     });
 }
 
-function init_editSubComponent() {
-    function editSubComponent(data) {
+function init_editSubModule() {
+    function editSubModule(data) {
         $.ajax({
             url: data.url,
             method: 'PUT',
@@ -156,7 +156,7 @@ function init_editSubComponent() {
                 slug: data.slug,
             },
             success(res) {
-                const $form = $('.component__edit-form');
+                const $form = $('.module__edit-form');
                 if (!res.status) {
                     if (res.error.code === 404) {
                         swal(
@@ -177,41 +177,41 @@ function init_editSubComponent() {
                         return false;
                     }
                     $form.find('.form__error-message').text('');
-                    const messages = res.error.message[0];
+                    const messages = res.error.message;
                     for (const message in messages) {
-                        $form.find(`.component__form__error-${message}`)
+                        $form.find(`.module__form__error-${message}`)
                             .html(messages[message].msg);
                     }
                     return false;
                 }
                 const category = res.data;
-                const $row = $(`.component__table tr[data-key="${category._id}"]`);
-                $row.find('.component__table__name').text(category.name).html();
-                $row.find('.component__table__slug').text(category.slug).html();
-                $row.find('.component__table__update-time').text(moment(category.updatedAt).format('MM/DD/YYYY HH:mm')).html();
+                const $row = $(`.module__table tr[data-key="${category._id}"]`);
+                $row.find('.module__table__name').text(category.name).html();
+                $row.find('.module__table__slug').text(category.slug).html();
+                $row.find('.module__table__update-time').text(moment(category.updatedAt).format('HH:mm MM/DD/YYYY')).html();
                 $form.find('.form__error-message').html('');
             },
         });
     }
 
-    $(document).on('click', '.component__edit-btn', function (e) {
+    $(document).on('click', '.module__edit-btn', function (e) {
         e.preventDefault();
-        const name = $(this).closest('tr').find('.component__table__name').text();
-        const slug = $(this).closest('tr').find('.component__table__slug').text();
+        const name = $(this).closest('tr').find('.module__table__name').text();
+        const slug = $(this).closest('tr').find('.module__table__slug').text();
         const key = $(this).closest('tr').data('key');
-        const $form = $('.component__edit-form');
-        $form.find('.component__form__name').val(name);
-        $form.find('.component__form__slug').val(slug);
-        $form.find('.component__form__key').val(key);
+        const $form = $('.module__edit-form');
+        $form.find('.module__form__name').val(name);
+        $form.find('.module__form__slug').val(slug);
+        $form.find('.module__form__key').val(key);
     });
 
-    $(document).on('submit', '.component__edit-form', function (e) {
+    $(document).on('submit', '.module__edit-form', function (e) {
         e.preventDefault();
-        const name = $(this).find('.component__form__name').val();
-        const slug = $(this).find('.component__form__slug').val();
+        const name = $(this).find('.module__form__name').val();
+        const slug = $(this).find('.module__form__slug').val();
         const url = $(this).attr('action');
-        const key = $(this).find('.component__form__key').val();
-        editSubComponent({
+        const key = $(this).find('.module__form__key').val();
+        editSubModule({
             key,
             url: `${url}/${key}`,
             name,
@@ -220,9 +220,9 @@ function init_editSubComponent() {
     });
 }
 
-function init_approveComponent() {
-    $('.component__approve-btn').on('click', function () {
-        const url = $('.component__table').data('approve-url');
+function init_approveModule() {
+    $('.module__approve-btn').on('click', function () {
+        const url = $('.module__table').data('approve-url');
         const key = $(this).closest('tr').data('key');
         const that = this;
         $.ajax({
@@ -248,9 +248,9 @@ function init_approveComponent() {
     });
 }
 
-function init_deleteComponent() {
-    $(document).on('click', '.component__delete-btn', function (e) {
-        const url = $('.component__table').data('delete-url');
+function init_deleteModule() {
+    $(document).on('click', '.module__delete-btn', function (e) {
+        const url = $('.module__table').data('delete-url');
         const key = $(this).closest('tr').data('key');
         deleteRecord({
             url: `${url}/${key}`,
@@ -296,9 +296,9 @@ function init_validateBlogArticle() {
 
 $(document).ready(() => {
     init_parseSlug();
-    init_createSubComponent();
-    init_editSubComponent();
-    init_approveComponent();
-    init_deleteComponent();
+    init_createSubModule();
+    init_editSubModule();
+    init_approveModule();
+    init_deleteModule();
     init_validateBlogArticle();
 });
