@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const adminInfrastructureRouter = require('../infrastructure/routes-admin');
 const adminAuthRoutes = require('../modules/users/routes-auth-admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes-admin');
 const adminBlogCategoryRouter = require('../modules/blogCategories/routes-admin');
@@ -15,6 +16,8 @@ router.use((req, res, next) => {
     delete req.session.flash;
     next();
 });
+
+router.use('/admin', adminInfrastructureRouter);
 
 router.use('/admin', adminAuthRoutes);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
