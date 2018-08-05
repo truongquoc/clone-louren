@@ -5,7 +5,7 @@
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
 <% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
-<% script('/public/vendors/ckeditor/ckeditor.js') %>
+<% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=kohqnigwmla1nr4w3k7rpqcrl8qvhh1uvmjz5cn6c2mzglxv') %>
 
 <section class="content-header">
     <div class="container-fluid">
@@ -99,7 +99,7 @@
                     </div>
                     <div class="form-group">
                         <label>Nội dung</label>
-                        <textarea name="content" class="form-control form__content__input ckeditor" id="ckeditor"><%= old('content') %></textarea>
+                        <textarea name="content" class="form-control form__content__input tinymce"><%= old('content') %></textarea>
                         <p class="form__error-message form__content__error-message"><%= errors('content') %></p>
                     </div>
                     <div class="form-group">
@@ -116,48 +116,37 @@
 
 <% block('scripts', `
 <script>
-    let editor = CKEDITOR.replace('ckeditor', {
-        uiColor: '#ffffff',
-        height: '450px',
-        toolbar: [
-            {
-                name: 'basicstyles',
-                    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Link']
-            },
-            {
-                name: 'paragraph',
-                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv',
-                    '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-            },
-            {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-            {
-                name: 'insert',
-                items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']
-            },
-            '/',
-            {
-                name: 'document',
-                items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates']
-            },
-            {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-            {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt']},
-            {
-                name: 'forms',
-                items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
-                    'HiddenField']
-            },
-            '/',
-            {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-            {name: 'colors', items: ['TextColor', 'BGColor']},
-            {name: 'tools', items: ['Maximize', 'ShowBlocks']}
-        ],
-        allowedContent: true
-    });
     $(document).ready(function () {
         $('.select2').select2();
         $('input[type="checkbox"], input[type="radio"]').iCheck({
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
+        });
+        tinymce.init({
+            selector: 'textarea.tinymce',
+            height: 500,
+            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+            toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            images_upload_url: '/admin/images/upload',
+            images_upload_handler: function (blobInfo, success, failure) {
+                const formData = new FormData();
+                formData.append('image', blobInfo.blob(), blobInfo.filename());
+                $.ajax({
+                    url: '/admin/images/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (!res.status) {
+                            swal('Error!', res.error.message[0], 'Error');
+                            return false;
+                        }
+                        success(res.data[0]);
+                    }
+                });
+            }
         });
     });
 </script>
