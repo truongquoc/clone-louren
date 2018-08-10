@@ -1,13 +1,15 @@
 <% layout('/layouts/client/app') %>
 
+<% block('title', blogArticle.title) %>
+
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>Properties Detail</h1>
+                <h1><%= blogArticle.title %></h1>
                 <ul class="breadcrumbs">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Properties Detail</li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li class="active">Bài viết chi tiết</li>
                 </ul>
             </div>
         </div>
@@ -21,45 +23,31 @@
             <div class="col-lg-8 col-md-8 col-xs-12">
                 <!-- Blog box start -->
                 <div class="thumbnail blog-box clearfix">
-                    <img src="/public/client/img/blog/blog-1.jpg" alt="blog-1" class="img-responsive">
+                    <% if (blogArticle.display.useVideo) { %>
+                    <% } else { %>
+                        <img src="<%= blogArticle.display.image %>" alt="blog-1" class="img-responsive">
+                    <% } %>
                     <!-- detail -->
                     <div class="caption detail">
                         <!--Main title -->
-                        <h3 class="title">
-                            <a href="blog-single-sidebar-right.html">Find your Dream House</a>
-                        </h3>
+                        <h3 class="title"><%= blogArticle.title %></h3>
                         <!-- Post meta -->
                         <div class="post-meta">
-                            <span><a href="#"><i class="fa fa-user"></i>John Antony</a></span>
-                            <span><a><i class="fa fa-calendar "></i>May 27, 2018</a></span>
-                            <span><a href="#"><i class="fa fa-bars"></i> The Nest</a></span>
-                            <span><a href="#"><i class="fa fa-comments"></i>7 Comment</a></span>
+                            <span><a><i class="fa fa-user"></i><%= blogArticle.author.name %></a></span>
+                            <span><a><i class="fa fa-calendar "></i><%= moment(blogArticle.createdAt).format('DD/MM/YYYY') %></a></span>
+                            <span><a href="/blog/chuyen-muc-<%= blogArticle.category.slug %>"><i class="fa fa-bars"></i> <%= blogArticle.category.name %></a></span>
                         </div>
                         <!-- paragraph -->
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.more recently with desktop publishing</p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.more recently with desktop publishing</p>
-                        <div class="row mrg-btm-30">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <p>But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.more recently with desktop </p>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <img src="/public/client/img/properties/properties-3.jpg" alt="properties-3" class="img-responsive">
-                            </div>
-                        </div>
-                        <blockquote>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries. But also the leap into electronic typesetting, remaining essentially unchanged. It was
-                        </blockquote>
-                        <h3>This is another Sub-Heading</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries. But also the leap into electronic typesetting, remaining essentially unchanged. It was Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries. But also the leap into electronic typesetting, remaining essentially unchanged. It was</p>
+                        <%- blogArticle.content %>
 
                         <div class="row clearfix t-s">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                 <div class="tags-box">
                                     <h2>Tags</h2>
                                     <ul class="tags">
-                                        <li><a href="#">Image</a></li>
-                                        <li><a href="#">Features</a></li>
-                                        <li><a href="#">Slideshow</a></li>
+                                        <% blogArticle.tags.forEach(function (tag) { %>
+                                            <li><a href="/blog/the-<%= tag.slug %>"><%= tag.name %></a></li>
+                                        <% }) %>
                                     </ul>
                                 </div>
                             </div>
@@ -92,8 +80,8 @@
                     <div class="sidebar-widget search-box">
                         <form class="form-inline form-search" method="GET">
                             <div class="form-group">
-                                <label class="sr-only" for="textsearch2">Search</label>
-                                <input type="text" class="form-control" id="textsearch2" placeholder="Search">
+                                <label class="sr-only">Search</label>
+                                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm">
                             </div>
                             <button type="submit" class="btn"><i class="fa fa-search"></i></button>
                         </form>

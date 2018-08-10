@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator/check');
+const getSlug = require('speakingurl');
 const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
 const BlogCategoryRepositoryClass = require('../../blogCategories/repositories/BlogCategoryRepository');
 const BlogTagRepositoryClass = require('../../blogTags/repositories/BlogTagRepository');
@@ -49,8 +50,8 @@ const showMyArticles = async (req, res, next) => {
 const create = async (req, res, next) => {
     try {
         const [blogCategories, blogTags] = await Promise.all([
-            BlogCategoryRepository.get(),
-            BlogTagRepository.get(),
+            BlogCategoryRepository.baseGet(),
+            BlogTagRepository.baseGet(),
         ]);
 
         return res.render('modules/blogArticles/admin/create', {
@@ -85,6 +86,45 @@ const store = async (req, res, next) => {
     }
 };
 
+const edit = async (req, res, next) => {
+    try {
+        const [blogCategories, blogTags, blogArticle] = await Promise.all([
+            BlogCategoryRepository.baseGet(),
+            BlogTagRepository.baseGet(),
+            BlogArticleRepository.show(req.params.slug),
+        ]);
+        return res.render('modules/blogArticles/admin/edit', {
+            blogCategories, blogTags, blogArticle,
+        });
+    } catch (e) {
+        return next(responseHelper.error(e.message));
+    }
+};
+
+const update = async (req, res, next) => {
+    const data = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('oldValue', data);
+        req.flash('errors', errors.mapped());
+        return res.redirectBack();
+    }
+    data.createdTime = req.attributes.createdTime;
+    try {
+        if (req.file) {
+            const image = await imageHelper.optimizeImage(req.file, {
+                width: 750,
+                quality: 75,
+            });
+            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        }
+        await BlogArticleRepository.update(data, req.params.id);
+        return res.redirect(`/admin/blog/articles/edit/${getSlug(`${data.title || data.slug}-${data.createdTime}`)}`);
+    } catch (e) {
+        return next(responseHelper.error(e.message));
+    }
+};
+
 const approve = async (req, res) => {
     try {
         await BlogArticleRepository.approve(req.params.id);
@@ -107,5 +147,5 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
-    index, showMyArticles, create, store, approve, destroy,
+    index, showMyArticles, create, store, edit, update, approve, destroy,
 };

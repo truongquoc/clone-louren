@@ -30,7 +30,7 @@ class BaseRepository {
         return data;
     }
 
-    get(conditions = {}, options) {
+    baseGet(conditions = {}, options) {
         conditions.deletedAt = null;
 
         return this.model.find(conditions).sort({ createdAt: -1 });
@@ -71,7 +71,7 @@ class BaseRepository {
     baseUpdate(data, conditions) {
         conditions.deletedAt = null;
 
-        return this.model.update(conditions, data);
+        return this.model.update(conditions, { $set: data });
     }
 
     baseDelete(conditions) {
