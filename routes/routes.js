@@ -8,6 +8,7 @@ const adminCityRouter = require('../modules/cities/routes-admin');
 const adminPropertyCategoryRouter = require('../modules/propertyCategories/routes-admin');
 const adminPropertyStatusRouter = require('../modules/propertyStatuses/routes-admin');
 const adminPropertyTypeRouter = require('../modules/propertyTypes/routes-admin');
+const clientBlogArticleRouter = require('../modules/blogArticles/routes-client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -18,17 +19,16 @@ router.use((req, res, next) => {
 });
 
 router.use('/admin', adminInfrastructureRouter);
-
 router.use('/admin', adminAuthRoutes);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
 router.use('/admin/blog/categories', adminBlogCategoryRouter);
 router.use('/admin/blog/tags', adminBlogTagRouter);
-
 router.use('/admin/location/cities', adminCityRouter);
-
 router.use('/admin/property/categories', adminPropertyCategoryRouter);
 router.use('/admin/property/statuses', adminPropertyStatusRouter);
 router.use('/admin/property/types', adminPropertyTypeRouter);
+
+router.use('/blog', clientBlogArticleRouter);
 
 router.use(handleExceptionHelper.handleException);
 

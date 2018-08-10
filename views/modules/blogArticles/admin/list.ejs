@@ -57,13 +57,13 @@
                             <% }) %>"><%- article.author.name %> </td>
                             <td><%- moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
-                                <a href="#" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
+                                <a href="/blog/<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
                                 <% if (!article.isApprove) { %>
                                     <button class="badge bg-success-gradient module__approve-btn">
                                         <i class="fa fa-check"></i>
                                     </button>
                                 <% } %>
-                                <a href="#" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
+                                <a href="/admin/blog/articles/edit/<%= article.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
                                 <button class="badge bg-danger-gradient module__delete-btn">
                                     <i class="fa fa-times"></i>
                                 </button>

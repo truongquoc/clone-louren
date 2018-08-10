@@ -14,6 +14,10 @@ router.get('/create', blogArticleAuthorize.createArticleAuthorize, blogArticleCo
 
 router.post('/create', blogArticleAuthorize.createArticleAuthorize, upload.single('image'), blogArticleRequest.createArticleRequest, blogArticleController.store);
 
+router.get('/edit/:slug', blogArticleAuthorize.editAuthorize, blogArticleController.edit);
+
+router.post('/edit/:id', blogArticleAuthorize.editAuthorize, upload.single('image'), blogArticleRequest.editArticleRequest, blogArticleController.update);
+
 router.put('/approve/:id', blogArticleAuthorize.approveAuthorize, blogArticleController.approve);
 
 router.delete('/delete/:id', blogArticleAuthorize.deleteAuthorize, blogArticleController.destroy);

@@ -11,8 +11,32 @@ const showMyArticlesAuthorize = (req, res, next) => {
     next();
 };
 
+const showAuthorize = async (req, res, next) => {
+    try {
+        const article = await BlogArticleRepository.checkExist({ slug: req.params.slug });
+        if (article) {
+            return next();
+        }
+        next(responseHelper.notFound());
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 const createArticleAuthorize = (req, res, next) => {
     next();
+};
+
+const editAuthorize = async (req, res, next) => {
+    const condition = req.params.slug ? { slug: req.params.slug } : { _id: req.params.id };
+    try {
+        const article = await BlogArticleRepository.checkExist(condition);
+        if (article) {
+            next();
+        }
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
 };
 
 const approveAuthorize = async (req, res, next) => {
@@ -46,7 +70,9 @@ const deleteAuthorize = async (req, res, next) => {
 module.exports = {
     indexAuthorize,
     showMyArticlesAuthorize,
+    showAuthorize,
     createArticleAuthorize,
+    editAuthorize,
     approveAuthorize,
     deleteAuthorize,
 };

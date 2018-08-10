@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
-const getSlug = require('speakingurl');
 
 const { Schema } = mongoose;
 
@@ -64,12 +63,5 @@ const BlogArticle = new Schema({
 });
 
 BlogArticle.plugin(mongoosePaginate);
-
-BlogArticle.pre('validate', function callback(next) {
-    if (this.isModified('slug')) {
-        this.slug = getSlug(this.slug || this.name);
-    }
-    next();
-});
 
 module.exports = mongoose.model('blog_articles', BlogArticle);

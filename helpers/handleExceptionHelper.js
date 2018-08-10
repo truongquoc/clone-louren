@@ -1,5 +1,5 @@
 const handleException = (err, req, res, next) => {
-    if (!err) {
+    if (!err.error) {
         throw err;
     }
     switch (err.error.code) {

@@ -12,4 +12,17 @@ const getSlugCurrentTime = () => {
     return `${year}${month}${date}${hours}${minutes}${seconds}${milliseconds}`;
 };
 
-module.exports = { getSlugCurrentTime };
+const getTimeInSlug = (slug) => {
+    const regExp = /[0-9]{16}/g;
+    let lastMatch;
+    let match;
+    do {
+        match = regExp.exec(slug);
+        if (match) {
+            [lastMatch] = match;
+        }
+    } while (match);
+    return lastMatch;
+};
+
+module.exports = { getSlugCurrentTime, getTimeInSlug };
