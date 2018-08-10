@@ -16,6 +16,7 @@ class BlogArticleRepository extends BaseRepository {
         const populate = [{
             path: 'category',
             select: '-_id name',
+            match: { deletedAt: null },
         }];
         if (!userSlug) {
             populate.push({
@@ -52,17 +53,21 @@ class BlogArticleRepository extends BaseRepository {
 
     show(slug) {
         return this.model.findOne({ slug, deletedAt: null })
+            .sort({ createdAt: -1 })
             .populate({
                 path: 'author',
                 select: '-_id name',
+                match: { deletedAt: null },
             })
             .populate({
                 path: 'tags',
                 select: '_id name slug',
+                match: { deletedAt: null },
             })
             .populate({
                 path: 'category',
                 select: '_id name slug',
+                match: { deletedAt: null },
             })
             .select('-isApprove -updatedAt');
     }
