@@ -27,7 +27,7 @@ class ClassificationRepository extends BaseRepository {
         }
         classification = {
             name: data.name,
-            slug: data.slug || data.name,
+            slug: getSlug(data.slug || data.name),
         };
 
         return this.baseCreate(classification);
@@ -45,7 +45,7 @@ class ClassificationRepository extends BaseRepository {
         }
         classification = {
             name: data.name,
-            slug: data.slug || data.name,
+            slug: getSlug(data.slug || data.name),
         };
 
         return this.model.findOneAndUpdate(

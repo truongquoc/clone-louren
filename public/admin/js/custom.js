@@ -16,7 +16,6 @@ function parseSlug(title) {
     slug = slug.replace(/\-\-/gi, '-');
     slug = `@${slug}@`;
     slug = slug.replace(/\@\-|\-\@|\@/gi, '');
-
     return slug;
 }
 
@@ -42,18 +41,17 @@ function deleteRecord(data) {
             },
             success: (res) => {
                 if (!res.status) {
-                    swal(
-                        'Error!',
-                        'Cannot delete.',
-                        'Error',
-                    );
+                    if (res.error.code === 404) {
+                        swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                        return false;
+                    }
+                    if (res.error.code === 500) {
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                        return false;
+                    }
                 } else {
                     $(data.element).closest('tr').fadeOut();
-                    swal(
-                        data.successResponse.title,
-                        data.successResponse.description,
-                        data.successResponse.type,
-                    );
+                    swal(data.successResponse.title, data.successResponse.description, data.successResponse.type);
                 }
             },
         });
@@ -71,7 +69,7 @@ function init_parseSlug() {
 }
 
 function init_createSubModule() {
-    function createCategory(url, data) {
+    function createSubModule(url, data) {
         $.ajax({
             url,
             method: 'POST',
@@ -81,11 +79,7 @@ function init_createSubModule() {
                 const $form = $('.module__create-form');
                 if (!res.status) {
                     if (res.error.code === 500) {
-                        swal(
-                            'Lỗi!',
-                            'Đã có lỗi hệ thống',
-                            'Error',
-                        );
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
                         return false;
                     }
                     $form.find('.form__error-message').text('');
@@ -96,7 +90,7 @@ function init_createSubModule() {
                     }
                     return false;
                 }
-                const category = res.data;
+                const result = res.data;
                 const $totalRow = $('.module__table tbody tr');
                 if ($totalRow.length >= 16) {
                     $($totalRow[15]).hide();
@@ -107,12 +101,13 @@ function init_createSubModule() {
                     }
                 });
                 $('.module__table tbody tr:nth-child(1)').after(
-                    `<tr data-key="${category._id}">
+                    `<tr data-key="${result._id}">
                         <td>1</td>
-                        <td class="module__table__name">${category.name}</td>
-                        <td class="module__table__slug">${category.slug}</td>
+                        <td class="module__table__name">${result.name}</td>
+                        ${result.city ? '<td class="module__table__city">' + result.city.name + '</td>' : ''}
+                        <td class="module__table__slug">${result.slug}</td>
                         <td class="module__table__update-time">
-                            ${moment(category.updatedAt).format('HH:mm DD/MM/YYYY')}
+                            ${moment(result.updatedAt).format('HH:mm DD/MM/YYYY')}
                         </td>
                         <td>
                             <button class="badge bg-warning-gradient module__edit-btn"
@@ -127,7 +122,7 @@ function init_createSubModule() {
                 );
                 $form.find('.form__error-message').html('');
                 $form.trigger('reset');
-            },
+            }
         });
     }
 
@@ -135,45 +130,29 @@ function init_createSubModule() {
         e.preventDefault();
         const name = $(this).find('.module__form__name').val();
         const slug = $(this).find('.module__form__slug').val();
+        const city = $(this).has('.module__form__city') ? $(this).find('.module__form__city').val() : '';
         const url = $(this).attr('action');
 
-        createCategory(url, {
-            name,
-            slug,
-        });
+        createSubModule(url, { city, name, slug });
     });
 }
 
 function init_editSubModule() {
-    function editSubModule(data) {
+    function editSubModule(url, data) {
         $.ajax({
-            url: data.url,
+            url: url,
             method: 'PUT',
             dataType: 'json',
-            data: {
-                _method: 'PUT',
-                name: data.name,
-                slug: data.slug,
-            },
+            data: data,
             success(res) {
                 const $form = $('.module__edit-form');
                 if (!res.status) {
                     if (res.error.code === 404) {
-                        swal(
-                            'Lỗi!',
-                            'Không tìm thấy dữ liệu',
-                            'Error',
-                        );
-
+                        swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
                         return false;
                     }
                     if (res.error.code === 500) {
-                        swal(
-                            'Lỗi!',
-                            'Đã có lỗi hệ thống',
-                            'Error',
-                        );
-
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
                         return false;
                     }
                     $form.find('.form__error-message').text('');
@@ -184,11 +163,14 @@ function init_editSubModule() {
                     }
                     return false;
                 }
-                const category = res.data;
-                const $row = $(`.module__table tr[data-key="${category._id}"]`);
-                $row.find('.module__table__name').text(category.name).html();
-                $row.find('.module__table__slug').text(category.slug).html();
-                $row.find('.module__table__update-time').text(moment(category.updatedAt).format('HH:mm MM/DD/YYYY')).html();
+                const result = res.data;
+                const $row = $(`.module__table tr[data-key="${result._id}"]`);
+                $row.find('.module__table__name').text(result.name).html();
+                if (result.city) {
+                    $row.find('.module__table__city').attr('data-city', result.city._id).text(result.city.name).html();
+                }
+                $row.find('.module__table__slug').text(result.slug).html();
+                $row.find('.module__table__update-time').text(moment(result.updatedAt).format('HH:mm MM/DD/YYYY')).html();
                 $form.find('.form__error-message').html('');
             },
         });
@@ -197,26 +179,27 @@ function init_editSubModule() {
     $(document).on('click', '.module__edit-btn', function (e) {
         e.preventDefault();
         const name = $(this).closest('tr').find('.module__table__name').text();
+        const city = $(this).has('.module__table__city') ? $(this).closest('tr').find('.module__table__city').data('city') : '';
         const slug = $(this).closest('tr').find('.module__table__slug').text();
         const key = $(this).closest('tr').data('key');
         const $form = $('.module__edit-form');
         $form.find('.module__form__name').val(name);
+        if ($form.has('.module__table__city')) {
+            $form.find('.module__form__city').val(city);
+        }
         $form.find('.module__form__slug').val(slug);
         $form.find('.module__form__key').val(key);
+
     });
 
     $(document).on('submit', '.module__edit-form', function (e) {
         e.preventDefault();
+        const city = $(this).has('.module__form__city') ? $(this).find('.module__form__city').val() : '';
         const name = $(this).find('.module__form__name').val();
         const slug = $(this).find('.module__form__slug').val();
         const url = $(this).attr('action');
         const key = $(this).find('.module__form__key').val();
-        editSubModule({
-            key,
-            url: `${url}/${key}`,
-            name,
-            slug,
-        });
+        editSubModule(`${url}/${key}`, { _method: 'PUT', city, name, slug });
     });
 }
 
@@ -246,12 +229,16 @@ function init_approveModule() {
                     _method: 'PUT',
                 },
                 success(res) {
+                    console.log(res);
                     if (!res.status) {
-                        swal(
-                            'Lỗi!',
-                            'Không thể duyệt',
-                            'Error',
-                        );
+                        if (res.error.code === 404) {
+                            swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                            return false;
+                        }
+                        if (res.error.code === 500) {
+                            swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                            return false;
+                        }
                     } else {
                         if (res.data.isApproved) {
                             $(that).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
@@ -282,41 +269,10 @@ function init_deleteModule() {
     });
 }
 
-function init_validateBlogArticle() {
-    // $('.blog-articles__form').on('submit', function () {
-    //     let check = true;
-    //     if (!$(this).find('.form__title__input').val()) {
-    //         $(this).find('.form__title__error-message').html('');
-    //         check = false;
-    //     } else {
-    //         $(this).find('.form__title__error-message').html('');
-    //     }
-    //
-    //     if (!$(this).find('.form__category__input option:selected')) {
-    //         $(this).find('.form__category__error-message').html('');
-    //         check = false;
-    //     } else {
-    //         $(this).find('.form__category__error-message').html('');
-    //     }
-    //
-    //     if (!$(this).find('.form__content__input option:selected')) {
-    //         $(this).find('.form__content__error-message').html('');
-    //         check = false;
-    //     } else {
-    //         $(this).find('.form__content__error-message').html('');
-    //     }
-    //
-    //     if (!check) {
-    //         return false;
-    //     }
-    // });
-}
-
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
     init_editSubModule();
     init_approveModule();
     init_deleteModule();
-    init_validateBlogArticle();
 });

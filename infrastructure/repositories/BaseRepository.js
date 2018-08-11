@@ -22,6 +22,7 @@ class BaseRepository {
         conditions.deletedAt = null;
         const data = await this.model.paginate(conditions, {
             sort: { createdAt: -1 },
+            populate: options.populate || [],
             page: options.query.page,
             limit: commonConstant.limit,
         });
