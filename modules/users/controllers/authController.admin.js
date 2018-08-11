@@ -23,7 +23,7 @@ const login = async (req, res, next) => {
         const user = await AuthRepository.login(data);
         if (user) {
             req.session.cUser = {
-                id: user.id,
+                _id: user.id,
                 roles: user.roles,
                 name: user.name,
                 email: user.email,

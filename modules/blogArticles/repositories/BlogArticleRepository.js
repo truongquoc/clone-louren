@@ -9,7 +9,40 @@ class BlogArticleRepository extends BaseRepository {
         return BlogArticle;
     }
 
-    async adminList(userSlug, options) {
+    async clientList(slug, options) {
+        options.query.page = parseInt(options.query.page, 10) || 1;
+        const search = new RegExp(options.query.search, 'i');
+        const conditions = {
+            title: search,
+            isApproved: true,
+            isDraft: false,
+            deletedAt: null,
+        };
+        const populate = [{
+            path: 'category',
+            select: '-_id name slug',
+            match: { deletedAt: null },
+        }, {
+            path: 'author',
+            select: '-_id name',
+            match: { deletedAt: null },
+        }];
+        if (slug) {
+            conditions[slug.name] = slug.value;
+        }
+        const articles = await this.model.paginate(conditions, {
+            select: 'title description display slug createdAt',
+            populate,
+            sort: { createdAt: -1 },
+            page: options.query.page,
+            limit: commonConstant.clientLimit,
+        });
+        paginationHelper.setUpUrl(articles, options);
+
+        return articles;
+    }
+
+    async adminList(userId, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         const search = new RegExp(options.query.search, 'i');
         const conditions = { title: search, deletedAt: null };
@@ -17,35 +50,27 @@ class BlogArticleRepository extends BaseRepository {
             path: 'category',
             select: '-_id name',
             match: { deletedAt: null },
+        }, {
+            path: 'author',
+            select: '-_id name',
+            match: { deletedAt: null },
         }];
-        if (!userSlug) {
-            populate.push({
-                path: 'author',
+        if (!userId) {
+            populate[1].populate = {
+                path: 'roles',
                 select: '-_id name',
-                populate: {
-                    path: 'roles',
-                    select: '-_id name',
-                    match: { deletedAt: null },
-                },
-            });
+            };
             conditions.isDraft = false;
         } else {
-            populate.push({
-                path: 'author',
-                select: '-_id',
-                match: { slug: userSlug, deletedAt: null },
-            });
+            conditions.author = userId;
         }
-        const articles = await this.model.paginate(
-            conditions,
-            {
-                select: 'title isApprove slug createdAt',
-                populate,
-                sort: { createdAt: -1 },
-                page: options.query.page,
-                limit: commonConstant.limit,
-            },
-        );
+        const articles = await this.model.paginate(conditions, {
+            select: 'title isApproved slug createdAt',
+            populate,
+            sort: { createdAt: -1 },
+            page: options.query.page,
+            limit: commonConstant.limit,
+        });
         paginationHelper.setUpUrl(articles, options);
 
         return articles;
@@ -69,7 +94,7 @@ class BlogArticleRepository extends BaseRepository {
                 select: '_id name slug',
                 match: { deletedAt: null },
             })
-            .select('-isApprove -updatedAt');
+            .select('-isApproved -updatedAt');
     }
 
     create(data, user) {
@@ -108,7 +133,7 @@ class BlogArticleRepository extends BaseRepository {
     }
 
     approve(id) {
-        return this.baseUpdate({ isApprove: true }, { _id: id });
+        return this.baseUpdate({ isApproved: true }, { _id: id });
     }
 }
 

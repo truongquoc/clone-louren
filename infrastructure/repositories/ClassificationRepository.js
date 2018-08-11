@@ -9,6 +9,10 @@ class ClassificationRepository extends BaseRepository {
         }
     }
 
+    checkExistBySlug(slug) {
+        return this.model.findOne({ slug }).select('_id name');
+    }
+
     async create(data) {
         let classification = await this.getDetailOnlyTrashed({
             $or: [{ name: data.name }, { slug: getSlug(data.slug) }],
