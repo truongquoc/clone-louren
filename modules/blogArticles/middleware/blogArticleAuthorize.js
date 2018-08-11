@@ -35,9 +35,10 @@ const editAuthorize = async (req, res, next) => {
     const condition = req.params.slug ? { slug: req.params.slug } : { _id: req.params.id };
     try {
         const article = await BlogArticleRepository.checkExist(condition);
-        if (article) {
-            next();
+        if (!article) {
+            return next(responseHelper.notFound());
         }
+        next();
     } catch (e) {
         next(responseHelper.error(e.message));
     }
@@ -49,9 +50,10 @@ const approveAuthorize = async (req, res, next) => {
         const article = await BlogArticleRepository.checkExist({
             _id: req.params.id,
         });
-        if (article) {
-            next();
+        if (!article) {
+            return res.json(responseHelper.notFound());
         }
+        next();
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
@@ -63,9 +65,10 @@ const deleteAuthorize = async (req, res, next) => {
         const article = await BlogArticleRepository.checkExist({
             _id: req.params.id,
         }, { select: 'author' });
-        if (article) {
-            next();
+        if (!article) {
+            return res.json(responseHelper.notFound());
         }
+        next();
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
