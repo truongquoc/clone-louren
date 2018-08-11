@@ -7,6 +7,18 @@ const indexAuthorize = (req, res, next) => {
     next();
 };
 
+const showArticlesAuthorize = async (req, res, next) => {
+    try {
+        const check = await BlogTagRepository.checkExistBySlug(req.params.slug, { select: '_id' });
+        if (check) {
+            return next();
+        }
+        next(responseHelper.notFound());
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 const editAuthorize = async (req, res, next) => {
     const { id } = req.params;
     try {
@@ -20,4 +32,4 @@ const editAuthorize = async (req, res, next) => {
     }
 };
 
-module.exports = { indexAuthorize, editAuthorize };
+module.exports = { indexAuthorize, showArticlesAuthorize, editAuthorize };

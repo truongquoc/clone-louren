@@ -1,6 +1,6 @@
 <% layout('/layouts/client/app') %>
 
-<% block('title', blogArticle.title) %>
+<% block('title', `Blog - ${blogArticle.title}`) %>
 
 <div class="sub-banner overview-bgi">
     <div class="overlay">
@@ -24,7 +24,7 @@
                 <!-- Blog box start -->
                 <div class="thumbnail blog-box clearfix">
                     <% if (blogArticle.display.useVideo) { %>
-                        <iframe src="<%= blogArticle.display.video %>"></iframe>
+                        <iframe class="blog-article__iframe" src="<%= blogArticle.display.video %>"></iframe>
                     <% } else { %>
                         <img src="<%= blogArticle.display.image %>" alt="<%= blogArticle.title %>" class="img-responsive">
                     <% } %>
@@ -45,11 +45,13 @@
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                 <div class="tags-box">
                                     <h2>Tags</h2>
-                                    <ul class="tags">
-                                        <% blogArticle.tags.forEach(function (tag) { %>
-                                            <li><a href="/blog/the-<%= tag.slug %>"><%= tag.name %></a></li>
-                                        <% }) %>
-                                    </ul>
+                                    <% if (blogArticle.tags) { %>
+                                        <ul class="tags">
+                                            <% blogArticle.tags.forEach(function (tag) { %>
+                                                <li><a href="/blog/the-<%= tag.slug %>"><%= tag.name %></a></li>
+                                            <% }) %>
+                                        </ul>
+                                    <% } %>
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">

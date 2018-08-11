@@ -22,14 +22,14 @@ function parseSlug(title) {
 
 function deleteRecord(data) {
     swal({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
+        title: 'Bạn chắc chứ?',
+        text: 'Bạn không thể khôi phục lại dữ liệu này!',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger',
     }).then(() => {
@@ -222,28 +222,46 @@ function init_editSubModule() {
 
 function init_approveModule() {
     $('.module__approve-btn').on('click', function () {
-        const url = $('.module__table').data('approve-url');
-        const key = $(this).closest('tr').data('key');
         const that = this;
-        $.ajax({
-            url: `${url}/${key}`,
-            type: 'PUT',
-            dataType: 'json',
-            data: {
-                _method: 'PUT',
-            },
-            success(res) {
-                if (!res.status) {
-                    swal(
-                        'Lỗi!',
-                        'Không thể duyệt',
-                        'Error',
-                    );
-                } else {
-                    $(that).fadeOut();
-                    swal('Đã duyệt!', 'Thành công.', 'success');
-                }
-            },
+        const text = $(that).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
+        swal({
+            title: `${text} bài này`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+        }).then(() => {
+            const url = $('.module__table').data('approve-url');
+            const key = $(that).closest('tr').data('key');
+
+            $.ajax({
+                url: `${url}/${key}`,
+                type: 'PUT',
+                dataType: 'json',
+                data: {
+                    _method: 'PUT',
+                },
+                success(res) {
+                    if (!res.status) {
+                        swal(
+                            'Lỗi!',
+                            'Không thể duyệt',
+                            'Error',
+                        );
+                    } else {
+                        if (res.data.isApproved) {
+                            $(that).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
+                        } else {
+                            $(that).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
+                        }
+                        swal('Thành công!', '', 'success');
+                    }
+                },
+            });
         });
     });
 }

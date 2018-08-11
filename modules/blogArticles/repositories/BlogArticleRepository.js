@@ -107,7 +107,7 @@ class BlogArticleRepository extends BaseRepository {
             content: data.content,
             display: {
                 image: data.image,
-                video: data.video,
+                video: data.video.replace('watch?v=', 'embed/'),
                 useVideo: !!data.useVideo,
             },
             isDraft: !!data.isDraft,
@@ -125,7 +125,7 @@ class BlogArticleRepository extends BaseRepository {
             content: data.content,
             display: {
                 image: data.image || data.imageUrl,
-                video: data.video,
+                video: data.video.replace('watch?v=', 'embed/'),
                 useVideo: !!data.useVideo,
             },
             isDraft: !!data.isDraft,
@@ -134,8 +134,10 @@ class BlogArticleRepository extends BaseRepository {
         return this.baseUpdate(article, { _id: id });
     }
 
-    approve(id) {
-        return this.baseUpdate({ isApproved: true }, { _id: id });
+    async approve(id) {
+        const article = await this.model.findById(id).select('isApproved');
+        article.isApproved = !article.isApproved;
+        return article.save();
     }
 }
 
