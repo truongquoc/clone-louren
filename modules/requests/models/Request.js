@@ -24,7 +24,7 @@ const Request = new Schema({
         required: true,
         trim: true,
     },
-    isApprove: {
+    isApproved: {
         type: Boolean,
         default: false,
     },

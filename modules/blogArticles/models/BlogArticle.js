@@ -45,7 +45,7 @@ const BlogArticle = new Schema({
         type: Boolean,
         default: false,
     },
-    isApprove: {
+    isApproved: {
         type: Boolean,
         default: false,
     },

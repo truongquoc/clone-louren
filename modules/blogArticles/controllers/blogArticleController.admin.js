@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator/check');
+const url = require('url');
 const getSlug = require('speakingurl');
 const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
 const BlogCategoryRepositoryClass = require('../../blogCategories/repositories/BlogCategoryRepository');
@@ -33,9 +34,9 @@ const index = async (req, res, next) => {
 const showMyArticles = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogArticles = await BlogArticleRepository.adminList(req.session.cUser.slug, {
+        const blogArticles = await BlogArticleRepository.adminList(req.session.cUser._id, {
             query,
-            pageUrl: req.baseUrl,
+            pageUrl: url.parse(req.originalUrl).pathname,
         });
         blogArticles.renderPagination = paginationHelper.renderPagination;
 

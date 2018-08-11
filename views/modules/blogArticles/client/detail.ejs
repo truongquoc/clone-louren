@@ -24,8 +24,9 @@
                 <!-- Blog box start -->
                 <div class="thumbnail blog-box clearfix">
                     <% if (blogArticle.display.useVideo) { %>
+                        <iframe src="<%= blogArticle.display.video %>"></iframe>
                     <% } else { %>
-                        <img src="<%= blogArticle.display.image %>" alt="blog-1" class="img-responsive">
+                        <img src="<%= blogArticle.display.image %>" alt="<%= blogArticle.title %>" class="img-responsive">
                     <% } %>
                     <!-- detail -->
                     <div class="caption detail">
@@ -33,7 +34,7 @@
                         <h3 class="title"><%= blogArticle.title %></h3>
                         <!-- Post meta -->
                         <div class="post-meta">
-                            <span><a><i class="fa fa-user"></i><%= blogArticle.author.name %></a></span>
+                            <span><a><i class="fa fa-user"></i><%= blogArticle.author ? blogArticle.author.name : '' %></a></span>
                             <span><a><i class="fa fa-calendar "></i><%= moment(blogArticle.createdAt).format('DD/MM/YYYY') %></a></span>
                             <span><a href="/blog/chuyen-muc-<%= blogArticle.category.slug %>"><i class="fa fa-bars"></i> <%= blogArticle.category.name %></a></span>
                         </div>
@@ -78,7 +79,7 @@
             <div class="col-lg-4 col-md-4 col-xs-12">
                 <div class="sidebar">
                     <div class="sidebar-widget search-box">
-                        <form class="form-inline form-search" method="GET">
+                        <form class="form-inline form-search" method="GET" action="/blog">
                             <div class="form-group">
                                 <label class="sr-only">Search</label>
                                 <input type="text" name="search" class="form-control" placeholder="Tìm kiếm">

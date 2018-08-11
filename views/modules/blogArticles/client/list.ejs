@@ -21,59 +21,41 @@
         <div class="row">
             <div class="col-lg-8 col-md-8 col-xs-12">
                 <!-- Blog box start -->
-                <% if( articles.lenght === 0 ) { %>
-                    <h3 class="title"><a href="blog-single-sidebar-right.html">No articles found</a></h3>
+                <% if( blogArticles.docs.length === 0 ) { %>
+                    <h4 class="title text-center">No articles found</h4>
                 <% } else { %>
-                        <% articles.forEach(article => { %>
+                    <% blogArticles.docs.forEach(article => { %>
+                        <div class="thumbnail blog-box clearfix">
+                            <% if (article.display.useVideo && article.display.video) { %>
+                                <iframe src="<%= article.display.video %>"></iframe>
+                            <% } else if (article.display.image) { %>
+                                <img src="<%= article.display.image %>" alt="<%= article.title %>" class="img-responsive">
+                            <% } %>
+                            <!-- Detail -->
+                            <div class="caption detail">
+                                <div class="date-box">
+                                    <h5>03</h5>
+                                    <h5>May</h5>
+                                </div>
+                                <!-- title -->
+                                <h3 class="title"><a href="/blog/<%= article.slug %>"> <%= article.title %> </a></h3>
 
-                <div class="thumbnail blog-box clearfix">
-                    <img src="/public/client/img/blog/blog-3.jpg" alt="blog-3">
-                    <!-- Detail -->
-                    <div class="caption detail">
-                        <div class="date-box">
-                            <h5>03</h5>
-                            <h5>May</h5>
+                                <!-- Post meta -->
+                                <div class="post-meta">
+                                    <span><a href="#"><i class="fa fa-user"></i><%= article.author ? article.author.name : '' %></a></span>
+                                    <span><a><i class="fa fa-calendar "></i><%= moment(article.createdAt).format('DD/MM/YYYY') %></a></span>
+                                    <span><a href="/blog/chuyen-muc-<%= article.category.slug %>"><i class="fa fa-bars"></i><%= article.category.name %></a></span>
+                                </div>
+                                <p> <%= article.description %> </p>
+                                <div class="clearfix"></div>
+                                <a href="/blog/<%= article.slug %>" class="read-more">Xem thêm</a>
+                            </div>
                         </div>
-                        <!-- title -->
-                        <h3 class="title"><a href="blog-single-sidebar-right.html"> <%= article.title %> </a></h3>
-
-                        <!-- Post meta -->
-                        <div class="post-meta">
-                            <span><a href="#"><i class="fa fa-user"></i> <%= article.author.name %> y</a></span>
-                            <span><a><i class="fa fa-calendar "></i> <%= article.createdAt %> </a></span>
-                            <span><a href="#"><i class="fa fa-bars"></i> The Nest</a></span>
-                            <span><a href="#"><i class="fa fa-comments"></i>7 Comment</a></span>
-                        </div>
-                        <!-- paragraph -->
-                        <p> <%= article.content %> </p>
-                        <div class="clearfix"></div>
-                        <!-- Btn -->
-                        <a href="blog-single-sidebar-right.html" class="read-more">Read More...</a>
-                    </div>
-                </div>
-            <% }); %>
-            <% } %>
-                <!-- Blog box end -->
-
-                <!-- Page navigation start -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li>
-                            <a href="blog-classic-sidebar-left.html" aria-label="Previous">
-                                <span aria-hidden="true">«</span>
-                            </a>
-                        </li>
-                        <li class="active"><a href="blog-classic-sidebar-right.html">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="blog-classic-sidebar-left.html">2</a></li>
-                        <li><a href="blog-classic-fullwidth.html">3</a></li>
-                        <li>
-                            <a href="blog-classic-sidebar-left.html" aria-label="Next">
-                                <span aria-hidden="true">»</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- Page navigation end -->
+                    <% }); %>
+                    <nav aria-label="Page navigation">
+                        <%- blogArticles.renderPagination(blogArticles, query.page) %>
+                    </nav>
+                <% } %>
             </div>
 
             <div class="col-lg-4 col-md-4 col-xs-12">
@@ -81,8 +63,8 @@
                     <div class="sidebar-widget search-box">
                         <form class="form-inline form-search" method="GET">
                             <div class="form-group">
-                                <label class="sr-only" for="textsearch2">Search</label>
-                                <input type="text" class="form-control" id="textsearch2" placeholder="Search">
+                                <label class="sr-only">Search</label>
+                                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm" value="<%= query.search || '' %>">
                             </div>
                             <button type="submit" class="btn"><i class="fa fa-search"></i></button>
                         </form>

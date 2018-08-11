@@ -54,11 +54,11 @@
                             <td><%- article.category.name %></td>
                             <td title="<% article.author.roles.forEach(function (role) { %>
                                 <%= role.name %>
-                            <% }) %>"><%- article.author.name %> </td>
+                            <% }) %>"><%- article.author ? article.author.name : '' %> </td>
                             <td><%- moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
                                 <a href="/blog/<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
-                                <% if (!article.isApprove) { %>
+                                <% if (!article.isApproved) { %>
                                     <button class="badge bg-success-gradient module__approve-btn">
                                         <i class="fa fa-check"></i>
                                     </button>

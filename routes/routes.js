@@ -2,13 +2,14 @@ const router = require('express').Router();
 const adminInfrastructureRouter = require('../infrastructure/routes-admin');
 const adminAuthRoutes = require('../modules/users/routes-auth-admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes-admin');
-const adminBlogCategoryRouter = require('../modules/blogCategories/routes-admin');
+const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin');
 const adminBlogTagRouter = require('../modules/blogTags/routes-admin');
 const adminCityRouter = require('../modules/cities/routes-admin');
 const adminPropertyCategoryRouter = require('../modules/propertyCategories/routes-admin');
 const adminPropertyStatusRouter = require('../modules/propertyStatuses/routes-admin');
 const adminPropertyTypeRouter = require('../modules/propertyTypes/routes-admin');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes-client');
+const clientBlogCategoryRouter = require('../modules/blogCategories/routes.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -28,6 +29,7 @@ router.use('/admin/property/categories', adminPropertyCategoryRouter);
 router.use('/admin/property/statuses', adminPropertyStatusRouter);
 router.use('/admin/property/types', adminPropertyTypeRouter);
 
+router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogArticleRouter);
 
 router.use(handleExceptionHelper.handleException);

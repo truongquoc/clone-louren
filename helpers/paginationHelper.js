@@ -27,7 +27,7 @@ const renderPagination = (data, page) => {
     let html = `
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href="${data.prevPageUrl}"
+                <a class="page-link" href="${data.prevPageUrl || ''}"
                         ${!data.prevPageUrl ? 'disabled' : ''}>&laquo;</a>
             </li>`;
     if (page > 3) {
@@ -55,7 +55,7 @@ const renderPagination = (data, page) => {
         </li>`;
     }
     html += `
-        <li class="page-item">
+        <li class="page-item active">
             <a class="page-link active" href="${data.currentPageUrl}" disabled>${page}</a>
         </li>`;
     if (data.pages - page > 0) {
@@ -84,7 +84,7 @@ const renderPagination = (data, page) => {
     }
     html += `
             <li class="page-item">
-                <a class="page-link" href="${data.nextPageUrl}" ${!data.nextPageUrl ? 'disabled' : ''}>&raquo;</a>
+                <a class="page-link" href="${data.nextPageUrl || ''}" ${!data.nextPageUrl ? 'disabled' : ''}>&raquo;</a>
             </li>
         </ul>`;
 
