@@ -1,3 +1,19 @@
 .page-link[disabled] {
     pointer-events: none;
 }
+
+.blog-article__iframe {
+    width: 100%;
+}
+
+@media (min-width: 565px) {
+    .blog-article__iframe {
+        height: 425px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 564.98px) {
+    .blog-article__iframe {
+        height: 300px;
+    }
+}

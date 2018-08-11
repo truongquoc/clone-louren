@@ -2,6 +2,8 @@ const moment = require('moment');
 const RoleHelper = require('./roleHelper');
 const Constant = require('../constants/commonConstant');
 
+moment.locale('vi');
+
 module.exports = (res) => {
     res.locals.old = (key, value = '') => {
         if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.oldValue) {

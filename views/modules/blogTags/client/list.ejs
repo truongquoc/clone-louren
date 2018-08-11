@@ -1,15 +1,16 @@
 <% layout('/layouts/client/app') %>
 
-<% block('title', `Blog`) %>
+<% block('title', `Blog - Thẻ ${blogTag.name}`) %>
 
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>Blog</h1>
+                <h1><%= blogTag.name %></h1>
                 <ul class="breadcrumbs">
                     <li><a href="/">Trang chủ</a></li>
-                    <li class="active">Blog</li>
+                    <li class="active"><a href="/blog">Blog</a></li>
+                    <li class="active">Thẻ <%= blogTag.name %></li>
                 </ul>
             </div>
         </div>

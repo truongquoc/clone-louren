@@ -128,9 +128,9 @@ const update = async (req, res, next) => {
 
 const approve = async (req, res) => {
     try {
-        await BlogArticleRepository.approve(req.params.id);
+        const article = await BlogArticleRepository.approve(req.params.id);
 
-        return res.json(responseHelper.success());
+        return res.json(responseHelper.success(article));
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }

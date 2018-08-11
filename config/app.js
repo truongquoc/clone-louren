@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
-const helpers = require('../helpers/helpers');
+const helpers = require('../helpers/clientHelper');
 const router = require('./routes');
 const { dbUrl } = require('./config');
 

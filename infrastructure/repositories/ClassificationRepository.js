@@ -9,8 +9,8 @@ class ClassificationRepository extends BaseRepository {
         }
     }
 
-    checkExistBySlug(slug) {
-        return this.model.findOne({ slug }).select('_id name');
+    checkExistBySlug(slug, options = { select: '_id name' }) {
+        return this.model.findOne({ slug }).select(options.select);
     }
 
     async create(data) {

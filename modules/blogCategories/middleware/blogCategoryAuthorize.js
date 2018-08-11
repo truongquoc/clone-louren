@@ -9,8 +9,8 @@ const indexAuthorize = (req, res, next) => {
 
 const showArticlesAuthorize = async (req, res, next) => {
     try {
-        const category = await BlogCategoryRepository.checkExistBySlug(req.params.slug);
-        if (category) {
+        const check = await BlogCategoryRepository.checkExistBySlug(req.params.slug, { select: '_id' });
+        if (check) {
             return next();
         }
         next(responseHelper.notFound());

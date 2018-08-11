@@ -7,6 +7,8 @@
 <% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
 <% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=kohqnigwmla1nr4w3k7rpqcrl8qvhh1uvmjz5cn6c2mzglxv') %>
 
+<% block('title', 'Blog - Tạo bài viết') %>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -115,7 +117,7 @@
                             <input type="checkbox" name="isDraft" class="flat-red" <%= old('isDraft') ? 'checked' : '' %>> Nháp
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Đăng bài</button>
                 </form>
             </div>
         </div>

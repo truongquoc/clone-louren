@@ -1,7 +1,10 @@
 <% layout('/layouts/admin/app') %>
 
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+
 <% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+
+<% block('title', 'Blog - Bài viết') %>
 
 <section class="content-header">
     <div class="container-fluid">
@@ -60,6 +63,10 @@
                                 <a href="/blog/<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
                                 <% if (!article.isApproved) { %>
                                     <button class="badge bg-success-gradient module__approve-btn">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                <% } else { %>
+                                    <button class="badge bg-warning-gradient module__approve-btn">
                                         <i class="fa fa-check"></i>
                                     </button>
                                 <% } %>
