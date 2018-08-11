@@ -48,6 +48,11 @@
                         </select>
                         <p class="form__error-message form__category__error-message"><%= errors('category') %></p>
                     </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea name="description" class="form-control"><%= old('description') %></textarea>
+                        <p class="form__error-message form__title__error-message"><%= errors('description') %></p>
+                    </div>
                     <div>
                         <ul class="nav nav-tabs float-left nav-tabs--border-none">
                             <li class="active"><a data-toggle="tab" href="#image">Ảnh</a></li>

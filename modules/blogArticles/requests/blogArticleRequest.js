@@ -28,6 +28,7 @@ const createArticleRequest = [
     check('category')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not().isIn([0]).withMessage('Thể loại không được bỏ trống'),
+    check('description').not().isEmpty().withMessage('Mô tả không được bỏ trống'),
     check('image').custom((value, { req }) => (req.file || (req.body.video && req.body.useVideo))).withMessage('Ảnh hoặc video không được bỏ trống'),
     check('video').custom((value, { req }) => ((value && req.body.useVideo) || req.file)).withMessage('Ảnh hoặc video không được bỏ trống'),
     check('useVideo').custom((value, { req }) => {
@@ -40,7 +41,9 @@ const createArticleRequest = [
             return Promise.reject(e.message);
         }
     }),
-    check('content').not().isEmpty().withMessage('Nội dung không được bỏ trống'),
+    check('content').not().isEmpty().withMessage('Nội dung không được bỏ trống')
+        .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
+        .withMessage('Nội dung không được bỏ trống'),
     check('slug')
         .custom(async (value, { req }) => {
             if (!value) {
@@ -86,6 +89,7 @@ const editArticleRequest = [
     check('category')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not().isIn([0]).withMessage('Thể loại không được bỏ trống'),
+    check('description').not().isEmpty().withMessage('Mô tả không được bỏ trống'),
     check('image').custom((value, { req }) => {
         if (!req.body.imageUrl && !req.file) {
             return req.file || (req.body.video && req.body.useVideo);
@@ -108,7 +112,9 @@ const editArticleRequest = [
             return Promise.reject(e.message);
         }
     }),
-    check('content').not().isEmpty().withMessage('Nội dung không được bỏ trống'),
+    check('content').not().isEmpty().withMessage('Nội dung không được bỏ trống')
+        .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
+        .withMessage('Nội dung không được bỏ trống'),
     check('slug')
         .custom(async (value, { req }) => {
             if (!value) {
