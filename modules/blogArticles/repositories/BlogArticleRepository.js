@@ -101,8 +101,9 @@ class BlogArticleRepository extends BaseRepository {
         const article = {
             category: data.category,
             tags: data.tags,
-            author: user.id,
+            author: user._id,
             title: data.title,
+            description: data.description,
             content: data.content,
             display: {
                 image: data.image,
@@ -120,6 +121,7 @@ class BlogArticleRepository extends BaseRepository {
             category: data.category,
             tags: data.tags,
             title: data.title,
+            description: data.description,
             content: data.content,
             display: {
                 image: data.image || data.imageUrl,
