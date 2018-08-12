@@ -39,8 +39,8 @@ class ClassificationRepository extends BaseRepository {
             $or: [{ name: data.name }, { slug: getSlug(data.slug) }],
         });
         if (classification) {
-            // Move deleted articles from this category to the category which will be updated.
-            // call 1 function to handle it
+            // Move deleted articles from this classification to the classification
+            // which will be updated. Call 1 function to handle it
             await classification.remove();
         }
         classification = {
