@@ -229,7 +229,6 @@ function init_approveModule() {
                     _method: 'PUT',
                 },
                 success(res) {
-                    console.log(res);
                     if (!res.status) {
                         if (res.error.code === 404) {
                             swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');

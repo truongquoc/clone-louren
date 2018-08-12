@@ -33,7 +33,7 @@ const createArticleRequest = [
     check('image').custom((value, { req }) => (req.file || (req.body.video && req.body.useVideo))).withMessage('Ảnh hoặc video không được bỏ trống'),
     check('video')
         .custom((value, { req }) => ((value && req.body.useVideo) || req.file)).withMessage('Ảnh hoặc video không được bỏ trống')
-        .custom(value => (adminHelper.validateYouTubeUrl(value))).withMessage('Video không đúng định dạng Youtube'),
+        .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('useVideo').custom((value, { req }) => {
         try {
             if ((!value && req.body.video) || (value && !req.body.video)) {
@@ -106,7 +106,7 @@ const editArticleRequest = [
             }
             return true;
         }).withMessage('Ảnh hoặc video không được bỏ trống')
-        .custom(value => (adminHelper.validateYouTubeUrl(value))).withMessage('Video không đúng định dạng Youtube'),
+        .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('useVideo').custom((value, { req }) => {
         try {
             if ((!value && req.body.video) || (value && !req.body.video)) {
