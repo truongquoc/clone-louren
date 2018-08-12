@@ -59,18 +59,18 @@ const PropertyArticle = new Schema({
         required: true,
         trim: true,
     },
-    images: [{
-        url: {
+    display: {
+        image: {
             type: String,
             required: true,
         },
-        check: {
-            type: Boolean,
-            default: false,
+        images: [{
+            type: String,
+            required: true,
+        }],
+        video: {
+            type: String,
         },
-    }],
-    video: {
-        type: String,
     },
     address: {
         type: String,
@@ -84,14 +84,14 @@ const PropertyArticle = new Schema({
         type: Number,
         min: 0,
     },
-    interestRate: {
-        type: Number,
-        min: 0,
-    },
-    downPayment: {
-        type: Number,
-        min: 0,
-    },
+    // interestRate: {
+    //     type: Number,
+    //     min: 0,
+    // },
+    // downPayment: {
+    //     type: Number,
+    //     min: 0,
+    // },
     deletedAt: {
         type: Date,
     },

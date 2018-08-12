@@ -1,0 +1,238 @@
+<% layout('/layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/flat/green.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js') %>
+<% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=kohqnigwmla1nr4w3k7rpqcrl8qvhh1uvmjz5cn6c2mzglxv') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>General Form</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">General Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Quick Example</h3>
+            </div>
+            <div class="card-body">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Tiêu đề</label>
+                                <input type="text" class="form-control" name="title" placeholder="Tiêu đề" value="<%= old('title') %>">
+                                <p class="form__error-message"><%= errors('title') %></p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Ảnh</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input form__image__input" name="image">
+                                            <label class="custom-file-label">Chọn ảnh</label>
+                                        </div>
+                                        <p class="form__error-message"><%= errors('image') %></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Video</label>
+                                        <input type="text" class="form-control" name="video" value="<%= old('video') %>">
+                                        <p class="form__error-message"><%= errors('video') %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả</label>
+                                <textarea class="form-control tinymce" name="description"><%= old('description') %></textarea>
+                                <p class="form__error-message"><%= errors('description') %></p>
+                            </div>
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<label>&nbsp;</label>-->
+                                    <!--<div class="form-group form-inline property-form__container__number">-->
+                                        <!--<label for="bedroom" class="control-label float-left">Số phòng ngủ</label>-->
+                                        <!--<input type="number" class="form-control float-right property-form__input__number" id="bedroom">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<label>&nbsp;</label>-->
+                                    <!--<div class="form-group form-inline property-form__container__number">-->
+                                        <!--<label for="bathroom" class="control-label float-left">Số phòng tắm</label>-->
+                                        <!--<input type="number" class="form-control float-right property-form__input__number" id="bathroom">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<label>&nbsp;</label>-->
+                                    <!--<div class="form-group form-inline property-form__container__number">-->
+                                        <!--<label for="balcony" class="control-label float-left">Ban công</label>-->
+                                        <!--<input type="number" class="form-control float-right property-form__input__number" id="balcony">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<label>&nbsp;</label>-->
+                                    <!--<div class="form-group form-inline property-form__container__number">-->
+                                        <!--<label for="garage" class="control-label float-left">Garage</label>-->
+                                        <!--<input type="number" class="form-control float-right property-form__input__number" id="garage">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" class="flat-red"> Nháp
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Loại hình</label>
+                                        <select class="form-control" name="category">
+                                            <option value="">Hello</option>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('category') %></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Hình thức kinh doanh</label>
+                                        <select class="form-control" name="type">
+                                            <option value="">Hello</option>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('type') %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Trạng thái</label>
+                                        <select class="form-control" name="status">
+                                            <option value="">Hello</option>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('type') %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tỉnh / Thành phố</label>
+                                        <select class="form-control" name="city">
+                                            <option value="">Hello</option>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('city') %></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Quận / Huyện</label>
+                                        <select class="form-control" name="district">
+                                            <option value="">Hello</option>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('district') %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control" name="address" value="<%= old('address') %>">
+                                <p class="form__error-message"><%= errors('address') %></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Nội thất</label>
+                                <!-- 106px -->
+                                <select class="form-control select2 property-article__form__amenities" name="amenities" multiple style="width: 100%;">
+                                    <option selected="selected">Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>California</option>
+                                    <option>Delaware</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Washington</option>
+                                </select>
+                                <p class="form__error-message"><%= errors('amenities') %></p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Giá (VNĐ)</label>
+                                        <input type="number" class="form-control" name="price" value="<%= old('price') %>">
+                                        <p class="form__error-message"><%= errors('price') %></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Diện tích</label>
+                                        <input type="number" class="form-control" name="area" value="<%= old('area') %>">
+                                        <p class="form__error-message"><%= errors('area') %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts', `
+<script>
+    Dropzone.autoDiscover = false;
+    $(document).ready(function () {
+        $('.select2').select2();
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+        tinymce.init({
+            selector: 'textarea.tinymce',
+            height: 300,
+            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+            toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            images_upload_url: '/admin/images/upload',
+            images_upload_handler: function (blobInfo, success, failure) {
+                const formData = new FormData();
+                formData.append('image', blobInfo.blob(), blobInfo.filename());
+                $.ajax({
+                    url: '/admin/images/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (!res.status) {
+                            swal('Error!', res.error.message[0], 'Error');
+                            return false;
+                        }
+                        success(res.data[0]);
+                    }
+                });
+            }
+        });
+    });
+</script>
+`) %>

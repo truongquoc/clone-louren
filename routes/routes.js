@@ -6,6 +6,7 @@ const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin'
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const adminCityRouter = require('../modules/cities/routes-admin');
 const adminDistrictRouter = require('../modules/districts/routes.admin');
+const adminPropertyArticleRouter = require('../modules/propertyArticles/routes.admin');
 const adminPropertyCategoryRouter = require('../modules/propertyCategories/routes-admin');
 const adminPropertyStatusRouter = require('../modules/propertyStatuses/routes-admin');
 const adminPropertyTypeRouter = require('../modules/propertyTypes/routes-admin');
@@ -28,6 +29,7 @@ router.use('/admin/blog/categories', adminBlogCategoryRouter);
 router.use('/admin/blog/tags', adminBlogTagRouter);
 router.use('/admin/location/cities', adminCityRouter);
 router.use('/admin/location/districts', adminDistrictRouter);
+router.use('/admin/property/articles', adminPropertyArticleRouter);
 router.use('/admin/property/categories', adminPropertyCategoryRouter);
 router.use('/admin/property/statuses', adminPropertyStatusRouter);
 router.use('/admin/property/types', adminPropertyTypeRouter);
