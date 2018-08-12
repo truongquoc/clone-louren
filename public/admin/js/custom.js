@@ -105,7 +105,7 @@ function init_createSubModule() {
                         <td>1</td>
                         <td class="module__table__name">${result.name}</td>
                         ${result.city ? '<td class="module__table__city">' + result.city.name + '</td>' : ''}
-                        <td class="module__table__slug">${result.slug}</td>
+                        ${result.slug ? '<td class="module__table__slug">' + result.slug + '</td>' : ''}
                         <td class="module__table__update-time">
                             ${moment(result.updatedAt).format('HH:mm DD/MM/YYYY')}
                         </td>
@@ -122,7 +122,7 @@ function init_createSubModule() {
                 );
                 $form.find('.form__error-message').html('');
                 $form.trigger('reset');
-            }
+            },
         });
     }
 
@@ -179,17 +179,14 @@ function init_editSubModule() {
     $(document).on('click', '.module__edit-btn', function (e) {
         e.preventDefault();
         const name = $(this).closest('tr').find('.module__table__name').text();
-        const city = $(this).has('.module__table__city') ? $(this).closest('tr').find('.module__table__city').data('city') : '';
+        const city = $(this).closest('tr').find('.module__table__city').data('city');
         const slug = $(this).closest('tr').find('.module__table__slug').text();
         const key = $(this).closest('tr').data('key');
         const $form = $('.module__edit-form');
         $form.find('.module__form__name').val(name);
-        if ($form.has('.module__table__city')) {
-            $form.find('.module__form__city').val(city);
-        }
+        $form.find('.module__form__city').val(city);
         $form.find('.module__form__slug').val(slug);
         $form.find('.module__form__key').val(key);
-
     });
 
     $(document).on('submit', '.module__edit-form', function (e) {
@@ -220,7 +217,6 @@ function init_approveModule() {
         }).then(() => {
             const url = $('.module__table').data('approve-url');
             const key = $(that).closest('tr').data('key');
-
             $.ajax({
                 url: `${url}/${key}`,
                 type: 'PUT',
