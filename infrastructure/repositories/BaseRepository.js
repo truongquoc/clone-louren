@@ -34,7 +34,7 @@ class BaseRepository {
     baseGet(conditions = {}, options) {
         conditions.deletedAt = null;
 
-        return this.model.find(conditions).sort({ createdAt: -1 });
+        return this.model.find(conditions).sort({ createdAt: -1 }).select('-createdAt -updatedAt -__v');
     }
 
     checkExist(conditions, options = {}) {

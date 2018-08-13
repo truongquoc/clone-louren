@@ -78,20 +78,23 @@ const PropertyArticle = new Schema({
         trim: true,
     },
     price: {
-        type: Number,
+        value: {
+            type: Number,
+        },
+        display: {
+            type: String,
+        },
+        type: {
+            type: Schema.Types.ObjectId,
+        },
+        isAgreement: {
+            type: Boolean,
+        },
     },
     area: {
         type: Number,
         min: 0,
     },
-    // interestRate: {
-    //     type: Number,
-    //     min: 0,
-    // },
-    // downPayment: {
-    //     type: Number,
-    //     min: 0,
-    // },
     deletedAt: {
         type: Date,
     },

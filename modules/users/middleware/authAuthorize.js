@@ -9,6 +9,8 @@ const adminRedirectIfAuthenticated = (req, res, next) => {
 
 const adminRedirectIfNotAuthenticated = (req, res, next) => {
     if (!req.session.cUser) {
+        req.session.prevUrl = req.originalUrl;
+
         return res.redirect('/admin/login');
     }
     // Check if user has user role, next() to render error page
