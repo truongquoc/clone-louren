@@ -31,6 +31,12 @@ const login = async (req, res, next) => {
                 slug: user.slug,
                 createdAt: user.createdAt,
             };
+            if (req.session.prevUrl) {
+                res.redirect(req.session.prevUrl);
+                delete req.session.prevUrl;
+
+                return true;
+            }
 
             return res.redirect('/admin');
         }
