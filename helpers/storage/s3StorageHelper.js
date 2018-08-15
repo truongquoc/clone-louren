@@ -1,5 +1,6 @@
 require('dotenv/config');
 const AWS = require('aws-sdk');
+const url = require('url');
 
 AWS.config.update({
     accessKeyId: process.env.AWS_KEY,
@@ -13,6 +14,7 @@ function upload(path, body, readType) {
         Body: body,
         Key: path,
         ACL: readType,
+        ContentType: 'binary',
     };
     return new Promise((resolve, reject) => {
         s3.upload(params, (err, data) => {
@@ -25,11 +27,13 @@ function upload(path, body, readType) {
 }
 
 function destroy(path) {
+    let { pathname } = url.parse(path);
+    pathname = pathname.substr(1);
     const params = {
         Bucket: process.env.AWS_BUCKET,
-        Key: path,
+        Key: pathname,
     };
-    s3.deleteObject(params);
+    s3.deleteObject(params, () => {});
 }
 
 module.exports = { upload, destroy };

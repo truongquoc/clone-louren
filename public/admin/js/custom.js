@@ -264,10 +264,96 @@ function init_deleteModule() {
     });
 }
 
+function init_changeCity() {
+    function changeCity(cityElement) {
+        const city = $(cityElement).val();
+        const options = $('[name="district"] option');
+        for (let i = 0; i < options.length; i += 1) {
+            const value = $(options[i]).data('city');
+            const display = (value !== city && value !== undefined) ? 'none' : 'block';
+            $(options[i]).css({ display });
+        }
+    }
+    changeCity('[name="city"]');
+    $('[name="city"]').on('change', function (e) {
+        changeCity(this);
+    });
+}
+
+function init_changePrice() {
+    $('[name="price[value]"]').on('keyup', function () {
+        const text = alertPrice(this);
+        $('[name="price[display]"]').val(text);
+    });
+}
+
+function alertPrice(obj) {
+    const price = $(obj).val();
+    let text = '';
+    const priceType = $('[name="price[type]"]').text().trim();
+    const price1 = parseInt(price / 1000);
+    const price2 = parseInt(price % 1000);
+    const price3 = (price - parseInt(price)).toFixed(1) * 1000;
+    if (price1) {
+        text = `${text + price1} Tỷ ${!price2 && !price3 ? priceType : ''}`;
+    }
+    if (price2) {
+        text = `${text + price2} Triệu ${!price3 ? priceType : ''}`;
+    }
+    if (price3) {
+        text = `${text + price3} Nghìn ${priceType}`;
+    }
+    return text;
+}
+
+// function numberFormat4(Num) {
+//     Num = Num.toString().replace(/^0+/, '0').replace(/\,/g, '.');
+//     let temp1 = '';
+//     let temp2 = '';
+//     if (!Num) {
+//         return '';
+//     }
+//     let count = 0;
+//     for (let k = Num.length - 1; k >= 0; k -= 1) {
+//         temp1 += Num.charAt(k);
+//         count += 1;
+//     }
+//     for (let k = temp1.length - 1; k >= 0; k -= 1) {
+//         temp2 += temp1.charAt(k);
+//     }
+//     return temp2;
+// }
+//
+// function numberFormat2(value) {
+//     const price = numberFormat4(value);
+//     if (price && price <= 999) {
+//         return `${price} Triệu`;
+//     } else {
+//         const price1 = parseInt(price / 1000);
+//         const price2 = parseInt(price % 1000);
+//         const price3 = (price - parseInt(price)) * 10;
+//         let text = '';
+//         if (price1) {
+//             text = `${text + price1} Tỷ `;
+//         }
+//         if (price2) {
+//             text = `${text + price2} Triệu `;
+//         }
+//         if (price3) {
+//             text = `${text + price3} Trăm đồng `;
+//         }
+//
+//         return text;
+//     }
+// }
+
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
     init_editSubModule();
     init_approveModule();
     init_deleteModule();
+    init_changeCity();
+    init_changePrice();
 });

@@ -67,6 +67,7 @@ const store = async (req, res, next) => {
     const data = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        imageHelper.deleteImage(req.file, false);
         req.flash('oldValue', data);
         req.flash('errors', errors.mapped());
         return res.redirectBack();
@@ -89,10 +90,10 @@ const store = async (req, res, next) => {
 
 const edit = async (req, res, next) => {
     try {
-        const [blogCategories, blogTags, blogArticle] = await Promise.all([
+        const [blogArticle, blogCategories, blogTags] = await Promise.all([
+            BlogArticleRepository.getEditArticle(req.params.slug),
             BlogCategoryRepository.baseGet(),
             BlogTagRepository.baseGet(),
-            BlogArticleRepository.show(req.params.slug),
         ]);
         return res.render('modules/blogArticles/admin/edit', {
             blogCategories, blogTags, blogArticle,
@@ -106,6 +107,7 @@ const update = async (req, res, next) => {
     const data = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        imageHelper.deleteImage(req.file, false);
         req.flash('oldValue', data);
         req.flash('errors', errors.mapped());
         return res.redirectBack();

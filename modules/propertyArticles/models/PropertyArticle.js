@@ -33,7 +33,6 @@ const PropertyArticle = new Schema({
         condition: {
             type: Schema.Types.ObjectId,
             ref: 'property_conditions',
-            required: true,
         },
         quantity: {
             type: Number,
@@ -66,7 +65,7 @@ const PropertyArticle = new Schema({
         },
         images: [{
             type: String,
-            required: true,
+            // required: true,
         }],
         video: {
             type: String,
@@ -86,6 +85,7 @@ const PropertyArticle = new Schema({
         },
         type: {
             type: Schema.Types.ObjectId,
+            ref: 'price_types',
         },
         isAgreement: {
             type: Boolean,
@@ -94,6 +94,20 @@ const PropertyArticle = new Schema({
     area: {
         type: Number,
         min: 0,
+    },
+    isDraft: {
+        type: Boolean,
+        default: false,
+    },
+    isApproved: {
+        type: Boolean,
+        default: false,
+    },
+    slug: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
     },
     deletedAt: {
         type: Date,

@@ -1,8 +1,8 @@
 function alertPrice(obj) {
     const price = numberFormat3($(obj).val());
-    if (price && (price <= 999 || price.length < 7)) {
-        $('#alert_price').text(`${price} Triệu`);
-    } else {
+    // if (price && (price <= 999 || price.length < 7)) {
+    //     $('#alert_price').text(`${price} Triệu`);
+    // } else {
         const price1 = parseInt(price / 1000);
         const price2 = parseInt(price % 1000);
         const price3 = (price - parseInt(price)) * 10;
@@ -17,7 +17,7 @@ function alertPrice(obj) {
             text = `${text + price3} Trăm đồng `;
         }
         $('#alert_price').text(text);
-    }
+    // }
 }
 
 function numberFormat(Num) {
@@ -71,26 +71,26 @@ function numberFormat3(className) {
     });
 }
 
-function numberFormat2(className, inputPrice) {
-    jQuery(`.${className}`).keyup(function () {
-        const price = numberFormat3(jQuery(this).val());
-        if (price && price <= 999) {
-            jQuery(`.${inputPrice}`).text(`${price} Triệu`);
-        } else {
-            const price1 = parseInt(price / 1000);
-            const price2 = parseInt(price % 1000);
-            const price3 = (price - parseInt(price)) * 10;
-            let text = '';
-            if (price1) {
-                text = `${text + price1} Tỷ `;
-            }
-            if (price2) {
-                text = `${text + price2} Triệu `;
-            }
-            if (price3) {
-                text = `${text + price3} Trăm đồng `;
-            }
-            jQuery(`.${inputPrice}`).text(text);
-        }
-    });
-}
+// function numberFormat2(className, inputPrice) {
+//     jQuery(`.${className}`).keyup(function () {
+//         const price = numberFormat3(jQuery(this).val());
+//         if (price && price <= 999) {
+//             jQuery(`.${inputPrice}`).text(`${price} Triệu`);
+//         } else {
+//             const price1 = parseInt(price / 1000);
+//             const price2 = parseInt(price % 1000);
+//             const price3 = (price - parseInt(price)) * 10;
+//             let text = '';
+//             if (price1) {
+//                 text = `${text + price1} Tỷ `;
+//             }
+//             if (price2) {
+//                 text = `${text + price2} Triệu `;
+//             }
+//             if (price3) {
+//                 text = `${text + price3} Trăm đồng `;
+//             }
+//             jQuery(`.${inputPrice}`).text(text);
+//         }
+//     });
+// }

@@ -3,6 +3,7 @@ const BlogArticle = require('../models/BlogArticle');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const commonConstant = require('../../../constants/commonConstant');
 const paginationHelper = require('../../../helpers/paginationHelper');
+const storageHelper = require('../../../helpers/storage/storageHelper');
 
 class BlogArticleRepository extends BaseRepository {
     model() {
@@ -97,6 +98,10 @@ class BlogArticleRepository extends BaseRepository {
             .select('-isApproved -updatedAt');
     }
 
+    getEditArticle(slug) {
+        return this.getDetail({ slug }, { select: '-author -isApproved -createdAt -updatedAt -__v' });
+    }
+
     create(data, user) {
         const article = {
             category: data.category,
@@ -117,6 +122,9 @@ class BlogArticleRepository extends BaseRepository {
     }
 
     update(data, id) {
+        if (data.image) {
+            storageHelper.storage('s3').destroy(data.imageUrl);
+        }
         const article = {
             category: data.category,
             tags: data.tags,
