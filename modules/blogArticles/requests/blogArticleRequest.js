@@ -47,27 +47,26 @@ const createArticleRequest = [
     check('content').not().isEmpty().withMessage('Nội dung không được bỏ trống')
         .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
         .withMessage('Nội dung không được bỏ trống'),
-    check('slug')
-        .custom(async (value, { req }) => {
-            if (!value) {
-                return true;
+    check('slug').custom(async (value, { req }) => {
+        if (!value) {
+            return true;
+        }
+        try {
+            const currentTime = dateHelper.getSlugCurrentTime();
+            const article = await BlogArticleRepository.checkExistWithTrashed({
+                slug: `${getSlug(value)}-${currentTime}`,
+            });
+            if (article) {
+                throw new Error('Tiêu đề đã được sử dụng');
             }
-            try {
-                const currentTime = dateHelper.getSlugCurrentTime();
-                const article = await BlogArticleRepository.checkExistWithTrashed({
-                    slug: `${getSlug(value)}-${currentTime}`,
-                });
-                if (article) {
-                    throw new Error('Tiêu đề đã được sử dụng');
-                }
-                req.attributes = {
-                    createdTime: currentTime,
-                };
-                return true;
-            } catch (e) {
-                return Promise.reject(e.message);
-            }
-        }),
+            req.attributes = {
+                createdTime: currentTime,
+            };
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
+    }),
 ];
 
 const editArticleRequest = [
@@ -75,7 +74,7 @@ const editArticleRequest = [
         .not().isEmpty().withMessage('Tiêu đề không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
-                const oldArticle = await BlogArticleRepository.checkExist({ _id: req.params.id }, { select: '-_id slug' });
+                const oldArticle = await BlogArticleRepository.getDetail({ _id: req.params.id }, { select: '-_id slug' });
                 const createdTime = dateHelper.getTimeInSlug(oldArticle.slug);
                 const article = await BlogArticleRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
@@ -120,26 +119,25 @@ const editArticleRequest = [
     check('content').not().isEmpty().withMessage('Nội dung không được bỏ trống')
         .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
         .withMessage('Nội dung không được bỏ trống'),
-    check('slug')
-        .custom(async (value, { req }) => {
-            if (!value) {
-                return true;
+    check('slug').custom(async (value, { req }) => {
+        if (!value) {
+            return true;
+        }
+        try {
+            const oldArticle = await BlogArticleRepository.getDetail({ _id: req.params.id }, { select: '-_id slug' });
+            const createdTime = dateHelper.getTimeInSlug(oldArticle.slug);
+            const article = await BlogArticleRepository.checkExistWithTrashed({
+                _id: { $ne: req.params.id },
+                slug: `${getSlug(value)}-${createdTime}`,
+            });
+            if (article) {
+                throw new Error('Tiêu đề đã được sử dụng');
             }
-            try {
-                const oldArticle = await BlogArticleRepository.checkExist({ _id: req.params.id }, { select: '-_id slug' });
-                const createdTime = dateHelper.getTimeInSlug(oldArticle.slug);
-                const article = await BlogArticleRepository.checkExistWithTrashed({
-                    _id: { $ne: req.params.id },
-                    slug: `${getSlug(value)}-${createdTime}`,
-                });
-                if (article) {
-                    throw new Error('Tiêu đề đã được sử dụng');
-                }
-                req.attributes = { createdTime };
-            } catch (e) {
-                return Promise.reject(e.message);
-            }
-        }),
+            req.attributes = { createdTime };
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
+    }),
 ];
 
 module.exports = { createArticleRequest, editArticleRequest };

@@ -7,6 +7,10 @@ moment.locale('vi');
 module.exports = (res) => {
     res.locals.old = (key, value = '') => {
         if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.oldValue) {
+            const name = key.split('.');
+            if (name.length > 1) {
+                return res.locals.flashMessages.oldValue[0][name[0]][name[1]];
+            }
             return res.locals.flashMessages.oldValue[0][key];
         }
         return value;

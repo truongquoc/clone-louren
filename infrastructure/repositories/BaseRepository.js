@@ -37,14 +37,14 @@ class BaseRepository {
         return this.model.find(conditions).sort({ createdAt: -1 }).select('-createdAt -updatedAt -__v');
     }
 
-    checkExist(conditions, options = {}) {
+    checkExist(conditions) {
         conditions.deletedAt = null;
 
-        return this.model.findOne(conditions).select(options.select || '_id');
+        return this.model.findOne(conditions).select('_id');
     }
 
-    checkExistWithTrashed(conditions, options = {}) {
-        return this.model.findOne(conditions).select(options.select || '_id');
+    checkExistWithTrashed(conditions) {
+        return this.model.findOne(conditions).select('_id');
     }
 
     checkExistOnlyTrashed(conditions) {
@@ -56,7 +56,7 @@ class BaseRepository {
     getDetail(conditions, options = {}) {
         conditions.deletedAt = null;
 
-        return this.model.findOne(conditions);
+        return this.model.findOne(conditions).select(options.select || '-createdAt -updatedAt -__v');
     }
 
     getDetailOnlyTrashed(conditions, options = {}) {

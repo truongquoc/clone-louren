@@ -62,7 +62,7 @@ const approveAuthorize = async (req, res, next) => {
 const deleteAuthorize = async (req, res, next) => {
     try {
         // Validate Role Here
-        const article = await BlogArticleRepository.checkExist({
+        const article = await BlogArticleRepository.getDetail({
             _id: req.params.id,
         }, { select: 'author' });
         if (!article) {

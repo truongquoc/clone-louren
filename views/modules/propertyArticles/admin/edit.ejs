@@ -9,8 +9,6 @@
 <% script('https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js') %>
 <% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=kohqnigwmla1nr4w3k7rpqcrl8qvhh1uvmjz5cn6c2mzglxv') %>
 
-<% block('title', 'Bất động sản - Tạo bài viết') %>
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -34,12 +32,13 @@
                 <h3 class="card-title">Quick Example</h3>
             </div>
             <div class="card-body">
-                <form role="form" action="" method="POST" enctype="multipart/form-data">
+                <form role="form" action="/admin/property/articles/edit/<%= propertyArticle._id %>" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label>Tiêu đề</label>
-                                <input type="text" class="form-control" name="title" placeholder="Tiêu đề" value="<%= old('title') %>">
+                                <input type="text" class="form-control" name="title" placeholder="Tiêu đề"
+                                       value="<%= old('title', propertyArticle.title) %>">
                                 <p class="form__error-message"><%= errors('title') %></p>
                             </div>
                             <div class="row">
@@ -48,6 +47,7 @@
                                         <label>Ảnh</label>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input form__image__input" name="image">
+                                            <input type="hidden" name="imageUrl" value="<%= propertyArticle.display.image %>">
                                             <label class="custom-file-label">Chọn ảnh</label>
                                         </div>
                                         <p class="form__error-message"><%= errors('image') %></p>
@@ -56,14 +56,16 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Video</label>
-                                        <input type="text" class="form-control" name="video" value="<%= old('video') %>">
+                                        <input type="text" class="form-control" name="video" value="<%= old('video', propertyArticle.video) %>">
                                         <p class="form__error-message"><%= errors('video') %></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Mô tả</label>
-                                <textarea class="form-control tinymce" name="description"><%= old('description') %></textarea>
+                                <textarea class="form-control tinymce" name="description">
+                                    <%= old('description', propertyArticle.description) %>
+                                </textarea>
                                 <p class="form__error-message"><%= errors('description') %></p>
                             </div>
                         </div>
@@ -75,9 +77,11 @@
                                         <select class="form-control" name="category">
                                             <option value="0">Chọn loại hình</option>
                                             <% propertyCategories.forEach(function (category) { %>
-                                                <option value="<%= category._id %>" <%= category._id.toString() === old('category') ? 'selected' : '' %>>
-                                                    <%= category.name %>
-                                                </option>
+                                                <option value="<%= category._id %>"
+                                                        <%= category._id.toString() === old('category', propertyArticle.category.toString())
+                                                                ? 'selected' : '' %>>
+                                                <%= category.name %>
+                                            </option>
                                             <% }) %>
                                         </select>
                                         <p class="form__error-message"><%= errors('category') %></p>
@@ -89,9 +93,10 @@
                                         <select class="form-control" name="type">
                                             <option value="0">Chọn hình thức kinh doanh</option>
                                             <% propertyTypes.forEach(function (type) { %>
-                                                <option value="<%= type._id %>" <%= type._id.toString() === old('type') ? 'selected' : '' %>>
-                                                    <%= type.name %>
-                                                </option>
+                                            <option value="<%= type._id %>"
+                                                    <%= type._id.toString() === old('type', propertyArticle.type.toString()) ? 'selected' : '' %>>
+                                                <%= type.name %>
+                                            </option>
                                             <% }) %>
                                         </select>
                                         <p class="form__error-message"><%= errors('type') %></p>
@@ -105,9 +110,11 @@
                                         <select class="form-control" name="status">
                                             <option value="0">Chọn trạng thái</option>
                                             <% propertyStatuses.forEach(function (status) { %>
-                                                <option value="<%= status._id %>" <%= status._id.toString() === old('status') ? 'selected' : '' %>>
-                                                    <%= status.name %>
-                                                </option>
+                                            <option value="<%= status._id %>"
+                                                    <%= status._id.toString() === old('status', propertyArticle.status.toString())
+                                                        ? 'selected' : '' %>>
+                                                <%= status.name %>
+                                            </option>
                                             <% }) %>
                                         </select>
                                         <p class="form__error-message"><%= errors('status') %></p>
@@ -121,9 +128,10 @@
                                         <select class="form-control" name="city">
                                             <option value="0">Chọn tỉnh / thành phố</option>
                                             <% cities.forEach(function (city) { %>
-                                                <option value="<%= city._id %>" <%= city._id.toString() === old('city') ? 'selected' : '' %>>
-                                                    <%= city.name %>
-                                                </option>
+                                            <option value="<%= city._id %>"
+                                                    <%= city._id.toString() === old('city', propertyArticle.city.toString()) ? 'selected' : '' %>>
+                                                <%= city.name %>
+                                            </option>
                                             <% }) %>
                                         </select>
                                         <p class="form__error-message"><%= errors('city') %></p>
@@ -135,10 +143,11 @@
                                         <select class="form-control" name="district">
                                             <option value="0">Chọn quận / huyện</option>
                                             <% districts.forEach(function (district) { %>
-                                                <option value="<%= district._id %>" data-city="<%= district.city %>"
-                                                        <%= district._id.toString() === old('district') ? ' selected' : '' %>>
-                                                    <%= district.name %>
-                                                </option>
+                                            <option value="<%= district._id %>" data-city="<%= district.city %>"
+                                                    <%= district._id.toString() === old('district', propertyArticle.district.toString())
+                                                            ? ' selected' : '' %>>
+                                                <%= district.name %>
+                                            </option>
                                             <% }) %>
                                         </select>
                                         <p class="form__error-message"><%= errors('district') %></p>
@@ -147,19 +156,20 @@
                             </div>
                             <div class="form-group">
                                 <label>Địa chỉ</label>
-                                <input type="text" class="form-control" name="address" value="<%= old('address') %>">
+                                <input type="text" class="form-control" name="address" value="<%= old('address', propertyArticle.address) %>">
                                 <p class="form__error-message"><%= errors('address') %></p>
                             </div>
                             <div class="form-group">
                                 <label>Diện tích (m<sup>2</sup>)</label>
-                                <input type="number" class="form-control" name="area" value="<%= old('area') %>">
+                                <input type="number" class="form-control" name="area" value="<%= old('area', propertyArticle.area) %>">
                                 <p class="form__error-message"><%= errors('area') %></p>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Giá</label>
-                                        <input type="number" class="form-control" name="price[value]" value="<%= old('price.value') %>">
+                                        <input type="number" class="form-control" name="price[value]"
+                                               value="<%= old('price.value', propertyArticle.price.value) %>">
                                         <p class="form__error-message"><%= errors('price[value]') %></p>
                                     </div>
                                 </div>
@@ -168,9 +178,10 @@
                                         <label>Loại giá</label>
                                         <select class="form-control" name="price[type]">
                                             <% priceTypes.forEach(function (priceType) { %>
-                                                <option value="<%= priceType._id %>" <%= priceType._id.toString() === old('price.type') %>>
-                                                    <%= priceType.name %>
-                                                </option>
+                                            <option value="<%= priceType._id %>"
+                                                    <%= priceType._id.toString() === old('price.type', propertyArticle.price.type.toString()) %>>
+                                                <%= priceType.name %>
+                                            </option>
                                             <% }) %>
                                         </select>
                                         <p class="form__error-message"><%= errors('price[type]') %></p>
@@ -180,14 +191,15 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Kiểm tra</label>
-                                    <input type="text" readonly name="price[display]" class="form-control" value="<%= old('price.display') %>">
+                                    <input type="text" readonly name="price[display]" class="form-control"
+                                           value="<%= old('price.display', propertyArticle.price.display) %>">
                                 </div>
                                 <div class="col-md-6">
                                     <label>Thỏa thuận</label>
                                     <div>
                                         <label>
                                             <input type="checkbox" class="form-control flat-red" name="price[isAgreement]"
-                                                    <%= old('price.isAgreement') ? 'checked' : '' %>>
+                                                    <%= old('price.isAgreement', propertyArticle.price.isAgreement) ? 'checked' : '' %>>
                                         </label>
                                     </div>
                                     <p class="form__error-message"><%= errors('price[isAgreement]') %></p>
@@ -199,8 +211,8 @@
                                 <select class="form-control select2 property-article__form__amenities" name="amenities" multiple style="width: 100%;">
                                     <% let check; propertyAmenities.forEach(function (amenity) { %>
                                         <% check = false %>
-                                        <% if (old('amenities')) { %>
-                                            <% old('amenities').some(function (oldAmenity) { %>
+                                        <% if (old('amenities', propertyArticle.amenities)) { %>
+                                            <% old('amenities', propertyArticle.amenities).some(function (oldAmenity) { %>
                                                 <% check = (oldAmenity.toString() === amenity._id.toString()) %>
                                                 <% if (check) return true %>
                                             <% }) %>
@@ -226,7 +238,7 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            <input type="checkbox" class="flat-red" name="isDraft" <%= old('isDraft') ? 'checked' : '' %>> Nháp
+                            <input type="checkbox" class="flat-red" name="isDraft" <%= old('isDraft', propertyArticle.isDraft) ? 'checked' : '' %>> Nháp
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
