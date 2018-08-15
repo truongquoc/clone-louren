@@ -41,8 +41,8 @@
                     </div>
                     <div class="form-group">
                         <label>Thể loại</label>
-                        <select class="form-control form__category__input select2" name="category" style="width: 100%;">
-                            <option value="">Chọn thể loại</option>
+                        <select class="form-control form__category__input" name="category" style="width: 100%;">
+                            <option value="0">Chọn thể loại</option>
                             <% blogCategories.forEach(function (element) { %>
                                 <option <%= old('category') == element._id ? 'selected' : '' %>
                                     value="<%= element._id %>"><%= element.name %></option>
