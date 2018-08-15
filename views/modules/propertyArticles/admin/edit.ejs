@@ -9,11 +9,13 @@
 <% script('https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js') %>
 <% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=kohqnigwmla1nr4w3k7rpqcrl8qvhh1uvmjz5cn6c2mzglxv') %>
 
+<% block('title', `Bất động sản - ${propertyArticle.title}`) %>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>General Form</h1>
+                <h1>Bất động sản</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -29,7 +31,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Quick Example</h3>
+                <h3 class="card-title">Chỉnh sửa bài viết</h3>
             </div>
             <div class="card-body">
                 <form role="form" action="/admin/property/articles/edit/<%= propertyArticle._id %>" method="POST" enctype="multipart/form-data">
