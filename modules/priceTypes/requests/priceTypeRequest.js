@@ -24,12 +24,12 @@ const editPriceTypeRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
-                const validate = await PriceTypeRepository.checkExist({
+                const validate = await PriceTypeRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     name: value,
                 });
                 if (validate) {
-                    throw new Error('Tên đã được sử dụng');
+                    throw new Error('Tên đã được sử dụng hoặc bị xóa');
                 }
                 return true;
             } catch (e) {

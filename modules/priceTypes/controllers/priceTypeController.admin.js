@@ -6,6 +6,7 @@ const paginationHelper = require('../../../helpers/paginationHelper');
 const PriceTypeRepository = new PriceTypeRepositoryClass();
 
 const index = async (req, res, next) => {
+    PriceTypeRepository.delete('5b72d9c17b39c22e957306c6');
     try {
         const { query } = req;
         const priceTypes = await PriceTypeRepository.paginate({}, {

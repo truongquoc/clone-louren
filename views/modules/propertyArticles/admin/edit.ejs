@@ -181,7 +181,7 @@
                                         <select class="form-control" name="price[type]">
                                             <% priceTypes.forEach(function (priceType) { %>
                                             <option value="<%= priceType._id %>"
-                                                    <%= priceType._id.toString() === old('price.type', propertyArticle.price.type.toString()) %>>
+                                                    <%= priceType._id.toString() === old('price.type', propertyArticle.price.type ? propertyArticle.price.type.toString() : '') %>>
                                                 <%= priceType.name %>
                                             </option>
                                             <% }) %>

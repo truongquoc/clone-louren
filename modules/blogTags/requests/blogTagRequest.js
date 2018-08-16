@@ -37,12 +37,12 @@ const editTagRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống.')
         .custom(async (value, { req }) => {
             try {
-                const validate = await BlogTagRepository.checkExist({
+                const validate = await BlogTagRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     name: value,
                 });
                 if (validate) {
-                    throw new Error('Tên đã được sử dụng');
+                    throw new Error('Tên đã được sử dụng hoặc bị xóa');
                 }
                 return true;
             } catch (e) {
@@ -52,12 +52,12 @@ const editTagRequest = [
     check('slug')
         .custom(async (value, { req }) => {
             try {
-                const validate = await BlogTagRepository.checkExist({
+                const validate = await BlogTagRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     slug: value,
                 });
                 if (validate) {
-                    throw new Error('Đường dẫn đã được sử dụng');
+                    throw new Error('Đường dẫn đã được sử dụng hoặc bị xóa');
                 }
                 return true;
             } catch (e) {

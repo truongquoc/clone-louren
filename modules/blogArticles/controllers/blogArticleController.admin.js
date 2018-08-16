@@ -141,7 +141,7 @@ const approve = async (req, res) => {
 const destroy = async (req, res) => {
     const { id } = req.params;
     try {
-        await BlogArticleRepository.delete(id);
+        await BlogArticleRepository.deleteById(id);
 
         return res.json(responseHelper.success());
     } catch (e) {

@@ -72,14 +72,14 @@ class BaseRepository {
     baseUpdate(data, conditions) {
         conditions.deletedAt = null;
 
-        return this.model.update(conditions, { $set: data });
+        return this.model.update(conditions, { $set: data }, { multi: true });
     }
 
     baseDelete(conditions) {
         return this.baseUpdate({ deletedAt: new Date() }, conditions);
     }
 
-    delete(id) {
+    deleteById(id) {
         return this.baseDelete({ _id: id });
     }
 }

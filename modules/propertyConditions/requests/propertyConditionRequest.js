@@ -24,12 +24,12 @@ const editConditionRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
-                const validate = await PropertyConditionRepository.checkExist({
+                const validate = await PropertyConditionRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     name: value,
                 });
                 if (validate) {
-                    throw new Error('Tên đã được sử dụng');
+                    throw new Error('Tên đã được sử dụng hoặc bị xóa');
                 }
                 return true;
             } catch (e) {
