@@ -199,7 +199,7 @@ const approve = async (req, res) => {
 const destroy = async (req, res) => {
     const { id } = req.params;
     try {
-        await PropertyArticleRepository.delete(id);
+        await PropertyArticleRepository.deleteById(id);
 
         return res.json(responseHelper.success());
     } catch (e) {

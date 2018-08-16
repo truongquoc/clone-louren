@@ -1,6 +1,9 @@
 const getSlug = require('speakingurl');
 const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
 const District = require('../models/District');
+const PropertyArticleRepositoryClass = require('../../propertyArticles/repositories/PropertyArticleRepository');
+
+const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
 class DistrictRepository extends ClassificationRepository {
     model() {
@@ -60,6 +63,12 @@ class DistrictRepository extends ClassificationRepository {
             district,
             { new: true },
         ).populate('city', '_id name', { deletedAt: null });
+    }
+
+    async delete(id) {
+        await PropertyArticleRepository.baseDelete({ district: id });
+
+        return this.deleteById(id);
     }
 }
 

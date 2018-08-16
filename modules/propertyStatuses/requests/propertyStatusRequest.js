@@ -39,12 +39,12 @@ const editStatusRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
-                const validate = await PropertyStatusRepository.checkExist({
+                const validate = await PropertyStatusRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     name: value,
                 });
                 if (validate) {
-                    throw new Error('Tên đã được sử dụng');
+                    throw new Error('Tên đã được sử dụng hoặc bị xóa');
                 }
                 return true;
             } catch (e) {
@@ -54,12 +54,12 @@ const editStatusRequest = [
     check('slug')
         .custom(async (value, { req }) => {
             try {
-                const validate = await PropertyStatusRepository.checkExist({
+                const validate = await PropertyStatusRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     slug: getSlug(value),
                 });
                 if (validate) {
-                    throw new Error('Đường dẫn đã được sử dụng');
+                    throw new Error('Đường dẫn đã được sử dụng hoặc bị xóa');
                 }
                 return true;
             } catch (e) {

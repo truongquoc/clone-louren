@@ -56,7 +56,7 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
     const { id } = req.params;
     try {
-        await PropertyAmenityRepository.delete(id);
+        await PropertyAmenityRepository.deleteById(id);
 
         return res.json(responseHelper.success());
     } catch (e) {
