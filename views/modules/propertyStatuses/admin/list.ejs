@@ -48,12 +48,12 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% propertyStatuses.docs.forEach(function (status, index) { %>
-                    <tr data-key="<%- status._id %>">
-                        <td><%- pageIndex + index + 1 %></td>
-                        <td class="module__table__name"><%- status.name %></td>
-                        <td class="module__table__slug"><%- status.slug %></td>
+                    <tr data-key="<%= status._id %>">
+                        <td><%= pageIndex + index + 1 %></td>
+                        <td class="module__table__name"><%= status.name %></td>
+                        <td class="module__table__slug"><%= status.slug %></td>
                         <td class="module__table__update-time">
-                            <%- moment(status.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                            <%= moment(status.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
                         <td>
                             <button class="badge bg-warning-gradient module__edit-btn"

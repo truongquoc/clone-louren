@@ -48,12 +48,12 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% cities.docs.forEach(function (city, index) { %>
-                        <tr data-key="<%- city._id %>">
-                            <td><%- pageIndex + index + 1 %></td>
-                            <td class="module__table__name"><%- city.name %></td>
-                            <td class="module__table__slug"><%- city.slug %></td>
+                        <tr data-key="<%= city._id %>">
+                            <td><%= pageIndex + index + 1 %></td>
+                            <td class="module__table__name"><%= city.name %></td>
+                            <td class="module__table__slug"><%= city.slug %></td>
                             <td class="module__table__update-time">
-                                <%- moment(city.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                                <%= moment(city.updatedAt).format('HH:mm DD/MM/YYYY') %>
                             </td>
                             <td>
                                 <button class="badge bg-warning-gradient module__edit-btn"

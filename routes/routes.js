@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const adminInfrastructureRouter = require('../infrastructure/routes-admin');
 const adminAuthRoutes = require('../modules/users/routes-auth-admin');
+const adminUserRouter = require('../modules/users/routes.admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes-admin');
 const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin');
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
@@ -27,6 +28,7 @@ router.use((req, res, next) => {
 
 router.use('/admin', adminInfrastructureRouter);
 router.use('/admin', adminAuthRoutes);
+router.use('/admin/users', adminUserRouter);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
 router.use('/admin/blog/categories', adminBlogCategoryRouter);
 router.use('/admin/blog/tags', adminBlogTagRouter);

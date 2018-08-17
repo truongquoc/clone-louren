@@ -48,12 +48,12 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% blogTags.docs.forEach(function (tag, index) { %>
-                        <tr data-key="<%- tag._id %>">
-                            <td><%- pageIndex + index + 1 %></td>
-                            <td class="module__table__name"><%- tag.name %></td>
-                            <td class="module__table__slug"><%- tag.slug %></td>
+                        <tr data-key="<%= tag._id %>">
+                            <td><%= pageIndex + index + 1 %></td>
+                            <td class="module__table__name"><%= tag.name %></td>
+                            <td class="module__table__slug"><%= tag.slug %></td>
                             <td class="module__table__update-time">
-                                <%- moment(tag.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                                <%= moment(tag.updatedAt).format('HH:mm DD/MM/YYYY') %>
                             </td>
                             <td>
                                 <button class="badge bg-warning-gradient module__edit-btn"

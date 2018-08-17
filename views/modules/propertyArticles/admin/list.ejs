@@ -32,7 +32,7 @@
                     <form action="" class="form-inline" method="get">
                         <div class="form-group">
                             <input type="text" class="form-control search-form__input"
-                                   name="search" value="<%- query.search %>">
+                                   name="search" value="<%= query.search %>">
                             <button class="btn btn-primary search-form__btn"><i class="fa fa-search"></i></button>
                         </div>
                     </form>
@@ -51,14 +51,14 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% propertyArticles.docs.forEach(function (article, index) { %>
-                    <tr data-key="<%- article._id %>">
-                        <td><%- pageIndex + index + 1 %></td>
-                        <td><%- article.title %></td>
-                        <td><%- article.category.name %></td>
+                    <tr data-key="<%= article._id %>">
+                        <td><%= pageIndex + index + 1 %></td>
+                        <td><%= article.title %></td>
+                        <td><%= article.category.name %></td>
                         <td title="<% article.author.roles.forEach(function (role) { %>
                                 <%= role.name %>
-                        <% }) %>"><%- article.author ? article.author.name : '' %> </td>
-                        <td><%- moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
+                        <% }) %>"><%= article.author ? article.author.name : '' %> </td>
+                        <td><%= moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                         <td>
                             <a href="<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
                             <% if (!article.isApproved) { %>

@@ -7,7 +7,7 @@ class RoleRepository extends BaseRepository {
     }
 
     getDetailByName(name) {
-        return Role.findOne({ name });
+        return this.model.findOne({ name });
     }
 }
 

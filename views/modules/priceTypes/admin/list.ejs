@@ -47,11 +47,11 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% priceTypes.docs.forEach(function (priceType, index) { %>
-                        <tr data-key="<%- priceType._id %>">
-                            <td><%- pageIndex + index + 1 %></td>
-                            <td class="module__table__name"><%- priceType.name %></td>
+                        <tr data-key="<%= priceType._id %>">
+                            <td><%= pageIndex + index + 1 %></td>
+                            <td class="module__table__name"><%= priceType.name %></td>
                             <td class="module__table__update-time">
-                                <%- moment(priceType.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                                <%= moment(priceType.updatedAt).format('HH:mm DD/MM/YYYY') %>
                             </td>
                             <td>
                                 <button class="badge bg-warning-gradient module__edit-btn"

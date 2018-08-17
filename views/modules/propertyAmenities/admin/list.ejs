@@ -47,11 +47,11 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% propertyAmenities.docs.forEach(function (amenity, index) { %>
-                    <tr data-key="<%- amenity._id %>">
-                        <td><%- pageIndex + index + 1 %></td>
-                        <td class="module__table__name"><%- amenity.name %></td>
+                    <tr data-key="<%= amenity._id %>">
+                        <td><%= pageIndex + index + 1 %></td>
+                        <td class="module__table__name"><%= amenity.name %></td>
                         <td class="module__table__update-time">
-                            <%- moment(amenity.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                            <%= moment(amenity.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
                         <td>
                             <button class="badge bg-warning-gradient module__edit-btn"

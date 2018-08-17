@@ -59,7 +59,7 @@ const approveAuthorize = async (req, res, next) => {
     }
 };
 
-const deleteAuthorize = async (req, res, next) => {
+const destroyAuthorize = async (req, res, next) => {
     try {
         // Validate Role Here
         const article = await BlogArticleRepository.getDetail({
@@ -81,5 +81,5 @@ module.exports = {
     createArticleAuthorize,
     editAuthorize,
     approveAuthorize,
-    deleteAuthorize,
+    destroyAuthorize,
 };

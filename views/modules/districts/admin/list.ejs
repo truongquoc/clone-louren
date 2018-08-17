@@ -49,13 +49,13 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% districts.docs.forEach(function (district, index) { %>
-                    <tr data-key="<%- district._id %>">
-                        <td><%- pageIndex + index + 1 %></td>
-                        <td class="module__table__name"><%- district.name %></td>
-                        <td class="module__table__city" data-city="<%= district.city._id %>"><%- district.city.name %></td>
-                        <td class="module__table__slug"><%- district.slug %></td>
+                    <tr data-key="<%= district._id %>">
+                        <td><%= pageIndex + index + 1 %></td>
+                        <td class="module__table__name"><%= district.name %></td>
+                        <td class="module__table__city" data-city="<%= district.city._id %>"><%= district.city.name %></td>
+                        <td class="module__table__slug"><%= district.slug %></td>
                         <td class="module__table__update-time">
-                            <%- moment(district.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                            <%= moment(district.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
                         <td>
                             <button class="badge bg-warning-gradient module__edit-btn"

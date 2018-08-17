@@ -1,0 +1,94 @@
+<% layout('/layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
+
+<% block('title', `Người dùng - ${user.name}`) %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Người dùng</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">General Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"></h3>
+            </div>
+            <div class="card-body">
+                <form class="blog-articles__form" action="/admin/users/edit/<%= user._id %>" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tên</label>
+                                <input type="text" class="form-control" value="<%= old('name', user.name) %>"
+                                       name="name" placeholder="Nhập tên">
+                                <p class="form__error-message"><%= errors('name') %></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Vai trò</label>
+                                <select class="form-control select2" multiple style="width: 100%;" name="roles[]">
+                                    <% const oldRoles = old('roles', user.roles); let check; %>
+                                    <% roles.forEach(function (role) { %>
+                                        <% if (oldRoles) { %>
+                                            <% oldRoles.some(function (oldRole) { %>
+                                                <% check = (old('roles') ? oldRole.toString() : oldRole._id.toString() === role._id.toString()) %>
+                                                <% if (check) return true %>
+                                            <% }) %>
+                                        <% } %>
+                                        <option value="<%= role._id %>" <%= check ? 'selected' : '' %>><%= role.name %></option>
+                                    <% }) %>
+                                </select>
+                                <p class="form__error-message"><%= errors('roles') %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" value="<%= old('email', user.email) %>"
+                                       name="email" placeholder="Nhập email">
+                                <p class="form__error-message"><%= errors('email') %></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Số điện thoại</label>
+                                <input type="text" class="form-control" value="<%= old('telephone', user.telephone) %>"
+                                       name="telephone" placeholder="Nhập số điện thoại">
+                                <p class="form__error-message"><%= errors('telephone') %></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts', `
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+    });
+</script>
+`) %>

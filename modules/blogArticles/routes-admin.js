@@ -20,6 +20,6 @@ router.post('/edit/:id', blogArticleAuthorize.editAuthorize, upload.single('imag
 
 router.put('/approve/:id', blogArticleAuthorize.approveAuthorize, blogArticleController.approve);
 
-router.delete('/delete/:id', blogArticleAuthorize.deleteAuthorize, blogArticleController.destroy);
+router.delete('/delete/:id', blogArticleAuthorize.destroyAuthorize, blogArticleController.destroy);
 
 module.exports = router;
