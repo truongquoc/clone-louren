@@ -1,5 +1,6 @@
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 const responseHelper = require('../../../helpers/responseHelper');
+const roleHelper = require('../../../helpers/roleHelper');
 
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 

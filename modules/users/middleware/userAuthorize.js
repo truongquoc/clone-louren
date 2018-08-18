@@ -5,17 +5,27 @@ const UserRepositoryClass = require('../repositories/UserRepository');
 const UserRepository = new UserRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
+        return next(responseHelper.notAuthorized());
+    }
     next();
 };
 
 const registerAuthorize = (req, res, next) => {
-    // Authorize
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
+        return next(responseHelper.notAuthorized());
+    }
     next();
 };
 
 const showProfileAuthorize = async (req, res, next) => {
+    const { id, slug } = req.params;
+    const { cUser } = req.session;
+    if (!roleHelper.hasRole(cUser, ['Admin', 'Manager']) && (cUser.slug !== slug && cUser._id !== id)) {
+        return next(responseHelper.notAuthorized());
+    }
     try {
-        const condition = (req.params.slug) ? { slug: req.params.slug } : { _id: req.params.id };
+        const condition = (req.params.slug) ? { slug } : { _id: id };
         const user = await UserRepository.checkExist(condition);
         if (!user) {
             return next(responseHelper.notFound());
@@ -27,11 +37,18 @@ const showProfileAuthorize = async (req, res, next) => {
 };
 
 const editAuthorize = async (req, res, next) => {
+    const { cUser } = req.session;
+    if (!roleHelper.hasRole(cUser, ['Admin', 'Manager'])) {
+        return next(responseHelper.notAuthorized());
+    }
     try {
         const condition = (req.params.slug) ? { slug: req.params.slug } : { _id: req.params.id };
-        const user = await UserRepository.checkExist(condition);
+        const user = await UserRepository.getUserWithRoles(condition);
         if (!user) {
-            return next(responseHelper.notFound());
+            return res.json(responseHelper.notFound());
+        }
+        if (roleHelper.hasRole(user, 'Admin') && !roleHelper.hasRole(cUser, 'Admin')) {
+            return res.json(responseHelper.notAuthorized());
         }
         next();
     } catch (e) {
@@ -40,15 +57,19 @@ const editAuthorize = async (req, res, next) => {
 };
 
 const destroyAuthorize = async (req, res, next) => {
+    const { cUser } = req.session;
+    if (!roleHelper.hasRole(cUser, ['Admin', 'Manager'])) {
+        return res.json(responseHelper.notAuthorized());
+    }
     try {
-        if (req.params.id === req.session.cUser._id) {
+        if (req.params.id === cUser._id) {
             return res.json(responseHelper.notAuthorized());
         }
-        const user = await UserRepository.getUserWithRoles(req.params.id);
+        const user = await UserRepository.getUserWithRoles({ _id: req.params.id });
         if (!user) {
             return res.json(responseHelper.notFound());
         }
-        if (roleHelper.hasRole(user, 'Admin') && !roleHelper.hasRole(req.session.cUser, 'Admin')) {
+        if (roleHelper.hasRole(user, 'Admin') && !roleHelper.hasRole(cUser, 'Admin')) {
             return res.json(responseHelper.notAuthorized());
         }
         next();
@@ -57,4 +78,10 @@ const destroyAuthorize = async (req, res, next) => {
     }
 };
 
-module.exports = { indexAuthorize, showProfileAuthorize, editAuthorize, registerAuthorize, destroyAuthorize };
+module.exports = {
+    indexAuthorize,
+    showProfileAuthorize,
+    editAuthorize,
+    registerAuthorize,
+    destroyAuthorize,
+};

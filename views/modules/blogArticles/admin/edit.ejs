@@ -44,8 +44,8 @@
                         <select class="form-control form__category__input" name="category" style="width: 100%;">
                             <option value="0">Chọn thể loại</option>
                             <% blogCategories.forEach(function (element) { %>
-                            <option <%= old('category', blogArticle.category.toString()) == element._id.toString() ? 'selected' : '' %>
-                                    value="<%= element._id %>"><%= element.name %></option>
+                                <option <%= old('category', blogArticle.category.toString()) == element._id.toString() ? 'selected' : '' %>
+                                        value="<%= element._id %>"><%= element.name %></option>
                             <% }) %>
                         </select>
                         <p class="form__error-message form__category__error-message"><%= errors('category') %></p>
@@ -92,10 +92,10 @@
                     <div class="form-group">
                         <label>Thẻ</label>
                         <select class="form-control form__tags__input select2" multiple style="width: 100%;" name="tags">
-                            <% const tags = old('tags', blogArticle.tags); let check; %>
+                            <% const oldTags = old('tags', blogArticle.tags); let check; %>
                             <% blogTags.forEach(function (tag) { %>
-                                <% if (tags) { %>
-                                    <% tags.some(function (oldTag) { %>
+                                <% if (oldTags) { %>
+                                    <% oldTags.some(function (oldTag) { %>
                                         <% check = (oldTag.toString() === tag._id.toString()) %>
                                         <% if (check) return true %>
                                     <% }) %>
