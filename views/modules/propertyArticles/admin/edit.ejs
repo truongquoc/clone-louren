@@ -263,10 +263,9 @@
             height: 350,
             plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
             toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            images_upload_url: '/admin/images/upload',
             images_upload_handler: function (blobInfo, success, failure) {
                 const formData = new FormData();
-                formData.append('image', blobInfo.blob(), blobInfo.filename());
+                formData.append('images', blobInfo.blob(), blobInfo.filename());
                 $.ajax({
                     url: '/admin/images/upload',
                     type: 'POST',

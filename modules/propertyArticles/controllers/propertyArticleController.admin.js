@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator/check');
 const url = require('url');
 const getSlug = require('speakingurl');
+const s3Config = require('../../../config/s3');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
@@ -207,6 +208,51 @@ const destroy = async (req, res) => {
     }
 };
 
+const listImages = async (req, res, next) => {
+    try {
+        const { after } = req.query;
+        const propertyArticle = await PropertyArticleRepository.getEditArticle(req.params.slug);
+        const images = await storageHelper.storage('s3').list(after);
+        paginationHelper.setUpS3Url(images, { pageUrl: url.parse(req.originalUrl).pathname });
+        images.renderS3Pagination = paginationHelper.renderS3Pagination;
+
+        return res.render('modules/propertyArticles/admin/listImages', {
+            propertyArticle,
+            images,
+            endPoint: s3Config[process.env.APP_ENV].end_point,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+/**
+ * Type = 1: Add more images to array
+ * Type = 2: Set new images array
+ */
+const storeImages = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.json(responseHelper.error(errors.mapped(), 400));
+    }
+    try {
+        const { images, type } = req.body;
+        await PropertyArticleRepository.storeImages(images, req.params.id, type || '1');
+        return res.json(responseHelper.success());
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
-    index, showMyArticles, create, store, edit, update, approve, destroy,
+    index,
+    showMyArticles,
+    create,
+    store,
+    edit,
+    update,
+    approve,
+    destroy,
+    listImages,
+    storeImages,
 };

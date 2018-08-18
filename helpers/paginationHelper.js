@@ -91,4 +91,40 @@ const renderPagination = (data, page) => {
     return html;
 };
 
-module.exports = { setUpUrl, renderPagination };
+const setUpS3QueryParameters = (data, name, options, value) => {
+    data[name] = `${options.pageUrl}?`;
+    for (const key in options.query) {
+        if (key === 'after') {
+            continue;
+        }
+        data[name] += `${key}=${options.query[key]}&`;
+    }
+    data[name] += `after=${encodeURI(value)}`;
+};
+
+const setUpS3Url = (data, options) => {
+    if (data.StartAfter) {
+        setUpS3QueryParameters(data, 'beforeImageUrl', options, data.StartAfter);
+    }
+    if (data.NextContinuationToken) {
+        setUpS3QueryParameters(data, 'afterImageUrl', options, data.Contents[data.Contents.length - 1].Key);
+    }
+};
+
+const renderS3Pagination = data => (
+    `<ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="${data.beforeImageUrl || ''}">«</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="${data.afterImageUrl || ''}" ${!data.afterImageUrl ? 'disabled' : ''}>»</a>
+        </li>
+    </ul>`
+);
+
+module.exports = {
+    setUpUrl,
+    renderPagination,
+    setUpS3Url,
+    renderS3Pagination,
+};

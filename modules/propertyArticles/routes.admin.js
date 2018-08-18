@@ -22,4 +22,8 @@ router.put('/approve/:id', propertyArticleAuthorize.approveAuthorize, propertyAr
 
 router.delete('/delete/:id', propertyArticleAuthorize.destroyAuthorize, propertyArticleController.destroy);
 
+router.get('/:slug/images', propertyArticleAuthorize.editAuthorize, propertyArticleController.listImages);
+
+router.put('/:id/images', propertyArticleAuthorize.editAuthorize, propertyArticleRequest.storeImagesRequest, propertyArticleController.storeImages);
+
 module.exports = router;

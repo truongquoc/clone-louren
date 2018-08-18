@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const adminInfrastructureRouter = require('../infrastructure/routes-admin');
+const adminInfrastructureRouter = require('../infrastructure/route.admin');
 const adminAuthRoutes = require('../modules/users/routes-auth-admin');
 const adminUserRouter = require('../modules/users/routes.admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes-admin');
