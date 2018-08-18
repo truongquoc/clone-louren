@@ -18,7 +18,7 @@ const showProfileAuthorize = async (req, res, next) => {
         const condition = (req.params.slug) ? { slug: req.params.slug } : { _id: req.params.id };
         const user = await UserRepository.checkExist(condition);
         if (!user) {
-            next(responseHelper.notFound());
+            return next(responseHelper.notFound());
         }
         next();
     } catch (e) {
@@ -31,7 +31,7 @@ const editAuthorize = async (req, res, next) => {
         const condition = (req.params.slug) ? { slug: req.params.slug } : { _id: req.params.id };
         const user = await UserRepository.checkExist(condition);
         if (!user) {
-            next(responseHelper.notFound());
+            return next(responseHelper.notFound());
         }
         next();
     } catch (e) {

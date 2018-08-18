@@ -1,9 +1,14 @@
 const responseHelper = require('../../../helpers/responseHelper');
+const roleHelper = require('../../../helpers/roleHelper');
 const BlogTagRepositoryClass = require('../repositories/BlogTagRepository');
 
 const BlogTagRepository = new BlogTagRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager'])) {
+        return req.xhr ? res.json(responseHelper.notAuthorized())
+            : next(responseHelper.notAuthorized());
+    }
     next();
 };
 
@@ -20,6 +25,9 @@ const showArticlesAuthorize = async (req, res, next) => {
 };
 
 const editAuthorize = async (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager'])) {
+        return res.json(responseHelper.notAuthorized());
+    }
     const { id } = req.params;
     try {
         const check = await BlogTagRepository.checkExist({ _id: id });

@@ -1,4 +1,6 @@
 const moment = require('moment');
+const bcrypt = require('bcryptjs');
+const getSlug = require('speakingurl');
 const User = require('../models/User');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const RoleRepositoryClass = require('./RoleRepository');
@@ -46,6 +48,7 @@ class UserRepository extends BaseRepository {
             password: bcrypt.hashSync(data.password, salt),
             telephone: data.telephone,
             gender: data.gender,
+            slug: getSlug(data.email),
         };
 
         return this.baseCreate(user);
