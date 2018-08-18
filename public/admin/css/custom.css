@@ -80,3 +80,40 @@ button.badge {
 .property-article__form__amenities + .select2 .select2-selection__rendered {
     height: 138px;
 }
+
+.dropzone .dz-message {
+    margin: 2.5em 0 2em;
+}
+
+.images__upload-btn {
+    padding: 10px 17px;
+    margin-top: 10px;
+    background-color: #26afbd;
+    border-color: #26afbd;
+    border-radius: 50%;
+    font-size: 28px;
+}
+
+.dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
+    margin-top: -40px;
+}
+
+.images__table th, .images__table td {
+    vertical-align: middle;
+}
+
+.images__table__image-detail {
+    max-width: 100px;
+}
+
+.card-title {
+    line-height: 32px;
+}
+
+.images__table__title {
+    line-height: 38px;
+}
+
+.images__table__pick-btn {
+    margin-left: 10px;
+}

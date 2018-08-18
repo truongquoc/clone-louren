@@ -157,6 +157,17 @@ class PropertyArticleRepository extends BaseRepository {
         article.isApproved = !article.isApproved;
         return article.save();
     }
+
+    async storeImages(images, id, type) {
+        const article = await this.getDetail({ _id: id }, { select: '_id display' });
+        if (type === '2' || !article.display.images) {
+            article.display.images = images;
+        } else if (type === '1' && article.display.images) {
+            article.display.images = article.display.images.concat(images);
+        }
+
+        return article.save();
+    }
 }
 
 module.exports = PropertyArticleRepository;

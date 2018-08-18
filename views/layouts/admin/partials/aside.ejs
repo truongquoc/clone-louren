@@ -202,7 +202,7 @@
                     <ul class="nav nav-treeview">
                         <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
                             <li class="nav-item">
-                                <a href="/admin/blog/categories" class="nav-link">
+                                <a href="/admin/users" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
                                     <p>Quản lý người dùng</p>
                                 </a>
@@ -215,7 +215,7 @@
                             </li>
                         <% } %>
                         <li class="nav-item">
-                            <a href="/admin/blog/" class="nav-link">
+                            <a href="/admin/users/<%= cUser.slug %>" class="nav-link">
                                 <i class="fa fa-circle-o nav-icon"></i>
                                 <p>Tài khoản của tôi</p>
                             </a>

@@ -35,7 +35,7 @@ function deleteRecord(data) {
         $.ajax({
             url: data.url,
             dataType: 'json',
-            method: 'DELETE',
+            type: 'DELETE',
             data: {
                 _method: 'DELETE',
             },
@@ -347,6 +347,106 @@ function alertPrice(obj) {
 //     }
 // }
 
+function init_pickImages() {
+    $('.images__table__pick-btn').on('click', function () {
+        swal({
+            title: `Thêm các bức ảnh này vào bài viết?`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+        }).then(() => {
+            const url = $('.images-picker__table').data('pick-url');
+            const type = $('.images__table__pick-type').val();
+            let checkboxes = [];
+            if (type === '1') {
+                checkboxes = $('.images__table__pick-checkbox:checked').not('.images__table__used-image');
+            } else if (type === '2') {
+                checkboxes = $('.images__table__pick-checkbox:checked');
+            }
+            const images = [];
+            for (let i = 0; i < checkboxes.length; i++) {
+                images.push($(checkboxes[i]).closest('tr').find('img.images__table__image-detail').data('src'));
+            }
+            $.ajax({
+                url,
+                dataType: 'json',
+                type: 'PUT',
+                data: {
+                    _method: 'PUT',
+                    images,
+                    type,
+                },
+                success: function (res) {
+                    if (!res.status && res.error.code === 500) {
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                        return false;
+                    }
+                    if (!res.status && res.error.code === 400) {
+                        const messages = res.error.message;
+                        for (const message in messages) {
+                            swal('Lỗi!', messages[message].msg, 'error');
+                        }
+                        return false;
+                    }
+                    swal('Thành công!', '', 'success');
+                    if (type === '2') {
+                        $('.images__table__pick-checkbox').removeClass('images__table__used-image');
+                    }
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        $(checkboxes[i]).addClass('images__table__used-image');
+                    }
+                }
+            });
+        });
+    });
+}
+
+function init_deleteImages() {
+    $('.images__table__delete-btn').on('click', function () {
+        swal({
+            title: `Bạn có muốn xóa các ảnh này?`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+        }).then(() => {
+            const url = $('.images__table').data('delete-url');
+            const checkboxes = $('.images__table__delete-checkbox:checked');
+            const images = [];
+            for (let i = 0; i < checkboxes.length; i++) {
+                images.push($(checkboxes[i]).closest('tr').data('key'));
+            }
+            $.ajax({
+                url,
+                dataType: 'json',
+                type: 'DELETE',
+                data: {
+                    _method: 'DELETE',
+                    images,
+                },
+                success: function (res) {
+                    if (!res.status) {
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                        return false;
+                    }
+                    swal('Thành công!', '', 'success');
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        $(checkboxes[i]).closest('tr').fadeOut();
+                    }
+                }
+            });
+        });
+    });
+}
 
 $(document).ready(() => {
     init_parseSlug();
@@ -356,4 +456,6 @@ $(document).ready(() => {
     init_deleteModule();
     init_changeCity();
     init_changePrice();
+    init_pickImages();
+    init_deleteImages();
 });
