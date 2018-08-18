@@ -1,13 +1,21 @@
 const responseHelper = require('../../../helpers/responseHelper');
+const roleHelper = require('../../../helpers/roleHelper');
 const PropertyAmenityRepositoryClass = require('../repositories/PropertyAmenityRepository');
 
 const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])) {
+        return req.xhr ? res.json(responseHelper.notAuthorized())
+            : next(responseHelper.notAuthorized());
+    }
     next();
 };
 
 const editAuthorize = async (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])) {
+        return res.json(responseHelper.notAuthorized());
+    }
     const { id } = req.params;
     try {
         const check = await PropertyAmenityRepository.checkExist({ _id: id });

@@ -26,7 +26,7 @@ const notFound = () => (
 );
 
 const notAuthorized = () => (
-    error('NOT_AUTHORIZED_FOR_THIS_URI', 401)
+    error('NOT_AUTHORIZED_FOR_THIS_URI', 403)
 );
 
 module.exports = {

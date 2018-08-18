@@ -8,7 +8,7 @@ class AuthRepository extends BaseRepository {
     }
 
     async login(data) {
-        const user = await this.getDetail({ email: data.email });
+        const user = await this.model.findOne({ email: data.email }).populate('roles', '-_id name');
         if (user && bcrypt.compareSync(data.password, user.password)) {
             return user;
         }

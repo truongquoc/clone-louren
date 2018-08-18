@@ -16,54 +16,54 @@
 
             <form action="" method="post">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" name="name" placeholder="Họ tên" value="<%- old('name') %>">
+                    <input type="text" class="form-control" name="name" placeholder="Họ tên" value="<%= old('name') %>">
                     <span class="fa fa-user form-control-feedback"></span>
-                    <span class="form__error-message"><%- errors('name') %></span>
+                    <span class="form__error-message"><%= errors('name') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="email" class="form-control"
-                           name="email" placeholder="Email" value="<%- old('email') %>">
+                           name="email" placeholder="Email" value="<%= old('email') %>">
                     <span class="fa fa-envelope form-control-feedback"></span>
-                    <span class="form__error-message"><%- errors('email') %></span>
+                    <span class="form__error-message"><%= errors('email') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control"
                            name="password" placeholder="Mật khẩu">
                     <span class="fa fa-lock form-control-feedback"></span>
-                    <span class="form__error-message"><%- errors('password') %></span>
+                    <span class="form__error-message"><%= errors('password') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control"
                            name="password_confirmation" placeholder="Nhập lại mật khẩu">
                     <span class="fa fa-lock form-control-feedback"></span>
-                    <span class="form__error-message"><%- errors('password_confirmation') %></span>
+                    <span class="form__error-message"><%= errors('password_confirmation') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control"
-                           name="telephone" placeholder="Số điện thoại" value="<%- old('telephone') %>">
+                           name="telephone" placeholder="Số điện thoại" value="<%= old('telephone') %>">
                     <span class="fa fa-phone form-control-feedback"></span>
-                    <span class="form__error-message"><%- errors('telephone') %></span>
+                    <span class="form__error-message"><%= errors('telephone') %></span>
                 </div>
                 <div class="form-group has-feedback user__form__gender">
                     <span>Giới tính: </span>
                     <label for="male">
                         Nam
                         <input type="radio" name="gender" class="flat-red"
-                               value="1" <%- old('gender') == 1 ? 'checked' : '' %> id="male">
+                               value="1" <%= old('gender') == 1 ? 'checked' : '' %> id="male">
                     </label>
                     <label for="female">
                         Nữ
                         <input type="radio" name="gender" class="flat-red"
-                               value="2" <%- old('gender') == 2 ? 'checked' : '' %> id="female">
+                               value="2" <%= old('gender') == 2 ? 'checked' : '' %> id="female">
                     </label>
                     <label for="another">
                         Khác
                         <input type="radio" name="gender" class="flat-red"
-                               value="3" <%- old('gender') == 3 ? 'checked' : '' %> id="another">
+                               value="3" <%= old('gender') == 3 ? 'checked' : '' %> id="another">
                     </label>
                     <br>
                     <span class="fa fa-venus-mars form-control-feedback"></span>
-                    <span class="form__error-message"><%- errors('gender') %></span>
+                    <span class="form__error-message"><%= errors('gender') %></span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-flat">Đăng ký</button>
             </form>
