@@ -47,11 +47,11 @@
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% propertyConditions.docs.forEach(function (condition, index) { %>
-                    <tr data-key="<%- condition._id %>">
-                        <td><%- pageIndex + index + 1 %></td>
-                        <td class="module__table__name"><%- condition.name %></td>
+                    <tr data-key="<%= condition._id %>">
+                        <td><%= pageIndex + index + 1 %></td>
+                        <td class="module__table__name"><%= condition.name %></td>
                         <td class="module__table__update-time">
-                            <%- moment(condition.updatedAt).format('HH:mm DD/MM/YYYY') %>
+                            <%= moment(condition.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
                         <td>
                             <button class="badge bg-warning-gradient module__edit-btn"

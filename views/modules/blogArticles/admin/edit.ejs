@@ -92,8 +92,8 @@
                     <div class="form-group">
                         <label>Thẻ</label>
                         <select class="form-control form__tags__input select2" multiple style="width: 100%;" name="tags">
-                            <% let check; blogTags.forEach(function (tag) { %>
-                                <% const tags = old('tags', blogArticle.tags); %>
+                            <% const tags = old('tags', blogArticle.tags); let check; %>
+                            <% blogTags.forEach(function (tag) { %>
                                 <% if (tags) { %>
                                     <% tags.some(function (oldTag) { %>
                                         <% check = (oldTag.toString() === tag._id.toString()) %>
