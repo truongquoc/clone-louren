@@ -26,8 +26,8 @@ router.use((req, res, next) => {
     next();
 });
 
-router.use('/admin', adminInfrastructureRouter);
 router.use('/admin', adminAuthRoutes);
+router.use('/admin', adminInfrastructureRouter);
 router.use('/admin/users', adminUserRouter);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
 router.use('/admin/blog/categories', adminBlogCategoryRouter);

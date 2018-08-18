@@ -58,128 +58,175 @@
                         </p>
                     </a>
                 </li>
+                <% if (hasRole(cUser, ['Admin', 'Manager', 'Property Manager'])) { %>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-globe"></i>
+                            <p>
+                                Khu vực
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/location/cities" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Tỉnh / Thành phố</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/location/districts" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quận / Huyện</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
+                <% if (hasRole(cUser, ['Admin', 'Manager', 'Property Manager', 'Property Manager'])) { %>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-pie-chart"></i>
+                            <p>
+                                Bất động sản
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <% if (hasRole(cUser, ['Admin', 'Manager', 'Property Manager'])) { %>
+                                <li class="nav-item">
+                                    <a href="/admin/property/categories" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Loại hình</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/property/types" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Hình thức kinh doanh</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/property/statuses" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Trạng thái</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/property/amenities" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Nội thất</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/property/conditions" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Cơ sở vật chất</p>
+                                    </a>
+                                </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/property/articles" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quản lý bài viết</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/property/articles/me" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Bài viết của tôi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/property/articles/create" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Tạo bài viết mới</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
+                <% if (hasRole(cUser, ['Admin', 'Manager', 'Blog Manager', 'Blogger'])) { %>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-newspaper-o"></i>
+                            <p>
+                                Blog
+                                <i class="fa fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <% if (hasRole(cUser, ['Admin', 'Manager', 'Blog Manager'])) { %>
+                                <li class="nav-item">
+                                    <a href="/admin/blog/categories" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Quản lý thể loại</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/blog/tags" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Quản lý thẻ</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/blog/articles" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Quản lý bài viết</p>
+                                    </a>
+                                </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/blog/articles/me" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Bài viết của tôi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/blog/articles/create" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Tạo bài viết mới</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-globe"></i>
+                        <i class="nav-icon fa fa-users"></i>
                         <p>
-                            Khu vực
-                            <i class="right fa fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/location/cities" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Tỉnh / Thành phố</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/location/districts" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Quận / Huyện</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-pie-chart"></i>
-                        <p>
-                            Bất động sản
-                            <i class="right fa fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/property/categories" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Loại hình</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/types" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Hình thức kinh doanh</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/statuses" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Trạng thái</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/amenities" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Nội thất</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/conditions" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Cơ sở vật chất</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/articles" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Quản lý bài viết</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/articles/me" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Bài viết của tôi</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/property/articles/create" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Tạo bài viết mới</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-newspaper-o"></i>
-                        <p>
-                            Blog
+                            Người dùng
                             <i class="fa fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
+                            <li class="nav-item">
+                                <a href="/admin/blog/categories" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quản lý người dùng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/register" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Đăng ký</p>
+                                </a>
+                            </li>
+                        <% } %>
                         <li class="nav-item">
-                            <a href="/admin/blog/categories" class="nav-link">
+                            <a href="/admin/blog/" class="nav-link">
                                 <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Quản lý thể loại</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/blog/tags" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Quản lý thẻ</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/blog/articles" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Quản lý bài viết</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/blog/articles/me" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Bài viết của tôi</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/blog/articles/create" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Tạo bài viết mới</p>
+                                <p>Tài khoản của tôi</p>
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/logout" class="nav-link">
+                        <i class="fa fa-sign-out nav-icon"></i>
+                        <p>Thoát</p>
+                    </a>
                 </li>
             </ul>
         </nav>

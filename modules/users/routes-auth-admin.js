@@ -20,4 +20,6 @@ router.get('/register', userAuthorize.registerAuthorize, userController.showRegi
 
 router.post('/register', userAuthorize.registerAuthorize, userRequest.registerRequest, userController.register);
 
+router.get('/logout', authController.logout);
+
 module.exports = router;

@@ -197,10 +197,11 @@
                                 <label>Nội thất</label>
                                 <!-- 106px -->
                                 <select class="form-control select2 property-article__form__amenities" name="amenities" multiple style="width: 100%;">
-                                    <% let check; propertyAmenities.forEach(function (amenity) { %>
+                                    <% const oldAmenities = old('amenities'); let check; %>
+                                    <% propertyAmenities.forEach(function (amenity) { %>
                                         <% check = false %>
-                                        <% if (old('amenities')) { %>
-                                            <% old('amenities').some(function (oldAmenity) { %>
+                                        <% if (oldAmenities) { %>
+                                            <% oldAmenities.some(function (oldAmenity) { %>
                                                 <% check = (oldAmenity.toString() === amenity._id.toString()) %>
                                                 <% if (check) return true %>
                                             <% }) %>

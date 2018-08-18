@@ -49,4 +49,14 @@ const login = async (req, res, next) => {
     }
 };
 
-module.exports = { index, showLoginForm, login };
+const logout = (req, res) => {
+    delete req.session.cUser;
+    return res.redirect('/admin/login');
+};
+
+module.exports = {
+    index,
+    showLoginForm,
+    login,
+    logout,
+};

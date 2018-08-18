@@ -91,10 +91,11 @@
                     <div class="form-group">
                         <label>Thẻ</label>
                         <select class="form-control form__tags__input select2" multiple style="width: 100%;" name="tags">
-                            <% let check; blogTags.forEach(function (tag) { %>
+                            <% const oldTags = old('tags'); let check; %>
+                            <% blogTags.forEach(function (tag) { %>
                                 <% check = false %>
-                                <% if (old('tags')) { %>
-                                    <% old('tags').some(function (oldTag) { %>
+                                <% if (oldTags) { %>
+                                    <% oldTags.some(function (oldTag) { %>
                                         <% check = (oldTag.toString() === tag._id.toString()) %>
                                         <% if (check) return true %>
                                     <% }) %>
