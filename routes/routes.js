@@ -15,9 +15,10 @@ const adminPropertyConditionRouter = require('../modules/propertyConditions/rout
 const adminPropertyStatusRouter = require('../modules/propertyStatuses/routes-admin');
 const adminPropertyTypeRouter = require('../modules/propertyTypes/routes-admin');
 const adminRequestRouter = require('../modules/requests/routes.admin');
-const clientBlogArticleRouter = require('../modules/blogArticles/routes-client');
 const clientBlogCategoryRouter = require('../modules/blogCategories/routes.client');
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
+const clientBlogArticleRouter = require('../modules/blogArticles/routes-client');
+const clientPropertyArticleRouter = require('../modules/propertyArticles/routes.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -47,6 +48,8 @@ router.use('/admin/requests', adminRequestRouter);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
+
+router.use('/du-an', clientPropertyArticleRouter);
 
 router.use(handleExceptionHelper.handleException);
 

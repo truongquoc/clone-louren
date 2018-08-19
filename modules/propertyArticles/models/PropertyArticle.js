@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const PropertyArticleFilterClass = require('../repositories/filters/PropertyArticleFilter');
+
+const PropertyArticleFilter = new PropertyArticleFilterClass();
 
 const { Schema } = mongoose;
 
@@ -115,6 +118,13 @@ const PropertyArticle = new Schema({
 }, {
     timestamps: true,
 });
+
+PropertyArticle.statics.search = function search(params) {
+    if (params.search) {
+        params.title = params.search;
+    }
+    return PropertyArticleFilter.apply(this, params);
+};
 
 PropertyArticle.plugin(mongoosePaginate);
 
