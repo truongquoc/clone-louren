@@ -3,8 +3,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const helpers = require('../helpers/clientHelper');
-const router = require('./routes');
+const routes = require('./routes');
 const { dbUrl } = require('./config');
+const schedule = require('../infrastructure/commands/schedule');
 
 // Main connection (session, flash, bodyParser, router after config, helper)
 module.exports = function (app, express) {
@@ -33,7 +34,9 @@ module.exports = function (app, express) {
 
     app.use('/public', express.static('./public'));
 
-    router(app);
+    routes(app);
+
+    schedule();
 
     return {
         session: sessionMiddleware,
