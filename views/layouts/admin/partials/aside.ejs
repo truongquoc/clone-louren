@@ -191,6 +191,33 @@
                         </ul>
                     </li>
                 <% } %>
+                <% if (hasRole(cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer'])) { %>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-picture-o"></i>
+                            <p>
+                                Ảnh
+                                <i class="fa fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
+                                <li class="nav-item">
+                                    <a href="/admin/images" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <p>Quản lý ảnh</p>
+                                    </a>
+                                </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/images/upload" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Thêm ảnh</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-users"></i>
