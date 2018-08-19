@@ -44,6 +44,10 @@ class PropertyArticleRepository extends ArticleRepository {
         return articles;
     }
 
+    async search(params) {
+        return this.model.search(params).find({ deletedAt: null });
+    }
+
     show(slug) {
         return this.model.findOne({ slug, deletedAt: null })
             .sort({ createdAt: -1 })
