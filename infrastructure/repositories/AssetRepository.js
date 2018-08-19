@@ -27,16 +27,7 @@ class AssetRepository extends BaseRepository {
     }
 
     async update(data, id) {
-        let asset = await this.checkExistOnlyTrashed({
-            _id: { $ne: id },
-            name: data.name,
-        });
-        if (asset) {
-            // Move deleted articles from this asset to the asset which will be updated.
-            // call 1 function to handle it
-            await asset.remove();
-        }
-        asset = {
+        const asset = {
             name: data.name,
         };
 

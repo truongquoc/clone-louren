@@ -205,7 +205,7 @@ function init_approveModule() {
         const that = this;
         const text = $(that).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
         swal({
-            title: `${text} bài này`,
+            title: `${text} dữ liệu này`,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -448,6 +448,19 @@ function init_deleteImages() {
     });
 }
 
+function init_viewRequests() {
+    $('.requests__view-btn').on('click', function () {
+        const $information = $(this).closest('tr').find('.request__information');
+        const $viewTable = $('.request__view-table');
+        console.log($information.find('.request__title').text());
+        $viewTable.find('.request__view__title').text($information.find('.request__title').text());
+        $viewTable.find('.request__view__content').text($information.find('.request__content').text());
+        $viewTable.find('.request__view__name').text($information.find('.request__name').text());
+        $viewTable.find('.request__view__telephone').text($information.find('.request__telephone').text());
+        $viewTable.find('.request__view__email').text($information.find('.request__email').text());
+    });
+}
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
@@ -458,4 +471,5 @@ $(document).ready(() => {
     init_changePrice();
     init_pickImages();
     init_deleteImages();
+    init_viewRequests();
 });

@@ -14,6 +14,11 @@ const Request = new Schema({
         required: true,
         trim: true,
     },
+    telephone: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     title: {
         type: String,
         required: true,
