@@ -75,6 +75,10 @@ class UserRepository extends BaseRepository {
 
         return this.baseUpdate(user, { _id: id });
     }
+
+    resetUploadedImages() {
+        return this.baseUpdate({ uploadedImages: 0 }, { deletedAt: null });
+    }
 }
 
 module.exports = UserRepository;
