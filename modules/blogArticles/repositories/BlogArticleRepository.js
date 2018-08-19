@@ -1,11 +1,11 @@
 const getSlug = require('speakingurl');
 const BlogArticle = require('../models/BlogArticle');
-const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
+const ArticleRepository = require('../../../infrastructure/repositories/ArticleRepository');
 const commonConstant = require('../../../constants/commonConstant');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 
-class BlogArticleRepository extends BaseRepository {
+class BlogArticleRepository extends ArticleRepository {
     model() {
         return BlogArticle;
     }
@@ -98,10 +98,6 @@ class BlogArticleRepository extends BaseRepository {
             .select('-isApproved -updatedAt');
     }
 
-    getEditArticle(slug) {
-        return this.getDetail({ slug }, { select: '-author -isApproved -createdAt -updatedAt -__v' });
-    }
-
     create(data, user) {
         const article = {
             category: data.category,
@@ -140,12 +136,6 @@ class BlogArticleRepository extends BaseRepository {
             slug: getSlug(`${data.slug || data.title}-${data.createdTime}`),
         };
         return this.baseUpdate(article, { _id: id });
-    }
-
-    async approve(id) {
-        const article = await this.model.findById(id).select('isApproved');
-        article.isApproved = !article.isApproved;
-        return article.save();
     }
 }
 

@@ -44,16 +44,7 @@ class DistrictRepository extends ClassificationRepository {
     }
 
     async update(data, id) {
-        let district = await this.checkExistOnlyTrashed({
-            _id: { $ne: id },
-            $or: [{ name: data.name }, { slug: getSlug(data.slug) }],
-        });
-        if (district) {
-            // Move deleted articles from this category to the category which will be updated.
-            // call 1 function to handle it
-            await district.remove();
-        }
-        district = {
+        const district = {
             city: data.city,
             name: data.name,
             slug: getSlug(data.slug || data.name),

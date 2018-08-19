@@ -34,16 +34,7 @@ class ClassificationRepository extends BaseRepository {
     }
 
     async update(data, id) {
-        let classification = await this.checkExistOnlyTrashed({
-            _id: { $ne: id },
-            $or: [{ name: data.name }, { slug: getSlug(data.slug) }],
-        });
-        if (classification) {
-            // Move deleted articles from this classification to the classification
-            // which will be updated. Call 1 function to handle it
-            await classification.remove();
-        }
-        classification = {
+        const classification = {
             name: data.name,
             slug: getSlug(data.slug || data.name),
         };
