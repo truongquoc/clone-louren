@@ -5,6 +5,9 @@ const storageHelper = require('../../helpers/storage/storageHelper');
 const dateHelper = require('../../helpers/dateHelper');
 const paginationHelper = require('../../helpers/paginationHelper');
 const responseHelper = require('../../helpers/responseHelper');
+const UserRepositoryClass = require('../../modules/users/repositories/UserRepository');
+
+const UserRepository = new UserRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
@@ -27,6 +30,7 @@ const create = (req, res) => (res.render('modules/images/admin/upload'));
 const store = async (req, res) => {
     try {
         let images = [];
+        await UserRepository.addImagesQuantity(req.files.length, req.session.cUser._id);
         req.files.forEach((file) => {
             images.push(imageHelper.optimizeImage(file, {
                 width: 750,
@@ -41,6 +45,7 @@ const store = async (req, res) => {
         locations = await Promise.all(locations);
         return res.json(responseHelper.success(locations));
     } catch (e) {
+        imageHelper.deleteImage(req.files, false);
         return res.json(responseHelper.error(e.message));
     }
 };

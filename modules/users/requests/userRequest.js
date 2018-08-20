@@ -65,6 +65,8 @@ const editRequest = [
         }),
     check('telephone').not().isEmpty().withMessage('Số điện thoại không được bỏ trống'),
     check('roles').not().isEmpty().withMessage('Vai trò không được bỏ trống'),
+    check('imagesQuantity').not().isEmpty().withMessage('Số lượng ảnh không được bỏ trống')
+        .custom(value => (parseInt(value, 10) > 0)).withMessage('Số lượng không hợp lệ'),
 ];
 
 module.exports = { registerRequest, editProfileRequest, editRequest };

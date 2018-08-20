@@ -54,9 +54,15 @@ const User = new Schema({
             type: String,
         },
     },
-    uploadedImages: {
-        type: Number,
-        default: 0,
+    images: {
+        max: {
+            type: Number,
+            default: 10,
+        },
+        uploaded: {
+            type: Number,
+            default: 0,
+        },
     },
     slug: {
         type: String,
@@ -69,14 +75,6 @@ const User = new Schema({
     },
 }, {
     timestamps: true,
-});
-
-User.pre('validate', function callback(next) {
-    if (this.isModified('password')) {
-        const salt = bcrypt.genSaltSync(10);
-        this.password = bcrypt.hashSync(this.password, salt);
-    }
-    next();
 });
 
 User.plugin(mongoosePaginate);

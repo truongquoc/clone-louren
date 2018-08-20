@@ -7,9 +7,14 @@ const unlinkAsync = promisify(fs.unlink);
 
 const deleteImage = (file, hasTmp = true) => {
     if (file) {
-        unlinkAsync(file.path);
-        if (hasTmp) {
-            unlinkAsync(`${file.path}-tmp`);
+        if (!file.length) {
+            file = [file];
+        }
+        for (let i = 0; i < file.length; i += 1) {
+            unlinkAsync(file[i].path);
+            if (hasTmp) {
+                unlinkAsync(`${file[i].path}-tmp`);
+            }
         }
     }
 };

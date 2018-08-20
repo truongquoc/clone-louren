@@ -117,3 +117,11 @@ button.badge {
 .images__table__pick-btn {
     margin-left: 10px;
 }
+
+.dz-error-message {
+    text-align: center;
+}
+
+.dropzone .dz-preview .dz-error-message {
+    top: 145px;
+}

@@ -7,9 +7,9 @@ const upload = multer({ dest: 'public/tmp/images' });
 
 router.get('/images', imageHandlerAuthorize.indexAuthorize, imageHandlerController.index);
 
-router.get('/images/upload', imageHandlerController.create);
+router.get('/images/upload', imageHandlerAuthorize.uploadAuthorize, imageHandlerController.create);
 
-router.post('/images/upload', upload.array('images', 10), imageHandlerController.store);
+router.post('/images/upload', imageHandlerAuthorize.storeAuthorize, upload.array('images', 10), imageHandlerController.store);
 
 router.delete('/images/delete', imageHandlerAuthorize.indexAuthorize, imageHandlerController.destroy);
 

@@ -54,15 +54,15 @@ class UserRepository extends BaseRepository {
         return this.baseCreate(user);
     }
 
-    update(data, id) {
-        const user = {
-            name: data.name,
-            email: data.email,
-            telephone: data.telephone,
-            roles: data.roles,
-        };
+    async update(data, id) {
+        const user = await this.getDetail({ _id: id });
+        user.name = data.name;
+        user.email = data.email;
+        user.telephone = data.telephone;
+        user.roles = data.roles;
+        user.images.max = data.imagesQuantity;
 
-        return this.baseUpdate(user, { _id: id });
+        return user.save();
     }
 
     updateProfile(data, id) {
@@ -74,6 +74,15 @@ class UserRepository extends BaseRepository {
         };
 
         return this.baseUpdate(user, { _id: id });
+    }
+
+    async addImagesQuantity(quantity, id) {
+        const user = await this.getDetail({ _id: id }, { select: 'images' });
+        if (user.images.uploaded + quantity > user.images.max) {
+            throw new Error('Số lượng ảnh thêm vào đã vượt qua số lượng hôm nay');
+        }
+        user.images.uploaded += quantity;
+        return user.save();
     }
 
     resetUploadedImages() {
