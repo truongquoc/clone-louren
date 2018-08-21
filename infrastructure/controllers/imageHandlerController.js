@@ -6,8 +6,10 @@ const dateHelper = require('../../helpers/dateHelper');
 const paginationHelper = require('../../helpers/paginationHelper');
 const responseHelper = require('../../helpers/responseHelper');
 const UserRepositoryClass = require('../../modules/users/repositories/UserRepository');
+const ImageHandlerRepositoryClass = require('../repositories/ImageHandlerRepository');
 
 const UserRepository = new UserRepositoryClass();
+const ImageHandlerRepository = new ImageHandlerRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
@@ -39,10 +41,11 @@ const store = async (req, res) => {
         });
         images = await Promise.all(images);
         let locations = [];
-        images.forEach((image) => {
-            locations.push(storageHelper.storage('s3').upload(`articles/details/${index}-${dateHelper.getSlugCurrentTime()}`, image, 'public-read'));
+        images.forEach((image, i) => {
+            locations.push(storageHelper.storage('s3').upload(`articles/details/${i}-${dateHelper.getSlugCurrentTime()}`, image, 'public-read'));
         });
         locations = await Promise.all(locations);
+        await ImageHandlerRepository.create(locations);
         return res.json(responseHelper.success(locations));
     } catch (e) {
         imageHelper.deleteImage(req.files, false);
@@ -54,6 +57,7 @@ const destroy = async (req, res) => {
     const { images } = req.body;
     try {
         await storageHelper.storage('s3').destroy(images);
+        await ImageHandlerRepository.delete(images);
         return res.json(responseHelper.success());
     } catch (e) {
         return res.json(responseHelper.error(e.message));
