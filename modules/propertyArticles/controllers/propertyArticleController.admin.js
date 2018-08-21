@@ -16,6 +16,7 @@ const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositori
 const CityRepositoryClass = require('../../cities/repositories/CityRepository');
 const DistrictRepositoryClass = require('../../districts/repositories/DistrictRepository');
 const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTypeRepository');
+const UploadRepositoryClass = require('../../../infrastructure/repositories/ImageHandlerRepository');
 
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
@@ -26,6 +27,7 @@ const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 const CityRepository = new CityRepositoryClass();
 const DistrictRepository = new DistrictRepositoryClass();
 const PriceTypeRepository = new PriceTypeRepositoryClass();
+const UploadRepository = new UploadRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
@@ -210,16 +212,18 @@ const destroy = async (req, res) => {
 
 const listImages = async (req, res, next) => {
     try {
-        const { after } = req.query;
+        const { query } = req;
         const propertyArticle = await PropertyArticleRepository.getEditArticle(req.params.slug);
-        const images = await storageHelper.storage('s3').list(after);
-        paginationHelper.setUpS3Url(images, { pageUrl: url.parse(req.originalUrl).pathname });
-        images.renderS3Pagination = paginationHelper.renderS3Pagination;
+        const images = await UploadRepository.paginate({}, {
+            query,
+            pageUrl: url.parse(req.originalUrl).pathname,
+        });
+        images.renderPagination = paginationHelper.renderPagination;
 
         return res.render('modules/propertyArticles/admin/listImages', {
             propertyArticle,
             images,
-            endPoint: s3Config[process.env.APP_ENV].end_point,
+            query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));

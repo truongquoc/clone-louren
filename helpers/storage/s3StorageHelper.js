@@ -55,8 +55,10 @@ function destroy(path) {
         });
     } else {
         path.forEach((element) => {
+            let { pathname } = url.parse(element);
+            pathname = pathname.substr(1);
             objects.push({
-                Key: element,
+                Key: pathname,
             });
         });
     }

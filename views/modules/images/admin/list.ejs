@@ -44,7 +44,7 @@
                         <th>Ngày tạo</th>
                     </tr>
                     <% images.Contents.forEach(function (image) { %>
-                        <tr data-key="<%= image.Key %>">
+                        <tr data-key="<%= endPoint + image.Key %>">
                             <td style="width: 10px">
                                 <label>
                                     <input type="checkbox" class="flat-red images__table__delete-checkbox">

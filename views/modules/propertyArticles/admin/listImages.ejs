@@ -50,29 +50,29 @@
                         <th>Đường dẫn</th>
                         <th>Ngày tạo</th>
                     </tr>
-                    <% images.Contents.forEach(function (image) { %>
-                        <tr data-key="<%= image.Key %>">
+                    <% images.docs.forEach(function (image) { %>
+                        <tr data-key="<%= image.url %>">
                             <td style="width: 10px">
                                 <label>
                                     <% let check = false; %>
                                     <% propertyArticle.display.images.some(function (oldImage) { %>
-                                        <% check = endPoint + image.Key === oldImage %>
+                                        <% check = image.url === oldImage %>
                                         <% if (check) return true %>
                                     <% }) %>
                                     <input type="checkbox" <%= check ? 'checked': '' %>
                                            class="flat-red images__table__pick-checkbox <%= check ? 'images__table__used-image': '' %>">
                                 </label>
                             </td>
-                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= endPoint + image.Key %>" class="lazyload images__table__image-detail"></td>
-                            <td><a href="<%= endPoint + image.Key %>">Link</a></td>
-                            <td><%= moment(image.LastModified).format('HH:mm DD/MM/YYYY') %></td>
+                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
+                            <td><a href="<%= image.url %>">Link</a></td>
+                            <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                         </tr>
                     <% }) %>
                 </table>
             </div>
             <div class="card-footer clearfix">
                 <div class=" pagination-sm m-0 float-right">
-                    <%- images.renderS3Pagination(images) %>
+                    <%- images.renderPagination(images, query.page) %>
                 </div>
             </div>
         </div>

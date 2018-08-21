@@ -77,6 +77,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Số lượng ảnh</label>
+                                <input type="text" class="form-control" value="<%= old('imagesQuantity', user.images.max) %>"
+                                       name="imagesQuantity" placeholder="Số lượng ảnh">
+                                <p class="form__error-message"><%= errors('imagesQuantity') %></p>
+                            </div>
+                        </div>
+                    </div>
 
                     <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
                 </form>
