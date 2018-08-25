@@ -32,9 +32,9 @@ const registerRequest = [
         .not().isEmpty().withMessage('Password is required')
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
         .custom((value, { req }) => (
-            value === req.body.password_confirmation
+            value === req.body.passwordConfirmation
         )).withMessage('Password is not valid'), // not work. Weather API, Middleware
-    check('password_confirmation')
+    check('passwordConfirmation')
         .not().isEmpty().withMessage('Password confirmation is required')
 ];
 

@@ -22,7 +22,7 @@ const registerRequest = [
         }),
     check('password')
         .not().isEmpty().withMessage('Mật khẩu không được bỏ trống'),
-    check('password_confirmation')
+    check('passwordConfirmation')
         .not().isEmpty().withMessage('Xác thực mật khẩu không được bỏ trống')
         .custom((value, { req }) => (value === req.body.password))
         .withMessage('Xác thực mật khẩu không đúng'),

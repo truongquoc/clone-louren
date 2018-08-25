@@ -12,6 +12,8 @@ router.get('/login', authController.showLoginForm);
 
 router.post('/login', authRequest.loginRequest, authController.login);
 
+router.get('/password/forgot', authController.showForgotPasswordForm);
+
 router.use(authAuthorize.adminRedirectIfNotAuthenticated);
 
 router.get('/', authController.index);
@@ -19,6 +21,10 @@ router.get('/', authController.index);
 router.get('/register', userAuthorize.registerAuthorize, userController.showRegisterForm);
 
 router.post('/register', userAuthorize.registerAuthorize, userRequest.registerRequest, userController.register);
+
+router.get('/password/change', authController.showChangePasswordForm);
+
+router.put('/password/change', authRequest.changePasswordRequest, authController.changePassword);
 
 router.get('/logout', authController.logout);
 
