@@ -4,4 +4,5 @@ module.exports = {
     imageWidth: 750,
     imageHeight: null,
     imageQuality: 75,
+    polygonColor: '#3388ff',
 };

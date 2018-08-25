@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const apiRouter = require('./api');
 const adminInfrastructureRouter = require('../infrastructure/route.admin');
 const adminAuthRoutes = require('../modules/users/routes-auth-admin');
 const adminUserRouter = require('../modules/users/routes.admin');
@@ -28,6 +29,7 @@ router.use((req, res, next) => {
     next();
 });
 
+router.use('/', apiRouter);
 router.use('/admin', adminAuthRoutes);
 router.use('/admin', adminInfrastructureRouter);
 router.use('/admin/users', adminUserRouter);
