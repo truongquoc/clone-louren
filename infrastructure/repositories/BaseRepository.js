@@ -43,6 +43,12 @@ class BaseRepository {
         return this.model.findOne(conditions).select('_id');
     }
 
+    checkExistMany(conditions) {
+        conditions.deletedAt = null;
+
+        return this.model.find(conditions).select('_id');
+    }
+
     checkExistWithTrashed(conditions) {
         return this.model.findOne(conditions).select('_id');
     }
