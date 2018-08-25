@@ -106,4 +106,13 @@ const destroy = async (req, res) => {
     }
 };
 
-module.exports = { index, showProfile, updateProfile, showRegisterForm, register, edit, update, destroy };
+module.exports = {
+ index,
+    showProfile,
+    updateProfile,
+    showRegisterForm,
+    register,
+    edit,
+    update,
+    destroy,
+};

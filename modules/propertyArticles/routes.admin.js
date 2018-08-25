@@ -26,4 +26,6 @@ router.get('/:slug/images', propertyArticleAuthorize.editAuthorize, propertyArti
 
 router.put('/:id/images', propertyArticleAuthorize.editAuthorize, propertyArticleRequest.storeImagesRequest, propertyArticleController.storeImages);
 
+router.get('/:slug/map', propertyArticleController.showMap);
+
 module.exports = router;

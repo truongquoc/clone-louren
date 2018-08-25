@@ -15,6 +15,19 @@ class AuthRepository extends BaseRepository {
 
         return false;
     }
+
+    async comparePassword(data, id) {
+        const user = await this.getDetail({ _id: id }, { select: 'password' });
+        return bcrypt.compareSync(data.password, user.password);
+    }
+
+    changePassword(data, id) {
+        const salt = bcrypt.genSaltSync(10);
+        const user = {
+            password: bcrypt.hashSync(data.newPassword, salt),
+        };
+        return this.baseUpdate(user, { _id: id });
+    }
 }
 
 module.exports = AuthRepository;

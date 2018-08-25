@@ -1,4 +1,3 @@
-const moment = require('moment');
 const BaseRepository = require('./BaseRepository');
 const Upload = require('../models/Upload');
 
@@ -8,7 +7,7 @@ class ImageHandlerRepository extends BaseRepository {
     }
 
     create(locations) {
-        locations = locations.map(location => ({ url: location, createdAt: moment() }));
+        locations = locations.map(location => ({ url: location, createdAt: new Date() }));
         return this.model.insertMany(locations);
     }
 

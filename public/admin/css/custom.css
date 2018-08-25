@@ -125,3 +125,86 @@ button.badge {
 .dropzone .dz-preview .dz-error-message {
     top: 145px;
 }
+
+.map__icon-btn {
+    max-width: 30px;
+    padding: 0 4px;
+}
+
+.map__icon-btn img {
+    width: 100%;
+}
+
+#map-content {
+    height: calc(100vh - 56px);
+}
+.map {
+    position: relative;
+}
+.map__control-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    font-size: 13px;
+}
+
+.map__control-panel .nav-tabs li {
+    padding: 0;
+}
+
+.map__control-panel .nav-tabs .active {
+    color: #495057;
+}
+
+.map__control-panel .nav-tabs a {
+    border-radius: 0;
+    background-color: #fff;
+    border-right-color: #dee2e6;
+    color: #495057;
+}
+
+.map__control-panel__markers, .map__control-panel__polygons {
+    max-height: 76px;
+    padding: 0 0 0 2px;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    overflow: auto;
+}
+
+.map__control-panel__marker, .map__control-panel__polygon {
+    overflow: hidden;
+    clear: both;
+}
+
+.marker__content, .polygon__content {
+    float: left;
+}
+
+.marker__delete-btn, .polygon__options {
+    float: right;
+}
+
+.marker__delete-btn, .polygon__delete-btn {
+    padding: 0 3px;
+    border: none;
+    background-color: transparent;
+    color: red;
+    cursor: pointer;
+}
+
+.polygon__edit-color-btn {
+    padding: 0 3px;
+    border: none;
+    background-color: transparent;
+    color: #d2b14e;
+    cursor: pointer;
+}
+
+.marker__delete-btn:focus, .polygon__delete-btn:focus, .polygon__edit-color-btn:focus {
+    outline: none;
+}
+
+.gm-style-mtc div[role="button"] {
+    font-size: 14px !important;
+}

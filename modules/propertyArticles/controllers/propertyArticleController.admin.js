@@ -248,6 +248,10 @@ const storeImages = async (req, res) => {
     }
 };
 
+const showMap = (req, res) => {
+    return res.render('modules/propertyArticles/admin/map');
+};
+
 module.exports = {
     index,
     showMyArticles,
@@ -259,4 +263,5 @@ module.exports = {
     destroy,
     listImages,
     storeImages,
+    showMap,
 };

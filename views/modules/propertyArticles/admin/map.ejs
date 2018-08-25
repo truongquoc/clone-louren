@@ -1,0 +1,26 @@
+<% layout('/layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js') %>
+
+<div class="map">
+    <div class="map__control-panel">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#markers" role="tab" aria-selected="true">Địa chỉ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#polygons" role="tab" aria-selected="false">Vị trí</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade map__control-panel__markers show active" id="markers" role="tabpanel"></div>
+            <div class="tab-pane fade map__control-panel__polygons" id="polygons" role="tabpanel"></div>
+        </div>
+    </div>
+    <div id="map-content"></div>
+</div>
+
+<% script('/public/admin/js/map/google-maps/index.js') %>
+<% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>

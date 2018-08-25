@@ -54,9 +54,48 @@ const logout = (req, res) => {
     return res.redirect('/admin/login');
 };
 
+const showChangePasswordForm = (req, res) => res.render('modules/users/admin/auth/changePassword');
+
+const changePassword = async (req, res, next) => {
+    const data = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('errors', errors.mapped());
+        return res.redirectBack();
+    }
+    try {
+        if (!await AuthRepository.comparePassword(data, req.session.cUser._id)) {
+            req.flash('errors', { password: { msg: 'Password hiện tại không chính xác' } });
+            return res.redirectBack();
+        }
+        await AuthRepository.changePassword(data, req.session.cUser._id);
+        req.flash('success', true);
+        return res.redirectBack();
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+const showForgotPasswordForm = (req, res) => {
+
+};
+
+const sendMessageToMail = (req, res) => {
+
+};
+
+const sendMessageToDevice = (req, res) => {
+
+};
+
 module.exports = {
     index,
     showLoginForm,
     login,
     logout,
+    showChangePasswordForm,
+    changePassword,
+    showForgotPasswordForm,
+    sendMessageToMail,
+    sendMessageToDevice,
 };
