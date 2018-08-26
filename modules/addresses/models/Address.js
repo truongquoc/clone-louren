@@ -7,11 +7,19 @@ const Address = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'property_articles',
     },
-    coordinate: {
-        type: [Number],
-        required: true,
-        min: -180,
-        max: 180,
+    location: {
+        type: {
+            type: String,
+            required: true,
+            default: 'Point',
+            enum: ['Point'],
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+            min: -180,
+            max: 180,
+        },
     },
     deletedAt: {
         type: Date,

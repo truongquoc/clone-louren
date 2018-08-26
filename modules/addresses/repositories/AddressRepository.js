@@ -9,7 +9,10 @@ class AddressRepository extends BaseRepository {
     store(data, id) {
         const addresses = data.addresses.map(address => ({
             propertyArticle: id,
-            coordinate: [address.lat, address.lng],
+            location: {
+                type: 'Point',
+                coordinates: [address.lat, address.lng],
+            },
         }));
 
         return this.baseCreate(addresses);
@@ -19,7 +22,10 @@ class AddressRepository extends BaseRepository {
         const commands = [];
         for (let i = 0; i < data.addresses.length; i += 1) {
             commands.push(this.baseUpdate({
-                coordinate: [data.addresses[i].lat, data.addresses[i].lng],
+                location: {
+                    type: 'Point',
+                    coordinates: [data.addresses[i].lat, data.addresses[i].lng],
+                },
             }, { _id: data.addresses[i]._id }));
         }
 

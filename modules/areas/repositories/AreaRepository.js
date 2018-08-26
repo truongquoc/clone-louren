@@ -1,4 +1,5 @@
 const Area = require('../models/Area');
+const commonConstant = require('../../../constants/commonConstant');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 
 class AreaRepository extends BaseRepository {
@@ -7,11 +8,21 @@ class AreaRepository extends BaseRepository {
     }
 
     store(data, id) {
-        const areas = data.areas.map(area => ({
-            propertyArticle: id,
-            coordinates: area.coordinates,
-            color: area.color,
-        }));
+        const areas = data.areas.map((area) => {
+            const newArea = {
+                propertyArticle: id,
+                color: area.color || commonConstant.polygonColor,
+                coordinates: {
+                    shape: area.shape,
+                },
+            };
+            if (area.shape === 1) {
+                newArea.coordinates.polygon = area.coordinates;
+            } else if (area.shape === 2) {
+                newArea.coordinates.rectangle = area.coordinates;
+            }
+            return newArea;
+        });
 
         return this.baseCreate(areas);
     }
@@ -19,10 +30,21 @@ class AreaRepository extends BaseRepository {
     update(data) {
         const commands = [];
         for (let i = 0; i < data.areas.length; i += 1) {
-            commands.push(this.baseUpdate({
-                coordinates: data.areas[i].coordinates,
-                color: data.areas[i].color,
-            }, { _id: data.areas[i].id }));
+            const area = data.areas[i];
+            const editedArea = {
+                coordinates: {
+                    shape: area.shape,
+                },
+            };
+            if (area.color) {
+                editedArea.color = area.color;
+            }
+            if (area.shape === 1) {
+                editedArea.coordinates.polygon = area.coordinates;
+            } else if (area.shape === 2) {
+                editedArea.coordinates.rectangle = area.coordinates;
+            }
+            commands.push(this.baseUpdate(editedArea, { _id: area._id }));
         }
 
         return Promise.all(commands);

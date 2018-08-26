@@ -1,8 +1,10 @@
 <% layout('/layouts/admin/app') %>
 
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css') %>
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js') %>
 
 <div class="map">
     <div class="map__control-panel">
@@ -11,7 +13,7 @@
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#markers" role="tab" aria-selected="true">Địa chỉ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#polygons" role="tab" aria-selected="false">Vị trí</a>
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#polygons" role="tab" aria-selected="false">Khu vực</a>
             </li>
         </ul>
         <div class="tab-content">
