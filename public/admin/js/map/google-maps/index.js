@@ -1,10 +1,17 @@
 class Marker {
-    constructor(drawingManager, markers) {
+    constructor(drawingManager) {
+        this.url = '/v1/property/articles/5b72e24a0e69303ae8da7f17/addresses';
         this.drawingManager = drawingManager;
-        this.markers = markers;
+        this.markers = {
+            total: [],
+            created: [],
+            updated: [],
+            deleted: [],
+        };
         this.drawingManager.setOptions(this.getOptions());
         this.create();
         this.delete();
+        this.save();
     }
 
     getOptions() {
@@ -20,14 +27,34 @@ class Marker {
     create() {
         const self = this;
         this.drawingManager.addListener('markercomplete', function (marker) {
-            marker.index = self.markers.length;
-            self.markers.push(marker);
+            marker.index = self.markers.total.length;
+            self.markers.total.push(marker);
+            self.markers.created.push(self.getData(marker));
             $('.map__control-panel__markers').append(`
                 <div class="map__control-panel__marker" data-key="${marker.index}">
                     <span class="marker__content">Địa chỉ ${marker.index + 1}</span>
                     <button class="marker__delete-btn"><i class="fa fa-times"></i></button>
                 </div>`
             );
+            self.update(marker);
+        });
+    }
+
+    update(marker) {
+        const self = this;
+        marker.addListener('dragend', function () {
+            let check = !marker._id;
+            const markers = (marker._id) ? self.markers.updated : self.markers.created;
+            markers.some(function (currentMarker, index) {
+                if (currentMarker.index === marker.index) {
+                    markers[index] = self.getData(marker);
+                    check = true;
+                    return true;
+                }
+            });
+            if (!check) {
+                self.markers.updated.push(self.getData(marker));
+            }
         });
     }
 
@@ -36,8 +63,11 @@ class Marker {
         $(document).on('click', '.marker__delete-btn', function () {
             const $markerElement = $(this).parent().closest('.map__control-panel__marker');
             const index = $markerElement.data('key');
-            self.markers[index].setMap(null);
-            self.markers.splice(index, 1);
+            self.markers.total[index].setMap(null);
+            if (self.markers.total[index]._id) {
+                self.markers.deleted.push(self.markers.total[index]._id);
+            }
+            self.markers.total.splice(index, 1);
             $markerElement.remove();
             self.reloadMarkersIndex();
         });
@@ -55,8 +85,80 @@ class Marker {
         const self = this;
         $(document).on('click', '.marker__content', function () {
             const index = $(this).parent().closest('.map__control-panel__marker').data('key');
-            map.setCenter(self.markers[index].getPosition());
+            map.setCenter(self.markers.total[index].getPosition());
         });
+    }
+
+    getData(marker) {
+        const currentMarker = {
+            index: marker.index,
+            lat: marker.getPosition().lat(),
+            lng: marker.getPosition().lng(),
+        };
+        if (marker._id) {
+            currentMarker._id = marker._id;
+        }
+        return currentMarker;
+    }
+
+    save() {
+        const self = this;
+        $('.map__control-panel__save-btn').on('click', async function () {
+            const commands = [];
+            if (self.markers.created.length > 0) {
+                commands.push(self.sendStoreRequest());
+            }
+            if (self.markers.updated.length > 0) {
+                commands.push(self.sendUpdateRequest());
+            }
+            if (self.markers.deleted.length > 0) {
+                commands.push(self.sendDeleteRequest());
+            }
+            await Promise.all(commands);
+        });
+    }
+
+    async sendStoreRequest() {
+        const res = await sendDataRequest(this.url, 'POST', {
+            addresses: this.markers.created,
+        });
+        if (res.status) {
+            this.markers.total.forEach((marker, index) => {
+                this.markers.created.some((newMarker, newIndex) => {
+                    if (newMarker.index === marker.index) {
+                        this.markers.total[index]._id = res.data[newIndex]._id;
+                        return true;
+                    }
+                });
+            });
+            this.markers.created = [];
+            return true;
+        }
+        // swal here
+    }
+
+    async sendUpdateRequest() {
+        const res = await sendDataRequest(this.url, 'PATCH', {
+            _method: 'PATCH',
+            addresses: this.markers.updated,
+        });
+        if (res.status) {
+            this.markers.updated = [];
+            return true;
+        }
+        // swal here
+    }
+
+    async sendDeleteRequest() {
+        const res = await sendDataRequest(this.url, 'DELETE', {
+            _method: 'DELETE',
+            addresses: this.markers.deleted,
+        });
+        if (res.status) {
+            this.markers.deleted = [];
+            return true;
+        }
+        // swal here
     }
 }
 
@@ -201,7 +303,7 @@ class Polygon {
 }
 
 let map;
-const markers = [];
+let marker;
 const polygons = [];
 
 function initMap() {
@@ -213,8 +315,10 @@ function initMap() {
         fullscreenControl: false,
     });
     const drawingManager = addDrawingTool();
-    const marker = new Marker(drawingManager, markers);
+
+    marker = new Marker(drawingManager);
     marker.clickOnMarkerControlPanel(map);
+
     const polygon = new Polygon(drawingManager, polygons);
     polygon.clickOnPolygonControlPanel(map);
 }
@@ -231,4 +335,16 @@ function addDrawingTool() {
     drawingManager.setMap(map);
 
     return drawingManager;
+}
+
+function sendDataRequest(url, method, data) {
+    const request = new Request(url, {
+        method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    return fetch(request).then(res => res.json());
 }

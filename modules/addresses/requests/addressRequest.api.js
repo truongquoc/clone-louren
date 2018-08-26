@@ -33,7 +33,7 @@ const updateRequest = [
             try {
                 const ids = [];
                 for (let i = 0; i < value.length; i += 1) {
-                    if (!value[i].id || !value[i].lat || !value[i].lng) {
+                    if (!value[i]._id || !value[i].lat || !value[i].lng) {
                         throw new Error('Coordinate of address is not valid');
                     }
                     if (value[i].lat < -90 || value[i].lat > 90) {
@@ -42,7 +42,7 @@ const updateRequest = [
                     if (value[i].lng < -180 || value[i].lng > 180) {
                         throw new Error('Longitude of address is not valid');
                     }
-                    ids.push(value[i].id);
+                    ids.push(value[i]._id);
                 }
                 const addresses = await AddressRepository.checkExistMany({
                     _id: { $in: ids },
