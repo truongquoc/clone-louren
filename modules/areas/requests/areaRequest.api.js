@@ -1,8 +1,38 @@
 const { check } = require('express-validator/check');
-const responseHelper = require('../../../helpers/responseHelper');
 const AreaRepositoryClass = require('../repositories/AreaRepository');
 
 const AreaRepository = new AreaRepositoryClass();
+
+function isPolygon(coordinates) {
+    if (!coordinates.length) {
+        throw new Error('Coordinate of area is not valid');
+    }
+    for (let j = 0; j < coordinates.length; j += 1) {
+        const coordinate = coordinates[j];
+        if (!coordinate[0] || coordinate[0] < -90 || coordinate[0] > 90) {
+            throw new Error('Latitude of area is not valid');
+        }
+        if (!coordinate[1] || coordinate[1] < -180 || coordinate[1] > 180) {
+            throw new Error('Longitude of area is not valid');
+        }
+    }
+}
+
+function isRectangle(coordinates) {
+    if (!coordinates.north || coordinates.north < -180 || coordinates.north > 180) {
+        throw new Error('North of area is not valid');
+    }
+    if (!coordinates.south || coordinates.south < -180 || coordinates.south > 180) {
+        throw new Error('South of area is not valid');
+    }
+    if (!coordinates.east || coordinates.east < -90 || coordinates.east > 90) {
+        throw new Error('East of area is not valid');
+    }
+    if (!coordinates.west || coordinates.west < -90 || coordinates.west > 90) {
+        throw new Error('West of area is not valid');
+    }
+    return true;
+}
 
 const storeRequest = [
     check('areas').not().isEmpty().withMessage('Areas is required')
@@ -10,26 +40,23 @@ const storeRequest = [
         .custom((value) => {
             try {
                 for (let i = 0; i < value.length; i += 1) {
-                    if (!value[i].coordinates || !value[i].coordinates.length) {
-                        throw new Error('Coordinate of area is not valid');
+                    if (!value[i].coordinates || !value[i].shape) {
+                        throw new Error('Area is not valid');
                     }
-                    for (let j = 0; j < value[i].coordinates.length; j += 1) {
-                        if (!value[i].coordinates[j][0] || !value[i].coordinates[j][1]) {
-                            throw new Error('Coordinate of area is not valid');
-                        }
-                        if (value[i].coordinates[j][0] < -90 || value[i].coordinates[j][0] > 90) {
-                            throw new Error('Latitude of area is not valid');
-                        }
-                        if (value[i].coordinates[j][1] < -180 || value[i].coordinates[j][1] > 180) {
-                            throw new Error('Longitude of area is not valid');
-                        }
+                    if (value[i].shape === 1) {
+                        isPolygon(value[i].coordinates);
+                    } else if (value[i].shape === 2) {
+                        isRectangle(value[i].coordinates);
+                    } else {
+                        throw new Error('Shape is not valid');
                     }
                 }
                 return true;
             } catch (e) {
-                return Promise.reject(responseHelper.error(e.message, 400));
+                return Promise.reject(e.message);
             }
         }),
+    check('areas.*.shape').isNumeric().withMessage('Shape format is not valid'),
     check('areas.*.color').optional({ nullable: true }).isHexColor().withMessage('Color format is not valid'),
 ];
 
@@ -40,21 +67,17 @@ const updateRequest = [
             try {
                 const ids = [];
                 for (let i = 0; i < value.length; i += 1) {
-                    if (!value[i].coordinates || !value[i].coordinates.length) {
-                        throw new Error('Coordinate of area is not valid');
+                    if (!value[i]._id || !value[i].coordinates || !value[i].shape) {
+                        throw new Error('Area is not valid');
                     }
-                    for (let j = 0; j < value[i].coordinates.length; j += 1) {
-                        if (!value[i].coordinates[j][0] || !value[i].coordinates[j][1]) {
-                            throw new Error('Coordinate of area is not valid');
-                        }
-                        if (value[i].coordinates[j][0] < -90 || value[i].coordinates[j][0] > 90) {
-                            throw new Error('Latitude of area is not valid');
-                        }
-                        if (value[i].coordinates[j][1] < -180 || value[i].coordinates[j][1] > 180) {
-                            throw new Error('Longitude of area is not valid');
-                        }
+                    if (value[i].shape === 1) {
+                        isPolygon(value[i].coordinates);
+                    } else if (value[i].shape === 2) {
+                        isRectangle(value[i].coordinates);
+                    } else {
+                        throw new Error('Shape is not valid');
                     }
-                    ids.push(value[i].id);
+                    ids.push(value[i]._id);
                 }
                 const areas = await AreaRepository.checkExistMany({
                     _id: { $in: ids },
@@ -65,9 +88,10 @@ const updateRequest = [
                 }
                 return true;
             } catch (e) {
-                return Promise.reject(responseHelper.error(e.message, 400));
+                return Promise.reject(e.message);
             }
         }),
+    check('areas.*.shape').isNumeric().withMessage('Shape format is not valid'),
     check('areas.*.color').optional({ nullable: true }).isHexColor().withMessage('Color format is not valid'),
 ];
 

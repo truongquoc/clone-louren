@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const commonConstant = require('../../../constants/commonConstant');
 
 const { Schema } = mongoose;
 
@@ -9,14 +8,41 @@ const Area = new Schema({
         ref: 'property_articles',
     },
     coordinates: {
-        type: [[Number]],
-        required: true,
-        min: -180,
-        max: 180,
+        shape: {
+            type: Number,
+            required: true,
+        },
+        polygon: {
+            type: [[Number]],
+            min: -180,
+            max: 180,
+        },
+        rectangle: {
+            north: {
+                type: Number,
+                min: -180,
+                max: 180,
+            },
+            south: {
+                type: Number,
+                min: -180,
+                max: 180,
+            },
+            east: {
+                type: Number,
+                min: -90,
+                max: 90,
+            },
+            west: {
+                type: Number,
+                min: -90,
+                max: 90,
+            },
+        },
     },
     color: {
         type: String,
-        default: commonConstant.polygonColor,
+        required: true,
     },
     deletedAt: {
         type: Date,

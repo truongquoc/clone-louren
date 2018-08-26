@@ -1,3 +1,21 @@
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "2000",
+    "timeOut": "10000",
+    "extendedTimeOut": "2000",
+    "showEasing": "linear",
+    "hideEasing": "swing",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
 class Marker {
     constructor(drawingManager) {
         this.url = '/v1/property/articles/5b72e24a0e69303ae8da7f17/addresses';
@@ -104,17 +122,19 @@ class Marker {
     save() {
         const self = this;
         $('.map__control-panel__save-btn').on('click', async function () {
-            const commands = [];
+            let result;
             if (self.markers.created.length > 0) {
-                commands.push(self.sendStoreRequest());
+                result = await self.sendStoreRequest();
             }
             if (self.markers.updated.length > 0) {
-                commands.push(self.sendUpdateRequest());
+                result = await self.sendUpdateRequest();
             }
             if (self.markers.deleted.length > 0) {
-                commands.push(self.sendDeleteRequest());
+                result = await self.sendDeleteRequest();
             }
-            await Promise.all(commands);
+            if (result === true) {
+                toastr.success('Lưu địa chỉ thành công');
+            }
         });
     }
 
@@ -122,19 +142,20 @@ class Marker {
         const res = await sendDataRequest(this.url, 'POST', {
             addresses: this.markers.created,
         });
-        if (res.status) {
-            this.markers.total.forEach((marker, index) => {
-                this.markers.created.some((newMarker, newIndex) => {
-                    if (newMarker.index === marker.index) {
-                        this.markers.total[index]._id = res.data[newIndex]._id;
-                        return true;
-                    }
-                });
-            });
-            this.markers.created = [];
-            return true;
+        if (!res.status) {
+            toastr.danger(res.error.message[0]);
+            return false;
         }
-        // swal here
+        this.markers.total.forEach((marker, index) => {
+            this.markers.created.some((newMarker, newIndex) => {
+                if (newMarker.index === marker.index) {
+                    this.markers.total[index]._id = res.data[newIndex]._id;
+                    return true;
+                }
+            });
+        });
+        this.markers.created = [];
+        return true;
     }
 
     async sendUpdateRequest() {
@@ -142,11 +163,12 @@ class Marker {
             _method: 'PATCH',
             addresses: this.markers.updated,
         });
-        if (res.status) {
-            this.markers.updated = [];
-            return true;
+        if (!res.status) {
+            toastr.danger(res.error.message[0]);
+            return false;
         }
-        // swal here
+        this.markers.updated = [];
+        return true;
     }
 
     async sendDeleteRequest() {
@@ -154,21 +176,29 @@ class Marker {
             _method: 'DELETE',
             addresses: this.markers.deleted,
         });
-        if (res.status) {
-            this.markers.deleted = [];
-            return true;
+        if (!res.status) {
+            toastr.danger(res.error.message[0]);
+            return false;
         }
-        // swal here
+        this.markers.deleted = [];
+        return true;
     }
 }
 
 class Polygon {
-    constructor(drawingManager, polygons) {
+    constructor(drawingManager) {
+        this.url = '/v1/property/articles/5b72e24a0e69303ae8da7f17/areas';
         this.drawingManager = drawingManager;
-        this.polygons = polygons;
+        this.polygons = {
+            total: [],
+            created: [],
+            updated: [],
+            deleted: [],
+        };
         this.drawingManager.setOptions(this.getOptions());
         this.create();
         this.delete();
+        this.save();
     }
 
     getOptions() {
@@ -203,8 +233,13 @@ class Polygon {
         this.drawingManager.addListener('overlaycomplete', function (event) {
             if (event.type === 'polygon' || event.type === 'rectangle') {
                 const polygon = event.overlay;
-                polygon.index = self.polygons.length;
-                self.polygons.push(polygon);
+                if (polygon.getPath && polygon.getPath().getArray().length <= 2) {
+                    polygon.setMap(null);
+                    return false;
+                }
+                polygon.index = self.polygons.total.length;
+                self.polygons.total.push(polygon);
+                self.polygons.created.push(self.getData(polygon));
                 $('.map__control-panel__polygons').append(`
                     <div class="map__control-panel__polygon" data-key="${polygon.index}">
                         <span class="polygon__content">Khu vực ${polygon.index + 1}</span>
@@ -214,11 +249,30 @@ class Polygon {
                         </span>
                     </div>`
                 );
-                self.changeColor();
+                self.changeColor(polygon.index);
+                self.update(polygon);
                 self.click(polygon);
                 google.maps.event.addListener(polygon, 'click', function () {
                     self.click(polygon);
                 });
+            }
+        });
+    }
+
+    update(polygon) {
+        const self = this;
+        polygon.addListener('dragend', function () {
+            let check = !polygon._id;
+            const polygons = (polygon._id) ? self.polygons.updated : self.polygons.created;
+            polygons.some(function (currentPolygon, index) {
+                if (currentPolygon.index === polygon.index) {
+                    polygons[index] = self.getData(polygon);
+                    check = true;
+                    return true;
+                }
+            });
+            if (!check) {
+                self.polygons.updated.push(self.getData(polygon));
             }
         });
     }
@@ -228,12 +282,14 @@ class Polygon {
         $(document).on('click', '.polygon__delete-btn', function () {
             const $polygonElement = $(this).parent().closest('.map__control-panel__polygon');
             const index = $polygonElement.data('key');
-            self.polygons[index].setMap(null);
-            self.polygons.splice(index, 1);
+            self.polygons.total[index].setMap(null);
+            if (self.polygons.total[index]._id) {
+                self.polygons.deleted.push(self.polygons.total[index]._id);
+            }
+            self.polygons.total.splice(index, 1);
             $polygonElement.find('.polygon__edit-color-btn').spectrum('hide');
             $polygonElement.remove();
             self.reloadMarkersIndex();
-            self.changeColor();
         });
     }
 
@@ -241,13 +297,13 @@ class Polygon {
         const $elements = $('.map__control-panel__polygon');
         for (let i = 0; i < $elements.length; i += 1) {
             $($elements[i]).attr('data-key', i);
-            $($elements[i]).find('.polygon__content').text(`Vị trí ${i + 1}`);
+            $($elements[i]).find('.polygon__content').text(`Khu vực ${i + 1}`);
         }
     }
 
-    changeColor() {
+    changeColor(index) {
         const self = this;
-        $('.polygon__edit-color-btn').spectrum({
+        $(`.map__control-panel__polygon[data-key="${index}"] .polygon__edit-color-btn`).spectrum({
             showPaletteOnly: true,
             showPalette:true,
             color: 'blanchedalmond',
@@ -258,8 +314,8 @@ class Polygon {
             ],
             change: function (color) {
                 const index = $(this).parent().closest('.map__control-panel__polygon').data('key');
-                if (self.polygons[index]) {
-                    self.polygons[index].setOptions({
+                if (self.polygons.total[index]) {
+                    self.polygons.total[index].setOptions({
                         fillColor: color.toHexString(),
                         strokeColor: color.toHexString(),
                     });
@@ -269,11 +325,11 @@ class Polygon {
     }
 
     click(polygon) {
-        for (let i = 0; i < this.polygons.length; i++) {
-            if (this.polygons[i].index === polygon.index) {
+        for (let i = 0; i < this.polygons.total.length; i++) {
+            if (this.polygons.total[i].index === polygon.index) {
                 continue;
             }
-            this.polygons[i].setOptions({
+            this.polygons.total[i].setOptions({
                 draggable: false,
                 editable: false,
             });
@@ -289,25 +345,119 @@ class Polygon {
         $(document).on('click', '.polygon__content', function () {
             const index = $(this).parent().closest('.map__control-panel__polygon').data('key');
             let bounds;
-            if (self.polygons[index].getPath) {
+            if (self.polygons.total[index].getPath) {
                 bounds = new google.maps.LatLngBounds();
-                self.polygons[index].getPath().getArray().forEach(function (latLng) {
+                self.polygons.total[index].getPath().getArray().forEach(function (latLng) {
                     bounds.extend(latLng);
                 });
             } else {
-                bounds = self.polygons[index].getBounds();
+                bounds = self.polygons.total[index].getBounds();
             }
             map.fitBounds(bounds, 180);
         });
+    }
+
+    getData(polygon) {
+        let coordinates;
+        let shape;
+        if (!polygon.getPath) {
+            shape = 2;
+            const bounds = polygon.getBounds();
+            coordinates = {
+                north: bounds.getNorthEast().lng(),
+                south: bounds.getSouthWest().lng(),
+                east: bounds.getNorthEast().lat(),
+                west: bounds.getSouthWest().lat(),
+            };
+        } else {
+            shape = 1;
+            coordinates = polygon.getPath().getArray().map((coordinate) => {
+                return [coordinate.lat(), coordinate.lng()];
+            });
+        }
+        const currentPolygon = {
+            index: polygon.index,
+            shape,
+            coordinates,
+            color: polygon.get('fillColor')
+        };
+        if (polygon._id) {
+            currentPolygon._id = polygon._id;
+        }
+        return currentPolygon;
+    }
+
+    save() {
+        const self = this;
+        $('.map__control-panel__save-btn').on('click', async function () {
+            let result;
+            if (self.polygons.created.length > 0) {
+                result = await self.sendStoreRequest();
+            }
+            if (self.polygons.updated.length > 0) {
+                result = await self.sendUpdateRequest();
+            }
+            if (self.polygons.deleted.length > 0) {
+                result = await self.sendDeleteRequest();
+            }
+            if (result === true) {
+                toastr.success('Lưu khu vực thành công');
+            }
+        });
+    }
+
+    async sendStoreRequest() {
+        const res = await sendDataRequest(this.url, 'POST', {
+            areas: this.polygons.created,
+        });
+        if (!res.status) {
+            toastr.danger(res.error.message[0]);
+            return false;
+        }
+        this.polygons.total.forEach((polygon, index) => {
+            this.polygons.created.some((newPolygon, newIndex) => {
+                if (newPolygon.index === polygon.index) {
+                    this.polygons.total[index]._id = res.data[newIndex]._id;
+                    return true;
+                }
+            });
+        });
+        this.polygons.created = [];
+        return true;
+    }
+
+    async sendUpdateRequest() {
+        const res = await sendDataRequest(this.url, 'PATCH', {
+            _method: 'PATCH',
+            areas: this.polygons.updated,
+        });
+        if (!res.status) {
+            toastr.danger(res.error.message[0]);
+            return false;
+        }
+        this.polygons.updated = [];
+        return true;
+    }
+
+    async sendDeleteRequest() {
+        const res = await sendDataRequest(this.url, 'DELETE', {
+            _method: 'DELETE',
+            areas: this.polygons.deleted,
+        });
+        if (!res.status) {
+            toastr.danger(res.error.message[0]);
+            return false;
+        }
+        this.polygons.deleted = [];
+        return true;
     }
 }
 
 let map;
 let marker;
-const polygons = [];
+let polygon;
 
 function initMap() {
-    // definePopupClass();
     map = new google.maps.Map(document.getElementById('map-content'), {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 8,
@@ -319,7 +469,7 @@ function initMap() {
     marker = new Marker(drawingManager);
     marker.clickOnMarkerControlPanel(map);
 
-    const polygon = new Polygon(drawingManager, polygons);
+    polygon = new Polygon(drawingManager);
     polygon.clickOnPolygonControlPanel(map);
 }
 
