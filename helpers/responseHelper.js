@@ -1,4 +1,4 @@
-const success = (data) => {
+const success = (data, useHashids = false) => {
     data = (typeof data !== 'object') ? [data] : data;
 
     return {

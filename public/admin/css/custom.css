@@ -165,11 +165,15 @@ button.badge {
 }
 
 .map__control-panel__markers, .map__control-panel__polygons {
-    max-height: 76px;
+    max-height: 78px;
     padding: 0 0 0 2px;
     border: 1px solid #dee2e6;
     background-color: #fff;
     overflow: auto;
+}
+
+.map__control-panel__polygons.active.show, .map__control-panel__markers.active.show {
+    height: 78px;
 }
 
 .map__control-panel__marker, .map__control-panel__polygon {
@@ -207,4 +211,10 @@ button.badge {
 
 .gm-style-mtc div[role="button"] {
     font-size: 14px !important;
+}
+
+.map__control-panel__save-btn {
+    padding: 0 3px;
+    border-radius: 0;
+    border-color: #fff;
 }

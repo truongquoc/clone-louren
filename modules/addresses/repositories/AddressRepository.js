@@ -20,7 +20,7 @@ class AddressRepository extends BaseRepository {
         for (let i = 0; i < data.addresses.length; i += 1) {
             commands.push(this.baseUpdate({
                 coordinate: [data.addresses[i].lat, data.addresses[i].lng],
-            }, { _id: data.addresses[i].id }));
+            }, { _id: data.addresses[i]._id }));
         }
 
         return Promise.all(commands);
