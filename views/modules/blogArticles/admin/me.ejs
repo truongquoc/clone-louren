@@ -52,7 +52,7 @@
                     <% blogArticles.docs.forEach(function (article, index) { %>
                     <tr data-key="<%= article._id %>">
                         <td><%= pageIndex + index + 1 %></td>
-                        <td><%= article.title %></td>
+                        <td title="<%= article.title %>"><%= strLimit(article.title, 70) %></td>
                         <td><%= article.category.name %></td>
                         <td><%= moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                         <td>

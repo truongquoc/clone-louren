@@ -52,12 +52,19 @@
                     <% propertyArticles.docs.forEach(function (article, index) { %>
                     <tr data-key="<%= article._id %>">
                         <td><%= pageIndex + index + 1 %></td>
-                        <td><%= article.title %></td>
+                        <td title="<%= article.title %>">
+                            <a href="/admin/property/articles/<%= article.slug %>/map"><%= strLimit(article.title, 70) %></a>
+                        </td>
                         <td><%= article.category.name %></td>
                         <td><%= moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                         <td>
                             <a href="#" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
-                            <a href="/admin/property/articles/edit/<%= article.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
+                            <a href="/admin/property/articles/<%= article.slug %>/images" class="badge bg-success-gradient">
+                                <i class="fa fa-picture-o"></i>
+                            </a>
+                            <a href="/admin/property/articles/edit/<%= article.slug %>" class="badge bg-warning-gradient">
+                                <i class="fa fa-pencil"></i>
+                            </a>
                             <button class="badge bg-danger-gradient module__delete-btn">
                                 <i class="fa fa-times"></i>
                             </button>
