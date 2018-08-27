@@ -282,6 +282,9 @@ function init_changeCity() {
 
 function init_changePrice() {
     $('[name="price[value]"]').on('keyup', function () {
+        if ($(this).val().length > 6) {
+            $(this).val(Math.pow(10, 6));
+        }
         const text = alertPrice(this);
         $('[name="price[display]"]').val(text);
     });

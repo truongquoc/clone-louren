@@ -221,7 +221,7 @@
                                 <div class="form-group">
                                     <label class="control-label"><%= condition.name %></label>
                                     <input type="number" class="form-control" name="conditions[<%= condition._id %>]"
-                                           value="<%= old(`conditions.${condition._id}`)%>">
+                                           value="<%= old(`conditions.${condition._id}`) %>">
                                     <p class="form__error-message"><%= errors(`conditions[${condition._id}]`) %></p>
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
                             <input type="checkbox" class="flat-red" name="isDraft" <%= old('isDraft') ? 'checked' : '' %>> Nháp
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Đăng bài</button>
                 </form>
             </div>
         </div>
