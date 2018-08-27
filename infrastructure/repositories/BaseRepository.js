@@ -21,10 +21,11 @@ class BaseRepository {
         options.query.page = parseInt(options.query.page, 10) || 1;
         conditions.deletedAt = null;
         const data = await this.model.paginate(conditions, {
+            select: options.select,
             sort: { createdAt: -1 },
             populate: options.populate || [],
             page: options.query.page,
-            limit: commonConstant.limit,
+            limit: options.limit || commonConstant.limit,
         });
         paginationHelper.setUpUrl(data, options);
 

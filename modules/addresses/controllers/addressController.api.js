@@ -1,8 +1,25 @@
 const { validationResult } = require('express-validator/check');
+const url = require('url');
 const responseHelper = require('../../../helpers/responseHelper');
 const AddressRepositoryClass = require('../repositories/AddressRepository');
 
 const AddressRepository = new AddressRepositoryClass();
+
+const index = async (req, res) => {
+    try {
+        const segments = req.originalUrl.split('/');
+        const addresses = await AddressRepository.listById(req.params.id, segments[3], {
+            select: 'propertyArticle location.coordinates',
+            pageUrl: url.parse(req.originalUrl).pathname,
+            query: req.query,
+            limit: 20,
+        });
+
+        return res.json(responseHelper.success(addresses, true));
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
 
 const store = async (req, res) => {
     const errors = validationResult(req);
@@ -50,6 +67,7 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
+    index,
     store,
     update,
     destroy,

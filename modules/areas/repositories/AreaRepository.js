@@ -1,10 +1,22 @@
 const Area = require('../models/Area');
 const commonConstant = require('../../../constants/commonConstant');
+const paginationHelper = require('../../../helpers/paginationHelper');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 
 class AreaRepository extends BaseRepository {
     model() {
         return Area;
+    }
+
+    async listById(id, type, options) {
+        if (type === 'articles') {
+            const areas = await this.paginate({ propertyArticle: id }, options);
+            paginationHelper.setUpUrl(areas, options);
+
+            return areas;
+        }
+        // property projects
+        return false;
     }
 
     store(data, id) {

@@ -173,7 +173,7 @@ button.badge {
 }
 
 .map__control-panel__polygons.active.show, .map__control-panel__markers.active.show {
-    height: 78px;
+    /*height: 78px;*/
 }
 
 .map__control-panel__marker, .map__control-panel__polygon {
