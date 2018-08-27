@@ -33,6 +33,8 @@ module.exports = (res) => {
         return (!page || page <= 1) ? 0 : (page - 1) * Constant.limit;
     };
 
+    res.locals.strLimit = (string, limit, end = '...') => `${string.substr(0, limit)}${end}`;
+
     res.locals.hasRole = RoleHelper.hasRole;
 
     res.locals.checkValidUser = RoleHelper.checkValidUser;
