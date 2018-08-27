@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator/check');
 const url = require('url');
 const getSlug = require('speakingurl');
-const s3Config = require('../../../config/s3');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
@@ -213,11 +212,13 @@ const destroy = async (req, res) => {
 const listImages = async (req, res, next) => {
     try {
         const { query } = req;
-        const propertyArticle = await PropertyArticleRepository.getEditArticle(req.params.slug);
-        const images = await UploadRepository.paginate({}, {
-            query,
-            pageUrl: url.parse(req.originalUrl).pathname,
-        });
+        const [propertyArticle, images] = await Promise.all([
+            PropertyArticleRepository.getEditArticle(req.params.slug),
+            UploadRepository.paginate({}, {
+                query,
+                pageUrl: url.parse(req.originalUrl).pathname,
+            }),
+        ]);
         images.renderPagination = paginationHelper.renderPagination;
 
         return res.render('modules/propertyArticles/admin/listImages', {
@@ -248,8 +249,15 @@ const storeImages = async (req, res) => {
     }
 };
 
-const showMap = (req, res) => {
-    return res.render('modules/propertyArticles/admin/map');
+const showMap = async (req, res, next) => {
+    try {
+        const propertyArticle = await PropertyArticleRepository.show(req.params.slug);
+        return res.render('modules/propertyArticles/admin/map', {
+            propertyArticle,
+        });
+    } catch (e) {
+        return next(responseHelper.error(e.message));
+    }
 };
 
 module.exports = {

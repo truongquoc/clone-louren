@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 
 const { Schema } = mongoose;
 
@@ -20,23 +21,23 @@ const Area = new Schema({
         rectangle: {
             north: {
                 type: Number,
-                min: -180,
-                max: 180,
+                min: -90,
+                max: 90,
             },
             south: {
                 type: Number,
-                min: -180,
-                max: 180,
+                min: -90,
+                max: 90,
             },
             east: {
                 type: Number,
-                min: -90,
-                max: 90,
+                min: -180,
+                max: 180,
             },
             west: {
                 type: Number,
-                min: -90,
-                max: 90,
+                min: -180,
+                max: 180,
             },
         },
     },
@@ -50,5 +51,7 @@ const Area = new Schema({
 }, {
     timestamps: true,
 });
+
+Area.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('areas', Area);

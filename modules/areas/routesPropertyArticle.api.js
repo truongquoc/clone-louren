@@ -3,6 +3,8 @@ const areaAuthorize = require('./middleware/areaAuthorize.api');
 const areaRequest = require('./requests/areaRequest.api');
 const areaController = require('./controllers/areaController.api');
 
+router.get('/:id/areas', areaAuthorize.indexAuthorize, areaController.index);
+
 router.post('/:id/areas', areaAuthorize.storeAuthorize, areaRequest.storeRequest, areaController.store);
 
 router.patch('/:id/areas', areaAuthorize.updateAuthorize, areaRequest.updateRequest, areaController.update);

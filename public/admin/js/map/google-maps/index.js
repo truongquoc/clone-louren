@@ -17,9 +17,11 @@ toastr.options = {
 };
 
 class Marker {
-    constructor(drawingManager) {
-        this.url = '/v1/property/articles/5b72e24a0e69303ae8da7f17/addresses';
+    constructor(drawingManager, map) {
+        const propertyArticle = $('.map').data('key');
+        this.url = `/v1/property/articles/${propertyArticle}/addresses`;
         this.drawingManager = drawingManager;
+        this.map = map;
         this.markers = {
             total: [],
             created: [],
@@ -27,9 +29,11 @@ class Marker {
             deleted: [],
         };
         this.drawingManager.setOptions(this.getOptions());
+        this.list();
         this.create();
         this.delete();
         this.save();
+        this.clickOnMarkerControlPanel(this.map);
     }
 
     getOptions() {
@@ -42,18 +46,51 @@ class Marker {
         };
     }
 
+    getHtmlMarker(marker) {
+        return  `<div class="map__control-panel__marker" data-key="${marker.index}">
+            <span class="marker__content">Địa chỉ ${marker.index + 1}</span>
+            <button class="marker__delete-btn"><i class="fa fa-times"></i></button>
+        </div>`;
+    }
+
+    async list() {
+        let markers = [];
+        const getAddresses = async (url, data) => {
+            if (data && !data.nextPageUrl) {
+                return true;
+            }
+            const res = await getDataRequest(url);
+            markers = markers.concat(res.data.docs);
+            await getAddresses(res.data.nextPageUrl, res.data);
+        };
+        await getAddresses(this.url);
+        let marker;
+        for (let i = 0; i < markers.length; i += 1) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(
+                    markers[i].location.coordinates[0],
+                    markers[i].location.coordinates[1]
+                ),
+                _id: markers[i]._id,
+                index: i,
+                clickable: true,
+                draggable: true,
+                editable: true,
+            });
+            marker.setMap(this.map);
+            $('.map__control-panel__markers').append(this.getHtmlMarker(marker));
+            this.markers.total.push(marker);
+            this.update(marker);
+        }
+    }
+
     create() {
         const self = this;
         this.drawingManager.addListener('markercomplete', function (marker) {
             marker.index = self.markers.total.length;
             self.markers.total.push(marker);
             self.markers.created.push(self.getData(marker));
-            $('.map__control-panel__markers').append(`
-                <div class="map__control-panel__marker" data-key="${marker.index}">
-                    <span class="marker__content">Địa chỉ ${marker.index + 1}</span>
-                    <button class="marker__delete-btn"><i class="fa fa-times"></i></button>
-                </div>`
-            );
+            $('.map__control-panel__markers').append(self.getHtmlMarker(marker));
             self.update(marker);
         });
     }
@@ -186,9 +223,11 @@ class Marker {
 }
 
 class Polygon {
-    constructor(drawingManager) {
-        this.url = '/v1/property/articles/5b72e24a0e69303ae8da7f17/areas';
+    constructor(drawingManager, map) {
+        const propertyArticle = $('.map').data('key');
+        this.url = `/v1/property/articles/${propertyArticle}/areas`;
         this.drawingManager = drawingManager;
+        this.map = map;
         this.polygons = {
             total: [],
             created: [],
@@ -196,9 +235,11 @@ class Polygon {
             deleted: [],
         };
         this.drawingManager.setOptions(this.getOptions());
+        this.list();
         this.create();
         this.delete();
         this.save();
+        this.clickOnPolygonControlPanel(this.map);
     }
 
     getOptions() {
@@ -228,6 +269,75 @@ class Polygon {
         };
     }
 
+    getHtmlPolygon(polygon) {
+        return  `<div class="map__control-panel__polygon" data-key="${polygon.index}">
+            <span class="polygon__content">Khu vực ${polygon.index + 1}</span>
+            <span class="polygon__options">
+                <button class="polygon__edit-color-btn"><i class="fa fa-wrench"></i></button>
+                <button class="polygon__delete-btn"><i class="fa fa-times"></i></button>
+            </span>
+        </div>`;
+    }
+
+    async list() {
+        let polygons = [];
+        const getAreas = async (url, data) => {
+            if (data && !data.nextPageUrl) {
+                return true;
+            }
+            const res = await getDataRequest(url);
+            polygons = polygons.concat(res.data.docs);
+            await getAreas(res.data.nextPageUrl, res.data);
+        };
+        await getAreas(this.url);
+        let polygon;
+        for (let i = 0; i < polygons.length; i += 1) {
+            if (polygons[i].coordinates.shape === 1) {
+                const coordinates = polygons[i].coordinates.polygon.map((coordinate) => ({
+                    lat: coordinate[0], lng: coordinate[1],
+                }));
+                polygon = new google.maps.Polygon({
+                    path: coordinates,
+                    strokeColor: polygons[i].color,
+                    strokeWeight: 4,
+                    strokeOpacity: 0.8,
+                    fillColor: polygons[i].color,
+                    fillOpacity: 0.2,
+                    clickable: true,
+                    draggable: true,
+                    editable: true,
+                    zIndex: 1,
+                    index: i,
+                    _id: polygons[i]._id,
+                });
+            } else if (polygons[i].coordinates.shape === 2) {
+                polygon = new google.maps.Rectangle({
+                    strokeColor: polygons[i].color,
+                    strokeWeight: 4,
+                    strokeOpacity: 0.8,
+                    fillColor: polygons[i].color,
+                    fillOpacity: 0.2,
+                    clickable: true,
+                    draggable: true,
+                    editable: true,
+                    zIndex: 1,
+                    map: this.map,
+                    index: i,
+                    _id: polygons[i]._id,
+                    bounds: polygons[i].coordinates.rectangle,
+                });
+                console.log(i);
+            } else {
+                continue;
+            }
+            polygon.setMap(this.map);
+            $('.map__control-panel__polygons').append(this.getHtmlPolygon(polygon));
+            this.polygons.total.push(polygon);
+            this.update(polygon);
+            this.changeColor(i);
+        }
+    }
+
     create() {
         const self = this;
         this.drawingManager.addListener('overlaycomplete', function (event) {
@@ -240,15 +350,7 @@ class Polygon {
                 polygon.index = self.polygons.total.length;
                 self.polygons.total.push(polygon);
                 self.polygons.created.push(self.getData(polygon));
-                $('.map__control-panel__polygons').append(`
-                    <div class="map__control-panel__polygon" data-key="${polygon.index}">
-                        <span class="polygon__content">Khu vực ${polygon.index + 1}</span>
-                        <span class="polygon__options">
-                            <button class="polygon__edit-color-btn"><i class="fa fa-wrench"></i></button>
-                            <button class="polygon__delete-btn"><i class="fa fa-times"></i></button>
-                        </span>
-                    </div>`
-                );
+                $('.map__control-panel__polygons').append(self.getHtmlPolygon(polygon));
                 self.changeColor(polygon.index);
                 self.update(polygon);
                 self.click(polygon);
@@ -314,11 +416,24 @@ class Polygon {
             ],
             change: function (color) {
                 const index = $(this).parent().closest('.map__control-panel__polygon').data('key');
-                if (self.polygons.total[index]) {
-                    self.polygons.total[index].setOptions({
+                const polygon = self.polygons.total[index];
+                if (polygon) {
+                    polygon.setOptions({
                         fillColor: color.toHexString(),
                         strokeColor: color.toHexString(),
                     });
+                }
+                const polygons = (polygon._id) ? self.polygons.updated : self.polygons.created;
+                let check = false;
+                polygons.some(function (currentPolygon, index) {
+                    if (currentPolygon.index === polygon.index) {
+                        polygons[index].color = color.toHexString();
+                        check = true;
+                        return true;
+                    }
+                });
+                if (!check) {
+                    self.polygons.updated.push(self.getData(polygon));
                 }
             }
         });
@@ -364,10 +479,10 @@ class Polygon {
             shape = 2;
             const bounds = polygon.getBounds();
             coordinates = {
-                north: bounds.getNorthEast().lng(),
-                south: bounds.getSouthWest().lng(),
-                east: bounds.getNorthEast().lat(),
-                west: bounds.getSouthWest().lat(),
+                north: bounds.getNorthEast().lat(),
+                south: bounds.getSouthWest().lat(),
+                east: bounds.getNorthEast().lng(),
+                west: bounds.getSouthWest().lng(),
             };
         } else {
             shape = 1;
@@ -459,18 +574,14 @@ let polygon;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map-content'), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8,
+        center: { lat: -25.397, lng: 150.644 },
+        zoom: 5,
         mapTypeId: 'satellite',
         fullscreenControl: false,
     });
     const drawingManager = addDrawingTool();
-
-    marker = new Marker(drawingManager);
-    marker.clickOnMarkerControlPanel(map);
-
-    polygon = new Polygon(drawingManager);
-    polygon.clickOnPolygonControlPanel(map);
+    marker = new Marker(drawingManager, map);
+    polygon = new Polygon(drawingManager, map);
 }
 
 function addDrawingTool() {
@@ -497,4 +608,8 @@ function sendDataRequest(url, method, data) {
     });
 
     return fetch(request).then(res => res.json());
+}
+
+function getDataRequest(url) {
+    return fetch(url).then(res => res.json());
 }

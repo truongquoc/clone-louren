@@ -1,9 +1,21 @@
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const Address = require('../models/Address');
+const paginationHelper = require('../../../helpers/paginationHelper');
 
 class AddressRepository extends BaseRepository {
     model() {
         return Address;
+    }
+
+    async listById(id, type, options) {
+        if (type === 'articles') {
+            const addresses = await this.paginate({ propertyArticle: id }, options);
+            paginationHelper.setUpUrl(addresses, options);
+
+            return addresses;
+        }
+        // property projects
+        return false;
     }
 
     store(data, id) {

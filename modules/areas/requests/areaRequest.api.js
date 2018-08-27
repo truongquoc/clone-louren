@@ -19,16 +19,16 @@ function isPolygon(coordinates) {
 }
 
 function isRectangle(coordinates) {
-    if (!coordinates.north || coordinates.north < -180 || coordinates.north > 180) {
+    if (!coordinates.north || coordinates.north < -90 || coordinates.north > 90) {
         throw new Error('North of area is not valid');
     }
-    if (!coordinates.south || coordinates.south < -180 || coordinates.south > 180) {
+    if (!coordinates.south || coordinates.south < -90 || coordinates.south > 90) {
         throw new Error('South of area is not valid');
     }
-    if (!coordinates.east || coordinates.east < -90 || coordinates.east > 90) {
+    if (!coordinates.east || coordinates.east < -180 || coordinates.east > 180) {
         throw new Error('East of area is not valid');
     }
-    if (!coordinates.west || coordinates.west < -90 || coordinates.west > 90) {
+    if (!coordinates.west || coordinates.west < -180 || coordinates.west > 180) {
         throw new Error('West of area is not valid');
     }
     return true;
