@@ -105,6 +105,7 @@ function init_createSubModule() {
                         <td>1</td>
                         <td class="module__table__name">${result.name}</td>
                         ${result.city ? '<td class="module__table__city">' + result.city.name + '</td>' : ''}
+                        ${result.icon ? '<td class="module__table__icon">' + result.icon + '</td>' : ''}
                         ${result.slug ? '<td class="module__table__slug">' + result.slug + '</td>' : ''}
                         <td class="module__table__update-time">
                             ${moment(result.updatedAt).format('HH:mm DD/MM/YYYY')}
@@ -131,9 +132,10 @@ function init_createSubModule() {
         const name = $(this).find('.module__form__name').val();
         const slug = $(this).find('.module__form__slug').val();
         const city = $(this).has('.module__form__city') ? $(this).find('.module__form__city').val() : '';
+        const icon = $(this).has('.module__form__icon') ? $(this).find('.module__form__icon').val() : '';
         const url = $(this).attr('action');
 
-        createSubModule(url, { city, name, slug });
+        createSubModule(url, { name, city, icon, slug });
     });
 }
 
@@ -169,6 +171,9 @@ function init_editSubModule() {
                 if (result.city) {
                     $row.find('.module__table__city').attr('data-city', result.city._id).text(result.city.name).html();
                 }
+                if (result.icon) {
+                    $row.find('.module__table__icon').text(result.icon).html();
+                }
                 $row.find('.module__table__slug').text(result.slug).html();
                 $row.find('.module__table__update-time').text(moment(result.updatedAt).format('HH:mm MM/DD/YYYY')).html();
                 $form.find('.form__error-message').html('');
@@ -180,11 +185,13 @@ function init_editSubModule() {
         e.preventDefault();
         const name = $(this).closest('tr').find('.module__table__name').text();
         const city = $(this).closest('tr').find('.module__table__city').data('city');
+        const icon = $(this).closest('tr').find('.module__table__icon').text();
         const slug = $(this).closest('tr').find('.module__table__slug').text();
         const key = $(this).closest('tr').data('key');
         const $form = $('.module__edit-form');
         $form.find('.module__form__name').val(name);
         $form.find('.module__form__city').val(city);
+        $form.find('.module__form__icon').val(icon);
         $form.find('.module__form__slug').val(slug);
         $form.find('.module__form__key').val(key);
     });
@@ -192,11 +199,12 @@ function init_editSubModule() {
     $(document).on('submit', '.module__edit-form', function (e) {
         e.preventDefault();
         const city = $(this).has('.module__form__city') ? $(this).find('.module__form__city').val() : '';
+        const icon = $(this).has('.module__form__icon') ? $(this).find('.module__form__icon').val() : '';
         const name = $(this).find('.module__form__name').val();
         const slug = $(this).find('.module__form__slug').val();
         const url = $(this).attr('action');
         const key = $(this).find('.module__form__key').val();
-        editSubModule(`${url}/${key}`, { _method: 'PUT', city, name, slug });
+        editSubModule(`${url}/${key}`, { _method: 'PUT', city, name, icon, slug });
     });
 }
 

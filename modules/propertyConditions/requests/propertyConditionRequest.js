@@ -17,6 +17,8 @@ const createConditionRequest = [
                 return Promise.reject(e.message);
             }
         }),
+    check('icon')
+        .not().isEmpty().withMessage('Icon không được bỏ trống'),
 ];
 
 const editConditionRequest = [
@@ -36,6 +38,8 @@ const editConditionRequest = [
                 return Promise.reject(e.message);
             }
         }),
+    check('icon')
+        .not().isEmpty().withMessage('Icon không được bỏ trống'),
 ];
 
 module.exports = { createConditionRequest, editConditionRequest };

@@ -8,8 +8,8 @@ async function dropPropertyCategoriesTable() {
 }
 async function fakePropertyCategories() {
     try {
-        for (let i = 0; i < 10; i += 1) {
-            const name = faker.lorem.words(3);
+        for (let i = 0; i < 6; i += 1) {
+            const name = faker.lorem.words(2);
             await PropertyCategory.create({
                 name,
                 slug: getSlug(name),

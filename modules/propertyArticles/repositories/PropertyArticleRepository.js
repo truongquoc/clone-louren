@@ -10,6 +10,28 @@ class PropertyArticleRepository extends ArticleRepository {
         return PropertyArticle;
     }
 
+    homeList(categories, options) {
+        const getArticles = categoryId => (
+            this.model.find({
+                category: categoryId,
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            })
+            .populate('status', 'name', { deletedAt: null })
+            .populate('conditions', 'name', { deletedAt: null })
+            .populate('author', 'name', { deletedAt: null })
+            .select('title address display price.display slug createdAt')
+            .limit(6)
+        );
+        let commands = [getArticles()];
+        commands = commands.concat(Object.values(categories).map(category => (
+            getArticles(category)
+        )));
+
+        return Promise.all(commands);
+    }
+
     async adminList(userId, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         const search = new RegExp(options.query.search, 'i');
@@ -44,8 +66,55 @@ class PropertyArticleRepository extends ArticleRepository {
         return articles;
     }
 
+    async clientList(condition, options) {
+        options.query.page = parseInt(options.query.page, 10) || 1;
+        const conditions = {
+            isApproved: true,
+            isDraft: false,
+            deletedAt: null,
+        };
+        if (condition && condition.type === 'category') {
+            conditions.category = condition.id;
+        }
+        const articles = await this.model.paginate(conditions, {
+            select: 'conditions title address display price.display slug createdAt',
+            populate: [{
+                path: 'status',
+                select: 'name',
+                match: { deletedAt: null },
+            }, {
+                path: 'conditions.condition',
+                select: 'name icon',
+                match: {
+                    name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Ban công', 'Bồn tắm'] },
+                    deletedAt: null,
+                },
+            }, {
+                path: 'author',
+                select: 'name',
+                match: { deletedAt: null },
+            }],
+            sort: { createdAt: -1 },
+            page: options.query.page,
+            limit: commonConstant.clientLimit,
+        });
+        paginationHelper.setUpUrl(articles, options);
+
+        return articles;
+    }
+
     async search(params) {
         return this.model.search(params).find({ deletedAt: null });
+    }
+
+    homeGetNewest() {
+        return this.model.find({
+            isApproved: true,
+            isDraft: false,
+            deletedAt: null,
+        })
+            .sort({ createdAt: -1 })
+            .limit(4);
     }
 
     show(slug) {

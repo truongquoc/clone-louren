@@ -10,6 +10,11 @@ const PropertyCondition = new Schema({
         trim: true,
         unique: true,
     },
+    icon: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     deletedAt: {
         type: Date,
     },

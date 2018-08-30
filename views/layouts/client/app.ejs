@@ -117,19 +117,12 @@
                     </li>
                     <li class="dropdown">
                         <a tabindex="0" data-submenu="" aria-expanded="false">
-                            Properties<span class="caret"></span>
+                            Loại hình<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li >
-                                <a href="../properties/properti_list.ejs" tabindex="0">List Layout</a>
-                            </li>
-                            <li >
-                                <a href="map.html" tabindex="0">Map View</a>
-                            </li>
-                            <li>
-                                <a href="../../modules/propertyArticles/client/detail.property.ejs" tabindex="0">Property Detail</a>
-
-                            </li>
+                            <% propertyCategories.forEach(function (category) { %>
+                                <li><a href="/du-an/<%= category.slug %>" tabindex="0"><%= category.name %></a></li>
+                            <% }) %>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -208,6 +201,7 @@
 
 <script src="/public/client/js/jquery-2.2.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
 <script src="/public/client/js/bootstrap-submenu.js"></script>
 <script src="/public/client/js/rangeslider.js"></script>
 <script src="/public/client/js/jquery.mb.YTPlayer.js"></script>
@@ -224,11 +218,16 @@
 <script src="/public/client/js/jquery.magnific-popup.min.js"></script>
 <script src="/public/client/js/maps.js"></script>
 <script src="/public/client/js/app.js"></script>
+<script src="/public/client/js/custom.js"></script>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/public/client/js/ie10-viewport-bug-workaround.js"></script>
 <!-- Custom javascript -->
 <script src="/public/client/js/ie10-viewport-bug-workaround.js"></script>
-
+<script>
+    $(document).ready(function () {
+        $('img.lazyload').lazyload();
+    });
+</script>
 </body>
 </html>

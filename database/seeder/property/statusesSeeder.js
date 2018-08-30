@@ -8,8 +8,8 @@ async function dropPropertyStatusesTable() {
 }
 async function fakePropertyStatuses() {
     try {
-        for (let i = 0; i < 10; i += 1) {
-            const name = faker.lorem.words(3);
+        for (let i = 0; i < 2; i += 1) {
+            const name = faker.lorem.words(2);
             await PropertyStatus.create({
                 name,
                 slug: getSlug(name),
