@@ -77,6 +77,18 @@ class BlogArticleRepository extends ArticleRepository {
         return articles;
     }
 
+    homeGetNewest() {
+        return this.model.find({
+            isApproved: true,
+            isDraft: false,
+            deletedAt: null,
+        })
+            .populate('author', 'name avatar', { deletedAt: null })
+            .select('title description slug')
+            .sort({ createdAt: -1 })
+            .limit(3);
+    }
+
     show(slug) {
         return this.model.findOne({ slug, deletedAt: null })
             .sort({ createdAt: -1 })

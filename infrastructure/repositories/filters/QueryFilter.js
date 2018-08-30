@@ -1,6 +1,6 @@
 class QueryFilter {
     apply(builder, params) {
-        for (let param in params) {
+        for (const param in params) {
             if (!Object.prototype.hasOwnProperty.call(params, param)) {
                 continue;
             }

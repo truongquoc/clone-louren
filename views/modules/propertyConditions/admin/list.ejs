@@ -42,6 +42,7 @@
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Tên</th>
+                        <th>Icon</th>
                         <th>Ngày chỉnh sửa</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
@@ -50,6 +51,7 @@
                     <tr data-key="<%= condition._id %>">
                         <td><%= pageIndex + index + 1 %></td>
                         <td class="module__table__name"><%= condition.name %></td>
+                        <td class="module__table__icon"><%= condition.icon %></td>
                         <td class="module__table__update-time">
                             <%= moment(condition.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
@@ -92,6 +94,11 @@
                         <p class="form__error-message module__form__error-name"></p>
                     </div>
                     <div class="form-group">
+                        <label>Icon</label>
+                        <input type="text" class="form-control module__form__icon">
+                        <p class="form__error-message module__form__error-icon"></p>
+                    </div>
+                    <div class="form-group">
                         <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Đóng</button>
                         <button type="submit" class="btn btn-primary float-right">Tạo</button>
                     </div>
@@ -116,6 +123,11 @@
                         <label>Tên</label>
                         <input type="text" class="form-control module__form__name">
                         <p class="form__error-message module__form__error-name"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Icon</label>
+                        <input type="text" class="form-control module__form__icon">
+                        <p class="form__error-message module__form__error-icon"></p>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Đóng</button>

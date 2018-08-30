@@ -17,3 +17,11 @@
         height: 300px;
     }
 }
+
+.search__district__display-none {
+    display: none;
+}
+
+.dropdown-menu {
+    min-height: auto !important;
+}

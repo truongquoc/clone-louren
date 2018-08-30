@@ -40,11 +40,11 @@ async function fakePropertyArticles() {
             PropertyConditionRepository.baseGet(),
             PropertyAmenityRepository.baseGet(),
         ]);
-        for (let i = 0; i < 20; i += 1) {
+        for (let i = 0; i < 40; i += 1) {
             const district = districts[Math.floor(Math.random() * districts.length)];
             const amenities = [];
             const conditions = [];
-            const title = faker.lorem.paragraph(1);
+            const title = faker.lorem.words(10);
             for (let j = 0; j < Math.floor(Math.random() * propertyAmenities.length); j += 1) {
                 amenities.push(propertyAmenities[j]._id);
             }
@@ -65,7 +65,7 @@ async function fakePropertyArticles() {
                 amenities,
                 title,
                 description: faker.lorem.paragraph(40),
-                display: { image: faker.image.imageUrl },
+                display: { image: faker.image.dataUri() },
                 address: faker.address.streetAddress(),
                 isApproved: true,
                 slug: getSlug(title),

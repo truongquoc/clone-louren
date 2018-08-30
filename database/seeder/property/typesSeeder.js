@@ -8,8 +8,8 @@ async function dropPropertyTypesTable() {
 }
 async function fakePropertyTypes() {
     try {
-        for (let i = 0; i < 10; i += 1) {
-            const name = faker.lorem.words(3);
+        for (let i = 0; i < 3; i += 1) {
+            const name = faker.lorem.words(2);
             await PropertyType.create({
                 name,
                 slug: getSlug(name),
