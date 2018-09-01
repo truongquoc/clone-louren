@@ -126,6 +126,16 @@ PropertyArticle.statics.search = function search(params) {
     return PropertyArticleFilter.apply(this, params);
 };
 
+PropertyArticle.methods.showPrice = function showPrice() {
+    if (this.price.isAgreement) {
+        return 'Thỏa thuận';
+    }
+    if (this.price.display) {
+        return this.price.display;
+    }
+    return 'Đang cập nhật';
+};
+
 PropertyArticle.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('property_articles', PropertyArticle);

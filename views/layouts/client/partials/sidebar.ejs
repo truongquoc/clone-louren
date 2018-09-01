@@ -4,7 +4,7 @@
     </div>
     <ul class="list-unstyled list-cat">
         <% propertyCategories.forEach((category) => { %>
-            <li><a href="/bai-viet/loai-hinh-<%= category.slug %>"><%= category.name %></a> <span>(<%= category.countPropertyArticles %>)  </span></li>
+            <li><a href="/du-an/loai-hinh-<%= category.slug %>"><%= category.name %></a> <span>(<%= category.countPropertyArticles %>)  </span></li>
         <% }) %>
     </ul>
 </div>
@@ -20,11 +20,11 @@
             </div>
             <div class="media-body">
                 <h3 class="media-heading">
-                    <a href="/bai-viet-<%= article.slug %>"><%= article.title %></a>
+                    <a href="/du-an-<%= article.slug %>"><%= article.title %></a>
                 </h3>
                 <p><%= moment(article.createdAt).format('DD/MM/YYYY') %></p>
                 <div class="price">
-                    <%= article.price.display || 'Chưa cập nhật' %>
+                    <%= article.showPrice() %>
                 </div>
             </div>
         </div>

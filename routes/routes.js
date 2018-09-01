@@ -49,7 +49,7 @@ router.use('/admin/property/types', adminPropertyTypeRouter);
 router.use('/admin/requests', adminRequestRouter);
 
 router.use('/', clientPropertyArticleRouter);
-router.use('/bai-viet', clientPropertyCategoryRouter);
+router.use('/du-an', clientPropertyCategoryRouter);
 
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);

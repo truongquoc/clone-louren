@@ -52,11 +52,11 @@
                             <div class="property-img">
                                 <!--<div class="property-tag button alt featured">Featured</div>-->
                                 <div class="property-tag button sale"><%= article.status.name %></div>
-                                <div class="property-price"><%= article.price.display || 'Chưa cập nhật' %></div>
+                                <div class="property-price"><%= article.showPrice() %></div>
                                 <img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= article.display.image %>"
                                      class="img-responsive hp-1 lazyload">
                                 <div class="property-overlay">
-                                    <a href="/bai-viet-<%= article.slug %>" class="overlay-link">
+                                    <a href="/du-an-<%= article.slug %>" class="overlay-link">
                                         <i class="fa fa-link"></i>
                                     </a>
                                     <div class="property-magnify-gallery">
@@ -73,10 +73,10 @@
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
                             <h1 class="title">
-                                <a href="/bai-viet-<%= article.slug %>"><%= article.title %></a>
+                                <a href="/du-an-<%= article.slug %>"><%= article.title %></a>
                             </h1>
                             <h3 class="property-address">
-                                <a href="/bai-viet-<%= article.slug %>">
+                                <a href="/du-an-<%= article.slug %>">
                                     <i class="fa fa-map-marker"></i><%= article.address %>
                                 </a>
                             </h3>

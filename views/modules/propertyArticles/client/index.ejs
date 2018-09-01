@@ -76,7 +76,7 @@
             <h1>Featured Properties</h1>
         </div>
         <ul class="list-inline-listing filters filters-listing-navigation">
-            <li data-filter="1" class="btn btn-inline filtr-button filtr">All</li>
+            <li data-filter="1" class="btn btn-inline filtr-button filtr active">All</li>
             <% propertyCategories.forEach(function (category, index) { %>
                 <li data-filter="<%= index + 2 %>" class="btn btn-inline filtr-button filtr"><%= category.name %></li>
             <% }) %>
@@ -90,10 +90,10 @@
                                 <div class="property-img">
                                     <!--<div class="property-tag button alt featured">Featured</div>-->
                                     <div class="property-tag button sale"><%= article.status.name %></div>
-                                    <div class="property-price"><%= article.price.display || 'Chưa cập nhật' %></div>
+                                    <div class="property-price"><%= article.showPrice() %></div>
                                     <img src="<%= article.display.image %>" alt="fp" class="img-responsive lazyload">
                                     <div class="property-overlay">
-                                        <a href="/bai-viet-<%= article.slug %>" class="overlay-link">
+                                        <a href="/du-an-<%= article.slug %>" class="overlay-link">
                                             <i class="fa fa-link"></i>
                                         </a>
                                         <div class="property-magnify-gallery">
@@ -109,38 +109,22 @@
                                 </div>
                                 <div class="property-content">
                                     <h1 class="title">
-                                        <a href="/bai-viet-<%= article.slug %>"><%= article.title %></a>
+                                        <a href="/du-an-<%= article.slug %>"><%= article.title %></a>
                                     </h1>
                                     <h3 class="property-address">
-                                        <a href="/bai-viet-<%= article.slug %>">
+                                        <a href="/du-an-<%= article.slug %>">
                                             <i class="fa fa-map-marker"></i><%= article.address %>
                                         </a>
                                     </h3>
                                     <ul class="facilities-list clearfix">
-                                        <li>
-                                            <i class="flaticon-square-layouting-with-black-square-in-east-area"></i>
-                                            <span>4800 sq ft</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-bed"></i>
-                                            <span>3 Beds</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-monitor"></i>
-                                            <span>TV </span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-holidays"></i>
-                                            <span> 2 Baths</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-vehicle"></i>
-                                            <span>1 Garage</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-building"></i>
-                                            <span> 3 Balcony</span>
-                                        </li>
+                                        <% article.conditions.forEach((element) => { %>
+                                            <% if (element.condition && element.quantity) { %>
+                                                <li>
+                                                    <i class="<%= element.condition.icon %>"></i>
+                                                    <span><%= element.quantity %> <%= element.condition.name %></span>
+                                                </li>
+                                            <% } %>
+                                        <% }) %>
                                     </ul>
                                     <div class="property-footer">
                                         <span class="left">
@@ -209,7 +193,7 @@
     <div class="container">
         <!-- Main title -->
         <div class="main-title">
-            <h1><span>Bất động sản vừa đăng</span></h1>
+            <h1><span>Bài viết mới nhất</span></h1>
         </div>
         <div class="row">
             <div class="carousel our-partners slide" id="ourPartners2">
@@ -228,16 +212,10 @@
                                     <!-- Property img -->
                                     <div class="property-img">
                                         <div class="price-ratings">
-                                            <div class="price"><%= article.price.display || '' %></div>
-                                            <div class="ratings">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
+                                            <div class="price"><%= article.showPrice() %></div>
                                         </div>
-                                        <img src="<%= article.display.image %>" alt="rp"
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                             data-src="<%= article.display.image %>"
                                              class="img-responsive lazyload">
                                         <div class="property-overlay">
                                             <a href="l" class="overlay-link">
@@ -269,22 +247,14 @@
                                     </div>
                                     <!-- Facilities List -->
                                     <ul class="facilities-list clearfix">
-                                        <li>
-                                            <i class="flaticon-square-layouting-with-black-square-in-east-area"></i>
-                                            <span>4800 sq ft</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-bed"></i>
-                                            <span>3</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-holidays"></i>
-                                            <span>2</span>
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-vehicle"></i>
-                                            <span>1</span>
-                                        </li>
+                                        <% article.conditions.forEach((element) => { %>
+                                            <% if (element.condition && element.quantity) { %>
+                                                <li>
+                                                    <i class="<%= element.condition.icon %>"></i>
+                                                    <span><%= element.quantity %></span>
+                                                </li>
+                                            <% } %>
+                                        <% }) %>
                                     </ul>
                                 </div>
                                 <!-- Property 2 end -->
@@ -302,7 +272,7 @@
 <div class="blog content-area">
     <div class="container">
         <div class="main-title">
-            <h1><span>Our</span> Blog</h1>
+            <h1>Tin tức</h1>
         </div>
         <div class="row">
             <% newestBlogArticles.forEach((article) => { %>

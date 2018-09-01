@@ -13,19 +13,23 @@ class PropertyArticleRepository extends ArticleRepository {
     }
 
     homeList(categories, options) {
-        const getArticles = categoryId => (
-            this.model.find({
-                category: categoryId,
+        const getArticles = (categoryId) => {
+            const conditions = {
                 isApproved: true,
                 isDraft: false,
                 deletedAt: null,
-            })
-            .populate('status', 'name', { deletedAt: null })
-            .populate('conditions', 'name', { deletedAt: null })
-            .populate('author', 'name', { deletedAt: null })
-            .select('title address display price.display slug createdAt')
-            .limit(6)
-        );
+            };
+            if (categoryId) {
+                conditions.category = categoryId;
+            }
+            return this.model
+                .find(conditions)
+                .populate('status', 'name', { deletedAt: null })
+                .populate('conditions.condition', 'name icon', { deletedAt: null })
+                .populate('author', 'name', { deletedAt: null })
+                .select('title address display price slug createdAt')
+                .limit(6);
+        };
         let commands = [getArticles()];
         commands = commands.concat(Object.values(categories).map(category => (
             getArticles(category)
@@ -139,7 +143,6 @@ class PropertyArticleRepository extends ArticleRepository {
             page: options.query.page,
             limit: commonConstant.clientLimit,
         });
-        console.log(articles);
         paginationHelper.setUpUrl(articles, options);
 
         return articles;
@@ -153,6 +156,10 @@ class PropertyArticleRepository extends ArticleRepository {
                 deletedAt: null,
             })
             .sort({ createdAt: -1 })
+            .populate('conditions.condition', 'name icon', {
+                name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Bồn tắm'] },
+                deletedAt: null,
+            })
             .limit(4);
     }
 
@@ -231,7 +238,8 @@ class PropertyArticleRepository extends ArticleRepository {
                 $lt: moment().subtract(6, 'm'),
             },
         });
-
+        let skip = Math.random() * (articlesQuantity - 3);
+        skip = skip < 3 ? 0 : skip;
         return this.model
             .find({
                 isApproved: true,
@@ -246,7 +254,7 @@ class PropertyArticleRepository extends ArticleRepository {
                 select: 'name',
                 match: { deletedAt: null },
             })
-            .skip(Math.floor(Math.random() * (articlesQuantity - 3)))
+            .skip(skip)
             .limit(3)
             .select('title display.image price.display slug createdAt');
     }
