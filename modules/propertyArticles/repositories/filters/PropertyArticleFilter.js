@@ -1,4 +1,5 @@
 const QueryFilter = require('../../../../infrastructure/repositories/filters/QueryFilter');
+const commonConstant = require('../../../../constants/commonConstant');
 
 class PropertyArticleFilter extends QueryFilter {
     filterByTitle(builder, value) {
@@ -7,38 +8,22 @@ class PropertyArticleFilter extends QueryFilter {
     }
 
     filterByCategory(builder, value) {
-        if (value === '0') {
-            return builder;
-        }
         return builder.where('category').equals(value);
     }
 
     filterByType(builder, value) {
-        console.log(typeof value);
-        if (value === '0') {
-            return builder;
-        }
         return builder.where('type').equals(value);
     }
 
     filterByStatus(builder, value) {
-        if (value === '0') {
-            return builder;
-        }
         return builder.where('status').equals(value);
     }
 
     filterByCity(builder, value) {
-        if (value === '0') {
-            return builder;
-        }
         return builder.where('city').equals(value);
     }
 
     filterByDistrict(builder, value) {
-        if (value === '0') {
-            return builder;
-        }
         return builder.where('district').equals(value);
     }
 
@@ -46,35 +31,46 @@ class PropertyArticleFilter extends QueryFilter {
         return builder.where('price.type').equals(value);
     }
 
-    filterByPrice(builder, value) {
-        let range;
-        switch (value) {
-            case '1':
-                range = [0, 500];
-                break;
-            case '2':
-                range = [500, 1000];
-                break;
-            case '3':
-                range = [1000, 3000];
-                break;
-            case '4':
-                range = [3000, 7000];
-                break;
-            case '5':
-                range = [7000, 10000];
-                break;
-            case '6':
-                range = [10000, 100000000000];
-                break;
-            case '7':
-                return builder.where('price.isAgreement').equals(true);
-            default:
-                range = [0, 100000000000];
-                break;
-        }
+    filterByMinArea(builder, value) {
+        return builder.where('area').gte(value);
+    }
 
-        return builder.where('price.value').gt(range[0]).lt(range[1]);
+    filterByMaxArea(builder, value) {
+        if (parseInt(value, 10) === commonConstant.maxArea) {
+            return builder;
+        }
+        return builder.where('area').lte(value);
+    }
+
+    filterByMinPrice(builder, value) {
+        return builder.where('price.value').gte(value);
+    }
+
+    filterByMaxPrice(builder, value) {
+        if (parseInt(value, 10) === commonConstant.maxPrice) {
+            return builder;
+        }
+        return builder.where('price.value').lte(value);
+    }
+
+    filterByAmenities(builder, value) {
+        return builder.where('amenities').in(value);
+    }
+
+    filterByBedroom(builder, value) {
+        return builder;
+    }
+
+    filterByBathroom(builder, value) {
+        return builder;
+    }
+
+    filterByBalcony(builder, value) {
+        return builder;
+    }
+
+    filterByGarage(builder, value) {
+        return builder;
     }
 }
 

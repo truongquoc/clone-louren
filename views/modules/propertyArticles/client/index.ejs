@@ -191,7 +191,6 @@
 
 <div class="mb-70 recently-properties chevron-icon">
     <div class="container">
-        <!-- Main title -->
         <div class="main-title">
             <h1><span>Bài viết mới nhất</span></h1>
         </div>
@@ -207,9 +206,7 @@
                     <% newestPropertyArticles.forEach((article, index) => { %>
                         <div class="item <%= index === 0 ? 'active' : 'Đang cập nhật' %>">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <!-- Property 2 start -->
                                 <div class="property-2">
-                                    <!-- Property img -->
                                     <div class="property-img">
                                         <div class="price-ratings">
                                             <div class="price"><%= article.showPrice() %></div>
@@ -218,7 +215,7 @@
                                              data-src="<%= article.display.image %>"
                                              class="img-responsive lazyload">
                                         <div class="property-overlay">
-                                            <a href="l" class="overlay-link">
+                                            <a href="/du-an-<%= article.slug %>" class="overlay-link">
                                                 <i class="fa fa-link"></i>
                                             </a>
                                             <div class="property-magnify-gallery">
@@ -232,20 +229,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- content -->
                                     <div class="content">
-                                        <!-- title -->
                                         <h4 class="title">
-                                            <a href="properties-details.html"><%= article.title %></a>
+                                            <a href="/du-an-<%= article.slug %>"><%= article.title %></a>
                                         </h4>
-                                        <!-- Property address -->
                                         <h3 class="property-address">
-                                            <a href="properties-details.html">
+                                            <a href="/du-an-<%= article.slug %>">
                                                 <i class="fa fa-map-marker"></i><%= article.address %>
                                             </a>
                                         </h3>
                                     </div>
-                                    <!-- Facilities List -->
                                     <ul class="facilities-list clearfix">
                                         <% article.conditions.forEach((element) => { %>
                                             <% if (element.condition && element.quantity) { %>
@@ -257,7 +250,6 @@
                                         <% }) %>
                                     </ul>
                                 </div>
-                                <!-- Property 2 end -->
                             </div>
                         </div>
                     <% }) %>
@@ -295,10 +287,8 @@
                         <!-- Detail -->
                         <div class="caption detail">
                             <h4><a href="/blog/<%= article.slug %>"><%= article.title %></a></h4>
-                            <!-- paragraph -->
                             <p><%= article.description %></p>
                             <div class="clearfix"></div>
-                            <!-- Btn -->
                             <a href="/blog/<%= article.slug %>" class="read-more">Đọc thêm</a>
                         </div>
                     </div>

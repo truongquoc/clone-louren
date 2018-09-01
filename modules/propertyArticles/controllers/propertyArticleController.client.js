@@ -93,16 +93,31 @@ const list = async (req, res, next) => {
 const search = async (req, res, next) => {
     const { query } = req;
     try {
-        const propertyArticles = await PropertyArticleRepository.clientList({}, {
+        const data = getClassifications();
+        data.push(PropertyAmenityRepository.baseGet());
+        data.push(PropertyArticleRepository.clientList({}, {
             pageUrl: url.parse(req.originalUrl).pathname,
             query,
-        });
-        console.log(propertyArticles);
+        }));
+        const [
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyArticles,
+        ] = await Promise.all(data);
+        propertyArticles.renderPagination = paginationHelper.renderPagination;
 
-        // return res.render('modules/propertyArticles/client/list', {
-        //     propertyArticles,
-        //     query,
-        // });
+        return res.render('modules/propertyArticles/client/list', {
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyArticles,
+            query,
+        });
     } catch (e) {
         next(responseHelper.error(e.message));
     }

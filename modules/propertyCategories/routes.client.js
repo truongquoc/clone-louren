@@ -4,4 +4,6 @@ const PropertyCategoryController = require('./controllers/propertyCategoryContro
 
 router.get('/loai-hinh-:slug', PropertyCategoryAuthorize.showArticlesAuthorize, PropertyCategoryController.index);
 
+router.get('/loai-hinh-:slug/tim-kiem', PropertyCategoryAuthorize.showArticlesAuthorize, PropertyCategoryController.search);
+
 module.exports = router;

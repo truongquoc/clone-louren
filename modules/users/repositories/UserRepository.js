@@ -25,7 +25,8 @@ class UserRepository extends BaseRepository {
                 .populate('roles', '-_id name', { deletedAt: null })
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
-                .sort({ createdAt: -1 }),
+                .sort({ createdAt: -1 })
+                .select('name email telephone slug createdAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);

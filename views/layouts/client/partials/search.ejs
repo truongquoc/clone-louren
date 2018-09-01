@@ -2,13 +2,26 @@
     <div class="main-title-2">
         <h1><span>Advanced</span> Search</h1>
     </div>
-
-    <form method="GET" class="property-articles__search-form">
+    <% const checkHasCategory = typeof propertyCategory === 'undefined'; %>
+    <% console.log(checkHasCategory) %>
+    <form method="GET" class="property-articles__search-form"
+          action="<%= checkHasCategory ? '/du-an/tim-kiem' : `/du-an/loai-hinh-${propertyCategory.slug}/tim-kiem` %>">
+        <% if (checkHasCategory) { %>
+            <div class="form-group">
+                <select class="selectpicker search-fields" name="category">
+                    <option value="0">Loại hình</option>
+                    <% propertyCategories.forEach(function (category) { %>
+                    <option value="<%= category._id %>"><%= category.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+        <% } %>
         <div class="form-group">
             <select class="selectpicker search-fields" name="status">
                 <option value="0">Trạng thái</option>
                 <% propertyStatuses.forEach(function (status) { %>
-                <option value="<%= status._id %>"><%= status.name %></option>
+                    <option value="<%= status._id %>"
+                            <%= query.status === status._id.toString() ? 'selected' : '' %>><%= status.name %></option>
                 <% }) %>
             </select>
         </div>
@@ -16,7 +29,8 @@
             <select class="selectpicker search-fields" name="city" data-live-search="true">
                 <option value="0">Tỉnh / Thành phố</option>
                 <% cities.forEach(function (city) { %>
-                <option value="<%= city._id %>"><%= city.name %></option>
+                    <option value="<%= city._id %>"
+                            <%= query.city === city._id.toString() ? 'selected' : '' %>><%= city.name %></option>
                 <% }) %>
             </select>
         </div>
@@ -25,7 +39,8 @@
                 <select class="selectpicker search-fields" name="district" data-live-search="true">
                     <option value="0">Quận / Huyện</option>
                     <% districts.forEach(function (district) { %>
-                    <option value="<%= district._id %>" data-city="<%= district.city %>"><%= district.name %></option>
+                        <option value="<%= district._id %>" data-city="<%= district.city %>"
+                                <%= query.district === district._id.toString() ? 'selected' : '' %>><%= district.name %></option>
                     <% }) %>
                 </select>
             </div>
@@ -34,7 +49,8 @@
             <select class="selectpicker search-fields" name="type">
                 <option value="0">Loại bất động sản</option>
                 <% propertyTypes.forEach(function (type) { %>
-                <option value="<%= type._id %>"><%= type.name %></option>
+                    <option value="<%= type._id %>"
+                            <%= query.type === type._id.toString() ? 'selected' : '' %>><%= type.name %></option>
                 <% }) %>
             </select>
         </div>
@@ -42,24 +58,20 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
                     <select class="selectpicker search-fields" name="bedroom">
-                        <option>Phòng ngủ</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="0">Phòng ngủ</option>
+                        <% for (let i = 1; i <= 5; i += 1) { %>
+                            <option value="<%= i %>" <%= query.bedroom === i.toString() ? 'selected' : '' %>><%= i %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
                     <select class="selectpicker search-fields" name="bathroom">
-                        <option>Phòng tắm</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="0">Phòng tắm</option>
+                        <% for (let i = 1; i <= 5; i += 1) { %>
+                            <option value="<%= i %>" <%= query.bathroom === i.toString() ? 'selected' : '' %>><%= i %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>
@@ -69,39 +81,37 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
                     <select class="selectpicker search-fields" name="balcony">
-                        <option>Ban công</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="0">Ban công</option>
+                        <% for (let i = 1; i <= 5; i += 1) { %>
+                            <option value="<%= i %>" <%= query.balcony === i.toString() ? 'selected' : '' %>><%= i %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
                     <select class="selectpicker search-fields" data-live-search="true" name="garage">
-                        <option>Gara</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="0">Gara</option>
+                        <% for (let i = 1; i <= 5; i += 1) { %>
+                            <option value="<%= i %>" <%= query.garage === i.toString() ? 'selected' : '' %>><%= i %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>
         </div>
 
-        <div class="range-slider">
+        <div class="range-slider area-slider">
             <label>Diện tích</label>
-            <div data-min="0" data-max="10000" data-unit="Met vuông" data-min-name="min_area" data-max-name="max_area"
+            <div data-min="0" data-max="1000" data-min-value="<%= query.minArea %>" data-max-value="<%= query.maxArea %>"
+                 data-unit="Met vuông" data-min-name="minArea" data-max-name="maxArea"
                  class="range-slider-ui ui-slider" aria-disabled="false"></div>
             <div class="clearfix"></div>
         </div>
 
-        <div class="range-slider">
+        <div class="range-slider price-slider">
             <label>Giá</label>
-            <div data-min="0" data-max="100000" data-unit="Triệu" data-min-name="min_price" data-max-name="max_price"
+            <div data-min="0" data-max="10000" data-min-value="<%= query.minPrice %>" data-max-value="<%= query.maxPrice %>"
+                 data-unit="Triệu" data-min-name="minPrice" data-max-name="maxPrice"
                  class="range-slider-ui ui-slider" aria-disabled="false"></div>
             <div class="clearfix"></div>
         </div>
@@ -112,10 +122,11 @@
         <div id="options-content" class="collapse">
             <label class="margin-t-10">Features</label>
             <% propertyAmenities.forEach((amenity, index) => { %>
-            <div class="checkbox checkbox-theme">
-                <input id="checkbox<%= index %>" type="checkbox" name="amenities" value="<%= amenity._id %>">
-                <label for="checkbox<%= index %>"><%= amenity.name %></label>
-            </div>
+                <div class="checkbox checkbox-theme">
+                    <input id="checkbox<%= index %>" type="checkbox" name="amenities" value="<%= amenity._id %>"
+                           <%= query.amenities && query.amenities.indexOf(amenity._id.toString()) >= 0 ? 'checked' : '' %>>
+                    <label for="checkbox<%= index %>"><%= amenity.name %></label>
+                </div>
             <% }) %>
         </div>
 

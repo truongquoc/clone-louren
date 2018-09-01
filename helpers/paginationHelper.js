@@ -9,6 +9,7 @@ const setUpQueryParameters = (data, name, options, num = 0) => {
     if (num !== false) {
         data[name] += `page=${options.query.page + num}`;
     }
+    data[name] = encodeURI(data[name]);
 };
 
 const setUpUrl = (data, options) => {

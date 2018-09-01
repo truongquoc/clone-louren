@@ -12,6 +12,9 @@ const { dropPropertyTypesTable, fakePropertyTypes } = require('./property/typesS
 const { dropPropertyStatusesTable, fakePropertyStatuses } = require('./property/statusesSeeder');
 const { dropPriceTypesTable, fakePriceTypes } = require('./property/priceTypesSeeder');
 const { dropPropertyArticlesTable, fakePropertyArticles } = require('./property/articlesSeeder');
+const { dropBlogCategoriesTable, fakeBlogCategories } = require('./blog/categoriesSeeder');
+const { dropBlogTagsTable, fakeBlogTags } = require('./blog/tagsSeeder');
+const { dropBlogArticlesTable, fakeBlogArticles } = require('./blog/articlesSeeder');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl, { useNewUrlParser: true });
@@ -141,6 +144,42 @@ const pumpItUp = () => ([
             title: 'Create simple data for PropertyArticle model👌',
             task: async () => {
                 await fakePropertyArticles();
+            },
+        },
+        {
+            title: 'Drop blog categories table👌',
+            task: async () => {
+                await dropBlogCategoriesTable();
+            },
+        },
+        {
+            title: 'Create simple data for BlogCategory model👌',
+            task: async () => {
+                await fakeBlogCategories();
+            },
+        },
+        {
+            title: 'Drop blog tags table👌',
+            task: async () => {
+                await dropBlogTagsTable();
+            },
+        },
+        {
+            title: 'Create simple data for BlogTag model👌',
+            task: async () => {
+                await fakeBlogTags();
+            },
+        },
+        {
+            title: 'Drop blog articles table👌',
+            task: async () => {
+                await dropBlogArticlesTable();
+            },
+        },
+        {
+            title: 'Create simple data for BlogArticle model👌',
+            task: async () => {
+                await fakeBlogArticles();
             },
         },
     ],

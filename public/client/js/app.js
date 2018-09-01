@@ -119,11 +119,14 @@ $(function () {
 
     // Range sliders initialization
     $(".range-slider-ui").each(function () {
+        const self = this;
         var minRangeValue = $(this).attr('data-min');
         var maxRangeValue = $(this).attr('data-max');
         var minName = $(this).attr('data-min-name');
         var maxName = $(this).attr('data-max-name');
         var unit = $(this).attr('data-unit');
+        let unit1 = unit;
+        let unit2 = unit;
 
         $(this).append("" +
             "<span class='min-value'></span> " +
@@ -135,13 +138,28 @@ $(function () {
             range: true,
             min: minRangeValue,
             max: maxRangeValue,
-            values: [minRangeValue, maxRangeValue],
+            values: [$(this).data('min-value') || minRangeValue, $(this).data('max-value') || maxRangeValue],
             slide: function (event, ui) {
-                event = event;
                 var currentMin = parseInt(ui.values[0]);
                 var currentMax = parseFloat(ui.values[1]);
-                $(this).children(".min-value").text( currentMin + " " + unit);
-                $(this).children(".max-value").text(currentMax + " " + unit);
+                let textMin = currentMin;
+                let textMax = currentMax;
+                if ($(self).closest('.range-slider').hasClass('price-slider')) {
+                    if (currentMin / 1000 > 1) {
+                        textMin = Math.round(currentMin / 1000);
+                        unit1 = 'Tỷ';
+                    } else {
+                        unit1 = 'Triệu';
+                    }
+                    if (currentMax / 1000 > 1) {
+                        textMax = Math.round(currentMax / 1000);
+                        unit2 = 'Tỷ';
+                    } else {
+                        unit2 = 'Triệu';
+                    }
+                }
+                $(this).children(".min-value").text(textMin + " " + unit1);
+                $(this).children(".max-value").text(textMax + " " + unit2);
                 $(this).children(".current-min").val(currentMin);
                 $(this).children(".current-max").val(currentMax);
             }
@@ -149,8 +167,20 @@ $(function () {
 
         var currentMin = parseInt($(this).slider("values", 0));
         var currentMax = parseFloat($(this).slider("values", 1));
-        $(this).children(".min-value").text( currentMin + " " + unit);
-        $(this).children(".max-value").text(currentMax + " " + unit);
+        let textMin = currentMin;
+        let textMax = currentMax;
+        if ($(self).closest('.range-slider').hasClass('price-slider')) {
+            if (currentMin / 1000 > 1) {
+                textMin = Math.round(currentMin / 1000);
+                unit1 = 'Tỷ';
+            }
+            if (currentMax / 1000 > 1) {
+                textMax = Math.round(currentMax / 1000);
+                unit2 = 'Tỷ';
+            }
+        }
+        $(this).children(".min-value").text(textMin + " " + unit1);
+        $(this).children(".max-value").text(textMax + " " + unit2);
         $(this).children(".current-min").val(currentMin);
         $(this).children(".current-max").val(currentMax);
     });
