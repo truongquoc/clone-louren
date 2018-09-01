@@ -251,7 +251,7 @@ const storeImages = async (req, res) => {
 
 const showMap = async (req, res, next) => {
     try {
-        const propertyArticle = await PropertyArticleRepository.show(req.params.slug);
+        const propertyArticle = await PropertyArticleRepository.getEditArticle(req.params.slug);
         return res.render('modules/propertyArticles/admin/map', {
             propertyArticle,
         });

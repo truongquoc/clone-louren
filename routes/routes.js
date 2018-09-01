@@ -48,12 +48,12 @@ router.use('/admin/property/statuses', adminPropertyStatusRouter);
 router.use('/admin/property/types', adminPropertyTypeRouter);
 router.use('/admin/requests', adminRequestRouter);
 
+router.use('/', clientPropertyArticleRouter);
+router.use('/bai-viet', clientPropertyCategoryRouter);
+
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
-
-router.use('/', clientPropertyArticleRouter);
-router.use('/du-an', clientPropertyCategoryRouter);
 
 router.use(handleExceptionHelper.handleException);
 

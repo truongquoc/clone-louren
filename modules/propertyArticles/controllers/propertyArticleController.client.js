@@ -5,6 +5,7 @@ const PropertyTypeRepositoryClass = require('../../propertyTypes/repositories/Pr
 const CityRepositoryClass = require('../../cities/repositories/CityRepository');
 const DistrictRepositoryClass = require('../../districts/repositories/DistrictRepository');
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
+const PropertyAmenityRepositoryClass = require('../../propertyAmenities/repositories/PropertyAmenityRepository');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
@@ -13,6 +14,7 @@ const PropertyTypeRepository = new PropertyTypeRepositoryClass();
 const CityRepository = new CityRepositoryClass();
 const DistrictRepository = new DistrictRepositoryClass();
 const BlogArticleRepository = new BlogArticleRepositoryClass();
+const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
 const getClassifications = () => ([
@@ -64,7 +66,37 @@ const search = async (req, res, next) => {
     }
 };
 
+const show = async (req, res, next) => {
+    const { query } = req;
+    try {
+        const data = getClassifications();
+        data.push(PropertyAmenityRepository.baseGet());
+        data.push(PropertyArticleRepository.show(req.params.slug));
+        const [
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyArticle,
+        ] = await Promise.all(data);
+
+        return res.render('modules/propertyArticles/client/detail', {
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyArticle,
+            query,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     index,
     search,
+    show,
 };

@@ -25,3 +25,7 @@
 .dropdown-menu {
     min-height: auto !important;
 }
+
+.media .media-object {
+    max-width: 130px;
+}
