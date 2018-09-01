@@ -93,13 +93,16 @@ const list = async (req, res, next) => {
 const search = async (req, res, next) => {
     const { query } = req;
     try {
-        const propertyArticles = await PropertyArticleRepository.search(query, undefined, {
+        const propertyArticles = await PropertyArticleRepository.clientList({}, {
             pageUrl: url.parse(req.originalUrl).pathname,
             query,
         });
-        // console.log(propertyArticles);
+        console.log(propertyArticles);
 
-        return res.render('modules/propertyArticles/client/list');
+        // return res.render('modules/propertyArticles/client/list', {
+        //     propertyArticles,
+        //     query,
+        // });
     } catch (e) {
         next(responseHelper.error(e.message));
     }

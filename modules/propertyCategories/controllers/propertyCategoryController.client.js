@@ -31,8 +31,8 @@ const index = async (req, res, next) => {
         const data = getClassifications();
         data.push(PropertyAmenityRepository.baseGet());
         data.push(PropertyArticleRepository.clientList({
-            id: propertyCategory._id,
-            type: 'category',
+            value: propertyCategory._id,
+            name: 'category',
         }, { pageUrl: url.parse(req.originalUrl).pathname, query }));
         const [
             propertyStatuses,

@@ -40,113 +40,110 @@ class PropertyArticleRepository extends ArticleRepository {
 
     async adminList(userId, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const conditions = { title: search, deletedAt: null };
-        const populate = [{
-            path: 'category',
-            select: '-_id name',
-            match: { deletedAt: null },
-        }, {
-            path: 'author',
-            select: '-_id name',
-            match: { deletedAt: null },
-        }];
         if (!userId) {
-            populate[1].populate = {
-                path: 'roles',
-                select: '-_id name',
-            };
             conditions.isDraft = false;
         } else {
             conditions.author = userId;
         }
-        const articles = await this.model.paginate(conditions, {
-            select: 'title isApproved slug createdAt',
-            populate,
-            sort: { createdAt: -1 },
-            page: options.query.page,
-            limit: commonConstant.limit,
-        });
-        paginationHelper.setUpUrl(articles, options);
+        const [total, docs] = await Promise.all([
+            this.model.count(conditions),
+            this.model
+                .find(conditions)
+                .populate('category', '-_id name', { deletedAt: null })
+                .populate({
+                    path: 'author',
+                    select: '-_id name',
+                    match: { deletedAt: null },
+                    populate: {
+                        path: 'roles',
+                        select: '-_id name',
+                    },
+                })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ createdAt: -1 })
+                .select('title isApproved slug createdAt'),
+        ]);
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
 
-        return articles;
+        return data;
     }
 
-    async clientList(condition, options) {
+    async clientList(slug, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.clientLimit;
         const sort = clientHelper.parseSorting(options.query.sort);
         const conditions = {
             isApproved: true,
             isDraft: false,
             deletedAt: null,
         };
-        if (condition && condition.type === 'category') {
-            conditions.category = condition.id;
+        if (slug) {
+            conditions[slug.name] = slug.value;
         }
-        const articles = await this.model.paginate(conditions, {
-            select: 'conditions title address display price.display slug createdAt',
-            populate: [{
-                path: 'status',
-                select: 'name',
-                match: { deletedAt: null },
-            }, {
-                path: 'conditions.condition',
-                select: 'name icon',
-                match: {
+        const [total, docs] = await Promise.all([
+            this.model.search(options.query).count(conditions),
+            this.model
+                .search(options.query)
+                .find(conditions)
+                .populate('conditions.condition', 'name icon', {
                     name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Ban công', 'Bồn tắm'] },
                     deletedAt: null,
-                },
-            }, {
-                path: 'author',
-                select: 'name',
-                match: { deletedAt: null },
-            }],
-            sort,
-            page: options.query.page,
-            limit: commonConstant.clientLimit,
-        });
-        paginationHelper.setUpUrl(articles, options);
+                })
+                .populate('status', 'name', { deletedAt: null })
+                .populate('author', 'name', { deletedAt: null })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort(sort)
+                .select('conditions title address display price.display slug createdAt'),
+        ]);
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
 
-        return articles;
+        return data;
     }
 
-    async search(params, condition, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
-        const sort = clientHelper.parseSorting(options.query.sort);
-        const conditions = {
-            isApproved: true,
-            isDraft: false,
-            deletedAt: null,
-        };
-        if (condition && condition.type === 'category') {
-            conditions.category = condition.id;
-        }
-        const articles = await this.model.paginate(conditions, {
-            select: 'conditions title address display price.display slug createdAt',
-            populate: [{
-                path: 'status',
-                select: 'name',
-                match: { deletedAt: null },
-            }, {
-                path: 'conditions.condition',
-                select: 'name icon',
-                match: {
-                    name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Ban công', 'Bồn tắm'] },
-                    deletedAt: null,
-                },
-            }, {
-                path: 'author',
-                select: 'name',
-                match: { deletedAt: null },
-            }],
-            sort,
-            page: options.query.page,
-            limit: commonConstant.clientLimit,
-        });
-        paginationHelper.setUpUrl(articles, options);
-
-        return articles;
-    }
+    // async search(params, condition, options) {
+    //     options.query.page = parseInt(options.query.page, 10) || 1;
+    //     const sort = clientHelper.parseSorting(options.query.sort);
+    //     const conditions = {
+    //         isApproved: true,
+    //         isDraft: false,
+    //         deletedAt: null,
+    //     };
+    //     if (condition && condition.type === 'category') {
+    //         conditions.category = condition.id;
+    //     }
+    //     const articles = await this.model.paginate(conditions, {
+    //         select: 'conditions title address display price.display slug createdAt',
+    //         populate: [{
+    //             path: 'status',
+    //             select: 'name',
+    //             match: { deletedAt: null },
+    //         }, {
+    //             path: 'conditions.condition',
+    //             select: 'name icon',
+    //             match: {
+    //                 name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Ban công', 'Bồn tắm'] },
+    //                 deletedAt: null,
+    //             },
+    //         }, {
+    //             path: 'author',
+    //             select: 'name',
+    //             match: { deletedAt: null },
+    //         }],
+    //         sort,
+    //         page: options.query.page,
+    //         limit: commonConstant.clientLimit,
+    //     });
+    //     paginationHelper.setUpUrl(articles, options);
+    //
+    //     return articles;
+    // }
 
     homeGetNewest() {
         return this.model

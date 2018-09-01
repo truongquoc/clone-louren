@@ -19,14 +19,18 @@ class BaseRepository {
 
     async paginate(conditions = {}, options = {}) {
         options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = options.limit || commonConstant.limit;
         conditions.deletedAt = null;
-        const data = await this.model.paginate(conditions, {
-            select: options.select,
-            sort: { createdAt: -1 },
-            populate: options.populate || [],
-            page: options.query.page,
-            limit: options.limit || commonConstant.limit,
-        });
+        const [total, docs] = await Promise.all([
+            this.model.count(conditions),
+            this.model
+                .find(conditions)
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ createdAt: -1 })
+                .select(options.select || '-deletedAt -__v'),
+        ]);
+        const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
 
         return data;
