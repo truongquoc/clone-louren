@@ -8,7 +8,7 @@ const { dbUrl } = require('./config');
 const schedule = require('../infrastructure/commands/schedule');
 
 // Main connection (session, flash, bodyParser, router after config, helper)
-module.exports = function (app, express) {
+module.exports = (app, express) => {
     app.use(bodyParser.urlencoded({
         extended: true,
     }));

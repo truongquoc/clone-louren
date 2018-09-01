@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 const faker = require('faker');
 const getSlug = require('speakingurl');
+const dateHelper = require('../../../helpers/dateHelper');
 const UserRepositoryClass = require('../../../modules/users/repositories/UserRepository');
 const DistrictRepositoryClass = require('../../../modules/districts/repositories/DistrictRepository');
 const PropertyTypeRepositoryClass = require('../../../modules/propertyTypes/repositories/PropertyTypeRepository');
@@ -56,7 +57,9 @@ async function fakePropertyArticles() {
             }
             await PropertyArticle.create({
                 author: users[Math.floor(Math.random() * users.length)]._id,
-                category: propertyCategories[Math.floor(Math.random() * propertyCategories.length)]._id,
+                category: propertyCategories[
+                    Math.floor(Math.random() * propertyCategories.length)
+                ]._id,
                 type: propertyTypes[Math.floor(Math.random() * propertyTypes.length)]._id,
                 status: propertyStatuses[Math.floor(Math.random() * propertyStatuses.length)]._id,
                 city: district.city,
@@ -68,7 +71,7 @@ async function fakePropertyArticles() {
                 display: { image: faker.image.dataUri() },
                 address: faker.address.streetAddress(),
                 isApproved: true,
-                slug: getSlug(title),
+                slug: getSlug(`${title}-${dateHelper.getSlugCurrentTime()}`),
                 createdAt: new Date(),
                 updatedAt: new Date(),
             });

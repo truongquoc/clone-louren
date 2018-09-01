@@ -1,3 +1,4 @@
+const url = require('url');
 const responseHelper = require('../../../helpers/responseHelper');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
 const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
@@ -58,7 +59,11 @@ const index = async (req, res, next) => {
 const search = async (req, res, next) => {
     const { query } = req;
     try {
-        const propertyArticles = await PropertyArticleRepository.search(query);
+        const propertyArticles = await PropertyArticleRepository.search(query, undefined, {
+            pageUrl: url.parse(req.originalUrl).pathname,
+            query,
+        });
+        // console.log(propertyArticles);
 
         return res.render('modules/propertyArticles/client/list');
     } catch (e) {

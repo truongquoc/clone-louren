@@ -44,7 +44,7 @@ const createArticleRequest = [
         .custom((value, { req }) => {
             const currentTime = DateHelper.getSlugCurrentTime();
             return Article.findOne({
-                slug: getSlug(value) + '-' + currentTime
+                slug: getSlug(value) + '-' + currentTime,
             }).then(article => {
                 if (article) {
                     return Promise.reject('Path already in use');
