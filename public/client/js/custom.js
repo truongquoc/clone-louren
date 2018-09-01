@@ -27,11 +27,13 @@ function init_sort() {
         const self = this;
         const paramsString = window.location.href.split(/\?(.+)/)[1];
         if (!paramsString) {
-            return false;
+            window.location = `${window.location.protocol}//${window.location.host}${window.location.pathname}?sort=${$(self).val()}`;
+            return;
         }
         const params = paramsString.split('&');
         let searchString = '';
         const paramsLength = params.length;
+        console.log(params);
         params.forEach((param, index) => {
             if (param) {
                 const [element, value] = param.split('=');
@@ -44,6 +46,12 @@ function init_sort() {
                     searchString += `sort=${$(self).val()}`;
                 }
                 if (index < paramsLength - 1) {
+                    if (params[index]) {
+                        const [element] = params[index + 1].split('=');
+                        if (element === 'page') {
+                            return;
+                        }
+                    }
                     searchString += '&';
                 }
             }

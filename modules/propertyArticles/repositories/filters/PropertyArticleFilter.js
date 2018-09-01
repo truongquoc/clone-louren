@@ -7,22 +7,38 @@ class PropertyArticleFilter extends QueryFilter {
     }
 
     filterByCategory(builder, value) {
+        if (value === '0') {
+            return builder;
+        }
         return builder.where('category').equals(value);
     }
 
     filterByType(builder, value) {
+        console.log(typeof value);
+        if (value === '0') {
+            return builder;
+        }
         return builder.where('type').equals(value);
     }
 
     filterByStatus(builder, value) {
+        if (value === '0') {
+            return builder;
+        }
         return builder.where('status').equals(value);
     }
 
     filterByCity(builder, value) {
+        if (value === '0') {
+            return builder;
+        }
         return builder.where('city').equals(value);
     }
 
     filterByDistrict(builder, value) {
+        if (value === '0') {
+            return builder;
+        }
         return builder.where('district').equals(value);
     }
 
