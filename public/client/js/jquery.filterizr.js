@@ -121,7 +121,7 @@
                 delay: 0,
                 delayMode: 'progressive',
                 easing: 'ease-out',
-                filter: 'all',
+                filter: '1',
                 filterOutCss: {
                     'opacity': 0,
                     'transform': 'scale(0.5)'

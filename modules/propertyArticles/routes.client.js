@@ -21,8 +21,10 @@ router.use(async (req, res, next) => {
     next();
 });
 
-router.get('/bai-viet/tim-kiem', propertyArticleController.search);
+router.get('/du-an', propertyArticleController.list);
 
-router.get('/bai-viet-:slug', propertyArticleController.show);
+router.get('/du-an/tim-kiem', propertyArticleController.search);
+
+router.get('/du-an-:slug', propertyArticleController.show);
 
 module.exports = router;
