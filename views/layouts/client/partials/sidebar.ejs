@@ -1,82 +1,38 @@
 <div class="sidebar-widget category-posts">
     <div class="main-title-2">
-        <h1><span>popular</span> Category</h1>
+        <h1><b>Loại hình nổi bật</b></h1>
     </div>
     <ul class="list-unstyled list-cat">
-        <li><a href="#">Single Family </a> <span>(45)  </span></li>
-        <li><a href="#">Apartment  </a> <span>(21)  </span></li>
-        <li><a href="#">Condo </a> <span>(23)  </span></li>
-        <li><a href="#">Multi Family </a> <span>(19)  </span></li>
-        <li><a href="#">Villa </a> <span>(19)  </span></li>
-        <li><a href="#">Other  </a> <span>(22)  </span></li>
+        <% propertyCategories.forEach((category) => { %>
+            <li><a href="/bai-viet/loai-hinh-<%= category.slug %>"><%= category.name %></a> <span>(<%= category.countPropertyArticles %>)  </span></li>
+        <% }) %>
     </ul>
 </div>
 <div class="sidebar-widget popular-posts">
     <div class="main-title-2">
-        <h1><span>Recently</span> Properties</h1>
+        <h1><b>Bài viết gần đây</b></h1>
     </div>
-    <div class="media">
-        <div class="media-left">
-            <img class="media-object" src="/public/client/img/properties/small-properties-1.jpg" alt="small-properties-1">
-        </div>
-        <div class="media-body">
-            <h3 class="media-heading">
-                <a href="properties-details.html">Sweet Family Home</a>
-            </h3>
-            <p>February 27, 2018</p>
-            <div class="price">
-                $734,000
+    <% recentPropertyArticles.forEach((article) => { %>
+        <div class="media">
+            <div class="media-left">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="media-object lazyload"
+                     data-src="<%= article.display.image %>" alt="small-properties-1">
+            </div>
+            <div class="media-body">
+                <h3 class="media-heading">
+                    <a href="/bai-viet-<%= article.slug %>"><%= article.title %></a>
+                </h3>
+                <p><%= moment(article.createdAt).format('DD/MM/YYYY') %></p>
+                <div class="price">
+                    <%= article.price.display || 'Chưa cập nhật' %>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="media">
-        <div class="media-left">
-            <img class="media-object" src="/public/client/img/properties/small-properties-2.jpg" alt="small-properties-2">
-        </div>
-        <div class="media-body">
-            <h3 class="media-heading">
-                <a href="properties-details.html">Modern Family Home</a>
-            </h3>
-            <p>February 27, 2018</p>
-            <div class="price">
-                $734,000
-            </div>
-        </div>
-    </div>
-    <div class="media">
-        <div class="media-left">
-            <img class="media-object" src="/public/client/img/properties/small-properties-3.jpg" alt="small-properties-3">
-        </div>
-        <div class="media-body">
-            <h3 class="media-heading">
-                <a href="properties-details.html">Beautiful Single Home</a>
-            </h3>
-            <p>February 27, 2018</p>
-            <div class="price">
-                $734,000
-            </div>
-        </div>
-    </div>
-</div>
-<div class="sidebar-widget tags-box">
-    <div class="main-title-2">
-        <h1><span>popular</span> Tags</h1>
-    </div>
-    <ul class="tags">
-        <li><a href="#">Image</a></li>
-        <li><a href="#">Features</a></li>
-        <li><a href="#">Typography</a></li>
-        <li><a href="#">Gallery</a></li>
-        <li><a href="#">Slideshow</a></li>
-        <li><a href="#">Post Formats</a></li>
-        <li><a href="#">Sellers</a></li>
-        <li><a href="#">WooCommerce</a></li>
-        <li><a href="#">Shortcodes</a></li>
-    </ul>
+    <% }) %>
 </div>
 <div class="social-media sidebar-widget clearfix">
     <div class="main-title-2">
-        <h1><span>Social</span> Media</h1>
+        <h1><b>Mạng xã hội</b></h1>
     </div>
     <ul class="social-list">
         <li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>

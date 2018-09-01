@@ -24,12 +24,12 @@ const PropertyArticle = new Schema({
     },
     city: {
         type: Schema.Types.ObjectId,
-        ref: 'property_cities',
+        ref: 'cities',
         required: true,
     },
     district: {
         type: Schema.Types.ObjectId,
-        ref: 'property_districts',
+        ref: 'districts',
         required: true,
     },
     conditions: [{
@@ -44,7 +44,7 @@ const PropertyArticle = new Schema({
     }],
     amenities: [{
         type: Schema.Types.ObjectId,
-        ref: 'property_districts',
+        ref: 'property_amenities',
     }],
     author: {
         type: Schema.Types.ObjectId,

@@ -66,101 +66,7 @@
 </div>
 <!-- Banner end -->
 
-<!-- Search area start -->
-<div class="search-area">
-    <div class="container">
-        <div class="search-area-inner">
-            <div class="search-contents ">
-                <form method="GET">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="area-from" data-live-search="true"
-                                        data-live-search-placeholder="Search value">
-                                    <option>Area From</option>
-                                    <option>1000</option>
-                                    <option>800</option>
-                                    <option>600</option>
-                                    <option>400</option>
-                                    <option>200</option>
-                                    <option>100</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="status">
-                                    <option value="0">Trạng thái</option>
-                                    <% propertyStatuses.forEach(function (status) { %>
-                                        <option value="<%= status._id %>"><%= status.name %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="city" data-live-search="true">
-                                    <option value="0">Tỉnh / Thành phố</option>
-                                    <% cities.forEach(function (city) { %>
-                                        <option value="<%= city._id %>"><%= city.name %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="district" data-live-search="true">
-                                    <option value="0">Quận / Huyện</option>
-                                    <% districts.forEach(function (district) { %>
-                                        <option value="<%= district._id %>" data-city="<%= district.city %>"><%= district.name %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="category" data-live-search="true">
-                                    <option value="0">Loại hình</option>
-                                    <% propertyCategories.forEach(function (category) { %>
-                                        <option value="<%= category._id %>"><%= category.name %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <select class="selectpicker search-fields" name="type">
-                                    <option value="0">Loại bất động sản</option>
-                                    <% propertyTypes.forEach(function (type) { %>
-                                        <option value="<%= type._id %>"><%= type.name %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <div class="range-slider">
-                                    <div data-min="0" data-max="150000" data-unit="USD" data-min-name="min_price"
-                                         data-max-name="max_price" class="range-slider-ui ui-slider"
-                                         aria-disabled="false"></div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
-                            <div class="form-group">
-                                <button class="search-button">Search</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Search area start -->
+<% include partials/indexSearch.ejs %>
 
 <!-- Featured properties start -->
 <div class="content-area featured-properties">
@@ -187,7 +93,7 @@
                                     <div class="property-price"><%= article.price.display || 'Chưa cập nhật' %></div>
                                     <img src="<%= article.display.image %>" alt="fp" class="img-responsive lazyload">
                                     <div class="property-overlay">
-                                        <a href="/du-an-<%= article.slug %>" class="overlay-link">
+                                        <a href="/bai-viet-<%= article.slug %>" class="overlay-link">
                                             <i class="fa fa-link"></i>
                                         </a>
                                         <div class="property-magnify-gallery">
@@ -203,10 +109,10 @@
                                 </div>
                                 <div class="property-content">
                                     <h1 class="title">
-                                        <a href="/du-an-<%= article.slug %>"><%= article.title %></a>
+                                        <a href="/bai-viet-<%= article.slug %>"><%= article.title %></a>
                                     </h1>
                                     <h3 class="property-address">
-                                        <a href="/du-an-<%= article.slug %>">
+                                        <a href="/bai-viet-<%= article.slug %>">
                                             <i class="fa fa-map-marker"></i><%= article.address %>
                                         </a>
                                     </h3>

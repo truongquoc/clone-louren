@@ -1,4 +1,6 @@
 const getSlug = require('speakingurl');
+const moment = require('moment');
+const clientHelper = require('../../../helpers/clientHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 const commonConstant = require('../../../constants/commonConstant');
@@ -68,6 +70,7 @@ class PropertyArticleRepository extends ArticleRepository {
 
     async clientList(condition, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
+        const sort = clientHelper.parseSorting(options.query.sort);
         const conditions = {
             isApproved: true,
             isDraft: false,
@@ -94,7 +97,7 @@ class PropertyArticleRepository extends ArticleRepository {
                 select: 'name',
                 match: { deletedAt: null },
             }],
-            sort: { createdAt: -1 },
+            sort,
             page: options.query.page,
             limit: commonConstant.clientLimit,
         });
@@ -140,7 +143,76 @@ class PropertyArticleRepository extends ArticleRepository {
                 select: '_id name slug',
                 match: { deletedAt: null },
             })
-            .select('-isApproved -updatedAt');
+            .populate({
+                path: 'conditions.condition',
+                select: 'name',
+                match: { deletedAt: null },
+            })
+            .populate({
+                path: 'amenities',
+                select: 'name',
+                match: { deletedAt: null },
+            })
+            .populate({
+                path: 'city',
+                select: 'name',
+                match: { deletedAt: null },
+            })
+            .populate({
+                path: 'district',
+                select: 'name',
+                match: { deletedAt: null },
+            })
+            .populate({
+                path: 'price.type',
+                select: 'name',
+                match: { deletedAt: null },
+            })
+            .select('-isApproved -updatedAt -__v');
+    }
+
+    countByCategory(categories) {
+        const self = this;
+        categories.forEach(async (category) => {
+            category.countPropertyArticles = await self.model.count({
+                category: category._id,
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            });
+            return category;
+        });
+
+        return categories;
+    }
+
+    async getRandomArticles() {
+        const articlesQuantity = await this.model.count({
+            isApproved: true,
+            isDraft: false,
+            deletedAt: null,
+            createdAt: {
+                $lt: moment().subtract(6, 'm'),
+            },
+        });
+
+        return this.model
+            .find({
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+                createdAt: {
+                    $lt: moment().subtract(6, 'm'),
+                },
+            })
+            .populate({
+                path: 'price.type',
+                select: 'name',
+                match: { deletedAt: null },
+            })
+            .skip(Math.floor(Math.random() * (articlesQuantity - 3)))
+            .limit(3)
+            .select('title display.image price.display slug createdAt');
     }
 
     create(data, user) {
@@ -170,7 +242,7 @@ class PropertyArticleRepository extends ArticleRepository {
             address: data.address,
             price: {
                 value: data.price.value,
-                display: data.price.type,
+                display: data.price.display,
                 type: data.price.type,
                 isAgreement: !!data.price.isAgreement,
             },
@@ -210,7 +282,7 @@ class PropertyArticleRepository extends ArticleRepository {
             address: data.address,
             price: {
                 value: data.price.value,
-                display: data.price.type,
+                display: data.price.display,
                 type: data.price.type,
                 isAgreement: !!data.price.isAgreement,
             },
