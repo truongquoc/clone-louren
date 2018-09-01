@@ -1,6 +1,8 @@
 const getSlug = require('speakingurl');
-const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
+const commonConstant = require('../../../constants/commonConstant');
+const paginationHelper = require('../../../helpers/paginationHelper');
 const District = require('../models/District');
+const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
 const PropertyArticleRepositoryClass = require('../../propertyArticles/repositories/PropertyArticleRepository');
 
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
@@ -10,13 +12,22 @@ class DistrictRepository extends ClassificationRepository {
         return District;
     }
 
-    list(options) {
-        options.populate = [{
-            path: 'city',
-            select: '_id name',
-            match: { deletedAt: null },
-        }];
-        return this.paginate({}, options);
+    async list(options) {
+        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.limit;
+        const [total, docs] = await Promise.all([
+            this.model.count({ deletedAt: null }),
+            this.model
+                .find({ deletedAt: null })
+                .populate('city', '_id name', { deletedAt: null })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ createdAt: -1 }),
+        ]);
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
+
+        return data;
     }
 
     async create(data) {

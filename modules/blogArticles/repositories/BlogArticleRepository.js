@@ -12,6 +12,7 @@ class BlogArticleRepository extends ArticleRepository {
 
     async clientList(slug, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.clientLimit;
         const search = new RegExp(options.query.search, 'i');
         const conditions = {
             title: search,
@@ -19,62 +20,59 @@ class BlogArticleRepository extends ArticleRepository {
             isDraft: false,
             deletedAt: null,
         };
-        const populate = [{
-            path: 'category',
-            select: '-_id name slug',
-            match: { deletedAt: null },
-        }, {
-            path: 'author',
-            select: '-_id name',
-            match: { deletedAt: null },
-        }];
         if (slug) {
             conditions[slug.name] = slug.value;
         }
-        const articles = await this.model.paginate(conditions, {
-            select: 'title description display slug createdAt',
-            populate,
-            sort: { createdAt: -1 },
-            page: options.query.page,
-            limit: commonConstant.clientLimit,
-        });
-        paginationHelper.setUpUrl(articles, options);
+        const [total, docs] = await Promise.all([
+            this.model.count(conditions),
+            this.model
+                .find(conditions)
+                .populate('category', '-_id name slug', { deletedAt: null })
+                .populate('author', '-_id name', { deletedAt: null })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ createdAt: -1 })
+                .select('title description display slug createdAt'),
+        ]);
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
 
-        return articles;
+        return data;
     }
 
     async adminList(userId, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const conditions = { title: search, deletedAt: null };
-        const populate = [{
-            path: 'category',
-            select: '-_id name',
-            match: { deletedAt: null },
-        }, {
-            path: 'author',
-            select: '-_id name',
-            match: { deletedAt: null },
-        }];
         if (!userId) {
-            populate[1].populate = {
-                path: 'roles',
-                select: '-_id name',
-            };
             conditions.isDraft = false;
         } else {
             conditions.author = userId;
         }
-        const articles = await this.model.paginate(conditions, {
-            select: 'title isApproved slug createdAt',
-            populate,
-            sort: { createdAt: -1 },
-            page: options.query.page,
-            limit: commonConstant.limit,
-        });
-        paginationHelper.setUpUrl(articles, options);
+        const [total, docs] = await Promise.all([
+            this.model.count(conditions),
+            this.model
+                .find(conditions)
+                .populate('category', '-_id name', { deletedAt: null })
+                .populate({
+                    path: 'author',
+                    select: '-_id name',
+                    match: { deletedAt: null },
+                    populate: {
+                        path: 'roles',
+                        select: '-_id name',
+                    },
+                })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ createdAt: -1 })
+                .select('title isApproved slug createdAt'),
+        ]);
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
 
-        return articles;
+        return data;
     }
 
     homeGetNewest() {
