@@ -27,7 +27,7 @@ const getClassifications = () => ([
 const index = async (req, res, next) => {
     const { query } = req;
     try {
-        const propertyCategory = await PropertyCategoryRepository.checkExistBySlug(req.params.slug);
+        const propertyCategory = await PropertyCategoryRepository.checkExistBySlug(req.params.slug, { select: '_id name slug' });
         const data = getClassifications();
         data.push(PropertyAmenityRepository.baseGet());
         data.push(PropertyArticleRepository.clientList({
@@ -59,4 +59,43 @@ const index = async (req, res, next) => {
     }
 };
 
-module.exports = { index };
+const search = async (req, res, next) => {
+    const { query } = req;
+    try {
+        const propertyCategory = await PropertyCategoryRepository.checkExistBySlug(req.params.slug, { select: '_id name slug' });
+        const data = getClassifications();
+        data.push(PropertyAmenityRepository.baseGet());
+        data.push(PropertyArticleRepository.clientList({
+            value: propertyCategory._id,
+            name: 'category',
+        }, {
+            pageUrl: url.parse(req.originalUrl).pathname,
+            query,
+        }));
+        const [
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyArticles,
+        ] = await Promise.all(data);
+        propertyArticles.renderPagination = paginationHelper.renderPagination;
+
+        return res.render('modules/propertyCategories/client/search', {
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyCategory,
+            propertyAmenities,
+            propertyArticles,
+            query,
+        });
+    } catch (e) {
+        throw e;
+        next(responseHelper.error(e.message));
+    }
+};
+
+module.exports = { index, search };

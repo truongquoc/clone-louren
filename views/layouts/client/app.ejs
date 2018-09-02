@@ -42,31 +42,7 @@
     <![endif]-->
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P5MJCCG"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 <div class="page_loader"></div>
-
-<!-- Option Panel -->
-<div class="option-panel option-panel-collased">
-    <h2>Change Color</h2>
-    <div class="color-plate default-plate" data-color="default"></div>
-    <div class="color-plate blue-plate" data-color="blue"></div>
-    <div class="color-plate yellow-plate" data-color="yellow"></div>
-    <div class="color-plate red-plate" data-color="red"></div>
-    <div class="color-plate green-light-plate" data-color="green-light"></div>
-    <div class="color-plate orange-plate" data-color="orange"></div>
-    <div class="color-plate yellow-light-plate" data-color="yellow-light"></div>
-    <div class="color-plate green-light-2-plate" data-color="green-light-2"></div>
-    <div class="color-plate olive-plate" data-color="olive"></div>
-    <div class="color-plate purple-plate" data-color="purple"></div>
-    <div class="color-plate blue-light-plate" data-color="blue-light"></div>
-    <div class="color-plate brown-plate" data-color="brown"></div>
-    <div class="setting-button">
-        <i class="fa fa-gear"></i>
-    </div>
-</div>
 
 <!-- Top header start -->
 <header class="top-header hidden-xs" id="top">
@@ -103,7 +79,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="../../modules/propertyArticles/client/index.ejs" class="logo">
+                <a href="/" class="logo">
                     <img src="/public/client/img/logos/logo.png" alt="logo">
                 </a>
             </div>
@@ -111,37 +87,26 @@
             <div class="navbar-collapse collapse" role="navigation" aria-expanded="true" id="app-navigation">
                 <ul class="nav navbar-nav">
                     <li class="dropdown active">
-                        <a href="../../modules/propertyArticles/client/index.ejs" tabindex="0" data-submenu="" aria-expanded="false">
-                            Home
-                        </a>
-
+                        <a href="/" aria-expanded="false">Trang chủ</a>
                     </li>
                     <li class="dropdown">
-                        <a tabindex="0" data-submenu="" aria-expanded="false">
-                            Loại hình<span class="caret"></span>
-                        </a>
+                        <a href="/du-an">Loại hình<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <% propertyCategories.forEach(function (category) { %>
-                                <li><a href="/du-an/loai-hinh-<%= category.slug %>" tabindex="0"><%= category.name %></a></li>
+                                <li><a href="/du-an/loai-hinh-<%= category.slug %>"><%= category.name %></a></li>
                             <% }) %>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="../../modules/agents/client/agent.ejs" tabindex="0" data-submenu="" aria-expanded="false">
-                            Agents
-                        </a>
-
+                        <a href="/contact">Liên hệ</a>
                     </li>
                     <li class="dropdown">
-                        <a href="../../modules/requests/client/contact.ejs" tabindex="0" data-submenu="" aria-expanded="false">
-                            Contact
-                        </a>
-
-                    </li>
-                    <li class="dropdown">
-                        <a href="../../modules/blogArticles/client/blog.ejs" tabindex="0" data-submenu="" aria-expanded="false">
-                            Blog
-                        </a>
+                        <a href="/du-an">Blog<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <% blogCategories.forEach(function (category) { %>
+                                <li><a href="/blog/chuyen-muc-<%= category.slug %>"><%= category.name %></a></li>
+                            <% }) %>
+                        </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right rightside-navbar">

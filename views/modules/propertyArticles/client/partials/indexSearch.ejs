@@ -6,14 +6,11 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="area" data-live-search="true">
-                                    <option value="0">Diện tích khoảng diện tích</option>
-                                    <option value="1000">> 1000</option>
-                                    <option value="800">> 800</option>
-                                    <option value="600">> 600</option>
-                                    <option value="400">> 400</option>
-                                    <option value="200">> 200</option>
-                                    <option value="100">> 100</option>
+                                <select class="selectpicker search-fields" name="category" data-live-search="true">
+                                    <option value="0">Loại hình</option>
+                                    <% propertyCategories.forEach(function (category) { %>
+                                    <option value="<%= category._id %>"><%= category.name %></option>
+                                    <% }) %>
                                 </select>
                             </div>
                         </div>
@@ -51,16 +48,6 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="category" data-live-search="true">
-                                    <option value="0">Loại hình</option>
-                                    <% propertyCategories.forEach(function (category) { %>
-                                    <option value="<%= category._id %>"><%= category.name %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                            <div class="form-group">
                                 <select class="selectpicker search-fields" name="type">
                                     <option value="0">Loại bất động sản</option>
                                     <% propertyTypes.forEach(function (type) { %>
@@ -70,10 +57,18 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                            <div class="range-slider area-slider">
+                                <div data-min="0" data-max="1000" data-unit="Met vuông"
+                                     data-min-name="minArea" data-max-name="maxArea"
+                                     class="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <div class="form-group">
-                                <div class="range-slider">
-                                    <div data-min="0" data-max="150000" data-unit="USD" data-min-name="min_price"
-                                         data-max-name="max_price" class="range-slider-ui ui-slider"
+                                <div class="range-slider price-slider">
+                                    <div data-min="0" data-max="10000" data-unit="Triệu" data-min-name="minPrice"
+                                         data-max-name="maxPrice" class="range-slider-ui ui-slider"
                                          aria-disabled="false"></div>
                                     <div class="clearfix"></div>
                                 </div>

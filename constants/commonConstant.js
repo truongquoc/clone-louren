@@ -5,4 +5,6 @@ module.exports = {
     imageHeight: null,
     imageQuality: 75,
     polygonColor: '#3388ff',
+    maxArea: 1000,
+    maxPrice: 10000,
 };

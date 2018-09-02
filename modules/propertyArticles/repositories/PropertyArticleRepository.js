@@ -107,44 +107,6 @@ class PropertyArticleRepository extends ArticleRepository {
         return data;
     }
 
-    // async search(params, condition, options) {
-    //     options.query.page = parseInt(options.query.page, 10) || 1;
-    //     const sort = clientHelper.parseSorting(options.query.sort);
-    //     const conditions = {
-    //         isApproved: true,
-    //         isDraft: false,
-    //         deletedAt: null,
-    //     };
-    //     if (condition && condition.type === 'category') {
-    //         conditions.category = condition.id;
-    //     }
-    //     const articles = await this.model.paginate(conditions, {
-    //         select: 'conditions title address display price.display slug createdAt',
-    //         populate: [{
-    //             path: 'status',
-    //             select: 'name',
-    //             match: { deletedAt: null },
-    //         }, {
-    //             path: 'conditions.condition',
-    //             select: 'name icon',
-    //             match: {
-    //                 name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Ban công', 'Bồn tắm'] },
-    //                 deletedAt: null,
-    //             },
-    //         }, {
-    //             path: 'author',
-    //             select: 'name',
-    //             match: { deletedAt: null },
-    //         }],
-    //         sort,
-    //         page: options.query.page,
-    //         limit: commonConstant.clientLimit,
-    //     });
-    //     paginationHelper.setUpUrl(articles, options);
-    //
-    //     return articles;
-    // }
-
     homeGetNewest() {
         return this.model
             .find({

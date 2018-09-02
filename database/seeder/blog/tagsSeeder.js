@@ -1,29 +1,23 @@
-require('dotenv/config');
-const seeder = require('mongoose-seed');
+/* eslint-disable no-await-in-loop */
 const faker = require('faker');
 const getSlug = require('speakingurl');
+const BlogTag = require('../../../modules/blogTags/models/BlogTag');
 
-const items = [];
-for (let i = 0; i < 15; i += 1) {
-    const title = faker.lorem.words(2);
-    items.push({
-        name: title,
-        slug: getSlug(title),
-        createAt: new Date(),
-        updaredAt: new Date(),
-    });
+async function dropBlogTagsTable() {
+    await BlogTag.remove({}, (err) => {});
+}
+async function fakeBlogTags() {
+    try {
+        for (let i = 0; i < 6; i += 1) {
+            const name = faker.lorem.words(2);
+            await BlogTag.create({
+                name,
+                slug: getSlug(name),
+            });
+        }
+    } catch (e) {
+        throw e;
+    }
 }
 
-const data = [{
-    model: 'blog_tags',
-    documents: items,
-}];
-
-seeder.connect(process.env.DB_CONNECTION, { useNewurlParser: true }, () => {
-    seeder.loadModels(['./modules/blogTags/models/BlogTag']);
-    seeder.clearModels(['blog_tags'], () => {
-        seeder.populateModels(data, () => {
-            seeder.disconnect();
-        });
-    });
-});
+module.exports = { dropBlogTagsTable, fakeBlogTags };
