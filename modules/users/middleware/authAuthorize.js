@@ -1,3 +1,6 @@
+const passport = require('../../../config/passport');
+const responseHelper = require('../../../helpers/responseHelper');
+
 const adminRedirectIfAuthenticated = (req, res, next) => {
     // If user doesn't have user role
     // --> redirect to admin, if not, redirect to user management page
@@ -17,4 +20,21 @@ const adminRedirectIfNotAuthenticated = (req, res, next) => {
     return next();
 };
 
-module.exports = { adminRedirectIfAuthenticated, adminRedirectIfNotAuthenticated };
+const apiAuth = (req, res, next) => {
+    passport.authenticate('bearer', { session: false }, (err, data) => {
+        if (err) {
+            return res.json(responseHelper.error(err.message));
+        }
+        if (!data) {
+            return res.json(responseHelper.error('INVALID_TOKEN', 400));
+        }
+        req.user = data.user;
+        next();
+    })(req, res, next);
+};
+
+module.exports = {
+    adminRedirectIfAuthenticated,
+    adminRedirectIfNotAuthenticated,
+    apiAuth,
+};

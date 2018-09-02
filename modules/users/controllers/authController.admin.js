@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator/check');
+const jwt = require('jsonwebtoken');
+const config = require('../../../config/config');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 
@@ -30,6 +32,9 @@ const login = async (req, res, next) => {
                 avatar: user.avatar,
                 slug: user.slug,
                 createdAt: user.createdAt,
+                token: jwt.sign({
+                    user,
+                }, config.jwtSecret, { expiresIn: parseInt(config.sessionLifetime, 10) }),
             };
             if (req.session.prevUrl) {
                 res.redirect(req.session.prevUrl);

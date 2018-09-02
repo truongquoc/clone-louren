@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
+const config = require('./config');
 const helpers = require('../helpers/helpers');
 const routes = require('./routes');
 const { dbUrl } = require('./config');
@@ -19,7 +20,7 @@ module.exports = (app, express) => {
         secret: 'keyboaasdfasdfrdasdfasdfcat',
         resave: false,
         saveUninitialized: true,
-        cookie: { maxAge: 7200000 },
+        cookie: { maxAge: parseInt(config.sessionLifetime, 10) * 1000 },
         store: new MongoStore({ url: dbUrl }),
     });
 

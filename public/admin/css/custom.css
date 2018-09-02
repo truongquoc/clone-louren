@@ -213,6 +213,17 @@ button.badge {
     font-size: 14px !important;
 }
 
+.gm-style-mtc label {
+    margin-bottom: 0;
+    font-size: 14px !important;
+}
+
+.gm-control-active img {
+    height: 13px !important;
+    width: 13px !important;
+    margin: 15px 11px 15px !important;
+}
+
 .map__control-panel__save-btn {
     padding: 0 3px;
     border-radius: 0;

@@ -1,9 +1,13 @@
 const router = require('express').Router();
+const hashidsAuthorize = require('../../infrastructure/middleware/hashidsAuthorize');
+const authAuthorize = require('../users/middleware/authAuthorize');
 const addressAuthorize = require('./middleware/addressAuthorize.api');
 const addressRequest = require('./requests/addressRequest.api');
 const addressController = require('./controllers/addressController.api');
 
-router.get('/:id/addresses', addressAuthorize.indexAuthorize, addressController.index);
+router.param(['id'], hashidsAuthorize.parseParamsHashids);
+
+router.use(authAuthorize.apiAuth);
 
 router.post('/:id/addresses', addressAuthorize.storeAuthorize, addressRequest.storeRequest, addressController.store);
 
