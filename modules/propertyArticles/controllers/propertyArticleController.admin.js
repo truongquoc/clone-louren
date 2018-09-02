@@ -6,6 +6,7 @@ const imageHelper = require('../../../helpers/imageHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
+const hashidsHelper = require('../../../helpers/hashidsHelper');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 const PropertyAmenityRepositoryClass = require('../../propertyAmenities/repositories/PropertyAmenityRepository');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
@@ -252,6 +253,8 @@ const storeImages = async (req, res) => {
 const showMap = async (req, res, next) => {
     try {
         const propertyArticle = await PropertyArticleRepository.getEditArticle(req.params.slug);
+        propertyArticle.hashid = hashidsHelper.encode(propertyArticle._id.toString());
+
         return res.render('modules/propertyArticles/admin/map', {
             propertyArticle,
         });

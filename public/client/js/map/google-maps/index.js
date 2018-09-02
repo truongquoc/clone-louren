@@ -3,7 +3,6 @@ class Marker {
         const propertyArticle = $('.map').data('key');
         this.url = `/v1/property/articles/${propertyArticle}/addresses`;
         this.map = map;
-        this.list();
     }
 
     async list() {
@@ -19,6 +18,9 @@ class Marker {
         await getAddresses(this.url);
         let marker;
         for (let i = 0; i < markers.length; i += 1) {
+            if (!markers[i]) {
+                return;
+            }
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(
                     markers[i].location.coordinates[0],
@@ -30,6 +32,18 @@ class Marker {
             marker.setMap(this.map);
         }
     }
+
+    extendBounds(bounds) {
+        if (!this.markers.total.length) {
+            return false;
+        }
+        this.markers.total.forEach((currentMarker) => {
+            const coordinate = marker.getData(currentMarker);
+            bounds.extend(new google.maps.LatLng(coordinate.lat, coordinate.lng));
+        });
+
+        return true;
+    }
 }
 
 class Polygon {
@@ -37,7 +51,6 @@ class Polygon {
         const propertyArticle = $('.map').data('key');
         this.url = `/v1/property/articles/${propertyArticle}/areas`;
         this.map = map;
-        this.list();
     }
 
     async list() {
@@ -53,6 +66,9 @@ class Polygon {
         await getAreas(this.url);
         let polygon;
         for (let i = 0; i < polygons.length; i += 1) {
+            if (!polygons[i]) {
+                return;
+            }
             if (polygons[i].coordinates.shape === 1) {
                 const coordinates = polygons[i].coordinates.polygon.map((coordinate) => ({
                     lat: coordinate[0], lng: coordinate[1],
@@ -87,21 +103,46 @@ class Polygon {
             polygon.setMap(this.map);
         }
     }
+
+    extendBounds(bounds) {
+        if (!this.polygons.total.length) {
+            return false;
+        }
+        this.polygons.total.forEach((currentPolygon) => {
+            if (currentPolygon.getPath) {
+                currentPolygon.getPath().getArray().forEach((coordinate) => {
+                    bounds.extend(new google.maps.LatLng(coordinate.lat(), coordinate.lng()));
+                });
+                return true;
+            }
+            bounds.extend(currentPolygon.getBounds().getNorthEast());
+            bounds.extend(currentPolygon.getBounds().getSouthWest());
+        });
+
+        return true;
+    }
 }
 
 let map;
 let marker;
 let polygon;
 
-function initMap() {
+async function initMap() {
     map = new google.maps.Map(document.getElementById('map-content'), {
-        center: { lat: -25.397, lng: 150.644 },
-        zoom: 5,
+        center: { lat: 16.0471659, lng: 108.2116865 },
+        zoom: 13,
         mapTypeId: 'satellite',
         fullscreenControl: false,
     });
     marker = new Marker(map);
     polygon = new Polygon(map);
+    await Promise.all([marker.list(), polygon.list()]);
+    const bounds = new google.maps.LatLngBounds();
+    const hasMarker = marker.extendBounds(bounds);
+    const hasPolygon = polygon.extendBounds(bounds);
+    if (hasMarker || hasPolygon) {
+        map.fitBounds(bounds, 100);
+    }
 }
 
 function getDataRequest(url) {
