@@ -229,9 +229,9 @@
 <% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>
 <% block('scripts', `
 <script>
-$('#carousel-custom').on('slide.bs.carousel', function () {
-    var $nextImage = $('.active.item', this).next('.item').find('img');
-    $nextImage.attr('src', $nextImage.data('src'));
-});
+    $('#carousel-custom').on('slide.bs.carousel', function () {
+        var $nextImage = $('.active.item', this).next('.item').find('img');
+        $nextImage.attr('src', $nextImage.data('src'));
+    });
 </script>
 `) %>

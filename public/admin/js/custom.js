@@ -432,12 +432,11 @@ function init_viewRequests() {
     $('.requests__view-btn').on('click', function () {
         const $information = $(this).closest('tr').find('.request__information');
         const $viewTable = $('.request__view-table');
-        console.log($information.find('.request__title').text());
-        $viewTable.find('.request__view__title').text($information.find('.request__title').text());
-        $viewTable.find('.request__view__content').text($information.find('.request__content').text());
         $viewTable.find('.request__view__name').text($information.find('.request__name').text());
         $viewTable.find('.request__view__telephone').text($information.find('.request__telephone').text());
         $viewTable.find('.request__view__email').text($information.find('.request__email').text());
+        $viewTable.find('.request__view__title').text($information.find('.request__title').text());
+        $viewTable.find('.request__view__content').html($information.find('.request__content').text());
     });
 }
 
