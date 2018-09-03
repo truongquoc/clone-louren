@@ -210,8 +210,8 @@ function init_editSubModule() {
 
 function init_approveModule() {
     $('.module__approve-btn').on('click', function () {
-        const that = this;
-        const text = $(that).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
+        const self = this;
+        const text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
         swal({
             title: `${text} dữ liệu này`,
             type: 'warning',
@@ -224,7 +224,7 @@ function init_approveModule() {
             cancelButtonClass: 'btn btn-danger',
         }).then(() => {
             const url = $('.module__table').data('approve-url');
-            const key = $(that).closest('tr').data('key');
+            const key = $(self).closest('tr').data('key');
             $.ajax({
                 url: `${url}/${key}`,
                 type: 'PUT',
@@ -243,10 +243,15 @@ function init_approveModule() {
                             return false;
                         }
                     } else {
-                        if (res.data.isApproved) {
-                            $(that).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
+                        if ($(self).hasClass('condition__approve-btn')) {
+                            const $element = $('.temp-condition__total span');
+                            const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
+                            $element.text(total).html();
+                        }
+                        if (res.data.isApproved || res.data.isSelected) {
+                            $(self).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
                         } else {
-                            $(that).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
+                            $(self).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
                         }
                         swal('Thành công!', '', 'success');
                     }

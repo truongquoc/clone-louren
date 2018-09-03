@@ -1,7 +1,12 @@
 const { validationResult } = require('express-validator/check');
+const redis = require('redis');
+const { promisify } = require('util');
 const PropertyConditionRepositoryClass = require('../repositories/PropertyConditionRepository');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
+
+const client = redis.createClient();
+const getRedisAsync = promisify(client.get).bind(client);
 
 const PropertyConditionRepository = new PropertyConditionRepositoryClass();
 
@@ -13,9 +18,11 @@ const index = async (req, res, next) => {
             query,
         });
         propertyConditions.renderPagination = paginationHelper.renderPagination;
+        const tempConditions = JSON.parse(await getRedisAsync('conditions')) || [];
 
         return res.render('modules/propertyConditions/admin/list', {
             propertyConditions,
+            tempConditions,
             query,
         });
     } catch (e) {
@@ -64,6 +71,26 @@ const destroy = async (req, res) => {
     }
 };
 
+const changeTemp = async (req, res) => {
+    const totalTempConditions = JSON.parse(await getRedisAsync('conditions')) || [];
+    const conditionIndex = totalTempConditions.indexOf(req.params.id);
+    const result = {};
+    if (conditionIndex >= 0) {
+        totalTempConditions.splice(conditionIndex, 1);
+        result.isSelected = false;
+    } else {
+        totalTempConditions.push(req.params.id);
+        result.isSelected = true;
+    }
+    client.set('conditions', JSON.stringify(totalTempConditions));
+
+    return res.json(responseHelper.success(result));
+};
+
 module.exports = {
-    index, store, update, destroy,
+    index,
+    store,
+    update,
+    destroy,
+    changeTemp,
 };
