@@ -65,13 +65,16 @@ const PropertyArticle = new Schema({
         image: {
             type: String,
             required: true,
+            trim: true,
         },
         images: [{
             type: String,
             // required: true,
+            trim: true,
         }],
         video: {
             type: String,
+            trim: true,
         },
     },
     address: {
@@ -85,6 +88,7 @@ const PropertyArticle = new Schema({
         },
         display: {
             type: String,
+            trim: true,
         },
         type: {
             type: Schema.Types.ObjectId,

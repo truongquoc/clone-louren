@@ -5,7 +5,7 @@ const PropertyTypeRepositoryClass = require('../repositories/PropertyTypeReposit
 const PropertyCategoryRepository = new PropertyTypeRepositoryClass();
 
 const createTypeRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -18,7 +18,7 @@ const createTypeRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await PropertyCategoryRepository.checkExist({
@@ -35,7 +35,7 @@ const createTypeRequest = [
 ];
 
 const editTypeRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
@@ -51,7 +51,7 @@ const editTypeRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await PropertyCategoryRepository.checkExistWithTrashed({

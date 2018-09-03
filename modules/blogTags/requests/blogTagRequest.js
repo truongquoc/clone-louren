@@ -5,7 +5,7 @@ const BlogTagRepositoryClass = require('../repositories/BlogTagRepository');
 const BlogTagRepository = new BlogTagRepositoryClass();
 
 const createTagRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống.')
         .custom(async (value) => {
             try {
@@ -18,7 +18,7 @@ const createTagRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await BlogTagRepository.checkExist({ slug: getSlug(value) });
@@ -34,6 +34,7 @@ const createTagRequest = [
 
 const editTagRequest = [
     check('name')
+        .trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống.')
         .custom(async (value, { req }) => {
             try {
@@ -49,7 +50,7 @@ const editTagRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await BlogTagRepository.checkExistWithTrashed({

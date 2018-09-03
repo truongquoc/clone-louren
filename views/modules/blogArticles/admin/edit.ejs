@@ -37,25 +37,25 @@
                 <form class="blog-articles__form" action="/admin/blog/articles/edit/<%= blogArticle._id %>" enctype="multipart/form-data" method="POST">
                     <div class="form-group">
                         <label for="title">Tiêu đề</label>
-                        <input type="text" class="form-control form__title__input" value="<%= old('title', blogArticle.title) %>"
+                        <input type="text" class="form-control" value="<%= old('title', blogArticle.title) %>"
                                name="title" placeholder="Nhập tiêu đề">
-                        <p class="form__error-message form__title__error-message"><%= errors('title') %></p>
+                        <p class="form__error-message"><%= errors('title') %></p>
                     </div>
                     <div class="form-group">
                         <label>Thể loại</label>
-                        <select class="form-control form__category__input" name="category" style="width: 100%;">
+                        <select class="form-control" name="category" style="width: 100%;">
                             <option value="0">Chọn thể loại</option>
                             <% blogCategories.forEach(function (element) { %>
                                 <option <%= old('category', blogArticle.category.toString()) == element._id.toString() ? 'selected' : '' %>
                                         value="<%= element._id %>"><%= element.name %></option>
                             <% }) %>
                         </select>
-                        <p class="form__error-message form__category__error-message"><%= errors('category') %></p>
+                        <p class="form__error-message"><%= errors('category') %></p>
                     </div>
                     <div class="form-group">
                         <label>Mô tả</label>
                         <textarea name="description" class="form-control"><%= old('description', blogArticle.description) %></textarea>
-                        <p class="form__error-message form__title__error-message"><%= errors('description') %></p>
+                        <p class="form__error-message"><%= errors('description') %></p>
                     </div>
                     <div>
                         <ul class="nav nav-tabs float-left nav-tabs--border-none">
@@ -75,25 +75,25 @@
                             <div class="form-group">
                                 <label>Ảnh</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input form__image__input" name="image" id="validatedCustomFile">
+                                    <input type="file" class="custom-file-input" name="image" id="validatedCustomFile">
                                     <input type="hidden" name="imageUrl" value="<%= blogArticle.display.image %>">
                                     <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
                                 </div>
-                                <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
+                                <p class="form__error-message"><%= errors('image') %></p>
                             </div>
                         </div>
                         <div id="video" class="tab-pane fade <%= old('useVideo', blogArticle.display.useVideo) ? 'in active show' : '' %>">
                             <div class="form-group">
                                 <label for="title">Video</label>
-                                <input type="text" class="form-control form__video__input" value="<%= old('video', blogArticle.display.video) %>"
+                                <input type="text" class="form-control" value="<%= old('video', blogArticle.display.video) %>"
                                        name="video" placeholder="Nhập đường dẫn video">
-                                <p class="form__error-message form__video__error-message"><%= errors('video') %></p>
+                                <p class="form__error-message"><%= errors('video') %></p>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Thẻ</label>
-                        <select class="form-control form__tags__input select2" multiple style="width: 100%;" name="tags">
+                        <select class="form-control select2" multiple style="width: 100%;" name="tags">
                             <% const oldTags = old('tags', blogArticle.tags); let check; %>
                             <% blogTags.forEach(function (tag) { %>
                                 <% if (oldTags) { %>
@@ -105,12 +105,12 @@
                                 <option value="<%= tag._id %>" <%= check ? 'selected' : '' %>><%= tag.name %></option>
                             <% }) %>
                         </select>
-                        <p class="form__error-message form__tags__error-message"><%= errors('tags') %></p>
+                        <p class="form__error-message"><%= errors('tags') %></p>
                     </div>
                     <div class="form-group">
                         <label>Nội dung</label>
-                        <textarea name="content" class="form-control form__content__input tinymce"><%= old('content', blogArticle.content) %></textarea>
-                        <p class="form__error-message form__content__error-message"><%= errors('content') %></p>
+                        <textarea name="content" class="form-control tinymce"><%= old('content', blogArticle.content) %></textarea>
+                        <p class="form__error-message"><%= errors('content') %></p>
                     </div>
                     <div class="form-group">
                         <label>

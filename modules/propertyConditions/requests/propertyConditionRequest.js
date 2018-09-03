@@ -4,7 +4,7 @@ const PropertyConditionRepositoryClass = require('../repositories/PropertyCondit
 const PropertyConditionRepository = new PropertyConditionRepositoryClass();
 
 const createConditionRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -22,7 +22,7 @@ const createConditionRequest = [
 ];
 
 const editConditionRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {

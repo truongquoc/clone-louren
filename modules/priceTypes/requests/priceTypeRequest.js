@@ -4,7 +4,7 @@ const PriceTypeRepositoryClass = require('../repositories/PriceTypeRepository');
 const PriceTypeRepository = new PriceTypeRepositoryClass();
 
 const createPriceTypeRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -20,7 +20,7 @@ const createPriceTypeRequest = [
 ];
 
 const editPriceTypeRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {

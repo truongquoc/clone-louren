@@ -44,6 +44,7 @@ const Area = new Schema({
     color: {
         type: String,
         required: true,
+        trim: true,
     },
     deletedAt: {
         type: Date,

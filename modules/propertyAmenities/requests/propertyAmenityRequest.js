@@ -4,7 +4,7 @@ const PropertyAmenityRepositoryClass = require('../repositories/PropertyAmenityR
 const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
 
 const createAmenityRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -20,7 +20,7 @@ const createAmenityRequest = [
 ];
 
 const editAmenityRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {

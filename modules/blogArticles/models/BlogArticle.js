@@ -37,9 +37,11 @@ const BlogArticle = new Schema({
     display: {
         image: {
             type: String,
+            trim: true,
         },
         video: {
             type: String,
+            trim: true,
         },
         useVideo: {
             type: Boolean,

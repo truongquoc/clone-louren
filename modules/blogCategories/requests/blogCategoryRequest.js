@@ -5,7 +5,7 @@ const BlogCategoryRepositoryClass = require('../repositories/BlogCategoryReposit
 const BlogCategoryRepository = new BlogCategoryRepositoryClass();
 
 const createCategoryRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -18,7 +18,7 @@ const createCategoryRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await BlogCategoryRepository.checkExist({ slug: getSlug(value) });
@@ -33,7 +33,7 @@ const createCategoryRequest = [
 ];
 
 const editCategoryRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
@@ -49,7 +49,7 @@ const editCategoryRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await BlogCategoryRepository.checkExistWithTrashed({
