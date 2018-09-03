@@ -19,7 +19,7 @@ class UserRepository extends BaseRepository {
         options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const [total, docs] = await Promise.all([
-            this.model.count({ email: search, deletedAt: null }),
+            this.model.estimatedDocumentCount({ email: search, deletedAt: null }),
             this.model
                 .find({ email: search, deletedAt: null })
                 .populate('roles', '-_id name', { deletedAt: null })

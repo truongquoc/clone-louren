@@ -342,7 +342,6 @@ class Polygon {
                     _id: polygons[i]._id,
                     bounds: polygons[i].coordinates.rectangle,
                 });
-                console.log(i);
             } else {
                 continue;
             }

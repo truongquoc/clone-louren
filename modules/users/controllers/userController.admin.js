@@ -6,7 +6,7 @@ const storageHelper = require('../../../helpers/storage/storageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const UserRepositoryClass = require('../repositories/UserRepository');
 const RoleRepositoryClass = require('../repositories/RoleRepository');
-const UploadRepositoryClass = require('../../../infrastructure/repositories/ImageHandlerRepository');
+const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 
 const UserRepository = new UserRepositoryClass();
 const RoleRepository = new RoleRepositoryClass();

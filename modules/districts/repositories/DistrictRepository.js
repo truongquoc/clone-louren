@@ -16,7 +16,7 @@ class DistrictRepository extends ClassificationRepository {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.limit;
         const [total, docs] = await Promise.all([
-            this.model.count({ deletedAt: null }),
+            this.model.estimatedDocumentCount({ deletedAt: null }),
             this.model
                 .find({ deletedAt: null })
                 .populate('city', '_id name', { deletedAt: null })

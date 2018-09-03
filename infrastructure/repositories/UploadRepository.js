@@ -1,7 +1,7 @@
 const BaseRepository = require('./BaseRepository');
 const Upload = require('../models/Upload');
 
-class ImageHandlerRepository extends BaseRepository {
+class UploadRepository extends BaseRepository {
     model() {
         return Upload;
     }
@@ -28,4 +28,4 @@ class ImageHandlerRepository extends BaseRepository {
     }
 }
 
-module.exports = ImageHandlerRepository;
+module.exports = UploadRepository;
