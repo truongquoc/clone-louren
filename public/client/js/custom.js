@@ -33,7 +33,6 @@ function init_sort() {
         const params = paramsString.split('&');
         let searchString = '';
         const paramsLength = params.length;
-        console.log(params);
         params.forEach((param, index) => {
             if (param) {
                 const [element, value] = param.split('=');

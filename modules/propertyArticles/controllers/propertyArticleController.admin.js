@@ -16,7 +16,7 @@ const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositori
 const CityRepositoryClass = require('../../cities/repositories/CityRepository');
 const DistrictRepositoryClass = require('../../districts/repositories/DistrictRepository');
 const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTypeRepository');
-const UploadRepositoryClass = require('../../../infrastructure/repositories/ImageHandlerRepository');
+const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();

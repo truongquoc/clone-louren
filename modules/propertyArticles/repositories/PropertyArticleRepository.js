@@ -49,7 +49,7 @@ class PropertyArticleRepository extends ArticleRepository {
             conditions.author = userId;
         }
         const [total, docs] = await Promise.all([
-            this.model.count(conditions),
+            this.model.estimatedDocumentCount(conditions),
             this.model
                 .find(conditions)
                 .populate('category', '-_id name', { deletedAt: null })
@@ -86,7 +86,7 @@ class PropertyArticleRepository extends ArticleRepository {
             conditions[slug.name] = slug.value;
         }
         const [total, docs] = await Promise.all([
-            this.model.search(options.query).count(conditions),
+            this.model.search(options.query).estimatedDocumentCount(conditions),
             this.model
                 .search(options.query)
                 .find(conditions)
@@ -176,7 +176,7 @@ class PropertyArticleRepository extends ArticleRepository {
     countByCategory(categories) {
         const self = this;
         categories.forEach(async (category) => {
-            category.countPropertyArticles = await self.model.count({
+            category.countPropertyArticles = await self.model.estimatedDocumentCount({
                 category: category._id,
                 isApproved: true,
                 isDraft: false,
@@ -189,7 +189,7 @@ class PropertyArticleRepository extends ArticleRepository {
     }
 
     async getRandomArticles() {
-        const articlesQuantity = await this.model.count({
+        const articlesQuantity = await this.model.estimatedDocumentCount({
             isApproved: true,
             isDraft: false,
             deletedAt: null,

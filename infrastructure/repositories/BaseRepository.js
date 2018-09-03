@@ -22,7 +22,7 @@ class BaseRepository {
         options.limit = options.limit || commonConstant.limit;
         conditions.deletedAt = null;
         const [total, docs] = await Promise.all([
-            this.model.count(conditions),
+            this.model.estimatedDocumentCount(conditions),
             this.model
                 .find(conditions)
                 .skip((options.query.page - 1) * options.limit)

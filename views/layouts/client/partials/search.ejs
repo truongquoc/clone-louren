@@ -3,7 +3,6 @@
         <h1><span>Advanced</span> Search</h1>
     </div>
     <% const checkHasCategory = typeof propertyCategory === 'undefined'; %>
-    <% console.log(checkHasCategory) %>
     <form method="GET" class="property-articles__search-form"
           action="<%= checkHasCategory ? '/du-an/tim-kiem' : `/du-an/loai-hinh-${propertyCategory.slug}/tim-kiem` %>">
         <% if (checkHasCategory) { %>
