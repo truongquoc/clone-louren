@@ -4,10 +4,10 @@
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>Properties Detail</h1>
+                <h1>Liên hệ</h1>
                 <ul class="breadcrumbs">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Properties Detail</li>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active">Liên hệ</li>
                 </ul>
             </div>
         </div>
@@ -18,46 +18,66 @@
 <div class="contact-1 content-area-7">
     <div class="container">
         <div class="main-title">
-            <h1>Contact Us</h1>
+            <h1>Liên hệ với chúng tôi</h1>
         </div>
         <div class="row">
             <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
                 <!-- Contact form start -->
                 <div class="contact-form">
-                    <form id="contact_form" action="index.html" method="GET" enctype="multipart/form-data">
+                    <form action="/lien-he" method="POST" class="request__form">
+                        <% if (flashMessages && flashMessages.success) { %>
+                            <div class="alert alert-success"  role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong><%= flashMessages.success %></strong>
+                            </div>
+                        <% } %>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group fullname">
-                                    <input type="text" name="full-name" class="input-text" placeholder="Full Name">
+                                <div class="form-group">
+                                    <input type="text" name="name" class="input-text"
+                                           placeholder="Họ tên" value="<%= old('name') %>">
+                                    <p class="form__error-message">&nbsp;<%= errors('name') %></p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group enter-email">
-                                    <input type="email" name="email" class="input-text" placeholder="Enter email">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group subject">
-                                    <input type="text" name="subject" class="input-text" placeholder="Subject">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group number">
-                                    <input type="text" name="phone" class="input-text" placeholder="Phone Number">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 clearfix">
-                                <div class="form-group message">
-                                    <textarea class="input-text" name="message" placeholder="Write message"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-                                <div class="form-group send-btn mb-0">
-                                    <button type="submit" class="button-md button-theme">Send Message</button>
+                                <div class="form-group">
+                                    <input type="email" name="email" class="input-text"
+                                           placeholder="Email" value="<%= old('email') %>">
+                                    <p class="form__error-message">&nbsp;<%= errors('email') %></p>
                                 </div>
                             </div>
                         </div>
-                    </form>     
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" name="telephone" class="input-text"
+                                           placeholder="Số điện thoại" value="<%= old('telephone') %>">
+                                    <p class="form__error-message">&nbsp;<%= errors('telephone') %></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" name="title" class="input-text"
+                                           placeholder="Tiêu đề" value="<%= old('title') %>">
+                                    <p class="form__error-message">&nbsp;<%= errors('title') %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 clearfix">
+                                <div class="form-group message">
+                                    <textarea class="input-text" name="content"
+                                              placeholder="Nội dung tin nhắn"><%= old('content').trim() %></textarea>
+                                    <p class="form__error-message">&nbsp;<%= errors('content') %></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group send-btn mt-1">
+                                    <button type="submit" class="button-md button-theme">Gửi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <!-- Contact form end -->
             </div>
@@ -65,14 +85,14 @@
                 <!-- Contact details start -->
                 <div class="contact-details">
                     <div class="main-title-2">
-                        <h3>Our Address</h3>
+                        <h3>Địa chỉ</h3>
                     </div>
                     <div class="media">
                         <div class="media-left">
                             <i class="fa fa-map-marker"></i>
                         </div>
                         <div class="media-body">
-                            <h4>Office Address</h4>
+                            <h4>Địa chỉ văn phòng</h4>
                             <p>20/F Green Road, Dhanmondi, Dhaka</p>
                         </div>
                     </div>
@@ -81,12 +101,12 @@
                             <i class="fa fa-phone"></i>
                         </div>
                         <div class="media-body">
-                            <h4>Phone Number</h4>
+                            <h4>Số điện thoại</h4>
                             <p>
-                                <a href="tel:0477-0477-8556-552">office: 0477 8556 552</a>
+                                <a href="tel:0477-0477-8556-552">Văn phòng: 0477 8556 552</a>
                             </p>
                             <p>
-                                <a href="tel:+55-417-634-7071">Mobile: +55 417 634 7071</a>
+                                <a href="tel:+55-417-634-7071">Di động: +55 417 634 7071</a>
                             </p>
                         </div>
                     </div>
@@ -95,13 +115,9 @@
                             <i class="fa fa-envelope"></i>
                         </div>
                         <div class="media-body">
-                            <h4>Email Address</h4>
-                            <p>
-                                <a href="mailto:info@themevessel.com">info@themevessel.com</a>
-                            </p>
-                            <p>
-                                <a href="http://themevessel.com" target="_blank">http://themevessel.com</a>
-                            </p>
+                            <h4>Địa chỉ email</h4>
+                            <p><a href="mailto:info@themevessel.com">info@themevessel.com</a></p>
+                            <p><a href="http://themevessel.com" target="_blank">http://themevessel.com</a></p>
                         </div>
                     </div>
                 </div>
@@ -120,3 +136,5 @@
     </div>
 </div>
 <!-- Google map end -->
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/validator/10.7.1/validator.min.js') %>

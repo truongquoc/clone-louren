@@ -29,3 +29,18 @@
 .media .media-object {
     max-width: 130px;
 }
+
+.form__error-message {
+    margin: 8px 0;
+    color: red;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.mt-1 {
+    margin-top: 1em;
+}
+
+button.close {
+    line-height: 15px;
+}

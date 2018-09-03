@@ -60,7 +60,83 @@ function init_sort() {
     });
 }
 
+function init_hideAlert() {
+    setTimeout(() => {
+        $('.alert').fadeOut();
+    }, 15000);
+}
+
+function init_validateRequest() {
+    function checkValidHtml(string) {
+        const div = document.createElement('div');
+        div.innerHTML = string;
+
+        return div.textContent === string;
+    }
+
+    $('.request__form').on('submit', function () {
+        const $nameElement = $(this).find('input[name="name"]');
+        let check = true;
+        if (!$nameElement.val().trim()) {
+            $nameElement.next().html('&nbsp;Tên không được bỏ trống');
+            check = false;
+        } else {
+            $nameElement.next().html('&nbsp;');
+        }
+
+        const $emailElement = $(this).find('input[name="email"]');
+        if (!$emailElement.val().trim()) {
+            $emailElement.next().html('&nbsp;Email không được bỏ trống');
+            check = false;
+        } else if (!validator.isEmail($emailElement.val())) {
+            $emailElement.next().html('&nbsp;Email không đúng định dạng');
+            check = false;
+        } else {
+            $emailElement.next().html('&nbsp;');
+        }
+
+        const $telephoneElement = $(this).find('input[name="telephone"]');
+        if (!$telephoneElement.val().trim()) {
+            $telephoneElement.next().html('&nbsp;Số điện thoại không được bỏ trống');
+            check = false;
+        } else if (!validator.isMobilePhone($telephoneElement.val(), ['vi-VN'])) {
+            $telephoneElement.next().html('&nbsp;Số điện thoại không đúng định dạng');
+            check = false;
+        } else {
+            $telephoneElement.next().html('&nbsp;');
+        }
+
+        const $titleElement = $(this).find('input[name="title"]');
+        if (!$titleElement.val().trim()) {
+            $titleElement.next().html('&nbsp;Tiêu đề không được bỏ trống');
+            check = false;
+        } else {
+            $titleElement.next().html('&nbsp;');
+        }
+
+        const $contentElement = $(this).find('textarea[name="content"]');
+        if (!$contentElement.val().trim()) {
+            $contentElement.next().html('&nbsp;Nội dung không được bỏ trống');
+            check = false;
+        } else {
+            $contentElement.next().html('&nbsp;');
+        }
+        if (!checkValidHtml($contentElement.val())) {
+            $contentElement.next().html('&nbsp;Nội dung không đúng định dạng');
+            check = false;
+        } else {
+            $contentElement.next().html('&nbsp;');
+        }
+
+        if (!check) {
+            return false;
+        }
+    });
+}
+
 $(document).ready(function () {
     init_changeCity();
     init_sort();
+    init_hideAlert();
+    init_validateRequest();
 });
