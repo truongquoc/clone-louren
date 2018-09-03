@@ -233,3 +233,44 @@ button.badge {
 .temp-condition__total {
     margin-right: 10px;
 }
+
+.user-profile__avatar {
+    position: relative;
+    display: inline-block;
+}
+
+.user-profile__avatar:hover .user-profile__avatar-change-btn__overlay {
+    background-color: #00000082;
+}
+
+.user-profile__avatar:hover .user-profile__avatar-change-btn__overlay {
+    display: inline-block;
+}
+
+.user-profile__avatar-change-btn__overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.user-profile__avatar-change-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    font-size: 30px;
+    outline: 0 !important;
+    transform: translate(-50%, -50%);
+}
+
+.cropper-container {
+    width: 100% !important;
+}

@@ -5,6 +5,8 @@
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js') %>
 <% script('https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js') %>
+<% script('/public/admin/js/map/google-maps/index.js') %>
+<% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>
 
 <div class="map" data-key="<%= propertyArticle.hashid %>" data-token="<%= cUser.token %>">
     <div class="map__control-panel">
@@ -27,5 +29,3 @@
     <div id="map-content"></div>
 </div>
 
-<% script('/public/admin/js/map/google-maps/index.js') %>
-<% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>

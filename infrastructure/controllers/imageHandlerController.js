@@ -30,14 +30,12 @@ const index = async (req, res, next) => {
 const create = (req, res) => (res.render('modules/images/admin/upload'));
 
 const store = async (req, res) => {
+    const userId = req.session.cUser._id;
     try {
         let images = [];
-        await UserRepository.addImagesQuantity(req.files.length, req.session.cUser._id);
+        await UserRepository.addImagesQuantity(req.files.length, userId);
         req.files.forEach((file) => {
-            images.push(imageHelper.optimizeImage(file, {
-                width: 750,
-                quality: 75,
-            }));
+            images.push(imageHelper.optimizeImage(file, { width: 750, quality: 75 }));
         });
         images = await Promise.all(images);
         let locations = [];
@@ -45,7 +43,7 @@ const store = async (req, res) => {
             locations.push(storageHelper.storage('s3').upload(`articles/details/${i}-${dateHelper.getSlugCurrentTime()}`, image, 'public-read'));
         });
         locations = await Promise.all(locations);
-        await ImageHandlerRepository.create(locations);
+        await ImageHandlerRepository.create(locations, userId);
         return res.json(responseHelper.success(locations));
     } catch (e) {
         imageHelper.deleteImage(req.files, false);
