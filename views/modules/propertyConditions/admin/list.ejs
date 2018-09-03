@@ -32,13 +32,15 @@
                     <h3 class="card-title card-title--float">Cơ sở vật chất</h3>
                 </div>
                 <div class="float-right">
+                    <b class="temp-condition__total"><span><%= tempConditions.length %></span> được hiển thị</b>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                         Tạo mới
                     </button>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered module__table" data-delete-url="/admin/property/conditions/delete">
+                <table class="table table-bordered module__table"
+                       data-approve-url="/admin/property/conditions/select" data-delete-url="/admin/property/conditions/delete">
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Tên</th>
@@ -56,6 +58,15 @@
                             <%= moment(condition.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
                         <td>
+                            <% if (tempConditions.indexOf(condition._id.toString()) >= 0) { %>
+                                <button class="badge bg-warning-gradient module__approve-btn condition__approve-btn">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            <% } else { %>
+                                <button class="badge bg-success-gradient module__approve-btn condition__approve-btn">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            <% } %>
                             <button class="badge bg-warning-gradient module__edit-btn"
                                     type="button" data-toggle="modal" data-target="#myModal2">
                                 <i class="fa fa-pencil"></i>

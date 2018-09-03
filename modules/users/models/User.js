@@ -58,10 +58,24 @@ const User = new Schema({
         max: {
             type: Number,
             default: 10,
+            min: 0,
         },
         uploaded: {
             type: Number,
             default: 0,
+            min: 0,
+        },
+    },
+    articles: {
+        max: {
+            type: Number,
+            default: 3,
+            min: 0,
+        },
+        published: {
+            type: Number,
+            default: 0,
+            min: 0,
         },
     },
     slug: {

@@ -91,7 +91,13 @@ class UserRepository extends BaseRepository {
     }
 
     resetUploadedImages() {
-        return this.baseUpdate({ uploadedImages: 0 }, { deletedAt: null });
+        return this.baseUpdate({ 'images.uploaded': 0 }, { deletedAt: null });
+    }
+
+    async resetPublishedArticles() {
+        const userRole = await RoleRepository.getDetailByName('User');
+
+        return this.baseUpdate({ 'articles.published': 0 }, { roles: userRole._id });
     }
 }
 

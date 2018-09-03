@@ -1,6 +1,9 @@
 /* eslint-disable no-await-in-loop */
 const faker = require('faker');
+const redis = require('redis');
 const PropertyCondition = require('../../../modules/propertyConditions/models/PropertyCondition');
+
+const client = redis.createClient();
 
 async function dropPropertyConditionsTable() {
     await PropertyCondition.remove({}, (err) => {});
@@ -14,6 +17,23 @@ async function fakePropertyConditions() {
                 icon: icons[Math.floor(Math.random() * icons.length)],
             });
         }
+        const propertyConditions = await PropertyCondition.find({ deletedAt: null });
+        const conditions = [];
+        const indexes = [];
+        let loopTimes = 6;
+        for (let i = 0; i < loopTimes; i += 1) {
+            const index = Math.floor(Math.random() * propertyConditions.length);
+            if (indexes.indexOf(index) >= 0) {
+                loopTimes += 1;
+                continue;
+            }
+            indexes.push(index);
+            conditions.push(
+                propertyConditions[index].name,
+            );
+        }
+        client.set('conditions', JSON.stringify(conditions));
+        client.quit();
     } catch (e) {
         throw e;
     }

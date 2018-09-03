@@ -39,6 +39,7 @@
     "node-cron": "^1.2.1",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
+    "redis": "^2.8.0",
     "sharp": "^0.20.5",
     "speakingurl": "^14.0.1",
     "validator": "^10.4.0",

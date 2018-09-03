@@ -189,7 +189,7 @@ button.badge {
     float: right;
 }
 
-.marker__delete-btn, .polygon__delete-btn {
+.temp-condition__delete-btn, .marker__delete-btn, .polygon__delete-btn {
     padding: 0 3px;
     border: none;
     background-color: transparent;
@@ -205,7 +205,7 @@ button.badge {
     cursor: pointer;
 }
 
-.marker__delete-btn:focus, .polygon__delete-btn:focus, .polygon__edit-color-btn:focus {
+.temp-condition__delete-btn, .marker__delete-btn:focus, .polygon__delete-btn:focus, .polygon__edit-color-btn:focus {
     outline: none;
 }
 
@@ -228,4 +228,8 @@ button.badge {
     padding: 0 3px;
     border-radius: 0;
     border-color: #fff;
+}
+
+.temp-condition__total {
+    margin-right: 10px;
 }

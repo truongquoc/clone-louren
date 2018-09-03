@@ -46,12 +46,28 @@ async function fakePropertyArticles() {
             const amenities = [];
             const conditions = [];
             const title = faker.lorem.words(10);
-            for (let j = 0; j < Math.floor(Math.random() * propertyAmenities.length); j += 1) {
-                amenities.push(propertyAmenities[j]._id);
+            let indexes = [];
+            let loopTimes = 6;
+            for (let j = 0; j < loopTimes; j += 1) {
+                const index = Math.floor(Math.random() * propertyAmenities.length);
+                if (indexes.indexOf(index) >= 0) {
+                    loopTimes += 1;
+                    continue;
+                }
+                indexes.push(index);
+                amenities.push(propertyAmenities[index]._id);
             }
-            for (let j = 0; j < Math.floor(Math.random() * propertyConditions.length); j += 1) {
+            indexes = [];
+            loopTimes = 6;
+            for (let j = 0; j < loopTimes; j += 1) {
+                const index = Math.floor(Math.random() * propertyConditions.length);
+                if (indexes.indexOf(index) >= 0) {
+                    loopTimes += 1;
+                    continue;
+                }
+                indexes.push(index);
                 conditions.push({
-                    condition: propertyConditions[j]._id,
+                    condition: propertyConditions[index]._id,
                     quantity: Math.floor(Math.random() * 10),
                 });
             }

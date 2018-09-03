@@ -12,4 +12,6 @@ router.put('/edit/:id', propertyConditionAuthorize.editAuthorize, propertyCondit
 
 router.delete('/delete/:id', propertyConditionAuthorize.editAuthorize, propertyConditionController.destroy);
 
+router.put('/select/:id', propertyConditionAuthorize.editAuthorize, propertyConditionController.changeTemp);
+
 module.exports = router;
