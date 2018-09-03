@@ -5,7 +5,7 @@ const DistrictRepositoryClass = require('../repositories/DistrictRepository');
 const DistrictRepository = new DistrictRepositoryClass();
 
 const createDistrictRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -21,7 +21,7 @@ const createDistrictRequest = [
     check('city')
         .not().isEmpty().withMessage('Thành phố không được bỏ trống')
         .not().isIn([0]).withMessage('Thành phố không được bỏ trống'),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await DistrictRepository.checkExist({
@@ -38,7 +38,7 @@ const createDistrictRequest = [
 ];
 
 const editDistrictRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
@@ -57,7 +57,7 @@ const editDistrictRequest = [
     check('city')
         .not().isEmpty().withMessage('Thành phố không được bỏ trống')
         .not().isIn([0]).withMessage('Thành phố không được bỏ trống'),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await DistrictRepository.checkExistWithTrashed({

@@ -5,7 +5,7 @@ const PropertyCategoryRepositoryClass = require('../repositories/PropertyCategor
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 
 const createCategoryRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -18,7 +18,7 @@ const createCategoryRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await PropertyCategoryRepository.checkExist({
@@ -35,7 +35,7 @@ const createCategoryRequest = [
 ];
 
 const editCategoryRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
@@ -51,7 +51,7 @@ const editCategoryRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await PropertyCategoryRepository.checkExistWithTrashed({

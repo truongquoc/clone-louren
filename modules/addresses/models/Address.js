@@ -12,6 +12,7 @@ const Address = new Schema({
         type: {
             type: String,
             required: true,
+            trim: true,
             default: 'Point',
             enum: ['Point'],
         },

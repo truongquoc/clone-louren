@@ -5,7 +5,7 @@ const PropertyStatusRepositoryClass = require('../repositories/PropertyStatusRep
 const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 
 const createStatusRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -18,7 +18,7 @@ const createStatusRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await PropertyStatusRepository.checkExist({
@@ -35,7 +35,7 @@ const createStatusRequest = [
 ];
 
 const editStatusRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
@@ -51,7 +51,7 @@ const editStatusRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await PropertyStatusRepository.checkExistWithTrashed({

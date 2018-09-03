@@ -5,7 +5,7 @@ const CityRepositoryClass = require('../repositories/CityRepository');
 const CityRepository = new CityRepositoryClass();
 
 const createCityRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value) => {
             try {
@@ -18,7 +18,7 @@ const createCityRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value) => {
             try {
                 const validate = await CityRepository.checkExist({
@@ -35,7 +35,7 @@ const createCityRequest = [
 ];
 
 const editCityRequest = [
-    check('name')
+    check('name').trim()
         .not().isEmpty().withMessage('Tên không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
@@ -51,7 +51,7 @@ const editCityRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('slug')
+    check('slug').trim()
         .custom(async (value, { req }) => {
             try {
                 const validate = await CityRepository.checkExistWithTrashed({
