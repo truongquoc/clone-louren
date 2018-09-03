@@ -1,4 +1,5 @@
 const { check } = require('express-validator/check');
+const validator = require('validator');
 const moment = require('moment');
 const UserRepositoryClass = require('../repositories/UserRepository');
 
@@ -8,6 +9,8 @@ const registerRequest = [
     check('name').not().isEmpty().withMessage('Tên không được bỏ trống'),
     check('email')
         .not().isEmpty().withMessage('Email không được bỏ trống')
+        .custom(value => (validator.isEmail(value)))
+        .withMessage('Email không đúng định dạng')
         .custom(async (value) => {
             try {
                 const user = await UserRepository.checkExistWithTrashed({
@@ -27,7 +30,9 @@ const registerRequest = [
         .custom((value, { req }) => (value === req.body.password))
         .withMessage('Xác thực mật khẩu không đúng'),
     check('telephone')
-        .not().isEmpty().withMessage('Số điện thoại không được bỏ trống'),
+        .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
+        .custom(value => (validator.isMobilePhone(value, ['vi-VN'])))
+        .withMessage('Số điện thoại không đúng định dạng'),
     check('gender')
         .not().isEmpty().withMessage('Giới tính không được bỏ trống')
         .isIn(['1', '2', '3'])

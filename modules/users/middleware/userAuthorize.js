@@ -56,6 +56,21 @@ const editAuthorize = async (req, res, next) => {
     }
 };
 
+const uploadAvatarAuthorize = async (req, res, next) => {
+    if (req.params.id !== req.session.cUser._id) {
+        return res.json(responseHelper.notAuthorized());
+    }
+    try {
+        const user = await UserRepository.checkExist({ _id: req.params.id });
+        if (!user) {
+            return res.json(responseHelper.notFound());
+        }
+        next();
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 const destroyAuthorize = async (req, res, next) => {
     const { cUser } = req.session;
     if (!roleHelper.hasRole(cUser, ['Admin', 'Manager'])) {
@@ -82,6 +97,7 @@ module.exports = {
     indexAuthorize,
     showProfileAuthorize,
     editAuthorize,
+    uploadAvatarAuthorize,
     registerAuthorize,
     destroyAuthorize,
 };

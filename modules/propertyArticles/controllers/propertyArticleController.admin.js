@@ -215,7 +215,7 @@ const listImages = async (req, res, next) => {
         const { query } = req;
         const [propertyArticle, images] = await Promise.all([
             PropertyArticleRepository.getEditArticle(req.params.slug),
-            UploadRepository.paginate({}, {
+            UploadRepository.listByArticles({
                 query,
                 pageUrl: url.parse(req.originalUrl).pathname,
             }),

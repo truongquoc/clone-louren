@@ -1,5 +1,8 @@
 <% layout('/layouts/client/app') %>
 
+<% script('/public/client/js/map/google-maps/index.js') %>
+<% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>
+
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
@@ -225,8 +228,6 @@
     </div>
 </div>
 
-<% script('/public/client/js/map/google-maps/index.js') %>
-<% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>
 <% block('scripts', `
 <script>
     $('#carousel-custom').on('slide.bs.carousel', function () {

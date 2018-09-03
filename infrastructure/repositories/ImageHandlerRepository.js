@@ -6,8 +6,20 @@ class ImageHandlerRepository extends BaseRepository {
         return Upload;
     }
 
-    create(locations) {
-        locations = locations.map(location => ({ url: location, createdAt: new Date() }));
+    listByArticles(options) {
+        return this.paginate({
+            type: 1,
+        }, options);
+    }
+
+    create(locations, id, isOriginal = false) {
+        locations = locations.map(location => ({
+            user: id,
+            type: 1,
+            isOriginal,
+            url: location,
+            createdAt: new Date(),
+        }));
         return this.model.insertMany(locations);
     }
 

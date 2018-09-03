@@ -1,11 +1,16 @@
 const { validationResult } = require('express-validator/check');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
+const imageHelper = require('../../../helpers/imageHelper');
+const storageHelper = require('../../../helpers/storage/storageHelper');
+const dateHelper = require('../../../helpers/dateHelper');
 const UserRepositoryClass = require('../repositories/UserRepository');
 const RoleRepositoryClass = require('../repositories/RoleRepository');
+const UploadRepositoryClass = require('../../../infrastructure/repositories/ImageHandlerRepository');
 
 const UserRepository = new UserRepositoryClass();
 const RoleRepository = new RoleRepositoryClass();
+const UploadRepository = new UploadRepositoryClass();
 
 const showRegisterForm = (req, res) => res.render('modules/users/admin/auth/register');
 
@@ -67,6 +72,36 @@ const updateProfile = async (req, res, next) => {
     }
 };
 
+const uploadOriginalAvatar = async (req, res) => {
+    let image = req.file;
+    try {
+        image = imageHelper.getOriginalImage(image);
+        const url = await storageHelper.storage('s3').upload(`avatars/original/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        await UploadRepository.create([url], req.session.cUser, true);
+
+        return res.json(responseHelper.success(url));
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
+const uploadAvatar = async (req, res) => {
+    let image = req.file;
+    try {
+        image = imageHelper.optimizeImage(image, {
+            width: 160,
+            height: 160,
+            quality: 80,
+        });
+        const url = await storageHelper.storage('s3').upload(`avatars/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        await UploadRepository.create([url], req.session.cUser);
+
+        return res.json(responseHelper.success(url));
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 const edit = async (req, res, next) => {
     try {
         const [user, roles] = await Promise.all([
@@ -107,9 +142,11 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
- index,
+    index,
     showProfile,
     updateProfile,
+    uploadOriginalAvatar,
+    uploadAvatar,
     showRegisterForm,
     register,
     edit,

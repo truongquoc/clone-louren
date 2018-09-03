@@ -2,6 +2,11 @@
 
 <% block('title', `Người dùng - ${user.name}`) %>
 
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js') %>
+<% script('/public/admin/js/cropper.js') %>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -24,7 +29,16 @@
             <div class="col-md-3">
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
-                        <div class="text-center"><img class="profile-user-img img-fluid img-circle" src="" alt="User profile picture"/></div>
+                        <div class="text-center">
+                            <div class="user-profile__avatar">
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="/public/admin/img/user2-160x160.jpg" alt="User profile picture"/>
+                                <div class="user-profile__avatar-change-btn__overlay">
+                                    <input type="file" class="hide">
+                                    <button class="user-profile__avatar-change-btn"><i class="fa fa-cloud-upload"></i></button>
+                                </div>
+                            </div>
+                        </div>
                         <h3 class="profile-username text-center"><%= user.name %></h3>
                         <p class="text-muted text-center">Software Engineer</p>
                         <ul class="list-group list-group-unbordered mb-3">
@@ -40,7 +54,8 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="settings">
-                                <form class="form-horizontal" action="/admin/users/<%= user._id %>" method="post">
+                                <form class="form-horizontal user__form"
+                                      action="/admin/users/<%= user._id %>" method="post" data-key="<%= user._id %>">
                                     <input type="hidden" name="_method" value="PUT"/>
                                     <div class="form-group">
                                         <label class="control-label">Tên</label>
@@ -95,3 +110,30 @@
         </div>
     </div>
 </section>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cropImageModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="cropImageModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="https://testing-store.s3.ap-northeast-1.amazonaws.com/avatars/original/2018090316411866.jpg"
+                     class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary float-right user__crop-image__finish-btn">Hoàn tất</button>
+            </div>
+        </div>
+    </div>
+</div>

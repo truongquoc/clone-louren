@@ -29,4 +29,14 @@ const optimizeImage = async (file, image = {}) => {
     return data;
 };
 
-module.exports = { deleteImage, optimizeImage };
+const getOriginalImage = (file) => {
+    const image = fs.createReadStream(`${file.path}`);
+    deleteImage(file, false);
+    return image;
+};
+
+module.exports = {
+    deleteImage,
+    optimizeImage,
+    getOriginalImage,
+};
