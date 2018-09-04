@@ -1,5 +1,6 @@
 const { check } = require('express-validator/check');
 const getSlug = require('speakingurl');
+const commonConstant = require('../../../constants/commonConstant');
 const dateHelper = require('../../../helpers/dateHelper');
 const adminHelper = require('../../../helpers/adminHelper');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
@@ -28,7 +29,21 @@ const createArticleRequest = [
                 return Promise.reject(e.message);
             }
         }),
-    check('image').custom((value, { req }) => (req.file)).withMessage('Ảnh không được bỏ trống'),
+    check('image').custom((value, { req }) => {
+        try {
+            if (!req.file) {
+                throw new Error('Ảnh không được bỏ trống');
+            }
+            if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                throw new Error('Loại ảnh không hợp lệ');
+            } else if (req.file.size > commonConstant.imageMaxsize) {
+                throw new Error('Kích thước ảnh quá lớn');
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
+    }).withMessage('Ảnh không được bỏ trống'),
     check('video').trim()
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('description').trim()
@@ -126,10 +141,21 @@ const editArticleRequest = [
             }
         }),
     check('image').custom((value, { req }) => {
-        if (!req.body.imageUrl && !req.file) {
-            return req.file;
+        try {
+            if (!req.file && !req.body.imageUrl) {
+                throw new Error('Ảnh không được bỏ trống');
+            }
+            if (req.file) {
+                if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                    throw new Error('Loại ảnh không hợp lệ');
+                } else if (req.file.size > commonConstant.imageMaxsize) {
+                    throw new Error('Kích thước ảnh quá lớn');
+                }
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
         }
-        return true;
     }).withMessage('Ảnh hoặc video không được bỏ trống'),
     check('video').trim()
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),

@@ -60,7 +60,7 @@
                 });
             },
             successmultiple: function (file, res) {
-                if (res.error.code === 500) {
+                if (!res.status) {
                     swal('Lỗi!', res.error.message[0], 'error');
                     let node, _i, _len, _ref, _results;
                     for (const index in file) {

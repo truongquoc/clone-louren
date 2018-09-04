@@ -33,8 +33,29 @@ const apiAuth = (req, res, next) => {
     })(req, res, next);
 };
 
+const clientRedirectIfAuthenticated = (req, res, next) => {
+    // If user doesn't have user role
+    // --> redirect to admin, if not, redirect to user management page
+    if (req.session.cUser) {
+        return res.redirect('/');
+    }
+    next();
+};
+
+const clientRedirectIfNotAuthenticated = (req, res, next) => {
+    if (!req.session.cUser) {
+        req.session.prevUrl = req.originalUrl;
+
+        return res.redirect('/login');
+    }
+    // Check if user has user role, next() to render error page
+    return next();
+};
+
 module.exports = {
     adminRedirectIfAuthenticated,
     adminRedirectIfNotAuthenticated,
     apiAuth,
+    clientRedirectIfAuthenticated,
+    clientRedirectIfNotAuthenticated,
 };
