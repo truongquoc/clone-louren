@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
-const bcrypt = require('bcryptjs');
 
 const { Schema } = mongoose;
 
@@ -17,13 +16,13 @@ const User = new Schema({
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
         trim: true,
-        unique: true,
+        // unique: false,
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
         trim: true,
     },
     gender: {
@@ -46,7 +45,7 @@ const User = new Schema({
         type: String,
         trim: true,
     },
-    socialite: {
+    socialMedias: {
         facebook: {
             type: String,
         },
