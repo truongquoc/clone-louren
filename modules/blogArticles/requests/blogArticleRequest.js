@@ -1,5 +1,6 @@
 const { check } = require('express-validator/check');
 const getSlug = require('speakingurl');
+const commonConstant = require('../../../constants/commonConstant');
 const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
 const dateHelper = require('../../../helpers/dateHelper');
 const adminHelper = require('../../../helpers/adminHelper');
@@ -30,7 +31,23 @@ const createArticleRequest = [
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not().isIn([0]).withMessage('Thể loại không được bỏ trống'),
     check('description').trim().not().isEmpty().withMessage('Mô tả không được bỏ trống'),
-    check('image').custom((value, { req }) => (req.file || (req.body.video && req.body.useVideo))).withMessage('Ảnh hoặc video không được bỏ trống'),
+    check('image').custom((value, { req }) => {
+        try {
+            if (req.file) {
+                if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                    throw new Error('Loại ảnh không hợp lệ');
+                } else if (req.file.size > commonConstant.imageMaxsize) {
+                    throw new Error('Kích thước ảnh quá lớn');
+                }
+            }
+            if (!req.file && !(req.body.video && req.body.useVideo)) {
+                throw new Error('Ảnh hoặc video không được bỏ trống');
+            }
+            return true;
+        } catch (e) {
+            Promise.reject(e.message);
+        }
+    }),
     check('video').trim()
         .custom((value, { req }) => ((value && req.body.useVideo) || req.file)).withMessage('Ảnh hoặc video không được bỏ trống')
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
@@ -96,11 +113,22 @@ const editArticleRequest = [
     check('description').trim()
         .not().isEmpty().withMessage('Mô tả không được bỏ trống'),
     check('image').custom((value, { req }) => {
-        if (!req.body.imageUrl && !req.file) {
-            return req.file || (req.body.video && req.body.useVideo);
+        try {
+            if (req.file) {
+                if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                    throw new Error('Loại ảnh không hợp lệ');
+                } else if (req.file.size > commonConstant.imageMaxsize) {
+                    throw new Error('Kích thước ảnh quá lớn');
+                }
+            }
+            if (!req.body.imageUrl && !(req.body.video && req.body.useVideo) && !req.file) {
+                throw new Error('Ảnh hoặc video không được bỏ trống');
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
         }
-        return true;
-    }).withMessage('Ảnh hoặc video không được bỏ trống'),
+    }),
     check('video').trim()
         .custom((value, { req }) => {
             if (!req.body.imageUrl && !req.file) {

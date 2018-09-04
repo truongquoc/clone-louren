@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const passport = require('../../config/passport');
+const authAuthorize = require('./middleware/authAuthorize');
 const authController = require('./controllers/authController.client');
+
+router.use([
+    '/login/facebook',
+    '/login/facebook/callback',
+    '/login/google',
+    '/login/google/callback',
+], authAuthorize.clientRedirectIfAuthenticated);
 
 router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 

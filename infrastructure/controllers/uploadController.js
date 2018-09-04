@@ -1,4 +1,5 @@
 const url = require('url');
+const { validationResult } = require('express-validator/check');
 const s3Config = require('../../config/s3');
 const imageHelper = require('../../helpers/imageHelper');
 const storageHelper = require('../../helpers/storage/storageHelper');
@@ -30,6 +31,11 @@ const index = async (req, res, next) => {
 const create = (req, res) => (res.render('modules/images/admin/upload'));
 
 const store = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        imageHelper.deleteImage(req.files, false);
+        return res.json(responseHelper.error(errors.mapped().images.msg, 400));
+    }
     const userId = req.session.cUser._id;
     try {
         let images = [];
