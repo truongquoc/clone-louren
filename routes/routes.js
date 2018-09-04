@@ -16,6 +16,7 @@ const adminPropertyConditionRouter = require('../modules/propertyConditions/rout
 const adminPropertyStatusRouter = require('../modules/propertyStatuses/routes-admin');
 const adminPropertyTypeRouter = require('../modules/propertyTypes/routes-admin');
 const adminRequestRouter = require('../modules/requests/routes.admin');
+const clientAuthRoutes = require('../modules/users/authRoutes.client');
 const clientBlogCategoryRouter = require('../modules/blogCategories/routes.client');
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes-client');
@@ -49,6 +50,7 @@ router.use('/admin/property/statuses', adminPropertyStatusRouter);
 router.use('/admin/property/types', adminPropertyTypeRouter);
 router.use('/admin/requests', adminRequestRouter);
 
+router.use('/', clientAuthRoutes);
 router.use('/', clientPropertyArticleRouter);
 router.use('/du-an', clientPropertyCategoryRouter);
 router.use('/blog', clientBlogCategoryRouter);
