@@ -119,7 +119,6 @@ const edit = async (req, res, next) => {
 const update = async (req, res, next) => {
     const data = req.body;
     const errors = validationResult(req);
-    console.log(data);
     if (!errors.isEmpty()) {
         req.flash('errors', errors.mapped());
         req.flash('oldValue', data);
