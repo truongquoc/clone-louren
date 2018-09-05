@@ -26,13 +26,9 @@ const error = (message, code = 500) => {
     };
 };
 
-const notFound = () => (
-    error('RESOURCE_NOT_FOUND', 404)
-);
+const notFound = () => error('RESOURCE_NOT_FOUND', 404);
 
-const notAuthorized = () => (
-    error('NOT_AUTHORIZED_FOR_THIS_URI', 403)
-);
+const notAuthorized = () => error('NOT_AUTHORIZED_FOR_THIS_URI', 403);
 
 module.exports = {
     success, error, notFound, notAuthorized,

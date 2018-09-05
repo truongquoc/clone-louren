@@ -6,9 +6,7 @@ const AuthRepositoryClass = require('../repositories/AuthRepository');
 
 const AuthRepository = new AuthRepositoryClass();
 
-const index = (req, res) => (
-    res.render('modules/users/admin/index')
-);
+const index = (req, res) => res.render('modules/users/admin/index');
 
 const showLoginForm = (req, res) => res.render('modules/users/admin/auth/login');
 

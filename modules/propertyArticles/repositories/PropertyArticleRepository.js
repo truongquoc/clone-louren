@@ -31,9 +31,9 @@ class PropertyArticleRepository extends ArticleRepository {
                 .limit(6);
         };
         let commands = [getArticles()];
-        commands = commands.concat(Object.values(categories).map(category => (
-            getArticles(category)
-        )));
+        commands = commands.concat(
+            Object.values(categories).map(category => getArticles(category)),
+        );
 
         return Promise.all(commands);
     }

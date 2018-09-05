@@ -28,7 +28,7 @@ const index = async (req, res, next) => {
     }
 };
 
-const create = (req, res) => (res.render('modules/images/admin/upload'));
+const create = (req, res) => res.render('modules/images/admin/upload');
 
 const store = async (req, res) => {
     const errors = validationResult(req);
