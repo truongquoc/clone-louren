@@ -10,7 +10,7 @@ const registerRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống'),
     check('email').trim()
         .not().isEmpty().withMessage('Email không được bỏ trống')
-        .custom(value => (validator.isEmail(value)))
+        .custom(value => validator.isEmail(value))
         .withMessage('Email không đúng định dạng')
         .custom(async (value) => {
             try {
@@ -28,11 +28,11 @@ const registerRequest = [
         .not().isEmpty().withMessage('Mật khẩu không được bỏ trống'),
     check('passwordConfirmation')
         .not().isEmpty().withMessage('Xác thực mật khẩu không được bỏ trống')
-        .custom((value, { req }) => (value === req.body.password))
+        .custom((value, { req }) => value === req.body.password)
         .withMessage('Xác thực mật khẩu không đúng'),
     check('telephone').trim()
         .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
-        .custom(value => (validator.isMobilePhone(value, ['vi-VN'])))
+        .custom(value => validator.isMobilePhone(value, ['vi-VN']))
         .withMessage('Số điện thoại không đúng định dạng'),
     check('gender')
         .not().isEmpty().withMessage('Giới tính không được bỏ trống')
@@ -45,14 +45,14 @@ const editProfileRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống'),
     check('telephone').trim()
         .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
-        .custom(value => (validator.isMobilePhone(value, ['vi-VN'])))
+        .custom(value => validator.isMobilePhone(value, ['vi-VN']))
         .withMessage('Số điện thoại không đúng định dạng'),
     check('gender').not().isEmpty().withMessage('Giới tính không được bỏ trống')
         .isIn(['1', '2', '3'])
         .withMessage('Giới tính không hợp lệ'),
     check('birthday').trim()
         .not().isEmpty().withMessage('Ngày sinh không được bỏ trống')
-        .custom(value => (moment(value, 'DD/MM/YYYY').isValid() && moment().year() - moment(value, 'DD/MM/YYYY').year() >= 18))
+        .custom(value => moment(value, 'DD/MM/YYYY').isValid() && moment().year() - moment(value, 'DD/MM/YYYY').year() >= 18)
         .withMessage('Ngày sinh không hợp lệ'),
 ];
 
@@ -61,7 +61,7 @@ const editRequest = [
         .not().isEmpty().withMessage('Tên không được bỏ trống'),
     check('email').trim()
         .not().isEmpty().withMessage('Email không được bỏ trống')
-        .custom(value => (validator.isEmail(value)))
+        .custom(value => validator.isEmail(value))
         .withMessage('Email không đúng định dạng')
         .custom(async (value, { req }) => {
             try {

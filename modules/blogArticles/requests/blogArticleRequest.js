@@ -49,7 +49,7 @@ const createArticleRequest = [
         }
     }),
     check('video').trim()
-        .custom((value, { req }) => ((value && req.body.useVideo) || req.file)).withMessage('Ảnh hoặc video không được bỏ trống')
+        .custom((value, { req }) => (value && req.body.useVideo) || req.file).withMessage('Ảnh hoặc video không được bỏ trống')
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('useVideo').custom((value, { req }) => {
         try {
@@ -63,7 +63,7 @@ const createArticleRequest = [
     }),
     check('content').trim()
         .not().isEmpty().withMessage('Nội dung không được bỏ trống')
-        .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
+        .custom(value => value.replace(/<\/?[^>]+(>|$)/g, '').trim())
         .withMessage('Nội dung không được bỏ trống'),
     check('slug').trim()
         .custom(async (value, { req }) => {
@@ -149,7 +149,7 @@ const editArticleRequest = [
     }),
     check('content').trim()
         .not().isEmpty().withMessage('Nội dung không được bỏ trống')
-        .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
+        .custom(value => value.replace(/<\/?[^>]+(>|$)/g, '').trim())
         .withMessage('Nội dung không được bỏ trống'),
     check('slug').trim()
         .custom(async (value, { req }) => {

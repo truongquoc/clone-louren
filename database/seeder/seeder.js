@@ -24,7 +24,7 @@ mongoose.connection.on('error', (err) => {
     }
 });
 
-const pumpItUp = () => ([
+const pumpItUp = () => [
     ...[
         {
             title: 'Drop requests table👌',
@@ -183,7 +183,7 @@ const pumpItUp = () => ([
             },
         },
     ],
-]);
+];
 
 async function kickoff(tasks) {
     await tasks.run();

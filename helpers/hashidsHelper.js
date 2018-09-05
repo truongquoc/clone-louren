@@ -3,9 +3,9 @@ const { hashidsChars, keys } = require('../config/hashids');
 
 const hashids = new Hashids('', 10, hashidsChars);
 
-const encode = id => (hashids.encodeHex(id));
+const encode = id => hashids.encodeHex(id);
 
-const decode = id => (hashids.decodeHex(id));
+const decode = id => hashids.decodeHex(id);
 
 const loopHashids = (data) => {
     if (data && data.length) {

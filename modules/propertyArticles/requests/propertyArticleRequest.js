@@ -48,7 +48,7 @@ const createArticleRequest = [
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('description').trim()
         .not().isEmpty().withMessage('Mô tả không được bỏ trống')
-        .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
+        .custom(value => value.replace(/<\/?[^>]+(>|$)/g, '').trim())
         .withMessage('Mô tả không được bỏ trống'),
     check('category')
         .not().isEmpty().withMessage('Loại hình không được bỏ trống')
@@ -161,7 +161,7 @@ const editArticleRequest = [
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('description').trim()
         .not().isEmpty().withMessage('Mô tả không được bỏ trống')
-        .custom(value => (value.replace(/<\/?[^>]+(>|$)/g, '').trim()))
+        .custom(value => value.replace(/<\/?[^>]+(>|$)/g, '').trim())
         .withMessage('Mô tả không được bỏ trống'),
     check('category')
         .not().isEmpty().withMessage('Loại hình không được bỏ trống')

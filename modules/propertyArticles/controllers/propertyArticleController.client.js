@@ -19,12 +19,12 @@ const BlogArticleRepository = new BlogArticleRepositoryClass();
 const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
-const getClassifications = () => ([
+const getClassifications = () => [
     PropertyStatusRepository.baseGet(),
     PropertyTypeRepository.baseGet(),
     CityRepository.baseGet(),
     DistrictRepository.baseGet(),
-]);
+];
 
 const index = async (req, res, next) => {
     try {
