@@ -32,7 +32,7 @@ router.use((req, res, next) => {
     next();
 });
 
-router.use('/', apiRouter);
+router.use('/v1', apiRouter);
 router.use('/admin', adminAuthRoutes);
 router.use('/admin', adminInfrastructureRouter);
 router.use('/admin/users', adminUserRouter);
@@ -49,6 +49,7 @@ router.use('/admin/property/conditions', adminPropertyConditionRouter);
 router.use('/admin/property/statuses', adminPropertyStatusRouter);
 router.use('/admin/property/types', adminPropertyTypeRouter);
 router.use('/admin/requests', adminRequestRouter);
+router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use('/', clientAuthRoutes);
 router.use('/', clientPropertyArticleRouter);
@@ -57,6 +58,7 @@ router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
 router.use('/', clientRequestRouter);
+router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);
 

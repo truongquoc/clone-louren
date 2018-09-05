@@ -6,13 +6,19 @@ const userRequest = require('./requests/userRequest');
 const authController = require('./controllers/authController.admin');
 const userController = require('./controllers/userController.admin');
 
-router.use('/login', authAuthorize.adminRedirectIfAuthenticated);
+router.use(['/login', '/password/forgot', '/password/reset/:token'], authAuthorize.adminRedirectIfAuthenticated);
 
 router.get('/login', authController.showLoginForm);
 
 router.post('/login', authRequest.loginRequest, authController.login);
 
 router.get('/password/forgot', authController.showForgotPasswordForm);
+
+router.post('/password/forgot', authRequest.forgotPasswordRequest, authController.sendMessage);
+
+router.get('/password/reset/:token', authAuthorize.resetPasswordAuthorize, authController.showResetPasswordForm);
+
+router.put('/password/reset/:token', authAuthorize.resetPasswordAuthorize, authRequest.resetPasswordRequest, authController.resetPassword);
 
 router.use(authAuthorize.adminRedirectIfNotAuthenticated);
 

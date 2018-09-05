@@ -1,5 +1,8 @@
 const getSlug = require('speakingurl');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const commonConstant = require('../../../config/config');
 const User = require('../models/User');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const RoleRepositoryClass = require('./RoleRepository');
@@ -78,6 +81,61 @@ class AuthRepository extends BaseRepository {
             password: bcrypt.hashSync(data.newPassword, salt),
         };
         return this.baseUpdate(user, { _id: id });
+    }
+
+    getForgotPasswordUser(data) {
+        if (data.email) {
+            return this.getDetail({ email: data.email });
+        }
+        return this.getDetail({ telephone: data.telephone });
+    }
+
+    async sendMail(user, host) {
+        user.resetPasswordToken = await (new Promise((resolve, reject) => {
+            crypto.randomBytes(20, (err, buf) => {
+                if (err) {
+                    reject(err);
+                }
+                const token = buf.toString('hex');
+                resolve(token);
+            });
+        }));
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+        const smtpTransport = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: commonConstant.emailAddress,
+                pass: commonConstant.emailPassword,
+            },
+        });
+        const mailOptions = {
+            to: user.email,
+            from: commonConstant.emailAddress,
+            subject: 'The NEST: Khôi phục mật khẩu',
+            text: `Bạn nhận được mail này vì bạn (hoặc một người khác) đã yêu cầu khôi phục password cho tài khoản này.\n\n
+			Hãy click vào link dưới đây, hoặc copy và paste đường link này vào trình duyệt của bạn:\n\n
+			${host}/admin/password/reset/${user.resetPasswordToken}\n\n
+			Nếu bạn không làm việc này, hãy bỏ qua mail này và mật khẩu của bạn sẽ không thay đổi\n\n`,
+        };
+
+        return smtpTransport.sendMail(mailOptions);
+    }
+
+    findUserWithToken(token) {
+        return this.getDetail({
+            resetPasswordToken: token,
+        });
+    }
+
+    resetPassword(data, token) {
+        const salt = bcrypt.genSaltSync(10);
+        const user = {
+            password: bcrypt.hashSync(data.newPassword, salt),
+            resetPasswordToken: undefined,
+            resetPasswordExpires: undefined,
+        };
+        return this.baseUpdate(user, { resetPasswordToken: token });
     }
 }
 
