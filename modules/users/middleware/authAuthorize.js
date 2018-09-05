@@ -1,5 +1,8 @@
 const passport = require('../../../config/passport');
 const responseHelper = require('../../../helpers/responseHelper');
+const AuthRepositoryClass = require('../repositories/AuthRepository');
+
+const AuthRepository = new AuthRepositoryClass();
 
 const adminRedirectIfAuthenticated = (req, res, next) => {
     // If user doesn't have user role
@@ -52,10 +55,27 @@ const clientRedirectIfNotAuthenticated = (req, res, next) => {
     return next();
 };
 
+const resetPasswordAuthorize = async (req, res, next) => {
+    try {
+        const user = await AuthRepository.checkExist({
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: { $gt: Date.now() },
+        });
+        if (!user) {
+            req.flash('error', 'Token không hợp lệ hoặc đã hết hạn');
+            return res.redirect('/admin/password/forgot');
+        }
+        next();
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     adminRedirectIfAuthenticated,
     adminRedirectIfNotAuthenticated,
     apiAuth,
     clientRedirectIfAuthenticated,
     clientRedirectIfNotAuthenticated,
+    resetPasswordAuthorize,
 };

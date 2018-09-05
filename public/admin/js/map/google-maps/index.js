@@ -1,21 +1,3 @@
-toastr.options = {
-    "closeButton": false,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-bottom-right",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "2000",
-    "timeOut": "10000",
-    "extendedTimeOut": "2000",
-    "showEasing": "linear",
-    "hideEasing": "swing",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-};
-
 class Marker {
     constructor(drawingManager, map) {
         const propertyArticle = $('.map').data('key');

@@ -41,5 +41,13 @@
 <script src="/public/admin/js/adminlte.min.js"></script>
 <script src="/public/admin/js/custom.js"></script>
 <script src="/public/admin/js/demo.js"></script>
+<script>
+    <% if (flashMessages && flashMessages.success) { %>
+        toastr.success('<%= flashMessages.success %>');
+    <% } %>
+    <% if (flashMessages && flashMessages.error) { %>
+        toastr.error('<%= flashMessages.error %>');
+    <% } %>
+</script>
 </body>
 </html>

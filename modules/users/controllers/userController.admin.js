@@ -24,8 +24,8 @@ const register = async (req, res, next) => {
     }
     try {
         await UserRepository.create(data);
-
-        return res.redirect('/admin/login');
+        req.flash('success', 'Tạo tài khoản thành công');
+        return res.redirect('/admin/register');
     } catch (e) {
         return next(responseHelper.error(e.message));
     }
@@ -119,6 +119,7 @@ const edit = async (req, res, next) => {
 const update = async (req, res, next) => {
     const data = req.body;
     const errors = validationResult(req);
+    console.log(data);
     if (!errors.isEmpty()) {
         req.flash('errors', errors.mapped());
         req.flash('oldValue', data);

@@ -8,6 +8,8 @@
 <% script('/public/admin/js/map/google-maps/index.js') %>
 <% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>
 
+<% block('title', 'Bản đồ')%>
+
 <div class="map" data-key="<%= propertyArticle.hashid %>" data-token="<%= cUser.token %>">
     <div class="map__control-panel">
         <ul class="nav nav-tabs" id="myTab" role="tablist">

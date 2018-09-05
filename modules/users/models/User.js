@@ -56,7 +56,7 @@ const User = new Schema({
     images: {
         max: {
             type: Number,
-            default: 10,
+            default: 50,
             min: 0,
         },
         uploaded: {
@@ -76,6 +76,12 @@ const User = new Schema({
             default: 0,
             min: 0,
         },
+    },
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date,
     },
     slug: {
         type: String,
