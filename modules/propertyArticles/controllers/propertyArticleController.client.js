@@ -8,6 +8,9 @@ const CityRepositoryClass = require('../../cities/repositories/CityRepository');
 const DistrictRepositoryClass = require('../../districts/repositories/DistrictRepository');
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
 const PropertyAmenityRepositoryClass = require('../../propertyAmenities/repositories/PropertyAmenityRepository');
+const PropertyConditionRepositoryClass = require('../../propertyConditions/repositories/PropertyConditionRepository');
+const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTypeRepository');
+const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
@@ -17,6 +20,9 @@ const CityRepository = new CityRepositoryClass();
 const DistrictRepository = new DistrictRepositoryClass();
 const BlogArticleRepository = new BlogArticleRepositoryClass();
 const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
+const PropertyConditionRepository = new PropertyConditionRepositoryClass();
+const PriceTypeRepository = new PriceTypeRepositoryClass();
+const UploadRepository = new UploadRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
 const getClassifications = () => [
@@ -25,6 +31,13 @@ const getClassifications = () => [
     CityRepository.baseGet(),
     DistrictRepository.baseGet(),
 ];
+
+const getDataForCreatingArticle = () => getClassifications().concat([
+    PropertyAmenityRepository.baseGet(),
+    PropertyConditionRepository.baseGet(),
+    PropertyCategoryRepository.baseGet(),
+    PriceTypeRepository.baseGet(),
+]);
 
 const index = async (req, res, next) => {
     try {
@@ -152,9 +165,48 @@ const show = async (req, res, next) => {
     }
 };
 
+const create = async (req, res, next) => {
+    try {
+        const [
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyConditions,
+            propertyCategories,
+            priceTypes,
+        ] = await Promise.all(getDataForCreatingArticle());
+
+        return res.render('modules/propertyArticles/client/create', {
+            propertyAmenities,
+            propertyConditions,
+            propertyCategories,
+            propertyTypes,
+            propertyStatuses,
+            cities,
+            districts,
+            priceTypes,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+const edit = (req, res) => {
+    return res.render('modules/propertyArticles/client/create');
+};
+
+const showMyArticles = (req, res) => {
+    return res.render('modules/propertyArticles/client/me');
+};
+
 module.exports = {
     index,
     list,
     search,
     show,
+    create,
+    edit,
+    showMyArticles,
 };

@@ -6,6 +6,8 @@ const AuthRepositoryClass = require('../repositories/AuthRepository');
 
 const AuthRepository = new AuthRepositoryClass();
 
+const showLoginPage = (req, res) => res.render('modules/users/client/auth/login');
+
 const facebookLogin = (req, res, next) => {
     passport.authenticate('facebook', {}, async (err, data) => {
         if (!data) {
@@ -80,6 +82,7 @@ const googleLogin = (req, res, next) => {
 };
 
 module.exports = {
+    showLoginPage,
     facebookLogin,
     googleLogin,
 };

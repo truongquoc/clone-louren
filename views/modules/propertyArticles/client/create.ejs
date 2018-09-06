@@ -19,12 +19,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="notification-box">
-                    <h3>Don't Have an Account?</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac tortor at tellus feugiat congue quis ut nunc. Semper ac dolor vitae accumsan.</p>
-                </div>
-            </div>
-            <div class="col-md-12">
                 <div class="submit-address">
                     <form method="GET">
                         <div class="main-title-2">
@@ -32,74 +26,125 @@
                         </div>
                         <div class="search-contents-sidebar mb-30">
                             <div class="form-group">
-                                <label>Property Title</label>
-                                <input type="text" class="input-text" name="your name" placeholder="Property Title">
+                                <label>Tiêu đề</label>
+                                <input type="text" class="input-text" name="title" placeholder="Nhập tiêu đề" value="<%= old('title') %>">
+                                <p class="form__error-message"><%= errors('title') %></p>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Status</label>
-                                        <select class="selectpicker search-fields" name="for-sale">
-                                            <option>For Sale</option>
-                                            <option>For Rent</option>
+                                        <label>Loại hình</label>
+                                        <select class="selectpicker search-fields" name="category">
+                                            <option value="0">Chọn loại hình</option>
+                                            <% propertyCategories.forEach(function (category) { %>
+                                            <option value="<%= category._id %>"
+                                                    <%= category._id.toString() === old('category') ? 'selected' : '' %>>
+                                                <%= category.name %>
+                                            </option>
+                                            <% }) %>
                                         </select>
+                                        <p class="form__error-message"><%= errors('category') %></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Type</label>
-                                        <select class="selectpicker search-fields" name="apartment">
-                                            <option>Apartment</option>
-                                            <option>House</option>
-                                            <option>Commercial</option>
-                                            <option>Garage</option>
-                                            <option>Lot</option>
+                                        <label>Hình thức kinh doanh</label>
+                                        <select class="selectpicker search-fields" name="type">
+                                            <option value="0">Chọn hình thức kinh doanh</option>
+                                            <% propertyTypes.forEach(function (type) { %>
+                                                <option value="<%= type._id %>" <%= type._id.toString() === old('type') ? 'selected' : '' %>>
+                                                    <%= type.name %>
+                                                </option>
+                                            <% }) %>
                                         </select>
+                                        <p class="form__error-message"><%= errors('type') %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Trạng thái</label>
+                                        <select class="selectpicker search-fields" name="status">
+                                            <option value="0">Chọn trạng thái</option>
+                                            <% propertyStatuses.forEach(function (status) { %>
+                                                <option value="<%= status._id %>"
+                                                        <%= status._id.toString() === old('status') ? 'selected' : '' %>>
+                                                    <%= status.name %>
+                                                </option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('status') %></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label>Price</label>
-                                        <input type="text" class="input-text" name="your name" placeholder="USD">
+                                        <label>Giá</label>
+                                        <input type="number" class="input-text" name="price[value]" placeholder="Giá"
+                                               value="<%= old('price.value') %>">
+                                        <p class="form__error-message"><%= errors('price[value]') %></p>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label>Area/Location</label>
-                                        <input type="text" class="input-text" name="your name" placeholder="SqFt">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Rooms</label>
-                                        <select class="selectpicker search-fields" name="1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
+                                        <label>Loại giá</label>
+                                        <select class="selectpicker search-fields" name="price[type]">
+                                            <% priceTypes.forEach(function (priceType) { %>
+                                                <option value="<%= priceType._id %>" <%= priceType._id.toString() === old('price.type') %>>
+                                                    <%= priceType.name %>
+                                                </option>
+                                            <% }) %>
                                         </select>
+                                        <p class="form__error-message"><%= errors('price[type]') %></p>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label>Bathroom</label>
-                                        <select class="selectpicker search-fields" name="1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                        </select>
+                                        <label>Kiểm tra</label>
+                                        <input type="text" readonly name="price[display]"
+                                               class="form-control" value="<%= old('price.display') %>">
+                                        <p class="form__error-message"><%= errors('price.display') %></p>
                                     </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Area/Location</label>
+                                    <input type="text" class="input-text" name="your name" placeholder="SqFt">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Rooms</label>
+                                    <select class="selectpicker search-fields" name="1">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label>Bathroom</label>
+                                    <select class="selectpicker search-fields" name="1">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-
                         <div class="main-title-2">
                             <h1><span>Property</span> Gallery</h1>
                         </div>
