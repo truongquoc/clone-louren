@@ -125,7 +125,7 @@ const update = async (req, res, next) => {
         return res.redirectBack();
     }
     try {
-        await UserRepository.update(data, req.params.id);
+        await UserRepository.update(data, req.params.id, req.session.cUser._id);
         return res.redirectBack();
     } catch (e) {
         next(responseHelper.error(e.message));

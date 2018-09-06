@@ -43,12 +43,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Vai trò</label>
-                                <select class="form-control select2" multiple style="width: 100%;" name="roles[]">
+                                <select class="form-control select2" multiple style="width: 100%;" name="roles"
+                                        <%= cUser._id === user._id.toString() ? 'disabled' : '' %>>
                                     <% const oldRoles = old('roles', user.roles); let check; %>
                                     <% roles.forEach(function (role) { %>
                                         <% if (oldRoles) { %>
                                             <% oldRoles.some(function (oldRole) { %>
-                                                <% check = (old('roles') ? oldRole.toString() : oldRole._id.toString() === role._id.toString()) %>
+                                                <% check = (old('roles') ? oldRole.toString() : oldRole._id.toString()) === role._id.toString() %>
                                                 <% if (check) return true %>
                                             <% }) %>
                                         <% } %>

@@ -1,4 +1,4 @@
-const handleException = (err, req, res) => {
+const handleException = (err, req, res, next) => {
     if (!err.error) {
         throw err;
     }
@@ -9,7 +9,8 @@ const handleException = (err, req, res) => {
                 return res.render('errors/admin/500');
             }
             return res.render('errors/client/500');
-        case 403: return res.sendStatus(403);
+        case 403:
+            return res.render('errors/admin/403');
         default: return res.sendStatus(404);
     }
 };
