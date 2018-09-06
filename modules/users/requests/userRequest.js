@@ -79,7 +79,12 @@ const editRequest = [
     check('telephone').trim()
         .custom(value => (value ? validator.isMobilePhone(value, ['vi-VN']) : true))
         .withMessage('Số điện thoại không đúng định dạng'),
-    check('roles').not().isEmpty().withMessage('Vai trò không được bỏ trống'),
+    check('roles').custom((value, { req }) => {
+        if (req.params.id === req.session.cUser._id) {
+            return true;
+        }
+        return value && value.length;
+    }).withMessage('Vai trò không được bỏ trống'),
     check('imagesQuantity').not().isEmpty().withMessage('Số lượng ảnh không được bỏ trống')
         .custom(value => (parseInt(value, 10) > 0)).withMessage('Số lượng không hợp lệ'),
 ];

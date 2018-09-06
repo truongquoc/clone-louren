@@ -59,12 +59,14 @@ class UserRepository extends BaseRepository {
         return this.baseCreate(user);
     }
 
-    async update(data, id) {
+    async update(data, id, currentUserId) {
         const user = await this.getDetail({ _id: id });
         user.name = data.name;
         user.email = data.email;
         user.telephone = data.telephone;
-        user.roles = data.roles;
+        if (currentUserId !== id) {
+            user.roles = data.roles;
+        }
         user.images.max = data.imagesQuantity;
 
         return user.save();

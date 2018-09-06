@@ -45,10 +45,10 @@ const editAuthorize = async (req, res, next) => {
         const condition = (req.params.slug) ? { slug: req.params.slug } : { _id: req.params.id };
         const user = await UserRepository.getUserWithRoles(condition);
         if (!user) {
-            return res.json(responseHelper.notFound());
+            return next(responseHelper.notFound());
         }
         if (roleHelper.hasRole(user, 'Admin') && !roleHelper.hasRole(cUser, 'Admin')) {
-            return res.json(responseHelper.notAuthorized());
+            return next(responseHelper.notAuthorized());
         }
         next();
     } catch (e) {
