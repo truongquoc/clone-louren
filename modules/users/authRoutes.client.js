@@ -4,11 +4,14 @@ const authAuthorize = require('./middleware/authAuthorize');
 const authController = require('./controllers/authController.client');
 
 router.use([
+    'login',
     '/login/facebook',
     '/login/facebook/callback',
     '/login/google',
     '/login/google/callback',
 ], authAuthorize.clientRedirectIfAuthenticated);
+
+router.get('/login', authController.showLoginPage);
 
 router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 

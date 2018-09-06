@@ -27,14 +27,16 @@ $(function () {
     });
 
     // WOW animation library initialization
-    var wow = new WOW(
-        {
-            animateClass: 'animated',
-            offset: 100,
-            mobile: false
-        }
-    );
-    wow.init();
+    if (typeof WOW !== 'undefined') {
+        var wow = new WOW(
+            {
+                animateClass: 'animated',
+                offset: 100,
+                mobile: false
+            }
+        );
+        wow.init();
+    }
 
     // Banner slider
     (function ($) {
@@ -186,7 +188,9 @@ $(function () {
     });
 
     // Select picket
-    $('.selectpicker').selectpicker();
+    if (typeof selectpicker !== 'undefined') {
+        $('.selectpicker').selectpicker();
+    }
 
     // Search option's icon toggle
     $('.search-options-btn').click(function () {
@@ -215,12 +219,16 @@ $(function () {
     }());
 
     // Background video playing script
-    $(document).ready(function () {
-        $(".player").mb_YTPlayer();
-    });
+    if (typeof mb_YTPlayer !== 'undefined') {
+        $(document).ready(function () {
+            $(".player").mb_YTPlayer();
+        });
+    }
 
     // Multilevel menuus
-    $('[data-submenu]').submenupicker();
+    if (typeof submenupicker !== 'undefined') {
+        $('[data-submenu]').submenupicker();
+    }
 
     // Expending/Collapsing advance search content
     $('.show-more-options').click(function () {
@@ -238,13 +246,14 @@ $(function () {
     $('.sidebar-widget iframe').css('height', videoHeight);
 
     // Dropzone initialization
-    Dropzone.autoDiscover = false;
-    $(function () {
-        $("div#myDropZone").dropzone({
-            url: "/file-upload"
+    if (typeof dropzone !== 'undefined') {
+        Dropzone.autoDiscover = false;
+        $(function () {
+            $("div#myDropZone").dropzone({
+                url: "/file-upload"
+            });
         });
-    });
-
+    }
 
     // SO something in mega menu
     jQuery(document).on('click', '.mega-dropdown', function(e) {
