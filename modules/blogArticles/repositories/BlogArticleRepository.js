@@ -24,7 +24,7 @@ class BlogArticleRepository extends ArticleRepository {
             conditions[slug.name] = slug.value;
         }
         const [total, docs] = await Promise.all([
-            this.model.estimatedDocumentCount(conditions),
+            this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
                 .populate('category', '-_id name slug', { deletedAt: null })
@@ -51,7 +51,7 @@ class BlogArticleRepository extends ArticleRepository {
             conditions.author = userId;
         }
         const [total, docs] = await Promise.all([
-            this.model.estimatedDocumentCount(conditions),
+            this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
                 .populate('category', '-_id name', { deletedAt: null })

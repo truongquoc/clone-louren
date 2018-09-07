@@ -3,8 +3,10 @@
 <% block('title', `Người dùng - ${user.name}`) %>
 
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css') %>
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
 <% script('/public/admin/js/cropper.js') %>
 
 <section class="content-header">
@@ -32,7 +34,7 @@
                         <div class="text-center">
                             <div class="user-profile__avatar">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="/public/admin/img/user2-160x160.jpg" alt="User profile picture"/>
+                                     src="<%= user.avatar %>"/>
                                 <div class="user-profile__avatar-change-btn__overlay">
                                     <input type="file" class="hide">
                                     <button class="user-profile__avatar-change-btn"><i class="fa fa-cloud-upload"></i></button>
@@ -64,9 +66,18 @@
                                         <p class="form__error-message"><%= errors('name') %></p>
                                     </div>
                                     <div class="form-group">
+                                        <label>Vai trò</label>
+                                        <select class="form-control select2" multiple style="width: 100%;" disabled>
+                                            <% user.roles.forEach(function (role) { %>
+                                                <option value="<%= role._id %>" selected><%= role.name %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="form__error-message"><%= errors('roles') %></p>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="control-label">Email</label>
-                                        <input class="form-control" type="email"
-                                               value="<%= old('email', user.email) %>" disabled="disabled"/>
+                                        <input class="form-control" type="email" <%= user.email ? 'disabled' : '' %>
+                                               value="<%= !user.email ? old('email', user.email) : user.email %>"/>
                                         <p class="form__error-message"><%= errors('email') %></p>
                                     </div>
                                     <div class="form-group">
@@ -96,11 +107,13 @@
                                         </div>
                                         <p class="form__error-message"><%= errors('gender') %></p>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button class="btn btn-success" type="submit">Thay đổi</button>
+                                    <% if (cUser._id === user._id.toString()) { %>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button class="btn btn-success" type="submit">Thay đổi</button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <% } %>
                                 </form>
                             </div>
                         </div>
@@ -110,11 +123,6 @@
         </div>
     </div>
 </section>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cropImageModal">
-    Launch demo modal
-</button>
 
 <!-- Modal -->
 <div class="modal" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="cropImageModal" aria-hidden="true">
@@ -137,3 +145,11 @@
         </div>
     </div>
 </div>
+
+<% block('scripts', `
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+    });
+</script>
+`) %>

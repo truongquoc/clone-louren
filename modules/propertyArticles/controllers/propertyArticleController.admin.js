@@ -7,6 +7,7 @@ const storageHelper = require('../../../helpers/storage/storageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const hashidsHelper = require('../../../helpers/hashidsHelper');
+const roleHelper = require('../../../helpers/roleHelper');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 const PropertyAmenityRepositoryClass = require('../../propertyAmenities/repositories/PropertyAmenityRepository');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
@@ -213,9 +214,13 @@ const destroy = async (req, res) => {
 const listImages = async (req, res, next) => {
     try {
         const { query } = req;
+        let id;
+        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])) {
+            id = req.session.cUser._id;
+        }
         const [propertyArticle, images] = await Promise.all([
             PropertyArticleRepository.getEditArticle(req.params.slug),
-            UploadRepository.listByArticles({
+            UploadRepository.listByArticles(id, {
                 query,
                 pageUrl: url.parse(req.originalUrl).pathname,
             }),

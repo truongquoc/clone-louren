@@ -5537,7 +5537,7 @@ table.manage-table .title-container .title h4 {
     font-size: 19px;
 }
 
-table.manage-table td.action a {
+table.manage-table td.action a, table.manage-table td.action button {
     display: block;
     color: #535353;
     line-height: 20px;
@@ -5553,10 +5553,19 @@ table.manage-table .title-container .title .table-property-price {
     font-weight: 600;
 }
 
-table.manage-table td.action a i {
+table.manage-table td.action a i, table.manage-table td.action button i {
     position: absolute;
     left: -21px;
     top: 5px;
+}
+
+table.manage-table td.action button {
+    border: none;
+    background: transparent;
+}
+
+table.manage-table td.action button:focus {
+    outline: none;
 }
 
 table.manage-table .title-container {

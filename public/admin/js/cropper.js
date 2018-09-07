@@ -39,8 +39,8 @@ function init_uploadImage() {
             init_cropper();
         });
     });
-    $('#cropImageModal').modal('show');
-    init_cropper();
+    // $('#cropImageModal').modal('show');
+    // init_cropper();
 }
 
 function init_cropper() {

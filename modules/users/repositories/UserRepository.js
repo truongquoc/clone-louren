@@ -19,7 +19,7 @@ class UserRepository extends BaseRepository {
         options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const [total, docs] = await Promise.all([
-            this.model.estimatedDocumentCount({ email: search, deletedAt: null }),
+            this.model.countDocuments({ email: search, deletedAt: null }),
             this.model
                 .find({ email: search, deletedAt: null })
                 .populate('roles', '-_id name', { deletedAt: null })
@@ -72,13 +72,17 @@ class UserRepository extends BaseRepository {
         return user.save();
     }
 
-    updateProfile(data, id) {
+    updateProfile(data, id, hasEmail = true) {
         const user = {
             name: data.name,
             telephone: data.telephone,
             birthday: moment(data.birthday, 'DD/MM/YYYY'),
             gender: data.gender,
         };
+        if (!hasEmail) {
+            user.email = data.email;
+            user.slug = getSlug(data.email);
+        }
 
         return this.baseUpdate(user, { _id: id });
     }

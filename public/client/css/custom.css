@@ -44,3 +44,15 @@
 button.close {
     line-height: 15px;
 }
+
+.property-articles__table.action .active {
+    color: #95c41f;
+}
+
+.property-articles__table.action .edit:hover {
+    color: #f0ad4e;
+}
+
+.property-articles__table.action .delete:hover {
+    color: red;
+}

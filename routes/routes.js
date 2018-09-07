@@ -23,6 +23,7 @@ const clientBlogArticleRouter = require('../modules/blogArticles/routes-client')
 const clientPropertyCategoryRouter = require('../modules/propertyCategories/routes.client');
 const clientPropertyArticleRouter = require('../modules/propertyArticles/routes.client');
 const clientRequestRouter = require('../modules/requests/routes.client');
+const clientUserRouter = require('../modules/users/routes.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -57,7 +58,8 @@ router.use('/du-an', clientPropertyCategoryRouter);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
-router.use('/', clientRequestRouter);
+router.use('/lien-he', clientRequestRouter);
+router.use('/nguoi-dung', clientUserRouter);
 router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);

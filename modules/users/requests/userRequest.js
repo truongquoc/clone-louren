@@ -89,4 +89,32 @@ const editRequest = [
         .custom(value => (parseInt(value, 10) > 0)).withMessage('Số lượng không hợp lệ'),
 ];
 
-module.exports = { registerRequest, editProfileRequest, editRequest };
+const clientEditProfileRequest = editProfileRequest.concat(
+    check('email').trim()
+        .custom(async (value, { req }) => {
+            try {
+                if (!req.session.cUser.email) {
+                    if (!value) {
+                        throw new Error('Email không được bỏ trống');
+                    }
+                    if (!validator.isEmail(value)) {
+                        throw new Error('Email không đúng định dạng');
+                    }
+                    const user = await UserRepository.checkExistWithTrashed({ email: value });
+                    if (user) {
+                        throw new Error('Email đã tồn tại');
+                    }
+                }
+                return true;
+            } catch (e) {
+                return Promise.reject(e.message);
+            }
+        }),
+);
+
+module.exports = {
+    registerRequest,
+    editProfileRequest,
+    editRequest,
+    clientEditProfileRequest,
+};

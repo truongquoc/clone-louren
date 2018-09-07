@@ -45,7 +45,7 @@
                         <th>Tiêu đề</th>
                         <th>Thể loại</th>
                         <th>Ngày tạo</th>
-                        <th style="width: 120px">Label</th>
+                        <th style="width: 120px">Tùy chọn</th>
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% blogArticles.docs.forEach(function (article, index) { %>
@@ -55,7 +55,16 @@
                         <td><%= article.category.name %></td>
                         <td><%= moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                         <td>
-                            <a href="#" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
+                            <a href="/blog/<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
+                            <% if (!article.isApproved) { %>
+                                <button class="badge bg-success-gradient" disabled>
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            <% } else { %>
+                                <button class="badge bg-warning-gradient" disabled>
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            <% } %>
                             <a href="/admin/blog/articles/edit/<%= article.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
                             <button class="badge bg-danger-gradient module__delete-btn">
                                 <i class="fa fa-times"></i>
