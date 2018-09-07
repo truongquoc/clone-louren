@@ -1,6 +1,7 @@
 const url = require('url');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
+const hashidsHelper = require('../../../helpers/hashidsHelper');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
 const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
 const PropertyTypeRepositoryClass = require('../../propertyTypes/repositories/PropertyTypeRepository');
@@ -215,14 +216,38 @@ const edit = (req, res) => {
     return res.render('modules/propertyArticles/client/create');
 };
 
-const destroy = async (req, res) => {
-    const { id } = req.params;
+const listImages = async (req, res, next) => {
     try {
-        await PropertyArticleRepository.deleteById(id);
+        const { query } = req;
+        const [propertyArticle, images] = await Promise.all([
+            PropertyArticleRepository.getEditArticle(req.params.slug),
+            UploadRepository.listByArticles(req.session.cUser._id, {
+                query,
+                pageUrl: url.parse(req.originalUrl).pathname,
+            }),
+        ]);
+        images.renderPagination = paginationHelper.renderPagination;
 
-        return res.json(responseHelper.success());
+        return res.render('modules/propertyArticles/client/listImages', {
+            propertyArticle,
+            images,
+            query,
+        });
     } catch (e) {
-        return res.json(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
+    }
+};
+
+const showMap = async (req, res, next) => {
+    try {
+        const propertyArticle = await PropertyArticleRepository.getEditArticle(req.params.slug);
+        propertyArticle.hashid = hashidsHelper.encode(propertyArticle._id.toString());
+
+        return res.render('modules/propertyArticles/client/map', {
+            propertyArticle,
+        });
+    } catch (e) {
+        return next(responseHelper.error(e.message));
     }
 };
 
@@ -231,8 +256,9 @@ module.exports = {
     list,
     search,
     show,
+    showMyArticles,
     create,
     edit,
-    showMyArticles,
-    destroy,
+    listImages,
+    showMap,
 };

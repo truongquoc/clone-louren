@@ -1,6 +1,26 @@
 $(function () {
     'use strict';
 
+    if (typeof toastr !== 'undefined') {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "2000",
+            "timeOut": "10000",
+            "extendedTimeOut": "2000",
+            "showEasing": "linear",
+            "hideEasing": "swing",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+
     // Showing page loader
     $(window).load(function () {
         setTimeout(function () {
@@ -244,16 +264,6 @@ $(function () {
     var videoWidth = $('.sidebar-widget').width();
     var videoHeight = videoWidth * .61;
     $('.sidebar-widget iframe').css('height', videoHeight);
-
-    // Dropzone initialization
-    if (typeof dropzone !== 'undefined') {
-        Dropzone.autoDiscover = false;
-        $(function () {
-            $("div#myDropZone").dropzone({
-                url: "/file-upload"
-            });
-        });
-    }
 
     // SO something in mega menu
     jQuery(document).on('click', '.mega-dropdown', function(e) {

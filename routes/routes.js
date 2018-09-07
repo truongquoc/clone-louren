@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const apiRouter = require('./api');
-const adminInfrastructureRouter = require('../infrastructure/route.admin');
+const adminInfrastructureRouter = require('../infrastructure/routes.admin');
 const adminAuthRoutes = require('../modules/users/authRoutes.admin');
 const adminUserRouter = require('../modules/users/routes.admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes-admin');
@@ -24,6 +24,7 @@ const clientPropertyCategoryRouter = require('../modules/propertyCategories/rout
 const clientPropertyArticleRouter = require('../modules/propertyArticles/routes.client');
 const clientRequestRouter = require('../modules/requests/routes.client');
 const clientUserRouter = require('../modules/users/routes.client');
+const clientInfrastructureRouter = require('../infrastructure/routes.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -60,6 +61,7 @@ router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
 router.use('/lien-he', clientRequestRouter);
 router.use('/nguoi-dung', clientUserRouter);
+router.use('/nguoi-dung', clientInfrastructureRouter);
 router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);

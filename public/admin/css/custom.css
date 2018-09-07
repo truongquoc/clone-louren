@@ -177,6 +177,7 @@ button.badge {
 }
 
 .map__control-panel__marker, .map__control-panel__polygon {
+    margin-bottom: 2px;
     overflow: hidden;
     clear: both;
 }

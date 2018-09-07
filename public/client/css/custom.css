@@ -45,14 +45,165 @@ button.close {
     line-height: 15px;
 }
 
+.property-articles__table.action .images:hover {
+    color: #ff7600;
+}
+
 .property-articles__table.action .active {
     color: #95c41f;
+}
+
+.property-articles__table.action .map {
+    transition: none;
 }
 
 .property-articles__table.action .edit:hover {
     color: #f0ad4e;
 }
 
+.property-articles__table.action .map:hover {
+    color: #34a6e8;
+}
+
 .property-articles__table.action .delete:hover {
     color: red;
+}
+
+.map__icon-btn {
+    max-width: 30px;
+    padding: 0 4px;
+}
+
+.map__icon-btn img {
+    width: 100%;
+}
+
+#map-content {
+    height: calc(100vh - 56px);
+}
+.map {
+    position: relative;
+}
+.map__control-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    font-size: 13px;
+}
+
+.map__control-panel .nav-tabs li {
+    padding: 0;
+}
+
+.map__control-panel .nav-tabs .active {
+    color: #495057;
+}
+
+.map__control-panel .nav-tabs a {
+    border-radius: 0;
+    background-color: #fff;
+    border-right-color: #dee2e6;
+    color: #495057;
+}
+
+.map__control-panel__markers, .map__control-panel__polygons {
+    max-height: 78px;
+    padding: 0 0 0 2px;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    overflow: auto;
+}
+
+.map__control-panel__polygons.active.show, .map__control-panel__markers.active.show {
+    /*height: 78px;*/
+}
+
+.map__control-panel__marker, .map__control-panel__polygon {
+    margin-bottom: 2px;
+    overflow: hidden;
+    clear: both;
+}
+
+.marker__content, .polygon__content {
+    float: left;
+}
+
+.marker__delete-btn, .polygon__options {
+    float: right;
+}
+
+.temp-condition__delete-btn, .marker__delete-btn, .polygon__delete-btn {
+    padding: 0 3px;
+    border: none;
+    background-color: transparent;
+    color: red;
+    cursor: pointer;
+}
+
+.polygon__edit-color-btn {
+    padding: 0 3px;
+    border: none;
+    background-color: transparent;
+    color: #d2b14e;
+    cursor: pointer;
+}
+
+.temp-condition__delete-btn, .marker__delete-btn:focus, .polygon__delete-btn:focus, .polygon__edit-color-btn:focus {
+    outline: none;
+}
+
+.gm-style-mtc div[role="button"] {
+    font-size: 14px !important;
+}
+
+.gm-style-mtc label {
+    margin-bottom: 0;
+    font-size: 14px !important;
+}
+
+.gm-control-active img {
+    height: 13px !important;
+    width: 13px !important;
+    margin: 15px 11px 15px !important;
+}
+
+.map__control-panel__save-btn {
+    padding: 0 3px;
+    border-radius: 0;
+    border-color: #fff;
+}
+
+.map__control-panel .nav {
+    margin-bottom: 0;
+}
+
+.map__control-panel .nav-tabs > li > a:hover, .map__control-panel .nav-tabs > li.active > a {
+    background-color: #95c41f;
+    color: #fff;
+}
+
+.map__control-panel .nav-tabs > li > a {
+    margin-right: 0;
+    border-right: solid 1px #dee2e6 !important;
+}
+
+.module__table td:last-child {
+    width: 12%;
+    padding-right: 0;
+}
+
+table.module__table .title-container .title span i {
+    display: inline-block;
+    width: 15px;
+    text-align: center;
+}
+
+.images__upload-btn {
+    padding: 10px 17px;
+    margin-top: 10px;
+    background-color: #26afbd;
+    border-color: #26afbd;
+    border-radius: 50%;
+    font-size: 28px;
 }

@@ -84,6 +84,39 @@ const destroyAuthorize = async (req, res, next) => {
     }
 };
 
+const clientEditAuthorize = async (req, res, next) => {
+    const condition = req.params.slug ? { slug: req.params.slug } : { _id: req.params.id };
+    try {
+        const article = await PropertyArticleRepository.getDetail(condition, { select: 'author' });
+        if (!article) {
+            return next(responseHelper.notFound());
+        }
+        if (article.author.toString() !== req.session.cUser._id) {
+            return next(responseHelper.notAuthorized());
+        }
+        next();
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+const clientDestroyAuthorize = async (req, res, next) => {
+    try {
+        const article = await PropertyArticleRepository.getDetail({
+            _id: req.params.id,
+        }, { select: 'author' });
+        if (!article) {
+            return res.json(responseHelper.notFound());
+        }
+        if (article.author.toString() !== req.session.cUser._id) {
+            return res.json(responseHelper.notAuthorized());
+        }
+        next();
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     indexAuthorize,
     showMyArticlesAuthorize,
@@ -91,4 +124,6 @@ module.exports = {
     editAuthorize,
     approveAuthorize,
     destroyAuthorize,
+    clientEditAuthorize,
+    clientDestroyAuthorize,
 };

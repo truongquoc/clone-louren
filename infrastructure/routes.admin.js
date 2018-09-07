@@ -2,7 +2,7 @@ const router = require('express').Router();
 const multer = require('multer');
 const uploadAuthorize = require('./middleware/uploadAuthorize');
 const uploadRequest = require('./requests/uploadRequest');
-const uploadController = require('./controllers/uploadController');
+const uploadController = require('./controllers/uploadController.admin');
 
 const upload = multer({ dest: 'public/tmp/images' });
 
