@@ -24,8 +24,8 @@ main.use(morgan('dev'));
 if (process.env.APP_ENV === 'local') {
     const app = express();
     app.use(vhost(process.env.APP_URL, main));
-    // app.listen(port, (error) => {
-    https.createServer(certOptions, app).listen(port, (error) => {
+    app.listen(port, (error) => {
+    // https.createServer(certOptions, app).listen(port, (error) => {
         if (error) {
             console.log('> Error: ', error);
             return;

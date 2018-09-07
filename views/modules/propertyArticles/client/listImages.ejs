@@ -1,0 +1,82 @@
+<% layout('/layouts/client/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+
+<% block('title', 'Ảnh')%>
+
+<div class="sub-banner overview-bgi">
+    <div class="overlay">
+        <div class="container">
+            <div class="breadcrumb-area">
+                <h1>My Properties</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">My Properties</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-area-7 my-properties">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <%- include ../../../layouts/client/partials/userSidebar.ejs %>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="main-title-2">
+                    <div class="pull-left">
+                        <h1>Chọn ảnh</h1>
+                    </div>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <div class="option-bar">
+                                <select class="images__table__pick-type sorting">
+                                    <option value="1">Thêm</option>
+                                    <option value="2">Thay thế</option>
+                                </select>
+                                <button class="change-view-btn active-view-btn images__table__pick-btn">Chọn <i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="manage-table responsive-table images__table images-picker__table"
+                       data-pick-url="/admin/property/articles/<%= propertyArticle._id %>/images">
+                    <tbody>
+                    <% images.docs.forEach(function (image, index) { %>
+                        <tr data-key="<%= image.url %>">
+                            <td class="title-container">
+                                <img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail">
+                                <div class="title">
+                                    <span><i class="fa fa-map-marker"></i><a href="<%= image.url %>">Link</a></span>
+                                    <span><i class="fa fa-calendar"></i><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></span>
+                                </div>
+                            </td>
+                            <td class="property-articles__table action">
+                                <div class="checkbox checkbox-theme checkbox-circle">
+                                    <% let check = false; %>
+                                    <% propertyArticle.display.images.some(function (oldImage) { %>
+                                        <% check = image.url === oldImage %>
+                                        <% if (check) return true %>
+                                    <% }) %>
+                                    <input id="checkbox<%= index %>" type="checkbox" <%= check ? 'checked': '' %>
+                                           class="images__table__pick-checkbox <%= check ? 'images__table__used-image': '' %>">
+                                    <label for="checkbox<%= index %>"></label>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+                <div class="card-footer clearfix">
+                    <div class=" pagination-sm m-0 float-right">
+                        <%- images.renderPagination(images, query.page) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

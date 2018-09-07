@@ -148,9 +148,6 @@
                         <div class="main-title-2">
                             <h1><span>Property</span> Gallery</h1>
                         </div>
-                        <div id="myDropZone" class="dropzone dropzone-design mb-50">
-                            <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
-                        </div>
 
                         <div class="main-title-2">
                             <h1><span>Location</span></h1>
@@ -164,42 +161,28 @@
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <div class="form-group">
-                                    <label>City</label>
-                                    <select class="selectpicker search-fields" name="choose-city" data-live-search="true" data-live-search-placeholder="Search value">
-                                        <option>Choose City</option>
-                                        <option>New York</option>
-                                        <option>Los Angeles</option>
-                                        <option>Chicago</option>
-                                        <option>Brooklyn</option>
-                                        <option>Queens</option>
-                                        <option>Houston</option>
-                                        <option>Manhattan</option>
-                                        <option>Philadelphia</option>
-                                        <option>Phoenix</option>
-                                        <option>San Antonio</option>
-                                        <option>Bronx</option>
-                                        <option>San Diego</option>
-                                        <option>Dallas</option>
-                                        <option>San Jose</option>
+                                    <label>Tỉnh / Thành phố</label>
+                                    <select class="selectpicker search-fields" name="city" data-live-search="true" data-live-search-placeholder="Search value">
+                                        <option value="0">Chọn tỉnh / thành phố</option>
+                                        <% cities.forEach(function (city) { %>
+                                            <option value="<%= city._id %>" <%= city._id.toString() === old('city') ? 'selected' : '' %>>
+                                                <%= city.name %>
+                                            </option>
+                                        <% }) %>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <div class="form-group">
-                                    <label>State</label>
-                                    <select class="selectpicker search-fields" name="choose-state" data-live-search="true" data-live-search-placeholder="Search value">
-                                        <option>Choose State</option>
-                                        <option>Alabama</option>
-                                        <option>Alaska</option>
-                                        <option>Arizona</option>
-                                        <option>Arkansas</option>
-                                        <option>California</option>
-                                        <option>Colorado</option>
-                                        <option>Connecticut</option>
-                                        <option>Delaware</option>
-                                        <option>Florida</option>
-                                        <option>Georgia</option>
-                                        <option>Hawaii</option>
+                                    <label>Quận / Huyện</label>
+                                    <select class="selectpicker search-fields" name="district" data-live-search="true" data-live-search-placeholder="Search value">
+                                        <option value="0">Chọn quận / huyện</option>
+                                        <% districts.forEach(function (district) { %>
+                                        <option value="<%= district._id %>" data-city="<%= district.city %>"
+                                                <%= district._id.toString() === old('district') ? ' selected' : '' %>>
+                                            <%= district.name %>
+                                        </option>
+                                        <% }) %>
                                     </select>
                                 </div>
                             </div>

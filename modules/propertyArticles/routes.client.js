@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const authAuthorize = require('../users/middleware/authAuthorize');
 const propertyArticleAuthorize = require('./middleware/propertyArticleAuthorize');
+const propertyArticleRequest = require('./requests/propertyArticleRequest');
 const PropertyCategoryRepositoryClass = require('../propertyCategories/repositories/PropertyCategoryRepository');
 const BlogCategoryRepositoryClass = require('../blogCategories/repositories/BlogCategoryRepository');
 const PropertyArticleRepositoryClass = require('./repositories/PropertyArticleRepository');
 const propertyArticleController = require('./controllers/propertyArticleController.client');
+const adminPropertyArticleController = require('./controllers/propertyArticleController.admin');
 
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const BlogCategoryRepository = new BlogCategoryRepositoryClass();
@@ -42,8 +44,14 @@ router.get('/nguoi-dung/bai-viet-bat-dong-san', propertyArticleController.showMy
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleController.create);
 
-router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug', propertyArticleController.edit);
+router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug', propertyArticleAuthorize.clientEditAuthorize, propertyArticleController.edit);
 
-router.delete('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.destroyAuthorize, propertyArticleController.destroy);
+router.delete('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.clientDestroyAuthorize, adminPropertyArticleController.destroy);
+
+router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug/chon-anh', propertyArticleAuthorize.clientEditAuthorize, propertyArticleController.listImages);
+
+router.put('/nguoi-dung/bai-viet-bat-dong-san/:id/chon-anh', propertyArticleAuthorize.clientEditAuthorize, propertyArticleRequest.storeImagesRequest, adminPropertyArticleController.storeImages);
+
+router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug/ban-do', propertyArticleAuthorize.clientEditAuthorize, propertyArticleController.showMap);
 
 module.exports = router;
