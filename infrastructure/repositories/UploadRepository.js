@@ -1,3 +1,4 @@
+const roleHelper = require('../../helpers/roleHelper');
 const BaseRepository = require('./BaseRepository');
 const Upload = require('../models/Upload');
 
@@ -6,10 +7,12 @@ class UploadRepository extends BaseRepository {
         return Upload;
     }
 
-    listByArticles(options) {
-        return this.paginate({
-            type: 1,
-        }, options);
+    listByArticles(id, options) {
+        const condition = { type: 1 };
+        if (id) {
+            condition.user = id;
+        }
+        return this.paginate(condition, options);
     }
 
     create(locations, id, isOriginal = false) {

@@ -165,6 +165,24 @@ const show = async (req, res, next) => {
     }
 };
 
+const showMyArticles = async (req, res, next) => {
+    try {
+        const { query } = req;
+        const propertyArticles = await PropertyArticleRepository.adminList(req.session.cUser._id, {
+            query,
+            pageUrl: url.parse(req.originalUrl).pathname,
+            select: 'title address display.image price.display isApproved slug createdAt',
+        });
+        propertyArticles.renderPagination = paginationHelper.renderPagination;
+
+        return res.render('modules/propertyArticles/client/me', {
+            propertyArticles, query,
+        });
+    } catch (e) {
+        return next(responseHelper.error(e.message));
+    }
+};
+
 const create = async (req, res, next) => {
     try {
         const [
@@ -197,8 +215,15 @@ const edit = (req, res) => {
     return res.render('modules/propertyArticles/client/create');
 };
 
-const showMyArticles = (req, res) => {
-    return res.render('modules/propertyArticles/client/me');
+const destroy = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await PropertyArticleRepository.deleteById(id);
+
+        return res.json(responseHelper.success());
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
 };
 
 module.exports = {
@@ -209,4 +234,5 @@ module.exports = {
     create,
     edit,
     showMyArticles,
+    destroy,
 };

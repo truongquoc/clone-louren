@@ -133,9 +133,69 @@ function init_validateRequest() {
     });
 }
 
+function deleteRecord(data) {
+    swal({
+        title: 'Bạn chắc chứ?',
+        text: 'Bạn không thể khôi phục lại dữ liệu này!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+    }).then(() => {
+        $.ajax({
+            url: data.url,
+            dataType: 'json',
+            type: 'DELETE',
+            data: {
+                _method: 'DELETE',
+            },
+            success: (res) => {
+                if (!res.status) {
+                    if (res.error.code === 404) {
+                        swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                        return false;
+                    }
+                    if (res.error.code === 500) {
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                        return false;
+                    }
+                } else {
+                    $(data.element).closest('tr').fadeOut();
+                    swal(data.successResponse.title, data.successResponse.description, data.successResponse.type);
+                }
+            },
+        });
+    }, (dismiss) => {
+        if (dismiss === 'cancel') {
+            return false;
+        }
+    });
+}
+
+function init_deleteModule() {
+    $(document).on('click', '.module__delete-btn', function (e) {
+        const url = $('.module__table').data('delete-url');
+        const key = $(this).closest('tr').data('key');
+        deleteRecord({
+            url: `${url}/${key}`,
+            element: this,
+            successResponse: {
+                title: 'Đã xóa!',
+                description: 'Thành công.',
+                type: 'success',
+            },
+        });
+    });
+}
+
 $(document).ready(function () {
     init_changeCity();
     init_sort();
     init_hideAlert();
     init_validateRequest();
+    init_deleteModule();
 });

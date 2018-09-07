@@ -49,7 +49,7 @@ class PropertyArticleRepository extends ArticleRepository {
             conditions.author = userId;
         }
         const [total, docs] = await Promise.all([
-            this.model.estimatedDocumentCount(conditions),
+            this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
                 .populate('category', '-_id name', { deletedAt: null })
@@ -65,7 +65,7 @@ class PropertyArticleRepository extends ArticleRepository {
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 })
-                .select('title isApproved slug createdAt'),
+                .select(options.select || 'title isApproved slug createdAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -86,7 +86,7 @@ class PropertyArticleRepository extends ArticleRepository {
             conditions[slug.name] = slug.value;
         }
         const [total, docs] = await Promise.all([
-            this.model.search(options.query).estimatedDocumentCount(conditions),
+            this.model.search(options.query).countDocuments(conditions),
             this.model
                 .search(options.query)
                 .find(conditions)
@@ -176,7 +176,7 @@ class PropertyArticleRepository extends ArticleRepository {
     countByCategory(categories) {
         const self = this;
         categories.forEach(async (category) => {
-            category.countPropertyArticles = await self.model.estimatedDocumentCount({
+            category.countPropertyArticles = await self.model.countDocuments({
                 category: category._id,
                 isApproved: true,
                 isDraft: false,
@@ -189,7 +189,7 @@ class PropertyArticleRepository extends ArticleRepository {
     }
 
     async getRandomArticles() {
-        const articlesQuantity = await this.model.estimatedDocumentCount({
+        const articlesQuantity = await this.model.countDocuments({
             isApproved: true,
             isDraft: false,
             deletedAt: null,

@@ -1,0 +1,75 @@
+<% layout('/layouts/client/app') %>
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="overlay">
+        <div class="container">
+            <div class="breadcrumb-area">
+                <h1>My Profile</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">My Profile</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!-- My profile start -->
+<div class="content-area my-profile">
+    <div class="container">
+        <div class="row">
+            <% include ../../../layouts/client/partials/userSidebar.ejs %>
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <!-- My address start-->
+                <div class="my-address">
+                    <form action="" method="POST">
+                        <input type="hidden" name="_method" value="PUT">
+                        <div class="form-group">
+                            <label>Tên</label>
+                            <input type="text" class="input-text" name="name"
+                                   placeholder="Nhập tên" value="<%= old('name', user.name) %>">
+                            <p class="form__error-message"><%= errors('name') %></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="input-text" name="email" <%= user.email ? 'disabled' : '' %>
+                                   placeholder="Nhập email" value="<%= !user.email ? old('email', user.email) : user.email %>">
+                            <p class="form__error-message"><%= errors('email') %></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="text" class="input-text" name="telephone"
+                                   placeholder="Nhập số điện thoại" value="<%= old('telephone', user.telephone) %>">
+                            <p class="form__error-message"><%= errors('telephone') %></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày sinh</label>
+                            <input type="text" class="input-text" name="birthday"
+                                   placeholder="DD/MM/YYYY" value="<%= old('birthday', moment(user.birthday).format('DD/MM/YYYY')) %>">
+                            <p class="form__error-message"><%= errors('birthday') %></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Giới tính</label>
+                            <div>
+                                <label for="male">Nam</label>
+                                <input type="radio" id="male" name="gender" value="1"
+                                        <%= old('gender', user.gender) == 1 ? 'checked' : '' %> style="margin: 0 15px 0 5px"/>
+                                <label for="female">Nữ</label>
+                                <input type="radio" id="female" name="gender" value="2"
+                                        <%= old('gender', user.gender) == 2 ? 'checked' : '' %> style="margin: 0 15px 0 5px"/>
+                                <label for="other">Khác</label>
+                                <input type="radio" id="other" name="gender" value="3"
+                                        <%= old('gender', user.gender) == 3 ? 'checked' : '' %> style="margin: 0 15px 0 5px"/>
+                            </div>
+                            <p class="form__error-message"><%= errors('gender') %></p>
+                        </div>
+                        <button href="#" class="btn button-md button-theme">Thay đổi</button>
+                    </form>
+                </div>
+                <!-- My address end -->
+            </div>
+        </div>
+    </div>
+</div>

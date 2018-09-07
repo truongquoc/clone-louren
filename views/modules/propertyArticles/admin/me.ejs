@@ -45,7 +45,7 @@
                         <th>Tiêu đề</th>
                         <th>Loại hình</th>
                         <th>Ngày tạo</th>
-                        <th style="width: 120px">Label</th>
+                        <th style="width: 145px">Tùy chọn</th>
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% propertyArticles.docs.forEach(function (article, index) { %>
@@ -61,6 +61,15 @@
                             <a href="/admin/property/articles/<%= article.slug %>/images" class="badge bg-success-gradient">
                                 <i class="fa fa-picture-o"></i>
                             </a>
+                            <% if (!article.isApproved) { %>
+                                <button class="badge bg-success-gradient" disabled>
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            <% } else { %>
+                                <button class="badge bg-warning-gradient" disabled>
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            <% } %>
                             <a href="/admin/property/articles/edit/<%= article.slug %>" class="badge bg-warning-gradient">
                                 <i class="fa fa-pencil"></i>
                             </a>

@@ -65,7 +65,7 @@ const updateProfile = async (req, res, next) => {
         return res.redirectBack();
     }
     try {
-        await UserRepository.updateProfile(data, req.session.cUser._id);
+        await UserRepository.updateProfile(data, req.session.cUser._id, !!req.session.cUser.email);
         return res.redirectBack();
     } catch (e) {
         next(responseHelper.error(e.message));
