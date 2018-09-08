@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator/check');
+const { promisify } = require('util');
 const url = require('url');
+const redis = require('redis');
 const getSlug = require('speakingurl');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
@@ -19,6 +21,8 @@ const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTyp
 const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 
+const client = redis.createClient();
+const getRedisAsync = promisify(client.get).bind(client);
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 const PropertyTypeRepository = new PropertyTypeRepositoryClass();
@@ -31,14 +35,22 @@ const PriceTypeRepository = new PriceTypeRepositoryClass();
 const UploadRepository = new UploadRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
-const getClassifications = () => [
+const getHomeSearchData = () => [
     PropertyStatusRepository.baseGet(),
     PropertyTypeRepository.baseGet(),
     CityRepository.baseGet(),
     DistrictRepository.baseGet(),
 ];
 
-const getDataForCreatingArticle = () => getClassifications().concat([
+const getSearchData = async () => {
+    const conditions = await getRedisAsync('searchConditions') || '[]';
+    return getHomeSearchData().concat([
+        PropertyAmenityRepository.baseGet(),
+        PropertyConditionRepository.getManyByIds(JSON.parse(conditions)),
+    ]);
+};
+
+const getDataForCreatingArticle = () => getHomeSearchData().concat([
     PropertyAmenityRepository.baseGet(),
     PropertyConditionRepository.baseGet(),
     PropertyCategoryRepository.baseGet(),
@@ -48,7 +60,7 @@ const getDataForCreatingArticle = () => getClassifications().concat([
 const index = async (req, res, next) => {
     try {
         const propertyCategories = await PropertyCategoryRepository.baseGet();
-        const data = getClassifications();
+        const data = getHomeSearchData();
         data.push(PropertyArticleRepository.homeList(propertyCategories));
         data.push(PropertyArticleRepository.homeGetNewest());
         data.push(BlogArticleRepository.homeGetNewest());
@@ -79,8 +91,7 @@ const index = async (req, res, next) => {
 const list = async (req, res, next) => {
     const { query } = req;
     try {
-        const data = getClassifications();
-        data.push(PropertyAmenityRepository.baseGet());
+        const data = await getSearchData();
         data.push(PropertyArticleRepository.clientList(undefined, {
             pageUrl: url.parse(req.originalUrl).pathname,
             query,
@@ -91,6 +102,7 @@ const list = async (req, res, next) => {
             cities,
             districts,
             propertyAmenities,
+            propertyConditions,
             propertyArticles,
         ] = await Promise.all(data);
         propertyArticles.renderPagination = paginationHelper.renderPagination;
@@ -101,6 +113,7 @@ const list = async (req, res, next) => {
             cities,
             districts,
             propertyAmenities,
+            propertyConditions,
             propertyArticles,
             query,
         });
@@ -112,8 +125,7 @@ const list = async (req, res, next) => {
 const search = async (req, res, next) => {
     const { query } = req;
     try {
-        const data = getClassifications();
-        data.push(PropertyAmenityRepository.baseGet());
+        const data = await getSearchData();
         data.push(PropertyArticleRepository.clientList({}, {
             pageUrl: url.parse(req.originalUrl).pathname,
             query,
@@ -124,6 +136,7 @@ const search = async (req, res, next) => {
             cities,
             districts,
             propertyAmenities,
+            propertyConditions,
             propertyArticles,
         ] = await Promise.all(data);
         propertyArticles.renderPagination = paginationHelper.renderPagination;
@@ -134,6 +147,7 @@ const search = async (req, res, next) => {
             cities,
             districts,
             propertyAmenities,
+            propertyConditions,
             propertyArticles,
             query,
         });
@@ -145,8 +159,7 @@ const search = async (req, res, next) => {
 const show = async (req, res, next) => {
     const { query } = req;
     try {
-        const data = getClassifications();
-        data.push(PropertyAmenityRepository.baseGet());
+        const data = await getSearchData();
         data.push(PropertyArticleRepository.show(req.params.slug));
         const [
             propertyStatuses,
@@ -154,6 +167,7 @@ const show = async (req, res, next) => {
             cities,
             districts,
             propertyAmenities,
+            propertyConditions,
             propertyArticle,
         ] = await Promise.all(data);
 
@@ -163,6 +177,7 @@ const show = async (req, res, next) => {
             cities,
             districts,
             propertyAmenities,
+            propertyConditions,
             propertyArticle,
             query,
         });
@@ -293,7 +308,6 @@ const update = async (req, res, next) => {
         await PropertyArticleRepository.update(data, req.params.id);
         return res.redirect(`/nguoi-dung/bai-viet-bat-dong-san/${getSlug(`${data.title || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
-        console.log(e.message);
         next(responseHelper.error(e.message));
     }
 };

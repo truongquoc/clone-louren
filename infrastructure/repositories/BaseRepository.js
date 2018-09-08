@@ -42,6 +42,15 @@ class BaseRepository {
         return this.model.find(conditions).sort({ createdAt: -1 }).select('-createdAt -updatedAt -__v');
     }
 
+    getManyByIds(id, options) {
+        const conditions = {
+            deletedAt: null,
+            _id: { $in: id },
+        };
+
+        return this.model.find(conditions).sort({ createdAt: -1 }).select('-createdAt -updatedAt -__v');
+    }
+
     checkExist(conditions) {
         conditions.deletedAt = null;
 
@@ -62,6 +71,15 @@ class BaseRepository {
         conditions.deletedAt = { $ne: null };
 
         return this.model.findOne(conditions).select('_id');
+    }
+
+    getById(id, options = {}) {
+        const conditions = {
+            deletedAt: null,
+            _id: id,
+        };
+
+        return this.model.findOne(conditions).select(options.select || '-createdAt -updatedAt -__v');
     }
 
     getDetail(conditions, options = {}) {

@@ -33,6 +33,8 @@ const PropertyArticle = new Schema({
         required: true,
     },
     conditions: [{
+        id: false,
+        _id: false,
         condition: {
             type: Schema.Types.ObjectId,
             ref: 'property_conditions',

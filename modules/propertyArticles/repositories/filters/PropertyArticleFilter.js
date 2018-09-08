@@ -57,19 +57,19 @@ class PropertyArticleFilter extends QueryFilter {
         return builder.where('amenities').in(value);
     }
 
-    filterByBedroom(builder, value) {
-        return builder;
-    }
+    filterByConditions(builder, value) {
+        const conditions = [];
+        Object.keys(value).forEach((condition) => {
+            if (!parseInt(value[condition], 10)) {
+                return;
+            }
+            conditions.push({
+                condition,
+                quantity: value[condition],
+            });
+        });
+        builder = builder.where('conditions').equals({ $in: conditions });
 
-    filterByBathroom(builder, value) {
-        return builder;
-    }
-
-    filterByBalcony(builder, value) {
-        return builder;
-    }
-
-    filterByGarage(builder, value) {
         return builder;
     }
 }

@@ -18,15 +18,17 @@ const index = async (req, res, next) => {
             query,
         });
         propertyConditions.renderPagination = paginationHelper.renderPagination;
-        const tempConditions = JSON.parse(await getRedisAsync('conditions')) || [];
+        const tempConditions = JSON.parse(await getRedisAsync('conditions') || '[]');
+        const tempSearchConditions = JSON.parse(await getRedisAsync('searchConditions') || '[]');
 
         return res.render('modules/propertyConditions/admin/list', {
             propertyConditions,
             tempConditions,
+            tempSearchConditions,
             query,
         });
     } catch (e) {
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 
@@ -63,16 +65,33 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
     const { id } = req.params;
     try {
+        const deleteTemp = async (name) => {
+            const totalTempConditions = JSON.parse(await getRedisAsync(name) || '[]');
+            const conditionsIndex = totalTempConditions.indexOf(id);
+            if (conditionsIndex < 0) {
+                return false;
+            }
+            totalTempConditions.splice(conditionsIndex, 1);
+            client.set(name, JSON.stringify(totalTempConditions));
+            return true;
+        };
+        const conditions = await deleteTemp('conditions');
+        const searchConditions = await deleteTemp('searchConditions');
         await PropertyConditionRepository.deleteById(id);
 
-        return res.json(responseHelper.success());
+        return res.json(responseHelper.success({
+            conditions,
+            searchConditions,
+        }));
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
 };
 
 const changeTemp = async (req, res) => {
-    const totalTempConditions = JSON.parse(await getRedisAsync('conditions')) || [];
+    const { type } = req.body;
+    const redisConditionType = (type === 'search') ? 'searchConditions' : 'conditions';
+    const totalTempConditions = JSON.parse(await getRedisAsync(redisConditionType) || '[]');
     const conditionIndex = totalTempConditions.indexOf(req.params.id);
     const result = {};
     if (conditionIndex >= 0) {
@@ -82,7 +101,7 @@ const changeTemp = async (req, res) => {
         totalTempConditions.push(req.params.id);
         result.isSelected = true;
     }
-    client.set('conditions', JSON.stringify(totalTempConditions));
+    client.set(redisConditionType, JSON.stringify(totalTempConditions));
 
     return res.json(responseHelper.success(result));
 };

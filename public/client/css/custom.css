@@ -207,3 +207,8 @@ table.module__table .title-container .title span i {
     border-radius: 50%;
     font-size: 28px;
 }
+
+.sorting__title {
+    margin-right: 5px;
+    color: #999;
+}

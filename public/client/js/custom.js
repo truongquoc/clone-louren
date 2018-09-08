@@ -8,12 +8,15 @@ function init_changeCity() {
             $(`${parentElement} select[name="district"]`).prev().find(`li[data-original-index="${i}"]`).css({ display });
         }
     }
-    changeCity('.property-articles__search-form');
+    $(`select[name="city"]`).on('loaded.bs.select', function () {
+        changeCity('.property-articles__search-form');
+        changeCity('.submit-property');
+    });
+
     $('.property-articles__search-form select[name="city"]').on('change', function (e) {
         changeCity('.property-articles__search-form');
     });
 
-    changeCity('.submit-property');
     $('.submit-property select[name="city"]').on('change', function (e) {
         changeCity('.submit-property');
     });
