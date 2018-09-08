@@ -10,7 +10,10 @@
                 <select class="selectpicker search-fields" name="category">
                     <option value="0">Loại hình</option>
                     <% propertyCategories.forEach(function (category) { %>
-                    <option value="<%= category._id %>"><%= category.name %></option>
+                    <option value="<%= category._id %>"
+                            <%= query.category === category._id.toString() ? 'selected' : '' %>>
+                        <%= category.name %>
+                    </option>
                     <% }) %>
                 </select>
             </div>
@@ -19,8 +22,9 @@
             <select class="selectpicker search-fields" name="city" data-live-search="true">
                 <option value="0">Tỉnh / Thành phố</option>
                 <% cities.forEach(function (city) { %>
-                    <option value="<%= city._id %>"
-                            <%= query.city === city._id.toString() ? 'selected' : '' %>><%= city.name %></option>
+                    <option value="<%= city._id %>" <%= query.city === city._id.toString() ? 'selected' : '' %>>
+                        <%= city.name %>
+                    </option>
                 <% }) %>
             </select>
         </div>
@@ -53,7 +57,7 @@
                     <select class="selectpicker search-fields" name="conditions[<%= condition._id %>]">
                         <option value="0"><%= condition.name %></option>
                         <% for (let i = 1; i <= 5; i += 1) { %>
-                            <option value="<%= i %>" <%= query.bedroom === i.toString() ? 'selected' : '' %>><%= i %></option>
+                            <option value="<%= i %>" <%= query.conditions[condition._id] === i.toString() ? 'selected' : '' %>><%= i %></option>
                         <% } %>
                     </select>
                 </div>
@@ -80,14 +84,14 @@
         </div>
 
         <a class="show-more-options" data-toggle="collapse" data-target="#options-content">
-            <i class="fa fa-plus-circle"></i> Show More Options
+            <i class="fa fa-plus-circle"></i> Hiển thị thêm
         </a>
         <div id="options-content" class="collapse">
             <label class="margin-t-10">Features</label>
             <% propertyAmenities.forEach((amenity, index) => { %>
                 <div class="checkbox checkbox-theme">
                     <input id="checkbox<%= index %>" type="checkbox" name="amenities" value="<%= amenity._id %>"
-                           <%= query.amenities && query.amenities.indexOf(amenity._id.toString()) >= 0 ? 'checked' : '' %>>
+                           <%= query.amenities && query.amenities.includes(amenity._id.toString()) ? 'checked' : '' %>>
                     <label for="checkbox<%= index %>"><%= amenity.name %></label>
                 </div>
             <% }) %>

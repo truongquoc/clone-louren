@@ -16,10 +16,10 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="status">
-                                    <option value="0">Trạng thái</option>
-                                    <% propertyStatuses.forEach(function (status) { %>
-                                        <option value="<%= status._id %>"><%= status.name %></option>
+                                <select class="selectpicker search-fields status">
+                                    <% propertyStatuses.forEach((status, index) => { %>
+                                        <option value="<%= status._id %>" data-slug="<%= status.slug %>"
+                                                <%= index === 0 ? 'selected' : '' %>><%= status.name %></option>
                                     <% }) %>
                                 </select>
                             </div>

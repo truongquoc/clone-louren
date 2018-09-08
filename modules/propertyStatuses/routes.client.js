@@ -16,10 +16,12 @@ router.use(async (req, res, next) => {
     res.locals.propertyStatuses = await PropertyStatusRepository.baseGet();
     res.locals.propertyCategories = await PropertyCategoryRepository.baseGet();
     res.locals.blogCategories = await BlogCategoryRepository.baseGet();
-    res.locals.propertyCategories = await PropertyArticleRepository.countByCategory(
-        res.locals.propertyCategories,
-    );
-    res.locals.recentPropertyArticles = await PropertyArticleRepository.getRandomArticles();
+    if (req.originalUrl !== '/') {
+        res.locals.propertyCategories = await PropertyArticleRepository.countByCategory(
+            res.locals.propertyCategories,
+        );
+        res.locals.recentPropertyArticles = await PropertyArticleRepository.getRandomArticles();
+    }
     next();
 });
 
