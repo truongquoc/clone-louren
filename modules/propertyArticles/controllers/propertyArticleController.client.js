@@ -101,7 +101,6 @@ const show = async (req, res, next) => {
             query,
         });
     } catch (e) {
-        throw e;
         next(responseHelper.error(e.message));
     }
 };

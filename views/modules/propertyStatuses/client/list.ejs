@@ -1,12 +1,12 @@
 <% layout('/layouts/client/app') %>
 
-<% block('title', 'Danh sách dự án') %>
+<% block('title', `${propertyStatus.name}`) %>
 
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>Danh sách dự án</h1>
+                <h1><%= propertyStatus.name %></h1>
                 <ul class="breadcrumbs">
                     <li><a href="/">Trang chủ</a></li>
                     <li class="active"><%= propertyStatus.name  %></li>

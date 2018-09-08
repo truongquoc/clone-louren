@@ -8,16 +8,21 @@
 <% script('/public/admin/js/map/google-maps/index.js') %>
 <% script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA8wo20T1FmZQ1gOxeppA2IXCwQTiC4V6U&libraries=drawing&callback=initMap') %>
 
-<% block('title', 'Bản đồ')%>
+<% block('title', `Bất động sản - ${propertyArticle.title} - Bản đồ`)%>
 
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>My Properties</h1>
+                <h1>Bản đồ</h1>
                 <ul class="breadcrumbs">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">My Properties</li>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active">Nguời dùng</li>
+                    <li class="active"><a href="/nguoi-dung/bai-viet-cua-toi">Bài viết của tôi</a></li>
+                    <li class="active">
+                        <a href="/nguoi-dung/bai-viet-bat-dong-san/<%= propertyArticle.slug %>">Bài viết</a>
+                    </li>
+                    <li class="active">Bản đồ</li>
                 </ul>
             </div>
         </div>

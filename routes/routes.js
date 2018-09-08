@@ -55,7 +55,6 @@ router.use('/admin/requests', adminRequestRouter);
 router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use('/', clientAuthRoutes);
-router.use('/', clientPropertyArticleRouter);
 router.use('/', clientPropertyStatusRouter);
 router.use('/', clientPropertyCategoryRouter);
 router.use('/blog', clientBlogCategoryRouter);
@@ -64,6 +63,7 @@ router.use('/blog', clientBlogArticleRouter);
 router.use('/lien-he', clientRequestRouter);
 router.use('/nguoi-dung', clientUserRouter);
 router.use('/nguoi-dung', clientInfrastructureRouter);
+router.use('/', clientPropertyArticleRouter);
 router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);

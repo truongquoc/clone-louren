@@ -1,13 +1,21 @@
 <% layout('/layouts/client/app') %>
 
+<% block('title', `${propertyStatus.name} - Loại hình ${propertyCategory.name}`) %>
+
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>Properties Detail</h1>
+                <h1>Tìm kiếm</h1>
                 <ul class="breadcrumbs">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Properties Detail</li>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active"><a href="/tt-<%= propertyStatus.slug %>"><%= propertyStatus.name %></a></li>
+                    <li class="active">
+                        <a href="/tt-<%= propertyStatus.slug %>/<%= propertyCategory.slug %>">
+                            Loại hình <%= propertyCategory.name %>
+                        </a>
+                    </li>
+                    <li class="active">Tìm kiếm</li>
                 </ul>
             </div>
         </div>
