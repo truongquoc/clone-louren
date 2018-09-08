@@ -46,6 +46,9 @@
 
                 <div class="clearfix"></div>
                 <!-- Property start -->
+                <% if (!propertyArticles.docs.length) { %>
+                    <h4 class="text-center">Hiện tại không có bài viết nào</h4>
+                <% } %>
                 <% propertyArticles.docs.forEach((article) => { %>
                     <div class="property clearfix wow fadeInUp delay-03s">
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad">
@@ -56,7 +59,7 @@
                                 <img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= article.display.image %>"
                                      class="img-responsive hp-1 lazyload">
                                 <div class="property-overlay">
-                                    <a href="/du-an-<%= article.slug %>" class="overlay-link">
+                                    <a href="/<%= article.slug %>" class="overlay-link">
                                         <i class="fa fa-link"></i>
                                     </a>
                                     <div class="property-magnify-gallery">
@@ -73,10 +76,10 @@
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
                             <h1 class="title">
-                                <a href="/du-an-<%= article.slug %>"><%= article.title %></a>
+                                <a href="/<%= article.slug %>"><%= article.title %></a>
                             </h1>
                             <h3 class="property-address">
-                                <a href="/du-an-<%= article.slug %>">
+                                <a href="/<%= article.slug %>">
                                     <i class="fa fa-map-marker"></i><%= article.address %>
                                 </a>
                             </h3>

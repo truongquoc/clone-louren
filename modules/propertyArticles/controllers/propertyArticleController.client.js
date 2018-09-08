@@ -1,7 +1,5 @@
 const { validationResult } = require('express-validator/check');
-const { promisify } = require('util');
 const url = require('url');
-const redis = require('redis');
 const getSlug = require('speakingurl');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
@@ -9,6 +7,7 @@ const hashidsHelper = require('../../../helpers/hashidsHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
+const { getSearchData } = require('../../../infrastructure/controllers/baseController.client');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
 const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
 const PropertyTypeRepositoryClass = require('../../propertyTypes/repositories/PropertyTypeRepository');
@@ -21,8 +20,6 @@ const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTyp
 const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 
-const client = redis.createClient();
-const getRedisAsync = promisify(client.get).bind(client);
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 const PropertyTypeRepository = new PropertyTypeRepositoryClass();
@@ -41,14 +38,6 @@ const getHomeSearchData = () => [
     CityRepository.baseGet(),
     DistrictRepository.baseGet(),
 ];
-
-const getSearchData = async () => {
-    const conditions = await getRedisAsync('searchConditions') || '[]';
-    return getHomeSearchData().concat([
-        PropertyAmenityRepository.baseGet(),
-        PropertyConditionRepository.getManyByIds(JSON.parse(conditions)),
-    ]);
-};
 
 const getDataForCreatingArticle = () => getHomeSearchData().concat([
     PropertyAmenityRepository.baseGet(),
@@ -88,81 +77,12 @@ const index = async (req, res, next) => {
     }
 };
 
-const list = async (req, res, next) => {
-    const { query } = req;
-    try {
-        const data = await getSearchData();
-        data.push(PropertyArticleRepository.clientList(undefined, {
-            pageUrl: url.parse(req.originalUrl).pathname,
-            query,
-        }));
-        const [
-            propertyStatuses,
-            propertyTypes,
-            cities,
-            districts,
-            propertyAmenities,
-            propertyConditions,
-            propertyArticles,
-        ] = await Promise.all(data);
-        propertyArticles.renderPagination = paginationHelper.renderPagination;
-
-        return res.render('modules/propertyCategories/client/list', {
-            propertyStatuses,
-            propertyTypes,
-            cities,
-            districts,
-            propertyAmenities,
-            propertyConditions,
-            propertyArticles,
-            query,
-        });
-    } catch (e) {
-        next(responseHelper.error(e.message));
-    }
-};
-
-const search = async (req, res, next) => {
-    const { query } = req;
-    try {
-        const data = await getSearchData();
-        data.push(PropertyArticleRepository.clientList({}, {
-            pageUrl: url.parse(req.originalUrl).pathname,
-            query,
-        }));
-        const [
-            propertyStatuses,
-            propertyTypes,
-            cities,
-            districts,
-            propertyAmenities,
-            propertyConditions,
-            propertyArticles,
-        ] = await Promise.all(data);
-        propertyArticles.renderPagination = paginationHelper.renderPagination;
-
-        return res.render('modules/propertyArticles/client/list', {
-            propertyStatuses,
-            propertyTypes,
-            cities,
-            districts,
-            propertyAmenities,
-            propertyConditions,
-            propertyArticles,
-            query,
-        });
-    } catch (e) {
-        next(responseHelper.error(e.message));
-    }
-};
-
 const show = async (req, res, next) => {
     const { query } = req;
     try {
         const data = await getSearchData();
         data.push(PropertyArticleRepository.show(req.params.slug));
         const [
-            propertyStatuses,
             propertyTypes,
             cities,
             districts,
@@ -172,7 +92,6 @@ const show = async (req, res, next) => {
         ] = await Promise.all(data);
 
         return res.render('modules/propertyArticles/client/detail', {
-            propertyStatuses,
             propertyTypes,
             cities,
             districts,
@@ -182,6 +101,7 @@ const show = async (req, res, next) => {
             query,
         });
     } catch (e) {
+        throw e;
         next(responseHelper.error(e.message));
     }
 };
@@ -349,8 +269,6 @@ const showMap = async (req, res, next) => {
 
 module.exports = {
     index,
-    list,
-    search,
     show,
     showMyArticles,
     create,

@@ -3,6 +3,12 @@ class Marker {
         const propertyArticle = $('.map').data('key');
         this.url = `/v1/property/articles/${propertyArticle}/addresses`;
         this.map = map;
+        this.markers = {
+            total: [],
+            created: [],
+            updated: [],
+            deleted: [],
+        };
     }
 
     async list() {
@@ -51,6 +57,12 @@ class Polygon {
         const propertyArticle = $('.map').data('key');
         this.url = `/v1/property/articles/${propertyArticle}/areas`;
         this.map = map;
+        this.polygons = {
+            total: [],
+            created: [],
+            updated: [],
+            deleted: [],
+        };
     }
 
     async list() {

@@ -9,7 +9,7 @@ const BlogCategoryRepository = new BlogCategoryRepositoryClass();
 const index = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogCategory = await BlogCategoryRepository.checkExistBySlug(req.params.slug);
+        const blogCategory = await BlogCategoryRepository.getDetailBySlug(req.params.slug);
         const [blogArticles] = await Promise.all([
             BlogArticleRepository.clientList({
                 name: 'category',

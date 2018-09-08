@@ -21,6 +21,7 @@ const clientBlogCategoryRouter = require('../modules/blogCategories/routes.clien
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes-client');
 const clientPropertyCategoryRouter = require('../modules/propertyCategories/routes.client');
+const clientPropertyStatusRouter = require('../modules/propertyStatuses/routes.client');
 const clientPropertyArticleRouter = require('../modules/propertyArticles/routes.client');
 const clientRequestRouter = require('../modules/requests/routes.client');
 const clientUserRouter = require('../modules/users/routes.client');
@@ -55,7 +56,8 @@ router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use('/', clientAuthRoutes);
 router.use('/', clientPropertyArticleRouter);
-router.use('/du-an', clientPropertyCategoryRouter);
+router.use('/', clientPropertyStatusRouter);
+router.use('/', clientPropertyCategoryRouter);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);

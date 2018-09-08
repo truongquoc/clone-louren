@@ -51,10 +51,10 @@ class BaseRepository {
         return this.model.find(conditions).sort({ createdAt: -1 }).select('-createdAt -updatedAt -__v');
     }
 
-    checkExist(conditions) {
+    checkExist(conditions, options = {}) {
         conditions.deletedAt = null;
 
-        return this.model.findOne(conditions).select('_id');
+        return this.model.findOne(conditions).select(options.select || '_id');
     }
 
     checkExistMany(conditions) {

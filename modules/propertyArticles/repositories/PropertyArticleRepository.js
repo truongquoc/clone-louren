@@ -89,7 +89,11 @@ class PropertyArticleRepository extends ArticleRepository {
             isDraft: false,
             deletedAt: null,
         };
-        if (slug) {
+        if (slug.length) {
+            slug.forEach((element) => {
+                conditions[element.name] = element.value;
+            });
+        } else {
             conditions[slug.name] = slug.value;
         }
         const [total, docs] = await Promise.all([

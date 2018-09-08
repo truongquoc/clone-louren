@@ -77,6 +77,29 @@ const destroyAuthorize = async (req, res, next) => {
     }
 };
 
+const showArticleAuthorize = async (req, res, next) => {
+    try {
+        const article = await PropertyArticleRepository.checkExist({
+            slug: req.params.slug,
+        }, {
+            select: 'author isDraft isApproved',
+        });
+        if (article) {
+            if (article.isApproved && !article.isDraft) {
+                return next();
+            }
+            if ((!article.isApproved || article.isDraft) && req.session.cUser
+                && (roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])
+                || req.session.cUser._id === article.author.toString())) {
+                return next();
+            }
+        }
+        next(responseHelper.notFound());
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 const clientShowMyArticlesAuthorize = (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer', 'User'])) {
         return next(responseHelper.notAuthorized());
@@ -124,6 +147,7 @@ module.exports = {
     approveAuthorize,
     destroyAuthorize,
     clientShowMyArticlesAuthorize,
+    showArticleAuthorize,
     clientEditAuthorize,
     clientDestroyAuthorize,
 };

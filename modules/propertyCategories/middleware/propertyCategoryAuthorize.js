@@ -1,7 +1,9 @@
 const responseHelper = require('../../../helpers/responseHelper');
 const roleHelper = require('../../../helpers/roleHelper');
+const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
 const PropertyCategoryRepositoryClass = require('../repositories/PropertyCategoryRepository');
 
+const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
@@ -14,11 +16,14 @@ const indexAuthorize = (req, res, next) => {
 
 const showArticlesAuthorize = async (req, res, next) => {
     try {
-        const check = await PropertyCategoryRepository.checkExistBySlug(req.params.slug, { select: '_id' });
-        if (check) {
-            return next();
+        const [statusCheck, categoryCheck] = await Promise.all([
+            PropertyStatusRepository.checkExistBySlug(req.params.typeSlug),
+            PropertyCategoryRepository.checkExistBySlug(req.params.slug),
+        ]);
+        if (!categoryCheck || !statusCheck) {
+            return next(responseHelper.notFound());
         }
-        next(responseHelper.notFound());
+        next();
     } catch (e) {
         next(responseHelper.error(e.message));
     }
