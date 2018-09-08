@@ -33,15 +33,7 @@
                             </h4>
                         </div>
                         <div class="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
-                            <div class="sorting-options">
-                                <span class="sorting__title">Sắp xếp</span>
-                                <select class="sorting" name="sorting" value="<%= query.sort %>">
-                                    <option value="1">Mới đến cũ</option>
-                                    <option value="2">Cũ đến mới</option>
-                                    <option value="3">Giá (Cao đến thấp)</option>
-                                    <option value="4">Giá (Thấp đến cao)</option>
-                                </select>
-                            </div>
+                            <% include ../../../layouts/client/partials/sorting.ejs %>
                         </div>
                     </div>
                 </div>
@@ -49,6 +41,9 @@
 
                 <div class="clearfix"></div>
                 <!-- Property start -->
+                <% if (!propertyArticles.docs.length && propertyArticles.pages === 1) { %>
+                    <h4 class="text-center">Hiện tại không có bài viết nào</h4>
+                <% } %>
                 <% propertyArticles.docs.forEach((article) => { %>
                     <div class="property clearfix wow fadeInUp delay-03s">
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad">
@@ -108,7 +103,9 @@
 
                 <!-- Page navigation start -->
                 <nav aria-label="Page navigation">
-                    <%- propertyArticles.renderPagination(propertyArticles, query.page) %>
+                    <% if ((propertyArticles.pages === 1 && propertyArticles.docs.length) || propertyArticles.pages !== 1) { %>
+                        <%- propertyArticles.renderPagination(propertyArticles, query.page) %>
+                    <% } %>
                 </nav>
                 <!-- Page navigation end-->
             </div>

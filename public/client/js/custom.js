@@ -1,3 +1,18 @@
+function init_changeStatus() {
+    function changeStatus(self) {
+        const statusSlug = $(self).find('option:selected').data('slug');
+        $('.search-area .property-articles__search-form').attr('action', `/tt-${statusSlug}/tim-kiem`);
+    }
+
+    const $selectElement = $('.search-area .status');
+    $selectElement.on('loaded.bs.select', function () {
+        changeStatus(this);
+    });
+    $selectElement.on('change', function () {
+        changeStatus(this);
+    });
+}
+
 function init_changeCity() {
     function changeCity(parentElement) {
         const city = $(`${parentElement} select[name="city"]`).val();
@@ -301,4 +316,5 @@ $(document).ready(function () {
     init_changePrice();
     init_deleteModule();
     init_pickImages();
+    init_changeStatus();
 });

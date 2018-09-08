@@ -14,7 +14,7 @@ const setUpQueryParameters = (data, name, options, num = 0) => {
 
 const setUpUrl = (data, options) => {
     const limit = data.total / options.limit;
-    data.pages = limit >= 0 ? Math.ceil(limit) : 1;
+    data.pages = limit > 0 ? Math.ceil(limit) : 1;
     data.page = options.query.page;
     setUpQueryParameters(data, 'pageUrl', options, false);
     if (options.query.page > 1) {
