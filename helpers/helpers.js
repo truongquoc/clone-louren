@@ -20,6 +20,10 @@ module.exports = (res) => {
         if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.errors) {
             const { errors } = res.locals.flashMessages;
             if (errors[0] && errors[0][key]) {
+                const name = key.split('.');
+                if (name.length > 1) {
+                    return errors[0][name[0]][name[1]].msg;
+                }
                 return errors[0][key].msg;
             }
         }

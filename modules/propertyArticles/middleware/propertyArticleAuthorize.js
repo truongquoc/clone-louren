@@ -18,13 +18,6 @@ const showMyArticlesAuthorize = (req, res, next) => {
     next();
 };
 
-const createAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer'])) {
-        return next(responseHelper.notAuthorized());
-    }
-    next();
-};
-
 const editAuthorize = async (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer'])) {
         return next(responseHelper.notAuthorized());
@@ -84,6 +77,13 @@ const destroyAuthorize = async (req, res, next) => {
     }
 };
 
+const clientShowMyArticlesAuthorize = (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer', 'User'])) {
+        return next(responseHelper.notAuthorized());
+    }
+    next();
+};
+
 const clientEditAuthorize = async (req, res, next) => {
     const condition = req.params.slug ? { slug: req.params.slug } : { _id: req.params.id };
     try {
@@ -120,10 +120,10 @@ const clientDestroyAuthorize = async (req, res, next) => {
 module.exports = {
     indexAuthorize,
     showMyArticlesAuthorize,
-    createAuthorize,
     editAuthorize,
     approveAuthorize,
     destroyAuthorize,
+    clientShowMyArticlesAuthorize,
     clientEditAuthorize,
     clientDestroyAuthorize,
 };

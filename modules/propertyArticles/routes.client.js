@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const multer = require('multer');
 const authAuthorize = require('../users/middleware/authAuthorize');
 const propertyArticleAuthorize = require('./middleware/propertyArticleAuthorize');
 const propertyArticleRequest = require('./requests/propertyArticleRequest');
@@ -8,6 +9,7 @@ const PropertyArticleRepositoryClass = require('./repositories/PropertyArticleRe
 const propertyArticleController = require('./controllers/propertyArticleController.client');
 const adminPropertyArticleController = require('./controllers/propertyArticleController.admin');
 
+const upload = multer({ dest: 'public/tmp/images' });
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const BlogCategoryRepository = new BlogCategoryRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
@@ -42,9 +44,13 @@ router.use([
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san', propertyArticleController.showMyArticles);
 
-router.get('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleController.create);
+router.get('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientShowMyArticlesAuthorize, propertyArticleController.create);
+
+router.post('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientShowMyArticlesAuthorize, upload.single('image'), propertyArticleRequest.createArticleRequest, propertyArticleController.store);
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug', propertyArticleAuthorize.clientEditAuthorize, propertyArticleController.edit);
+
+router.post('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.clientEditAuthorize, upload.single('image'), propertyArticleRequest.editArticleRequest, propertyArticleController.update);
 
 router.delete('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.clientDestroyAuthorize, adminPropertyArticleController.destroy);
 

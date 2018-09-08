@@ -10,9 +10,9 @@ router.get('/', propertyArticleAuthorize.indexAuthorize, propertyArticleControll
 
 router.get('/me', propertyArticleAuthorize.showMyArticlesAuthorize, propertyArticleController.showMyArticles);
 
-router.get('/create', propertyArticleAuthorize.createAuthorize, propertyArticleController.create);
+router.get('/create', propertyArticleAuthorize.showMyArticlesAuthorize, propertyArticleController.create);
 
-router.post('/create', propertyArticleAuthorize.createAuthorize, upload.single('image'), propertyArticleRequest.createArticleRequest, propertyArticleController.store);
+router.post('/create', propertyArticleAuthorize.showMyArticlesAuthorize, upload.single('image'), propertyArticleRequest.createArticleRequest, propertyArticleController.store);
 
 router.get('/edit/:slug', propertyArticleAuthorize.editAuthorize, propertyArticleController.edit);
 

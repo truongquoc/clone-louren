@@ -1,7 +1,12 @@
+const { validationResult } = require('express-validator/check');
 const url = require('url');
+const getSlug = require('speakingurl');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const hashidsHelper = require('../../../helpers/hashidsHelper');
+const imageHelper = require('../../../helpers/imageHelper');
+const dateHelper = require('../../../helpers/dateHelper');
+const storageHelper = require('../../../helpers/storage/storageHelper');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
 const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
 const PropertyTypeRepositoryClass = require('../../propertyTypes/repositories/PropertyTypeRepository');
@@ -212,8 +217,85 @@ const create = async (req, res, next) => {
     }
 };
 
-const edit = (req, res) => {
-    return res.render('modules/propertyArticles/client/create');
+const store = async (req, res, next) => {
+    const data = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        imageHelper.deleteImage(req.file, false);
+        req.flash('oldValue', data);
+        req.flash('errors', errors.mapped());
+        return res.redirectBack();
+    }
+    data.createdTime = req.attributes.createdTime;
+    try {
+        const image = await imageHelper.optimizeImage(req.file, {
+            width: 750,
+            quality: 75,
+        });
+        data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        const article = await PropertyArticleRepository.create(data, req.session.cUser);
+        return res.redirect(`/nguoi-dung/bai-viet-bat-dong-san/${article.slug}`);
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+const edit = async (req, res, next) => {
+    try {
+        const data = getDataForCreatingArticle();
+        data.push(PropertyArticleRepository.getEditArticle(req.params.slug));
+        const [
+            propertyStatuses,
+            propertyTypes,
+            cities,
+            districts,
+            propertyAmenities,
+            propertyConditions,
+            propertyCategories,
+            priceTypes,
+            propertyArticle,
+        ] = await Promise.all(data);
+
+        return res.render('modules/propertyArticles/client/edit', {
+            propertyArticle,
+            propertyAmenities,
+            propertyConditions,
+            propertyCategories,
+            propertyTypes,
+            propertyStatuses,
+            cities,
+            districts,
+            priceTypes,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+const update = async (req, res, next) => {
+    const data = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        imageHelper.deleteImage(req.file, false);
+        req.flash('oldValue', data);
+        req.flash('errors', errors.mapped());
+        return res.redirectBack();
+    }
+    data.createdTime = req.attributes.createdTime;
+    try {
+        if (req.file) {
+            const image = await imageHelper.optimizeImage(req.file, {
+                width: 750,
+                quality: 75,
+            });
+            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        }
+        await PropertyArticleRepository.update(data, req.params.id);
+        return res.redirect(`/nguoi-dung/bai-viet-bat-dong-san/${getSlug(`${data.title || data.slug}-${data.createdTime}`)}`);
+    } catch (e) {
+        console.log(e.message);
+        next(responseHelper.error(e.message));
+    }
 };
 
 const listImages = async (req, res, next) => {
@@ -258,7 +340,9 @@ module.exports = {
     show,
     showMyArticles,
     create,
+    store,
     edit,
+    update,
     listImages,
     showMap,
 };
