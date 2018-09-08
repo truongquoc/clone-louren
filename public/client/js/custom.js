@@ -181,6 +181,40 @@ function deleteRecord(data) {
     });
 }
 
+function init_changePrice() {
+    $('[name="price[value]"]').on('keyup', function () {
+        if ($(this).val().length > 6) {
+            $(this).val(Math.pow(10, 6));
+        }
+        const text = alertPrice(this);
+        $('[name="price[display]"]').val(text);
+    });
+
+    $('[name="price[type]"]').on('change', function () {
+        const text = alertPrice('[name="price[value]"]');
+        $('[name="price[display]"]').val(text);
+    });
+}
+
+function alertPrice(obj) {
+    const price = $(obj).val();
+    let text = '';
+    const priceType = $('[name="price[type]"]').find('option:selected').text().trim();
+    const price1 = parseInt(price / 1000);
+    const price2 = parseInt(price % 1000);
+    const price3 = (price - parseInt(price)).toFixed(1) * 1000;
+    if (price1) {
+        text = `${text + price1} Tỷ ${!price2 && !price3 ? priceType : ''}`;
+    }
+    if (price2) {
+        text = `${text + price2} Triệu ${!price3 ? priceType : ''}`;
+    }
+    if (price3) {
+        text = `${text + price3} Nghìn ${priceType}`;
+    }
+    return text;
+}
+
 function init_deleteModule() {
     $(document).on('click', '.module__delete-btn', function (e) {
         const url = $('.module__table').data('delete-url');
@@ -261,6 +295,7 @@ $(document).ready(function () {
     init_sort();
     init_hideAlert();
     init_validateRequest();
+    init_changePrice();
     init_deleteModule();
     init_pickImages();
 });
