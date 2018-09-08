@@ -4,17 +4,20 @@ const authAuthorize = require('../users/middleware/authAuthorize');
 const propertyArticleAuthorize = require('./middleware/propertyArticleAuthorize');
 const propertyArticleRequest = require('./requests/propertyArticleRequest');
 const PropertyCategoryRepositoryClass = require('../propertyCategories/repositories/PropertyCategoryRepository');
+const PropertyStatusRepositoryClass = require('../propertyStatuses/repositories/PropertyStatusRepository');
 const BlogCategoryRepositoryClass = require('../blogCategories/repositories/BlogCategoryRepository');
 const PropertyArticleRepositoryClass = require('./repositories/PropertyArticleRepository');
 const propertyArticleController = require('./controllers/propertyArticleController.client');
 const adminPropertyArticleController = require('./controllers/propertyArticleController.admin');
 
 const upload = multer({ dest: 'public/tmp/images' });
+const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const BlogCategoryRepository = new BlogCategoryRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
 router.use(async (req, res, next) => {
+    res.locals.propertyStatuses = await PropertyStatusRepository.baseGet();
     res.locals.propertyCategories = await PropertyCategoryRepository.baseGet();
     res.locals.blogCategories = await BlogCategoryRepository.baseGet();
     next();
@@ -30,11 +33,7 @@ router.use(async (req, res, next) => {
     next();
 });
 
-router.get('/du-an', propertyArticleController.list);
-
-router.get('/du-an/tim-kiem', propertyArticleController.search);
-
-router.get('/du-an-:slug', propertyArticleController.show);
+router.get('/:slug', propertyArticleAuthorize.showArticleAuthorize, propertyArticleController.show);
 
 router.use([
     '/nguoi-dung/bai-viet-bat-dong-san/tao-moi',

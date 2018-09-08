@@ -1,16 +1,15 @@
 <% layout('/layouts/client/app') %>
 
-<% block('title', `Loại hình ${propertyCategory.name}`) %>
+<% block('title', 'Danh sách dự án') %>
 
 <div class="sub-banner overview-bgi">
     <div class="overlay">
         <div class="container">
             <div class="breadcrumb-area">
-                <h1>Loại hình <%= propertyCategory.name %></h1>
+                <h1>Danh sách dự án</h1>
                 <ul class="breadcrumbs">
                     <li><a href="/">Trang chủ</a></li>
-                    <li class="active"><a href="/">Danh sách dự án</a></li>
-                    <li class="active">Loại hình <%= propertyCategory.name %></li>
+                    <li class="active"><%= propertyStatus.name  %></li>
                 </ul>
             </div>
         </div>
@@ -29,7 +28,7 @@
                                 <span class="heading-icon">
                                     <i class="fa fa-th-list"></i>
                                 </span>
-                                <span class="hidden-xs">Loại hình <%= propertyCategory.name %></span>
+                                <span class="hidden-xs"><%= propertyStatus.name %></span>
                             </h4>
                         </div>
                         <div class="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
@@ -49,60 +48,63 @@
 
                 <div class="clearfix"></div>
                 <!-- Property start -->
+                <% if (!propertyArticles.docs.length) { %>
+                    <p>Hiện tại không có bài viết nào</p>
+                <% } %>
                 <% propertyArticles.docs.forEach((article) => { %>
-                    <div class="property clearfix wow fadeInUp delay-03s">
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad">
-                            <div class="property-img">
-                                <!--<div class="property-tag button alt featured">Featured</div>-->
-                                <div class="property-tag button sale"><%= article.status.name %></div>
-                                <div class="property-price"><%= article.showPrice() %></div>
-                                <img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= article.display.image %>"
-                                     class="img-responsive hp-1 lazyload">
-                                <div class="property-overlay">
-                                    <a href="/<%= article.slug %>" class="overlay-link">
-                                        <i class="fa fa-link"></i>
+                <div class="property clearfix wow fadeInUp delay-03s">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad">
+                        <div class="property-img">
+                            <!--<div class="property-tag button alt featured">Featured</div>-->
+                            <div class="property-tag button sale"><%= article.status.name %></div>
+                            <div class="property-price"><%= article.showPrice() %></div>
+                            <img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= article.display.image %>"
+                                 class="img-responsive hp-1 lazyload">
+                            <div class="property-overlay">
+                                <a href="/<%= article.slug %>" class="overlay-link">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <div class="property-magnify-gallery">
+                                    <% article.display.images.forEach((image, index) => { %>
+                                    <a href="<%= image %>" class="<%= index === 0 ? 'overlay-link' : 'hidden' %>">
+                                        <% if (index === 0) { %>
+                                        <i class="fa fa-expand"></i>
+                                        <% } %>
                                     </a>
-                                    <div class="property-magnify-gallery">
-                                        <% article.display.images.forEach((image, index) => { %>
-                                            <a href="<%= image %>" class="<%= index === 0 ? 'overlay-link' : 'hidden' %>">
-                                                <% if (index === 0) { %>
-                                                <i class="fa fa-expand"></i>
-                                                <% } %>
-                                            </a>
-                                        <% }) %>
-                                    </div>
+                                    <% }) %>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
-                            <h1 class="title">
-                                <a href="/<%= article.slug %>"><%= article.title %></a>
-                            </h1>
-                            <h3 class="property-address">
-                                <a href="/<%= article.slug %>">
-                                    <i class="fa fa-map-marker"></i><%= article.address %>
-                                </a>
-                            </h3>
-                            <ul class="facilities-list clearfix">
-                                <% article.conditions.forEach((element) => { %>
-                                    <% if (element.condition && element.quantity) { %>
-                                        <li>
-                                            <i class="<%= element.condition.icon %>"></i>
-                                            <span><%= element.quantity %> <%= element.condition.name %></span>
-                                        </li>
-                                    <% } %>
-                                <% }) %>
-                            </ul>
-                            <div class="property-footer">
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
+                        <h1 class="title">
+                            <a href="/<%= article.slug %>"><%= article.title %></a>
+                        </h1>
+                        <h3 class="property-address">
+                            <a href="/<%= article.slug %>">
+                                <i class="fa fa-map-marker"></i><%= article.address %>
+                            </a>
+                        </h3>
+                        <ul class="facilities-list clearfix">
+                            <% article.conditions.forEach((element) => { %>
+                            <% if (element.condition && element.quantity) { %>
+                            <li>
+                                <i class="<%= element.condition.icon %>"></i>
+                                <span><%= element.quantity %> <%= element.condition.name %></span>
+                            </li>
+                            <% } %>
+                            <% }) %>
+                        </ul>
+                        <div class="property-footer">
                                 <span class="left">
                                     <a><i class="fa fa-user"></i><%= article.author.name %></a>
                                 </span>
-                                <span class="right">
+                            <span class="right">
                                     <i class="fa fa-calendar"></i><%= moment(article.createdAt).fromNow() %>
                                 </span>
-                            </div>
                         </div>
                     </div>
+                </div>
                 <% }) %>
                 <!-- Property end -->
 

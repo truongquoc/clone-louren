@@ -10,8 +10,15 @@ const handleException = (err, req, res, next) => {
             }
             return res.render('errors/client/500');
         case 403:
-            return res.render('errors/admin/403');
-        default: return res.sendStatus(404);
+            if (url[1] === 'admin') {
+                return res.render('errors/admin/403');
+            }
+            return res.render('errors/client/403');
+        default:
+            if (url[1] === 'admin') {
+                return res.render('errors/admin/404');
+            }
+            return res.render('errors/client/404');
     }
 };
 

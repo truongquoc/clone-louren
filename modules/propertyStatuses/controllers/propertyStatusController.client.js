@@ -3,28 +3,20 @@ const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const { getSearchData } = require('../../../infrastructure/controllers/baseController.client');
 const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
-const PropertyCategoryRepositoryClass = require('../repositories/PropertyCategoryRepository');
 const PropertyArticleRepositoryClass = require('../../propertyArticles/repositories/PropertyArticleRepository');
 
 const PropertyStatusRepository = new PropertyStatusRepositoryClass();
-const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
-const index = async (req, res, next) => {
+const list = async (req, res, next) => {
     const { query } = req;
     try {
-        const [propertyStatus, propertyCategory] = await Promise.all([
-            PropertyStatusRepository.getDetailBySlug(req.params.typeSlug),
-            PropertyCategoryRepository.getDetailBySlug(req.params.slug),
-        ]);
+        const propertyStatus = await PropertyStatusRepository.getDetailBySlug(req.params.slug);
         const data = await getSearchData();
-        data.push(PropertyArticleRepository.clientList([{
-            value: propertyStatus._id,
+        data.push(PropertyArticleRepository.clientList({
             name: 'status',
+            value: propertyStatus._id,
         }, {
-            value: propertyCategory._id,
-            name: 'category',
-        }], {
             pageUrl: url.parse(req.originalUrl).pathname,
             query,
         }));
@@ -38,14 +30,13 @@ const index = async (req, res, next) => {
         ] = await Promise.all(data);
         propertyArticles.renderPagination = paginationHelper.renderPagination;
 
-        return res.render('modules/propertyCategories/client/list', {
+        return res.render('modules/propertyStatuses/client/list', {
             propertyTypes,
             cities,
             districts,
             propertyAmenities,
             propertyConditions,
             propertyStatus,
-            propertyCategory,
             propertyArticles,
             query,
         });
@@ -57,18 +48,12 @@ const index = async (req, res, next) => {
 const search = async (req, res, next) => {
     const { query } = req;
     try {
-        const [propertyStatus, propertyCategory] = await Promise.all([
-            PropertyStatusRepository.getDetailBySlug(req.params.typeSlug),
-            PropertyCategoryRepository.getDetailBySlug(req.params.slug),
-        ]);
+        const propertyStatus = await PropertyStatusRepository.getDetailBySlug(req.params.slug);
         const data = await getSearchData();
-        data.push(PropertyArticleRepository.clientList([{
-            value: propertyStatus._id,
+        data.push(PropertyArticleRepository.clientList({
             name: 'status',
+            value: propertyStatus._id,
         }, {
-            value: propertyCategory._id,
-            name: 'category',
-        }], {
             pageUrl: url.parse(req.originalUrl).pathname,
             query,
         }));
@@ -82,14 +67,13 @@ const search = async (req, res, next) => {
         ] = await Promise.all(data);
         propertyArticles.renderPagination = paginationHelper.renderPagination;
 
-        return res.render('modules/propertyCategories/client/search', {
+        return res.render('modules/propertyStatuses/client/search', {
             propertyTypes,
             cities,
             districts,
             propertyAmenities,
             propertyConditions,
             propertyStatus,
-            propertyCategory,
             propertyArticles,
             query,
         });
@@ -99,6 +83,6 @@ const search = async (req, res, next) => {
 };
 
 module.exports = {
-    index,
+    list,
     search,
 };

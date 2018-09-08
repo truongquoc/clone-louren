@@ -9,12 +9,12 @@ class ClassificationRepository extends BaseRepository {
         }
     }
 
-    getDetailBySlug(slug, options = { select: '_id name' }) {
-        return this.model.findOne({ slug }).select(options.select);
+    getDetailBySlug(slug) {
+        return this.model.findOne({ slug }).select('_id name slug');
     }
 
-    checkExistBySlug(slug, options = { select: '_id name' }) {
-        return this.model.findOne({ slug }).select(options.select);
+    checkExistBySlug(slug) {
+        return this.model.findOne({ slug }).select('_id');
     }
 
     async create(data) {

@@ -29,4 +29,20 @@ const editAuthorize = async (req, res, next) => {
     }
 };
 
-module.exports = { indexAuthorize, editAuthorize };
+const showArticlesAuthorize = async (req, res, next) => {
+    try {
+        const check = await PropertyStatusRepository.checkExistBySlug(req.params.slug);
+        if (check) {
+            return next();
+        }
+        next(responseHelper.notFound());
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+module.exports = {
+    indexAuthorize,
+    editAuthorize,
+    showArticlesAuthorize,
+};

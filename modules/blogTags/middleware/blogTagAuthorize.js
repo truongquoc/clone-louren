@@ -14,7 +14,7 @@ const indexAuthorize = (req, res, next) => {
 
 const showArticlesAuthorize = async (req, res, next) => {
     try {
-        const check = await BlogTagRepository.checkExistBySlug(req.params.slug, { select: '_id' });
+        const check = await BlogTagRepository.checkExistBySlug(req.params.slug);
         if (check) {
             return next();
         }
