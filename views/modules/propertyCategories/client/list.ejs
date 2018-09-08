@@ -1,6 +1,6 @@
 <% layout('/layouts/client/app') %>
 
-<% block('title', `Loại hình ${propertyCategory.name}`) %>
+<% block('title', `${propertyStatus.name} - Loại hình ${propertyCategory.name}`) %>
 
 <div class="sub-banner overview-bgi">
     <div class="overlay">
@@ -9,7 +9,7 @@
                 <h1>Loại hình <%= propertyCategory.name %></h1>
                 <ul class="breadcrumbs">
                     <li><a href="/">Trang chủ</a></li>
-                    <li class="active"><a href="/">Danh sách dự án</a></li>
+                    <li class="active"><a href="/tt-<%= propertyStatus.slug %>"><%= propertyStatus.name %></a></li>
                     <li class="active">Loại hình <%= propertyCategory.name %></li>
                 </ul>
             </div>

@@ -3,35 +3,12 @@ const multer = require('multer');
 const authAuthorize = require('../users/middleware/authAuthorize');
 const propertyArticleAuthorize = require('./middleware/propertyArticleAuthorize');
 const propertyArticleRequest = require('./requests/propertyArticleRequest');
-const PropertyCategoryRepositoryClass = require('../propertyCategories/repositories/PropertyCategoryRepository');
-const PropertyStatusRepositoryClass = require('../propertyStatuses/repositories/PropertyStatusRepository');
-const BlogCategoryRepositoryClass = require('../blogCategories/repositories/BlogCategoryRepository');
-const PropertyArticleRepositoryClass = require('./repositories/PropertyArticleRepository');
 const propertyArticleController = require('./controllers/propertyArticleController.client');
 const adminPropertyArticleController = require('./controllers/propertyArticleController.admin');
 
 const upload = multer({ dest: 'public/tmp/images' });
-const PropertyStatusRepository = new PropertyStatusRepositoryClass();
-const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
-const BlogCategoryRepository = new BlogCategoryRepositoryClass();
-const PropertyArticleRepository = new PropertyArticleRepositoryClass();
-
-router.use(async (req, res, next) => {
-    res.locals.propertyStatuses = await PropertyStatusRepository.baseGet();
-    res.locals.propertyCategories = await PropertyCategoryRepository.baseGet();
-    res.locals.blogCategories = await BlogCategoryRepository.baseGet();
-    next();
-});
 
 router.get('/', propertyArticleController.index);
-
-router.use(async (req, res, next) => {
-    res.locals.propertyCategories = await PropertyArticleRepository.countByCategory(
-        res.locals.propertyCategories,
-    );
-    res.locals.recentPropertyArticles = await PropertyArticleRepository.getRandomArticles();
-    next();
-});
 
 router.get('/:slug', propertyArticleAuthorize.showArticleAuthorize, propertyArticleController.show);
 
