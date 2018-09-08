@@ -8,15 +8,13 @@ const imageHelper = require('../../../helpers/imageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 const { getSearchData } = require('../../../infrastructure/controllers/baseController.client');
+const { clientGetCreateData } = require('../../../infrastructure/controllers/baseController.admin');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
 const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
 const PropertyTypeRepositoryClass = require('../../propertyTypes/repositories/PropertyTypeRepository');
 const CityRepositoryClass = require('../../cities/repositories/CityRepository');
 const DistrictRepositoryClass = require('../../districts/repositories/DistrictRepository');
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
-const PropertyAmenityRepositoryClass = require('../../propertyAmenities/repositories/PropertyAmenityRepository');
-const PropertyConditionRepositoryClass = require('../../propertyConditions/repositories/PropertyConditionRepository');
-const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTypeRepository');
 const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
 
@@ -26,9 +24,6 @@ const PropertyTypeRepository = new PropertyTypeRepositoryClass();
 const CityRepository = new CityRepositoryClass();
 const DistrictRepository = new DistrictRepositoryClass();
 const BlogArticleRepository = new BlogArticleRepositoryClass();
-const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
-const PropertyConditionRepository = new PropertyConditionRepositoryClass();
-const PriceTypeRepository = new PriceTypeRepositoryClass();
 const UploadRepository = new UploadRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
@@ -38,13 +33,6 @@ const getHomeSearchData = () => [
     CityRepository.baseGet(),
     DistrictRepository.baseGet(),
 ];
-
-const getDataForCreatingArticle = () => getHomeSearchData().concat([
-    PropertyAmenityRepository.baseGet(),
-    PropertyConditionRepository.baseGet(),
-    PropertyCategoryRepository.baseGet(),
-    PriceTypeRepository.baseGet(),
-]);
 
 const index = async (req, res, next) => {
     try {
@@ -126,22 +114,18 @@ const showMyArticles = async (req, res, next) => {
 const create = async (req, res, next) => {
     try {
         const [
-            propertyStatuses,
+            propertyAmenities,
+            propertyConditions,
             propertyTypes,
             cities,
             districts,
-            propertyAmenities,
-            propertyConditions,
-            propertyCategories,
             priceTypes,
-        ] = await Promise.all(getDataForCreatingArticle());
+        ] = await Promise.all(clientGetCreateData());
 
         return res.render('modules/propertyArticles/client/create', {
             propertyAmenities,
             propertyConditions,
-            propertyCategories,
             propertyTypes,
-            propertyStatuses,
             cities,
             districts,
             priceTypes,
@@ -176,16 +160,14 @@ const store = async (req, res, next) => {
 
 const edit = async (req, res, next) => {
     try {
-        const data = getDataForCreatingArticle();
+        const data = clientGetCreateData();
         data.push(PropertyArticleRepository.getEditArticle(req.params.slug));
         const [
-            propertyStatuses,
+            propertyAmenities,
+            propertyConditions,
             propertyTypes,
             cities,
             districts,
-            propertyAmenities,
-            propertyConditions,
-            propertyCategories,
             priceTypes,
             propertyArticle,
         ] = await Promise.all(data);
@@ -194,9 +176,7 @@ const edit = async (req, res, next) => {
             propertyArticle,
             propertyAmenities,
             propertyConditions,
-            propertyCategories,
             propertyTypes,
-            propertyStatuses,
             cities,
             districts,
             priceTypes,
