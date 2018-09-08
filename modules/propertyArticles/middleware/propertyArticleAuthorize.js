@@ -20,21 +20,25 @@ const showMyArticlesAuthorize = (req, res, next) => {
 
 const editAuthorize = async (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer'])) {
-        return next(responseHelper.notAuthorized());
+        const response = responseHelper.notAuthorized();
+        return req.xhr ? res.json(response) : next(response);
     }
     const condition = req.params.slug ? { slug: req.params.slug } : { _id: req.params.id };
     try {
         const article = await PropertyArticleRepository.getDetail(condition, { select: 'author' });
         if (!article) {
-            return next(responseHelper.notFound());
+            const response = responseHelper.notFound();
+            return req.xhr ? res.json(response) : next(response);
         }
         if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])
             && article.author.toString() !== req.session.cUser._id) {
-            return next(responseHelper.notAuthorized());
+            const response = responseHelper.notAuthorized();
+            return req.xhr ? res.json(response) : next(response);
         }
         next();
     } catch (e) {
-        next(responseHelper.error(e.message));
+        const response = responseHelper.error(e.message);
+        return req.xhr ? res.json(response) : next(response);
     }
 };
 
@@ -49,27 +53,6 @@ const approveAuthorize = async (req, res, next) => {
         });
         if (!article) {
             return res.json(responseHelper.notFound());
-        }
-        next();
-    } catch (e) {
-        return res.json(responseHelper.error(e.message));
-    }
-};
-
-const destroyAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer'])) {
-        return res.json(responseHelper.notAuthorized());
-    }
-    try {
-        const article = await PropertyArticleRepository.getDetail({
-            _id: req.params.id,
-        }, { select: 'author' });
-        if (!article) {
-            return res.json(responseHelper.notFound());
-        }
-        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])
-            && article.author.toString() !== req.session.cUser._id) {
-            return res.json(responseHelper.notAuthorized());
         }
         next();
     } catch (e) {
@@ -108,35 +91,25 @@ const clientShowMyArticlesAuthorize = (req, res, next) => {
 };
 
 const clientEditAuthorize = async (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer', 'User'])) {
+        const response = responseHelper.notAuthorized();
+        return req.xhr ? res.json(response) : next(response);
+    }
     const condition = req.params.slug ? { slug: req.params.slug } : { _id: req.params.id };
     try {
         const article = await PropertyArticleRepository.getDetail(condition, { select: 'author' });
         if (!article) {
-            return next(responseHelper.notFound());
+            const response = responseHelper.notFound();
+            return req.xhr ? res.json(response) : next(response);
         }
         if (article.author.toString() !== req.session.cUser._id) {
-            return next(responseHelper.notAuthorized());
+            const response = responseHelper.notAuthorized();
+            return req.xhr ? res.json(response) : next(response);
         }
         next();
     } catch (e) {
-        next(responseHelper.error(e.message));
-    }
-};
-
-const clientDestroyAuthorize = async (req, res, next) => {
-    try {
-        const article = await PropertyArticleRepository.getDetail({
-            _id: req.params.id,
-        }, { select: 'author' });
-        if (!article) {
-            return res.json(responseHelper.notFound());
-        }
-        if (article.author.toString() !== req.session.cUser._id) {
-            return res.json(responseHelper.notAuthorized());
-        }
-        next();
-    } catch (e) {
-        return res.json(responseHelper.error(e.message));
+        const response = responseHelper.error(e.message);
+        return req.xhr ? res.json(response) : next(response);
     }
 };
 
@@ -145,9 +118,7 @@ module.exports = {
     showMyArticlesAuthorize,
     editAuthorize,
     approveAuthorize,
-    destroyAuthorize,
     clientShowMyArticlesAuthorize,
     showArticleAuthorize,
     clientEditAuthorize,
-    clientDestroyAuthorize,
 };

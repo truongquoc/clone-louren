@@ -1,6 +1,5 @@
 const { promisify } = require('util');
 const redis = require('redis');
-const PropertyStatusRepositoryClass = require('../../modules/propertyStatuses/repositories/PropertyStatusRepository');
 const PropertyTypeRepositoryClass = require('../../modules/propertyTypes/repositories/PropertyTypeRepository');
 const CityRepositoryClass = require('../../modules/cities/repositories/CityRepository');
 const DistrictRepositoryClass = require('../../modules/districts/repositories/DistrictRepository');
@@ -9,7 +8,6 @@ const PropertyConditionRepositoryClass = require('../../modules/propertyConditio
 
 const client = redis.createClient();
 const getRedisAsync = promisify(client.get).bind(client);
-const PropertyStatusRepository = new PropertyStatusRepositoryClass();
 const PropertyTypeRepository = new PropertyTypeRepositoryClass();
 const CityRepository = new CityRepositoryClass();
 const DistrictRepository = new DistrictRepositoryClass();

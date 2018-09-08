@@ -13,14 +13,27 @@ const BlogCategoryRepository = new BlogCategoryRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
 
 router.use(async (req, res, next) => {
-    res.locals.propertyStatuses = await PropertyStatusRepository.baseGet();
-    res.locals.propertyCategories = await PropertyCategoryRepository.baseGet();
-    res.locals.blogCategories = await BlogCategoryRepository.baseGet();
+    const [
+        propertyStatuses,
+        propertyCategories,
+        blogCategories,
+    ] = await Promise.all([
+        PropertyStatusRepository.baseGet(),
+        PropertyCategoryRepository.baseGet(),
+        BlogCategoryRepository.baseGet(),
+    ]);
+    res.locals.propertyStatuses = propertyStatuses;
+    res.locals.propertyCategories = propertyCategories;
+    res.locals.blogCategories = blogCategories;
     if (req.originalUrl !== '/') {
-        res.locals.propertyCategories = await PropertyArticleRepository.countByCategory(
-            res.locals.propertyCategories,
-        );
-        res.locals.recentPropertyArticles = await PropertyArticleRepository.getRandomArticles();
+        const [propertyCategoriesWithCountArticle, recentPropertyArticles] = await Promise.all([
+            PropertyArticleRepository.countByCategory(
+                res.locals.propertyCategories,
+            ),
+            PropertyArticleRepository.getRandomArticles(),
+        ]);
+        res.locals.propertyCategories = propertyCategoriesWithCountArticle;
+        res.locals.recentPropertyArticles = recentPropertyArticles;
     }
     next();
 });

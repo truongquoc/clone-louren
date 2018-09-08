@@ -18,7 +18,7 @@ router.use([
     '/nguoi-dung/bai-viet-bat-dong-san',
 ], authAuthorize.clientRedirectIfNotAuthenticated);
 
-router.get('/nguoi-dung/bai-viet-bat-dong-san', propertyArticleController.showMyArticles);
+router.get('/nguoi-dung/bai-viet-bat-dong-san', propertyArticleAuthorize.clientShowMyArticlesAuthorize, propertyArticleController.showMyArticles);
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientShowMyArticlesAuthorize, propertyArticleController.create);
 
@@ -28,7 +28,7 @@ router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug', propertyArticleAuthorize.c
 
 router.post('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.clientEditAuthorize, upload.single('image'), propertyArticleRequest.editArticleRequest, propertyArticleController.update);
 
-router.delete('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.clientDestroyAuthorize, adminPropertyArticleController.destroy);
+router.delete('/nguoi-dung/bai-viet-bat-dong-san/:id', propertyArticleAuthorize.clientEditAuthorize, adminPropertyArticleController.destroy);
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug/chon-anh', propertyArticleAuthorize.clientEditAuthorize, propertyArticleController.listImages);
 

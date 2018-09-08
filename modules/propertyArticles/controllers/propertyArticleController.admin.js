@@ -8,26 +8,11 @@ const dateHelper = require('../../../helpers/dateHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const hashidsHelper = require('../../../helpers/hashidsHelper');
 const roleHelper = require('../../../helpers/roleHelper');
+const { getCreateData } = require('../../../infrastructure/controllers/baseController.admin');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
-const PropertyAmenityRepositoryClass = require('../../propertyAmenities/repositories/PropertyAmenityRepository');
-const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
-const PropertyConditionRepositoryClass = require('../../propertyConditions/repositories/PropertyConditionRepository');
-const PropertyTypeRepositoryClass = require('../../propertyTypes/repositories/PropertyTypeRepository');
-const PropertyStatusRepositoryClass = require('../../propertyStatuses/repositories/PropertyStatusRepository');
-const CityRepositoryClass = require('../../cities/repositories/CityRepository');
-const DistrictRepositoryClass = require('../../districts/repositories/DistrictRepository');
-const PriceTypeRepositoryClass = require('../../priceTypes/repositories/PriceTypeRepository');
 const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
-const PropertyAmenityRepository = new PropertyAmenityRepositoryClass();
-const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
-const PropertyConditionRepository = new PropertyConditionRepositoryClass();
-const PropertyTypeRepository = new PropertyTypeRepositoryClass();
-const PropertyStatusRepository = new PropertyStatusRepositoryClass();
-const CityRepository = new CityRepositoryClass();
-const DistrictRepository = new DistrictRepositoryClass();
-const PriceTypeRepository = new PriceTypeRepositoryClass();
 const UploadRepository = new UploadRepositoryClass();
 
 const index = async (req, res, next) => {
@@ -75,16 +60,7 @@ const create = async (req, res, next) => {
             cities,
             districts,
             priceTypes,
-        ] = await Promise.all([
-            PropertyAmenityRepository.baseGet(),
-            PropertyConditionRepository.baseGet(),
-            PropertyCategoryRepository.baseGet(),
-            PropertyTypeRepository.baseGet(),
-            PropertyStatusRepository.baseGet(),
-            CityRepository.baseGet(),
-            DistrictRepository.baseGet(),
-            PriceTypeRepository.baseGet(),
-        ]);
+        ] = await Promise.all(getCreateData());
 
         return res.render('modules/propertyArticles/admin/create', {
             propertyAmenities,
@@ -127,8 +103,9 @@ const store = async (req, res, next) => {
 const edit = async (req, res, next) => {
     const { slug } = req.params;
     try {
+        const data = getCreateData();
+        data.push(PropertyArticleRepository.getEditArticle(slug));
         const [
-            propertyArticle,
             propertyAmenities,
             propertyConditions,
             propertyCategories,
@@ -137,17 +114,8 @@ const edit = async (req, res, next) => {
             cities,
             districts,
             priceTypes,
-        ] = await Promise.all([
-            PropertyArticleRepository.getEditArticle(slug),
-            PropertyAmenityRepository.baseGet(),
-            PropertyConditionRepository.baseGet(),
-            PropertyCategoryRepository.baseGet(),
-            PropertyTypeRepository.baseGet(),
-            PropertyStatusRepository.baseGet(),
-            CityRepository.baseGet(),
-            DistrictRepository.baseGet(),
-            PriceTypeRepository.baseGet(),
-        ]);
+            propertyArticle,
+        ] = await Promise.all(data);
 
         return res.render('modules/propertyArticles/admin/edit', {
             propertyArticle,

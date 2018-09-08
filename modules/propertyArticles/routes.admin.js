@@ -20,7 +20,7 @@ router.post('/edit/:id', propertyArticleAuthorize.editAuthorize, upload.single('
 
 router.put('/approve/:id', propertyArticleAuthorize.approveAuthorize, propertyArticleController.approve);
 
-router.delete('/delete/:id', propertyArticleAuthorize.destroyAuthorize, propertyArticleController.destroy);
+router.delete('/delete/:id', propertyArticleAuthorize.editAuthorize, propertyArticleController.destroy);
 
 router.get('/:slug/images', propertyArticleAuthorize.editAuthorize, propertyArticleController.listImages);
 
