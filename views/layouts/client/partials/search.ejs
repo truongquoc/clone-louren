@@ -53,55 +53,28 @@
                 <% }) %>
             </select>
         </div>
-        <div class="row">
+        <% propertyConditions.forEach((condition, index) => { %>
+            <% if (index % 2 == 0) { %>
+                <div class="row">
+            <% } %>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
-                    <select class="selectpicker search-fields" name="bedroom">
-                        <option value="0">Phòng ngủ</option>
+                    <select class="selectpicker search-fields" name="conditions[<%= condition._id %>]">
+                        <option value="0"><%= condition.name %></option>
                         <% for (let i = 1; i <= 5; i += 1) { %>
                             <option value="<%= i %>" <%= query.bedroom === i.toString() ? 'selected' : '' %>><%= i %></option>
                         <% } %>
                     </select>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="form-group">
-                    <select class="selectpicker search-fields" name="bathroom">
-                        <option value="0">Phòng tắm</option>
-                        <% for (let i = 1; i <= 5; i += 1) { %>
-                            <option value="<%= i %>" <%= query.bathroom === i.toString() ? 'selected' : '' %>><%= i %></option>
-                        <% } %>
-                    </select>
+            <% if (index % 2 == 1 || (index % 2 == 0 && !propertyConditions[index + 1])) { %>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="form-group">
-                    <select class="selectpicker search-fields" name="balcony">
-                        <option value="0">Ban công</option>
-                        <% for (let i = 1; i <= 5; i += 1) { %>
-                            <option value="<%= i %>" <%= query.balcony === i.toString() ? 'selected' : '' %>><%= i %></option>
-                        <% } %>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="form-group">
-                    <select class="selectpicker search-fields" data-live-search="true" name="garage">
-                        <option value="0">Gara</option>
-                        <% for (let i = 1; i <= 5; i += 1) { %>
-                            <option value="<%= i %>" <%= query.garage === i.toString() ? 'selected' : '' %>><%= i %></option>
-                        <% } %>
-                    </select>
-                </div>
-            </div>
-        </div>
+            <% } %>
+        <% }) %>
 
         <div class="range-slider area-slider">
             <label>Diện tích</label>
-            <div data-min="0" data-max="1000" data-min-value="<%= query.minArea %>" data-max-value="<%= query.maxArea %>"
+            <div data-min="0" data-max="1000" data-min-value="<%= query.minArea || 0 %>" data-max-value="<%= query.maxArea %>"
                  data-unit="Met vuông" data-min-name="minArea" data-max-name="maxArea"
                  class="range-slider-ui ui-slider" aria-disabled="false"></div>
             <div class="clearfix"></div>
@@ -109,7 +82,7 @@
 
         <div class="range-slider price-slider">
             <label>Giá</label>
-            <div data-min="0" data-max="10000" data-min-value="<%= query.minPrice %>" data-max-value="<%= query.maxPrice %>"
+            <div data-min="0" data-max="10000" data-min-value="<%= query.minPrice || 0 %>" data-max-value="<%= query.maxPrice %>"
                  data-unit="Triệu" data-min-name="minPrice" data-max-name="maxPrice"
                  class="range-slider-ui ui-slider" aria-disabled="false"></div>
             <div class="clearfix"></div>

@@ -69,10 +69,20 @@ function deleteRecord(data) {
                         swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
                         return false;
                     }
-                } else {
-                    $(data.element).closest('tr').fadeOut();
-                    swal(data.successResponse.title, data.successResponse.description, data.successResponse.type);
                 }
+                const decreaseConditionsNumber = (name) => {
+                    const $element = $(`.temp-condition__total--${name} span`);
+                    const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
+                    $element.text(total).html();
+                };
+                if (res.data.conditions) {
+                    decreaseConditionsNumber('display');
+                }
+                if (res.data.searchConditions) {
+                    decreaseConditionsNumber('search');
+                }
+                $(data.element).closest('tr').fadeOut();
+                swal(data.successResponse.title, data.successResponse.description, data.successResponse.type);
             },
         });
     }, (dismiss) => {
@@ -120,6 +130,16 @@ function init_createSubModule() {
                         $($row).find('td:first-child').html(index + 1);
                     }
                 });
+                let icons = '';
+                if (result.icon) {
+                    icons = `
+                    <button class="badge bg-success-gradient module__approve-btn condition__approve-btn" data-type="search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="badge bg-success-gradient module__approve-btn condition__approve-btn" data-type="display">
+                        <i class="fa fa-check"></i>
+                    </button>`;
+                }
                 $('.module__table tbody tr:nth-child(1)').after(
                     `<tr data-key="${result._id}">
                         <td>1</td>
@@ -130,7 +150,7 @@ function init_createSubModule() {
                         <td class="module__table__update-time">
                             ${moment(result.updatedAt).format('HH:mm DD/MM/YYYY')}
                         </td>
-                        <td>
+                        <td>` + icons + `
                             <button class="badge bg-warning-gradient module__edit-btn"
                                     type="button" data-toggle="modal" data-target="#myModal2">
                                     <i class="fa fa-pencil"></i>
@@ -229,9 +249,16 @@ function init_editSubModule() {
 }
 
 function init_approveModule() {
-    $('.module__approve-btn').on('click', function () {
+    $(document).on('click', '.module__approve-btn', function () {
         const self = this;
-        const text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
+        let text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
+        const data = {
+            _method: 'PUT',
+        };
+        if ($(self).hasClass('condition__approve-btn')) {
+            text = $(self).hasClass('bg-success-gradient') ? 'Chọn' : 'Bỏ chọn';
+            data.type = $(self).data('type');
+        }
         swal({
             title: `${text} dữ liệu này`,
             type: 'warning',
@@ -249,9 +276,7 @@ function init_approveModule() {
                 url: `${url}/${key}`,
                 type: 'PUT',
                 dataType: 'json',
-                data: {
-                    _method: 'PUT',
-                },
+                data,
                 success(res) {
                     if (!res.status) {
                         if (res.error.code === 404) {
@@ -262,19 +287,18 @@ function init_approveModule() {
                             swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
                             return false;
                         }
-                    } else {
-                        if ($(self).hasClass('condition__approve-btn')) {
-                            const $element = $('.temp-condition__total span');
-                            const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
-                            $element.text(total).html();
-                        }
-                        if (res.data.isApproved || res.data.isSelected) {
-                            $(self).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
-                        } else {
-                            $(self).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
-                        }
-                        swal('Thành công!', '', 'success');
                     }
+                    if ($(self).hasClass('condition__approve-btn')) {
+                        const $element = $(`.temp-condition__total--${$(self).data('type')} span`);
+                        const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
+                        $element.text(total).html();
+                    }
+                    if (res.data.isApproved || res.data.isSelected) {
+                        $(self).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
+                    } else {
+                        $(self).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
+                    }
+                    swal('Thành công!', '', 'success');
                 },
             });
         });

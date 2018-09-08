@@ -1,3 +1,5 @@
+const { promisify } = require('util');
+const redis = require('redis');
 const getSlug = require('speakingurl');
 const moment = require('moment');
 const clientHelper = require('../../../helpers/clientHelper');
@@ -6,6 +8,10 @@ const storageHelper = require('../../../helpers/storage/storageHelper');
 const commonConstant = require('../../../constants/commonConstant');
 const ArticleRepository = require('../../../infrastructure/repositories/ArticleRepository');
 const PropertyArticle = require('../models/PropertyArticle');
+
+
+const client = redis.createClient();
+const getRedisAsync = promisify(client.get).bind(client);
 
 class PropertyArticleRepository extends ArticleRepository {
     model() {
@@ -74,6 +80,7 @@ class PropertyArticleRepository extends ArticleRepository {
     }
 
     async clientList(slug, options) {
+        const displayConditions = JSON.parse(await getRedisAsync('conditions') || '[]');
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.clientLimit;
         const sort = clientHelper.parseSorting(options.query.sort);
@@ -91,7 +98,7 @@ class PropertyArticleRepository extends ArticleRepository {
                 .search(options.query)
                 .find(conditions)
                 .populate('conditions.condition', 'name icon', {
-                    name: { $in: ['Tivi', 'Giường ngủ', 'Gara', 'Ban công', 'Bồn tắm'] },
+                    _id: { $in: displayConditions },
                     deletedAt: null,
                 })
                 .populate('status', 'name', { deletedAt: null })

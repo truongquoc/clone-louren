@@ -32,13 +32,20 @@
                     <h3 class="card-title card-title--float">Cơ sở vật chất</h3>
                 </div>
                 <div class="float-right">
-                    <b class="temp-condition__total"><span><%= tempConditions.length %></span> được hiển thị</b>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                         Tạo mới
                     </button>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="padding-top: 10px;">
+                <div class="temp-condition__total">
+                    <p class="temp-condition__total--display">
+                        <b><span><%= tempConditions.length %></span> được hiển thị</b>
+                    </p>
+                    <p class="temp-condition__total--search">
+                        <b><span><%= tempSearchConditions.length %></span> hiển thị trong thanh tìm kiếm</b>
+                    </p>
+                </div>
                 <table class="table table-bordered module__table"
                        data-approve-url="/admin/property/conditions/select" data-delete-url="/admin/property/conditions/delete">
                     <tr>
@@ -58,12 +65,22 @@
                             <%= moment(condition.updatedAt).format('HH:mm DD/MM/YYYY') %>
                         </td>
                         <td>
+                            <% if (tempSearchConditions.indexOf(condition._id.toString()) >= 0) { %>
+                                <button class="badge bg-warning-gradient module__approve-btn condition__approve-btn" data-type="search">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            <% } else { %>
+                                <button class="badge bg-success-gradient module__approve-btn condition__approve-btn" data-type="search">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            <% } %>
+
                             <% if (tempConditions.indexOf(condition._id.toString()) >= 0) { %>
-                                <button class="badge bg-warning-gradient module__approve-btn condition__approve-btn">
+                                <button class="badge bg-warning-gradient module__approve-btn condition__approve-btn" data-type="display">
                                     <i class="fa fa-check"></i>
                                 </button>
                             <% } else { %>
-                                <button class="badge bg-success-gradient module__approve-btn condition__approve-btn">
+                                <button class="badge bg-success-gradient module__approve-btn condition__approve-btn" data-type="display">
                                     <i class="fa fa-check"></i>
                                 </button>
                             <% } %>

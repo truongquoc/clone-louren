@@ -231,8 +231,8 @@ button.badge {
     border-color: #fff;
 }
 
-.temp-condition__total {
-    margin-right: 10px;
+.temp-condition__total p {
+    margin-bottom: 5px;
 }
 
 .user-profile__avatar {
