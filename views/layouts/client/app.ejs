@@ -87,10 +87,10 @@
                     </li>
                     <% propertyStatuses.forEach((status) => { %>
                     <li class="dropdown">
-                        <a href="/tt-<%= status.slug %>"><%= status.name %><span class="caret"></span></a>
+                        <a href="/nha-dat-<%= status.slug %>">Nhà đất <%= status.name %><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <% propertyCategories.forEach(function (category) { %>
-                                <li><a href="/tt-<%= status.slug %>/<%= category.slug %>"><%= category.name %></a></li>
+                                <li><a href="/nha-dat-<%= status.slug %>/<%= category.slug %>"><%= category.name %></a></li>
                             <% }) %>
                         </ul>
                     </li>

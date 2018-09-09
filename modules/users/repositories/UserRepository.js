@@ -105,6 +105,10 @@ class UserRepository extends BaseRepository {
 
         return this.baseUpdate({ 'articles.published': 0 }, { roles: userRole._id });
     }
+
+    updateAvatar(url, id) {
+        return this.baseUpdate({ avatar: url }, { _id: id });
+    }
 }
 
 module.exports = UserRepository;

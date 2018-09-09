@@ -248,7 +248,7 @@ button.badge {
     display: inline-block;
 }
 
-.user-profile__avatar-change-btn__overlay {
+.user-profile__avatar-change-btn__overlay, .user-profile__avatar-changing-btn__overlay {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -256,7 +256,15 @@ button.badge {
     border-radius: 50%;
     height: 100%;
     width: 100%;
+    font-size: 30px;
+    line-height: 100px;
     transform: translate(-50%, -50%);
+}
+
+.user-profile__avatar-changing-btn__overlay.active {
+    display: block;
+    background-color: #00000082;
+    color: #fff;
 }
 
 .user-profile__avatar-change-btn {
@@ -267,7 +275,6 @@ button.badge {
     background-color: transparent;
     color: #fff;
     cursor: pointer;
-    font-size: 30px;
     outline: 0 !important;
     transform: translate(-50%, -50%);
 }

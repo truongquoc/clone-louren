@@ -11,10 +11,11 @@ function uploadAvatar(url, file, successfulCallback) {
         success: function (res) {
             if (!res.status) {
                 if (res.error.code === 400) {
-                    swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                    swal('Lỗi!', res.error.message.avatar.msg, 'error');
                 } else if (res.error.code === 500) {
                     swal('Lỗi!', 'Lỗi hệ thống', 'error');
                 }
+                return false;
             }
             successfulCallback(res);
         }
@@ -32,19 +33,22 @@ function init_uploadImage() {
         if (!file) {
             return false;
         }
+        const $imageOverlay = $('.user-profile__avatar-changing-btn__overlay');
+        $imageOverlay.addClass('active');
         uploadAvatar(`/admin/users/${id}/avatar/original`, file, function (res) {
+            $imageOverlay.removeClass('active');
             const $modal = $('#cropImageModal');
-            $modal.find('img').attr('href', res.data[0]);
+            $modal.find('img').attr('src', res.data[0]);
             $modal.modal('show');
             init_cropper();
         });
     });
-    // $('#cropImageModal').modal('show');
-    // init_cropper();
 }
 
 function init_cropper() {
-    const $image = $('#cropImageModal img');
+    const id = $('.user__form').data('key');
+    const $modal = $('#cropImageModal');
+    const $image = $modal.find('img');
     $image.cropper({
         checkCrossOrigin: false,
         aspectRatio: 1,
@@ -56,15 +60,19 @@ function init_cropper() {
         },
     });
     const cropper = $image.data('cropper');
+    $modal.on('hidden.bs.modal', function () {
+        $image.cropper('destroy');
+    });
     $('.user__crop-image__finish-btn').on('click', function () {
         const canvas = cropper.getCroppedCanvas();
         canvas.toBlob((blob) => {
-            const formData = new FormData();
-            formData.append('avatar', blob);
-            console.log(blob);
-        });
+            uploadAvatar(`/admin/users/${id}/avatar`, blob, function (res) {
+                $('.user-profile__avatar img').attr('src', res.data[0]);
+                $('#cropImageModal').modal('hide');
+                cropper.clear();
+            });
+        }, 'image/jpeg');
     });
-    // console.log(;
 }
 
 $(document).ready(function () {

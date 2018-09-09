@@ -45,7 +45,7 @@ const createArticleRequest = [
             }
             return true;
         } catch (e) {
-            Promise.reject(e.message);
+            return Promise.reject(e.message);
         }
     }),
     check('video').trim()

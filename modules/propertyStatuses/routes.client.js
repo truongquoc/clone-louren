@@ -38,8 +38,8 @@ router.use(async (req, res, next) => {
     next();
 });
 
-router.get('/tt-:slug', propertyStatusAuthorize.showArticlesAuthorize, propertyStatusController.list);
+router.get('/nha-dat-:slug', propertyStatusAuthorize.showArticlesAuthorize, propertyStatusController.list);
 
-router.get('/tt-:slug/tim-kiem', propertyStatusAuthorize.showArticlesAuthorize, propertyStatusController.search);
+router.get('/nha-dat-:slug/tim-kiem', propertyStatusAuthorize.showArticlesAuthorize, propertyStatusController.search);
 
 module.exports = router;
