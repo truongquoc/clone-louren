@@ -233,7 +233,8 @@ class PropertyArticleRepository extends ArticleRepository {
         const conditions = [];
         if (data.conditions) {
             for (const name in data.conditions) {
-                if (Object.prototype.hasOwnProperty.call(data.conditions, name)) {
+                if (Object.prototype.hasOwnProperty.call(data.conditions, name)
+                    && data.conditions[name]) {
                     conditions.push({ condition: name, quantity: data.conditions[name] });
                 }
             }
@@ -271,7 +272,8 @@ class PropertyArticleRepository extends ArticleRepository {
         const conditions = [];
         if (data.conditions) {
             for (const name in data.conditions) {
-                if (Object.prototype.hasOwnProperty.call(data.conditions, name)) {
+                if (Object.prototype.hasOwnProperty.call(data.conditions, name)
+                    && data.conditions[name]) {
                     conditions.push({ condition: name, quantity: data.conditions[name] });
                 }
             }

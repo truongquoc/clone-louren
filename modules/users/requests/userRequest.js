@@ -1,6 +1,7 @@
 const { check } = require('express-validator/check');
 const validator = require('validator');
 const moment = require('moment');
+const commonConstant = require('../../../constants/commonConstant');
 const UserRepositoryClass = require('../repositories/UserRepository');
 
 const UserRepository = new UserRepositoryClass();
@@ -112,9 +113,28 @@ const clientEditProfileRequest = editProfileRequest.concat(
         }),
 );
 
+const uploadAvatar = [
+    check('avatar').custom((value, { req }) => {
+        try {
+            if (!req.file) {
+                throw new Error('Ảnh không được bỏ trống');
+            }
+            if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                throw new Error('Loại ảnh không hợp lệ');
+            } else if (req.file.size > commonConstant.imageMaxsize) {
+                throw new Error('Kích thước ảnh quá lớn');
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
+    }),
+];
+
 module.exports = {
     registerRequest,
     editProfileRequest,
     editRequest,
     clientEditProfileRequest,
+    uploadAvatar,
 };

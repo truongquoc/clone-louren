@@ -1,7 +1,7 @@
 function init_changeStatus() {
     function changeStatus(self) {
         const statusSlug = $(self).find('option:selected').data('slug');
-        $('.search-area .property-articles__search-form').attr('action', `/tt-${statusSlug}/tim-kiem`);
+        $('.search-area .property-articles__search-form').attr('action', `/nha-dat-${statusSlug}/tim-kiem`);
     }
 
     const $selectElement = $('.search-area .status');

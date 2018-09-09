@@ -235,12 +235,17 @@
                             <div class="col-lg-12">
                                 <label class="margin-t-10">Cơ sở vật chất</label>
                                 <div class="row">
+                                    <% const conditionsErrors = JSON.parse(errors('conditions') || '[]') %>
                                     <% propertyConditions.forEach(function (condition) { %>
+                                        <% let conditionsError = conditionsErrors.find(oldCondition => {
+                                            return oldCondition.condition.toString() === condition._id.toString();
+                                        }) %>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label"><%= condition.name %></label>
                                                 <input type="number" class="input-text" name="conditions[<%= condition._id %>]"
                                                        placeholder="Nhập <%= condition.name %>" value="<%= old(`conditions.${condition._id}`) %>">
+                                                <p class="form__error-message"><%= conditionsError ? conditionsError.msg : '' %></p>
                                             </div>
                                         </div>
                                     <% }) %>

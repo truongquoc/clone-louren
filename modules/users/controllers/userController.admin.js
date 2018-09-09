@@ -73,28 +73,41 @@ const updateProfile = async (req, res, next) => {
 };
 
 const uploadOriginalAvatar = async (req, res) => {
+    const errors = validationResult(req);
     let image = req.file;
+    if (!errors.isEmpty()) {
+        imageHelper.deleteImage(image, false);
+        return res.json(responseHelper.error(errors.mapped(), 400));
+    }
     try {
-        image = imageHelper.getOriginalImage(image);
+        image = imageHelper.getOriginalImage(image, false);
         const url = await storageHelper.storage('s3').upload(`avatars/original/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         await UploadRepository.create([url], req.session.cUser, true);
 
-        return res.json(responseHelper.success(url));
+        return res.json(responseHelper.success(`/${image.path}`));
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
 };
 
 const uploadAvatar = async (req, res) => {
+    const errors = validationResult(req);
     let image = req.file;
+    if (!errors.isEmpty()) {
+        imageHelper.deleteImage(image, false);
+        return res.json(responseHelper.error(errors.mapped(), 400));
+    }
     try {
-        image = imageHelper.optimizeImage(image, {
+        image = await imageHelper.optimizeImage(image, {
             width: 160,
             height: 160,
             quality: 80,
         });
         const url = await storageHelper.storage('s3').upload(`avatars/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
-        await UploadRepository.create([url], req.session.cUser);
+        await Promise.all([
+            UploadRepository.create([url], req.session.cUser._id),
+            UserRepository.updateAvatar(url, req.session.cUser._id),
+        ]);
 
         return res.json(responseHelper.success(url));
     } catch (e) {

@@ -4,7 +4,7 @@
     </div>
     <% const checkHasCategory = typeof propertyCategory === 'undefined'; %>
     <form method="GET" class="property-articles__search-form"
-          action="<%= checkHasCategory ? `/tt-${propertyStatus.slug}/tim-kiem` : `/tt-${propertyStatus.slug}/${propertyCategory.slug}/tim-kiem` %>">
+          action="<%= checkHasCategory ? `/nha-dat-${propertyStatus.slug}/tim-kiem` : `/nha-dat-${propertyStatus.slug}/${propertyCategory.slug}/tim-kiem` %>">
         <% if (checkHasCategory) { %>
             <div class="form-group">
                 <select class="selectpicker search-fields" name="category">

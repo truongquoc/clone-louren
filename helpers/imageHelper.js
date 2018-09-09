@@ -29,9 +29,11 @@ const optimizeImage = async (file, image = {}) => {
     return data;
 };
 
-const getOriginalImage = (file) => {
+const getOriginalImage = (file, deleteFile = true) => {
     const image = fs.createReadStream(`${file.path}`);
-    deleteImage(file, false);
+    if (deleteFile) {
+        deleteImage(file, false);
+    }
     return image;
 };
 

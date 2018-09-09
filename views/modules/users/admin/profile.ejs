@@ -4,9 +4,11 @@
 
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css') %>
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js') %>
 <% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
 <% script('/public/admin/js/cropper.js') %>
 
 <section class="content-header">
@@ -35,6 +37,9 @@
                             <div class="user-profile__avatar">
                                 <img class="profile-user-img img-fluid img-circle"
                                      src="<%= user.avatar %>"/>
+                                <div class="user-profile__avatar-changing-btn__overlay">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </div>
                                 <div class="user-profile__avatar-change-btn__overlay">
                                     <input type="file" class="hide">
                                     <button class="user-profile__avatar-change-btn"><i class="fa fa-cloud-upload"></i></button>
@@ -135,8 +140,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <img src="https://testing-store.s3.ap-northeast-1.amazonaws.com/avatars/original/2018090316411866.jpg"
-                     class="img-fluid">
+                <img class="img-fluid">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Đóng</button>

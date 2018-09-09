@@ -95,7 +95,23 @@ const createArticleRequest = [
         }).withMessage('Giá không hợp lệ'),
     check('price[type]').custom((value, { req }) => (req.body.price ? value : true)).withMessage('Loại giá không hợp lệ'),
     check('conditions').custom((conditions) => {
-        return true;
+        try {
+            const messages = [];
+            Object.keys(conditions).forEach((condition) => {
+                if (parseInt(conditions[condition], 10) <= 0) {
+                    messages.push({
+                        condition,
+                        msg: 'Số lượng không hợp lệ',
+                    });
+                }
+            });
+            if (messages.length) {
+                throw new Error(JSON.stringify(messages));
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
     }),
     check('slug').trim()
         .custom(async (value, { req }) => {
@@ -208,7 +224,23 @@ const editArticleRequest = [
         }).withMessage('Giá không hợp lệ'),
     check('price[type]').custom((value, { req }) => (req.body.price ? value : true)).withMessage('Loại giá không hợp lệ'),
     check('conditions').custom((conditions) => {
-        return true;
+        try {
+            const messages = [];
+            Object.keys(conditions).forEach((condition) => {
+                if (parseInt(conditions[condition], 10) <= 0) {
+                    messages.push({
+                        condition,
+                        msg: 'Số lượng không hợp lệ',
+                    });
+                }
+            });
+            if (messages.length) {
+                throw new Error(JSON.stringify(messages));
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
     }),
     check('slug').trim()
         .custom(async (value, { req }) => {
