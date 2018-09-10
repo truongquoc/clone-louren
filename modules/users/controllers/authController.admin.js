@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator/check');
-const jwt = require('jsonwebtoken');
-const config = require('../../../config/config');
+const roleHelper = require('../../../helpers/roleHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 
@@ -26,18 +25,7 @@ const login = async (req, res, next) => {
             req.flash('errors', { email: { msg: 'Email hoặc mật khẩu không chính xác' } });
             return res.redirectBack();
         }
-        req.session.cUser = {
-            _id: user.id,
-            roles: user.roles,
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
-            slug: user.slug,
-            createdAt: user.createdAt,
-            token: jwt.sign({
-                user,
-            }, config.jwtSecret, { expiresIn: parseInt(config.sessionLifetime, 10) }),
-        };
+        req.session.cUser = AuthRepository.getCurrentUserData(user);
         if (req.session.prevUrl) {
             res.redirect(req.session.prevUrl);
             delete req.session.prevUrl;
@@ -50,7 +38,11 @@ const login = async (req, res, next) => {
 };
 
 const logout = (req, res) => {
+    const user = req.session.cUser;
     delete req.session.cUser;
+    if (roleHelper.hasRoleOnly(user, 'User')) {
+        return res.redirect('/login');
+    }
     return res.redirect('/admin/login');
 };
 

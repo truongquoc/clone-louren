@@ -64,11 +64,14 @@ function init_cropper() {
         $image.cropper('destroy');
     });
     $('.user__crop-image__finish-btn').on('click', function () {
+        const self = this;
+        $(self).html('<i class="fa fa-spinner fa-spin"></i>');
         const canvas = cropper.getCroppedCanvas();
         canvas.toBlob((blob) => {
             uploadAvatar(`/admin/users/${id}/avatar`, blob, function (res) {
                 $('.user-profile__avatar img').attr('src', res.data[0]);
                 $('#cropImageModal').modal('hide');
+                $(self).html('Hoàn tất');
                 cropper.clear();
             });
         }, 'image/jpeg');

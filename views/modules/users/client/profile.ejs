@@ -1,5 +1,10 @@
 <% layout('/layouts/client/app') %>
 
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js') %>
+<% script('/public/admin/js/cropper.js') %>
+
 <% block('title', 'Thông tin người dùng') %>
 
 <!-- Sub banner start -->
@@ -29,7 +34,7 @@
             <div class="col-lg-9 col-md-9 col-sm-12">
                 <!-- My address start-->
                 <div class="my-address">
-                    <form action="" method="POST">
+                    <form action="" method="POST" class="user__form" data-key="<%= user._id %>">
                         <input type="hidden" name="_method" value="PUT">
                         <div class="form-group">
                             <label>Tên</label>
@@ -74,6 +79,25 @@
                     </form>
                 </div>
                 <!-- My address end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="cropImageModal" aria-labelledby="cropImageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Cắt ảnh đại diện</h4>
+            </div>
+            <div class="modal-body">
+                <img class="img-responsive">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary pull-right user__crop-image__finish-btn">Hoàn tất</button>
             </div>
         </div>
     </div>

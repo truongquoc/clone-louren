@@ -2,13 +2,20 @@
 <div class="user-account-box">
     <div class="header clearfix">
         <div class="edit-profile-photo">
-            <img src="<%= cUser.avatar %>" class="img-responsive">
-            <div class="change-photo-btn">
-                <div class="photoUpload">
-                    <span><i class="fa fa-upload"></i> Upload Photo</span>
-                    <input type="file" class="upload">
+            <div class="user-profile__avatar">
+                <img src="<%= cUser.avatar %>" class="img-responsive">
+                <div class="user-profile__avatar-changing-btn__overlay">
+                    <i class="fa fa-spinner fa-spin"></i>
                 </div>
             </div>
+            <% if (typeof user === 'object') { %>
+                <div class="change-photo-btn user-profile__avatar-change-btn__overlay">
+                    <div class="photoUpload">
+                        <span><i class="fa fa-upload"></i> Upload Photo</span>
+                        <input type="file" class="upload">
+                    </div>
+                </div>
+            <% } %>
         </div>
         <h3><%= cUser.name %></h3>
         <p><%= cUser.email || '' %></p>

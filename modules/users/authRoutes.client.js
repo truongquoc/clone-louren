@@ -2,6 +2,7 @@ const router = require('express').Router();
 const passport = require('../../config/passport');
 const authAuthorize = require('./middleware/authAuthorize');
 const authController = require('./controllers/authController.client');
+const adminAuthController = require('./controllers/authController.admin');
 
 router.use([
     'login',
@@ -25,5 +26,7 @@ router.get('/login/google', passport.authenticate('google', {
 }));
 
 router.get('/login/google/callback', authController.googleLogin);
+
+router.get('/logout', authAuthorize.clientRedirectIfNotAuthenticated, adminAuthController.logout);
 
 module.exports = router;

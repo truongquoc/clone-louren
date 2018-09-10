@@ -4,10 +4,12 @@ const paginationHelper = require('../../../helpers/paginationHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
+const AuthRepositoryClass = require('../repositories/AuthRepository');
 const UserRepositoryClass = require('../repositories/UserRepository');
 const RoleRepositoryClass = require('../repositories/RoleRepository');
 const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 
+const AuthRepository = new AuthRepositoryClass();
 const UserRepository = new UserRepositoryClass();
 const RoleRepository = new RoleRepositoryClass();
 const UploadRepository = new UploadRepositoryClass();
@@ -47,7 +49,10 @@ const index = async (req, res, next) => {
 
 const showProfile = async (req, res, next) => {
     try {
-        const user = await UserRepository.show(req.params.slug);
+        const user = await UserRepository.getUserWithRoles({
+            name: 'slug',
+            value: req.params.slug,
+        });
         return res.render('modules/users/admin/profile', {
             user,
         });
@@ -66,6 +71,9 @@ const updateProfile = async (req, res, next) => {
     }
     try {
         await UserRepository.updateProfile(data, req.session.cUser._id, !!req.session.cUser.email);
+        const user = await UserRepository.getById(req.session.cUser._id);
+        req.session.cUser = AuthRepository.getCurrentUserData(user);
+
         return res.redirectBack();
     } catch (e) {
         next(responseHelper.error(e.message));
@@ -108,6 +116,7 @@ const uploadAvatar = async (req, res) => {
             UploadRepository.create([url], req.session.cUser._id),
             UserRepository.updateAvatar(url, req.session.cUser._id),
         ]);
+        req.session.cUser.avatar = url;
 
         return res.json(responseHelper.success(url));
     } catch (e) {
@@ -118,7 +127,10 @@ const uploadAvatar = async (req, res) => {
 const edit = async (req, res, next) => {
     try {
         const [user, roles] = await Promise.all([
-            UserRepository.show(req.params.slug),
+            UserRepository.getUserWithRoles({
+                name: 'slug',
+                value: req.params.slug,
+            }),
             RoleRepository.baseGet(),
         ]);
         return res.render('modules/users/admin/edit', {
@@ -139,6 +151,13 @@ const update = async (req, res, next) => {
     }
     try {
         await UserRepository.update(data, req.params.id, req.session.cUser._id);
+        if (req.params.id === req.session.cUser._id) {
+            const user = await UserRepository.getUserWithRoles({
+                name: 'id',
+                value: req.session.cUser._id,
+            });
+            req.session.cUser = AuthRepository.getCurrentUserData(user);
+        }
         return res.redirectBack();
     } catch (e) {
         next(responseHelper.error(e.message));

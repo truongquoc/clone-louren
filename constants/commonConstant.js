@@ -12,4 +12,6 @@ module.exports = {
 
     maxArea: 1000,
     maxPrice: 10000,
+
+    userMaxPublishedArticlesQuantity: 5,
 };

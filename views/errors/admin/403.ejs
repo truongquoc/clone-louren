@@ -7,7 +7,11 @@
         <h2 class="headline text-warning">403</h2>
         <div class="error-content">
             <h3><i class="fa fa-warning text-warning"></i> Bạn không có quyền truy cập trang này.</h3>
-            <p>Về trang <a href="/admin">admin</a>.</p>
+            <% if (hasRoleOnly(cUser, 'User')) { %>
+                <p>Về <a href="/">trang chủ</a>.</p>
+            <% } else { %>
+                <p>Về trang <a href="/admin">admin</a>.</p>
+            <% } %>
         </div>
     </div>
 </section>

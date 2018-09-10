@@ -6,4 +6,14 @@ const hasRole = (user, roles) => {
 
 const checkValidUser = (currentUser, userId) => currentUser.id === userId;
 
-module.exports = { hasRole, checkValidUser };
+const hasRoleOnly = (user, role) => {
+    const check = user.roles.find(userRole => userRole.name === role);
+
+    return check && user.roles.length === 1;
+};
+
+module.exports = {
+    hasRole,
+    checkValidUser,
+    hasRoleOnly,
+};

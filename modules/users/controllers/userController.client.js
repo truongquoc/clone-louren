@@ -5,7 +5,10 @@ const UserRepository = new UserRepositoryClass();
 
 const showProfile = async (req, res, next) => {
     try {
-        const user = await UserRepository.show(req.session.cUser.slug);
+        const user = await UserRepository.getUserWithRoles({
+            name: 'slug',
+            value: req.session.cUser.slug,
+        });
         return res.render('modules/users/client/profile', {
             user,
         });

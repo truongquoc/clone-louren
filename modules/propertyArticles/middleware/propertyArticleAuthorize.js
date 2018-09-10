@@ -1,8 +1,11 @@
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
+const UserRepositoryClass = require('../../users/repositories/UserRepository');
 const responseHelper = require('../../../helpers/responseHelper');
 const roleHelper = require('../../../helpers/roleHelper');
+const commonConstant = require('../../../constants/commonConstant');
 
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
+const UserRepository = new UserRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager'])) {
@@ -90,6 +93,21 @@ const clientShowMyArticlesAuthorize = (req, res, next) => {
     next();
 };
 
+const clientCreateArticleAuthorize = async (req, res, next) => {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer', 'User'])) {
+        return next(responseHelper.notAuthorized());
+    }
+    if (roleHelper.hasRoleOnly(req.session.cUser, 'User')) {
+        const user = await UserRepository.getById(req.session.cUser._id, {
+            select: 'articles',
+        });
+        if (user.articles.published > commonConstant.userMaxPublishedArticlesQuantity) {
+            return next(responseHelper.notAuthorized());
+        }
+    }
+    next();
+};
+
 const clientEditAuthorize = async (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Property Manager', 'Property Writer', 'User'])) {
         const response = responseHelper.notAuthorized();
@@ -119,6 +137,7 @@ module.exports = {
     editAuthorize,
     approveAuthorize,
     clientShowMyArticlesAuthorize,
+    clientCreateArticleAuthorize,
     showArticleAuthorize,
     clientEditAuthorize,
 };
