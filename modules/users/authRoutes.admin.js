@@ -22,7 +22,7 @@ router.put('/password/reset/:token', authAuthorize.resetPasswordAuthorize, authR
 
 router.use(authAuthorize.adminRedirectIfNotAuthenticated);
 
-router.get('/', authController.index);
+router.get('/', userAuthorize.viewAdminAuthorize, authController.index);
 
 router.get('/register', userAuthorize.registerAuthorize, userController.showRegisterForm);
 

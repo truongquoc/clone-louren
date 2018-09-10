@@ -17,9 +17,10 @@ const login = async (req, res) => {
         if (!user) {
             return res.json(responseHelper.error('INVALID_EMAIL_OR_PASSWORD'));
         }
+        const cUser = AuthRepository.getCurrentUserData(user);
         const result = {
             token: jwt.sign({
-                user,
+                cUser,
             }, config.jwtSecret, { expiresIn: parseInt(config.sessionLifetime, 10) }),
         };
 

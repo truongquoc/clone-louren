@@ -7,6 +7,7 @@ const hashidsHelper = require('../../../helpers/hashidsHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
+const roleHelper = require('../../../helpers/roleHelper');
 const { getSearchData } = require('../../../infrastructure/controllers/baseController.client');
 const { clientGetCreateData } = require('../../../infrastructure/controllers/baseController.admin');
 const PropertyCategoryRepositoryClass = require('../../propertyCategories/repositories/PropertyCategoryRepository');
@@ -17,6 +18,7 @@ const DistrictRepositoryClass = require('../../districts/repositories/DistrictRe
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
 const UploadRepositoryClass = require('../../../infrastructure/repositories/UploadRepository');
 const PropertyArticleRepositoryClass = require('../repositories/PropertyArticleRepository');
+const UserRepositoryClass = require('../../users/repositories/UserRepository');
 
 const PropertyCategoryRepository = new PropertyCategoryRepositoryClass();
 const PropertyStatusRepository = new PropertyStatusRepositoryClass();
@@ -26,6 +28,7 @@ const DistrictRepository = new DistrictRepositoryClass();
 const BlogArticleRepository = new BlogArticleRepositoryClass();
 const UploadRepository = new UploadRepositoryClass();
 const PropertyArticleRepository = new PropertyArticleRepositoryClass();
+const UserRepository = new UserRepositoryClass();
 
 const getHomeSearchData = () => [
     PropertyStatusRepository.baseGet(),
@@ -152,6 +155,9 @@ const store = async (req, res, next) => {
         });
         data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         const article = await PropertyArticleRepository.create(data, req.session.cUser);
+        if (roleHelper.hasRoleOnly(req.session.cUser, 'User')) {
+            await UserRepository.incrementArticleQuantity(req.session.cUser._id);
+        }
         return res.redirect(`/nguoi-dung/bai-viet-bat-dong-san/${article.slug}`);
     } catch (e) {
         next(responseHelper.error(e.message));

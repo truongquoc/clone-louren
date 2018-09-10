@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-const config = require('../../../config/config');
 const passport = require('../../../config/passport');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
@@ -25,18 +23,7 @@ const facebookLogin = (req, res, next) => {
             if (!user) {
                 user = await AuthRepository.facebookLogin(data);
             }
-            req.session.cUser = {
-                _id: user.id,
-                roles: user.roles,
-                name: user.name,
-                email: user.email,
-                avatar: user.avatar,
-                slug: user.slug,
-                createdAt: user.createdAt,
-                token: jwt.sign({
-                    user,
-                }, config.jwtSecret, { expiresIn: parseInt(config.sessionLifetime, 10) }),
-            };
+            req.session.cUser = AuthRepository.getCurrentUserData(user);
             return res.redirect('/');
         } catch (e) {
             next(responseHelper.error(e.message));
@@ -62,18 +49,7 @@ const googleLogin = (req, res, next) => {
             if (!user) {
                 user = await AuthRepository.googleLogin(data);
             }
-            req.session.cUser = {
-                _id: user.id,
-                roles: user.roles,
-                name: user.name,
-                email: user.email,
-                avatar: user.avatar,
-                slug: user.slug,
-                createdAt: user.createdAt,
-                token: jwt.sign({
-                    user,
-                }, config.jwtSecret, { expiresIn: parseInt(config.sessionLifetime, 10) }),
-            };
+            req.session.cUser = AuthRepository.getCurrentUserData(user);
             return res.redirect('/');
         } catch (e) {
             next(responseHelper.error(e.message));

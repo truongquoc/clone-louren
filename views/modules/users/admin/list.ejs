@@ -60,7 +60,7 @@
                                 <% }) %>
                             </td>
                             <td><%= user.email %></td>
-                            <td><%= user.telephone %></td>
+                            <td><%= user.telephone || '' %></td>
                             <td><%= moment(user.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
                                 <a href="/admin/users/<%= user.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>

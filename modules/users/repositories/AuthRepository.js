@@ -2,7 +2,10 @@ const getSlug = require('speakingurl');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const config = require('../../../config/config');
 const commonConstant = require('../../../config/config');
+const roleHelper = require('../../../helpers/roleHelper');
 const User = require('../models/User');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const RoleRepositoryClass = require('./RoleRepository');
@@ -16,7 +19,7 @@ class AuthRepository extends BaseRepository {
 
     async login(data) {
         const user = await this.model.findOne({ email: data.email, deletedAt: null }).populate('roles', '-_id name');
-        if (user && bcrypt.compareSync(data.password, user.password)) {
+        if (user && bcrypt.compareSync(data.password, user.password) && !roleHelper.hasRoleOnly(user, 'User')) {
             return user;
         }
 
@@ -136,6 +139,21 @@ class AuthRepository extends BaseRepository {
             resetPasswordExpires: undefined,
         };
         return this.baseUpdate(user, { resetPasswordToken: token });
+    }
+
+    getCurrentUserData(user) {
+        return {
+            _id: user._id,
+            roles: user.roles,
+            name: user.name,
+            email: user.email,
+            avatar: user.avatar,
+            slug: user.slug,
+            createdAt: user.createdAt,
+            token: jwt.sign({
+                user,
+            }, config.jwtSecret, { expiresIn: parseInt(config.sessionLifetime, 10) }),
+        };
     }
 }
 

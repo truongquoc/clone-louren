@@ -212,3 +212,33 @@ table.module__table .title-container .title span i {
     margin-right: 5px;
     color: #999;
 }
+
+.user-profile__avatar {
+    position: relative;
+}
+
+.user-profile__avatar-changing-btn__overlay {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+    color: #fff;
+    font-size: 30px;
+    line-height: 150px;
+}
+
+.user-profile__avatar-changing-btn__overlay.active {
+    display: block;
+    border-radius: 50%;
+    background-color: #1c1f1e63;
+}
+
+#cropImageModal .modal-content {
+    border-radius: 0;
+}
+
+.cropper-container {
+    width: 100% !important;
+    height: 100%;
+}

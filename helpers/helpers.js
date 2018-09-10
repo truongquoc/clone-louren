@@ -41,6 +41,8 @@ module.exports = (res) => {
 
     res.locals.hasRole = RoleHelper.hasRole;
 
+    res.locals.hasRoleOnly = RoleHelper.hasRoleOnly;
+
     res.locals.checkValidUser = RoleHelper.checkValidUser;
 
     res.locals.moment = moment;

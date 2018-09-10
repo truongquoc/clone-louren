@@ -39,8 +39,15 @@ class UserRepository extends BaseRepository {
     }
 
     getUserWithRoles(condition) {
-        condition.deletedAt = null;
-        return this.model.findOne(condition).populate('roles', '_id name');
+        const conditions = {
+            deletedAt: null,
+        };
+        if (condition.name === 'slug') {
+            conditions.slug = condition.value;
+        } else {
+            conditions._id = condition.value;
+        }
+        return this.model.findOne(conditions).populate('roles', '_id name');
     }
 
     async create(data) {
@@ -108,6 +115,10 @@ class UserRepository extends BaseRepository {
 
     updateAvatar(url, id) {
         return this.baseUpdate({ avatar: url }, { _id: id });
+    }
+
+    incrementArticleQuantity(id) {
+        return this.baseUpdate({ $inc: { 'articles.published': 1 } }, { _id: id });
     }
 }
 

@@ -20,9 +20,9 @@ router.use([
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san', propertyArticleAuthorize.clientShowMyArticlesAuthorize, propertyArticleController.showMyArticles);
 
-router.get('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientShowMyArticlesAuthorize, propertyArticleController.create);
+router.get('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientCreateArticleAuthorize, propertyArticleController.create);
 
-router.post('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientShowMyArticlesAuthorize, upload.single('image'), propertyArticleRequest.createArticleRequest, propertyArticleController.store);
+router.post('/nguoi-dung/bai-viet-bat-dong-san/tao-moi', propertyArticleAuthorize.clientCreateArticleAuthorize, upload.single('image'), propertyArticleRequest.createArticleRequest, propertyArticleController.store);
 
 router.get('/nguoi-dung/bai-viet-bat-dong-san/:slug', propertyArticleAuthorize.clientEditAuthorize, propertyArticleController.edit);
 
