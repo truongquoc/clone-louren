@@ -3,30 +3,30 @@ $(function () {
 
     if (typeof toastr !== 'undefined') {
         toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "2000",
-            "timeOut": "10000",
-            "extendedTimeOut": "2000",
-            "showEasing": "linear",
-            "hideEasing": "swing",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
+            closeButton: false,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: 'toast-bottom-right',
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: '300',
+            hideDuration: '2000',
+            timeOut: '10000',
+            extendedTimeOut: '2000',
+            showEasing: 'linear',
+            hideEasing: 'swing',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut'
         };
     }
 
     // Showing page loader
     $(window).load(function () {
         setTimeout(function () {
-            $(".page_loader").fadeOut("fast");
+            $('.page_loader').fadeOut('fast');
         }, 100)
-        // $('link[id="style_sheet"]').attr('href', '/public/client/css/skins/default.css');
+        // $('link[id='style_sheet']').attr('href', '/public/client/css/skins/default.css');
         // $('.logo img').attr('src', '/public/client/img/logos/logo.png');
 
         // Filterizr initialization
@@ -95,22 +95,24 @@ $(function () {
     })(jQuery);
 
     // Page scroller initialization.
-    $.scrollUp({
-        scrollName: 'page_scroller',
-        scrollDistance: 300,
-        scrollFrom: 'top',
-        scrollSpeed: 500,
-        easingType: 'linear',
-        animation: 'fade',
-        animationSpeed: 200,
-        scrollTrigger: false,
-        scrollTarget: false,
-        scrollText: '<i class="fa fa-chevron-up"></i>',
-        scrollTitle: false,
-        scrollImg: false,
-        activeOverlay: false,
-        zIndex: 2147483647
-    });
+    if ($.scrollUp) {
+        $.scrollUp({
+            scrollName: 'page_scroller',
+            scrollDistance: 300,
+            scrollFrom: 'top',
+            scrollSpeed: 500,
+            easingType: 'linear',
+            animation: 'fade',
+            animationSpeed: 200,
+            scrollTrigger: false,
+            scrollTarget: false,
+            scrollText: '<i class="fa fa-chevron-up"></i>',
+            scrollTitle: false,
+            scrollImg: false,
+            activeOverlay: false,
+            zIndex: 2147483647
+        });
+    }
 
     // Counter
     function isCounterElementVisible($elementToBeChecked) {
@@ -340,17 +342,19 @@ $(function () {
 });
 
 // mCustomScrollbar initialization
-(function ($) {
-    $(window).resize(function () {
-        $('#map').css('height', $(this).height() - 110);
-        if ($(this).width() > 768) {
-            $(".map-content-sidebar").mCustomScrollbar(
-                {theme: "minimal-dark"}
-            );
-            $('.map-content-sidebar').css('height', $(this).height() - 110);
-        } else {
-            $('.map-content-sidebar').mCustomScrollbar("destroy"); //destroy scrollbar
-            $('.map-content-sidebar').css('height', '100%');
-        }
+if (typeof mCustomScrollbar !== 'undefined') {
+    (function ($) {
+        $(window).resize(function () {
+            $('#map').css('height', $(this).height() - 110);
+            if ($(this).width() > 768) {
+                $(".map-content-sidebar").mCustomScrollbar(
+                    {theme: "minimal-dark"}
+                );
+                $('.map-content-sidebar').css('height', $(this).height() - 110);
+            } else {
+                $('.map-content-sidebar').mCustomScrollbar("destroy"); //destroy scrollbar
+                $('.map-content-sidebar').css('height', '100%');
+            }
         }).trigger("resize");
-})(jQuery);
+    })(jQuery);
+}
