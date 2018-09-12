@@ -308,6 +308,10 @@ function init_pickImages() {
     });
 }
 
+function init_activeNavigation() {
+    
+}
+
 $(document).ready(function () {
     init_changeCity();
     init_sort();
@@ -317,4 +321,5 @@ $(document).ready(function () {
     init_deleteModule();
     init_pickImages();
     init_changeStatus();
+    init_activeNavigation();
 });
