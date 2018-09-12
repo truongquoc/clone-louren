@@ -1,4 +1,3 @@
-const passport = require('../../../config/passport');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 
@@ -21,19 +20,6 @@ const adminRedirectIfNotAuthenticated = (req, res, next) => {
     }
     // Check if user has user role, next() to render error page
     return next();
-};
-
-const apiAuth = (req, res, next) => {
-    passport.authenticate('bearer', { session: false }, (err, data) => {
-        if (err) {
-            return res.json(responseHelper.error(err.message));
-        }
-        if (!data) {
-            return res.json(responseHelper.error('INVALID_TOKEN', 400));
-        }
-        req.user = data.user;
-        next();
-    })(req, res, next);
 };
 
 const clientRedirectIfAuthenticated = (req, res, next) => {
@@ -74,7 +60,6 @@ const resetPasswordAuthorize = async (req, res, next) => {
 module.exports = {
     adminRedirectIfAuthenticated,
     adminRedirectIfNotAuthenticated,
-    apiAuth,
     clientRedirectIfAuthenticated,
     clientRedirectIfNotAuthenticated,
     resetPasswordAuthorize,

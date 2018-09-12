@@ -116,10 +116,6 @@ class UserRepository extends BaseRepository {
     updateAvatar(url, id) {
         return this.baseUpdate({ avatar: url }, { _id: id });
     }
-
-    incrementArticleQuantity(id) {
-        return this.baseUpdate({ $inc: { 'articles.published': 1 } }, { _id: id });
-    }
 }
 
 module.exports = UserRepository;

@@ -39,7 +39,6 @@ const store = async (req, res) => {
     const userId = req.session.cUser._id;
     try {
         let images = [];
-        await UserRepository.addImagesQuantity(req.files.length, userId);
         req.files.forEach((file) => {
             images.push(imageHelper.optimizeImage(file, { width: 750, quality: 75 }));
         });

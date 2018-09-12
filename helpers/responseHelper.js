@@ -1,9 +1,4 @@
-const hashidsHelper = require('./hashidsHelper');
-
-const success = (data, useHashids = false) => {
-    if (useHashids) {
-        data = hashidsHelper.loopHashids(data);
-    }
+const success = (data) => {
     data = (typeof data !== 'object') ? [data] : data;
 
     return {

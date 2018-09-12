@@ -1,47 +1,44 @@
 require('dotenv/config');
-const seeder = require('mongoose-seed');
+const Role = require('../../../modules/users/models/Role');
 
-const items = [
-    {
-        name: 'User',
-        description: 'Person that can only create property article in client',
-    },
-    {
-        name: 'Blogger',
-        description: 'A person who can only write blog article',
-    },
-    {
-        name: 'Blog manager',
-        description: 'A person who manage blog',
-    },
-    {
-        name: 'Property writer',
-        description: 'A person who can only write property article',
-    },
-    {
-        name: 'Property manager',
-        description: 'A person who manage property',
-    },
-    {
-        name: 'Manager',
-        description: 'A person who can decentralize user',
-    },
-    {
-        name: 'Admin',
-        description: 'A person who can do everything in this website',
-    },
-];
+async function dropRolesTable() {
+    await Role.remove({}, (err) => {});
+}
 
-const data = [{
-    model: 'roles',
-    documents: items,
-}];
+async function fakeRoles() {
+    try {
+        const items = [
+            {
+                name: 'User',
+                description: 'Person that can only create property article in client',
+            },
+            {
+                name: 'Blogger',
+                description: 'A person who can only write blog article',
+            },
+            {
+                name: 'Blog Manager',
+                description: 'A person who manage blog',
+            },
+            {
+                name: 'Manager',
+                description: 'A person who can decentralize user',
+            },
+            {
+                name: 'Admin',
+                description: 'A person who can do everything in this website',
+            },
+        ];
+        await Role.create(items);
+        // for (let i = 0; i < items.length; i += 1) {
+        //     await Role.create({
+        //         name: items[i].name,
+        //         description: items[i].description,
+        //     });
+        // }
+    } catch (e) {
+        throw e;
+    }
+}
 
-seeder.connect(process.env.DB_CONNECTION, { useNewUrlParser: true }, () => {
-    seeder.loadModels(['./modules/users/models/Role']);
-    seeder.clearModels(['roles'], () => {
-        seeder.populateModels(data, () => {
-            seeder.disconnect();
-        });
-    });
-});
+module.exports = { dropRolesTable, fakeRoles };

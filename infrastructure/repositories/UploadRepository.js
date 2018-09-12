@@ -1,4 +1,3 @@
-const roleHelper = require('../../helpers/roleHelper');
 const BaseRepository = require('./BaseRepository');
 const Upload = require('../models/Upload');
 

@@ -1,19 +1,18 @@
 require('dotenv/config');
 const getSlug = require('speakingurl');
-const mongoose = require('mongoose');
-const bluebird = require('bluebird');
-const seeder = require('mongoose-seed');
 const bcrypt = require('bcryptjs');
+const User = require('../../../modules/users/models/User');
 const RoleRepositoryClass = require('../../../modules/users/repositories/RoleRepository');
 
 const RoleRepository = new RoleRepositoryClass();
 const salt = bcrypt.genSaltSync(10);
 
-mongoose.connect(process.env.DB_CONNECTION, {
-    useNewUrlParser: true,
-    promiseLibrary: bluebird,
-});
-RoleRepository.getDetailByName('Admin').then((role) => {
+async function dropUsersTable() {
+    await User.remove({}, (err) => {});
+}
+
+async function fakeUsers() {
+    const role = await RoleRepository.getDetailByName('Admin');
     const items = [{
         roles: [role._id],
         name: 'Tai.Ltq',
@@ -37,17 +36,11 @@ RoleRepository.getDetailByName('Admin').then((role) => {
         slug: getSlug('123@123.123'),
     }];
 
-    const data = [{
-        model: 'users',
-        documents: items,
-    }];
+    try {
+        await User.create(items);
+    } catch (e) {
+        throw e;
+    }
+}
 
-    seeder.connect(process.env.DB_CONNECTION, { useNewUrlParser: true }, () => {
-        seeder.loadModels(['./modules/users/models/User']);
-        seeder.clearModels(['users'], () => {
-            seeder.populateModels(data, () => {
-                seeder.disconnect();
-            });
-        });
-    });
-});
+module.exports = { dropUsersTable, fakeUsers };
