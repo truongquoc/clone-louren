@@ -1,0 +1,182 @@
+<% layout('/client/layouts/main') %>
+
+<% stylesheet('/public/client/css/registerAddress.css') %>
+
+<% block('title', 'Trang chủ') %>
+
+<div id="contents">
+
+    <div class="path">
+        <span>현재 위치</span>
+        <ol>
+            <li><a href="/">홈</a></li>
+            <li><a href="/myshop/index.html">마이쇼핑</a></li>
+            <li title="현재 위치"><strong>배송 주소록 관리</strong></li>
+        </ol>
+    </div>
+
+    <div class="titleArea">
+        <h2>배송 주소록 관리</h2>
+        <p>자주 쓰는 배송지를 등록 관리하실 수 있습니다.</p>
+    </div>
+
+    <form id="frmAddr" name=""
+          action="/exec/front/Myshop/Addr/?mode=Insert&return_url=%2Fmyshop%2Faddr%2Flist.html"
+          method="post" enctype="multipart/form-data">
+        <input id="__address_addr1" name="__address_addr1" value="" type="hidden"/>
+        <input id="__city_name" name="__city_name" value="" type="hidden"/>
+        <input id="__state_name" name="__state_name" value="" type="hidden"/>
+        <input id="__use_foreign_country_list" name="__use_foreign_country_list" value="F" type="hidden"/>
+        <input id="__ma_rcv_contry_code" name="__ma_rcv_contry_code" value="" type="hidden"/>
+        <input id="__country" name="__country" value="" type="hidden"/>
+        <input id="__province" name="__province" value="" type="hidden"/>
+        <input id="__city" name="__city" value="" type="hidden"/>
+        <input id="__district" name="__district" value="" type="hidden"/>
+        <input id="is_display_phone" name="is_display_phone" value="" type="hidden"/>
+        <input id="is_display_mobile" name="is_display_mobile" value="T" type="hidden"/>
+        <input id="sUseCountryNumberFlag" name="sUseCountryNumberFlag" value="T" type="hidden"/>
+        <div class="xans-element- xans-myshop xans-myshop-addrregister "><!--
+        $return_url = /myshop/addr/list.html
+    -->
+            <div class="ec-base-table typeWrite">
+                <table border="1" summary="">
+                    <caption>배송 주소록 입력</caption>
+                    <colgroup>
+                        <col style="width:120px"/>
+                        <col style="width:auto"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row">배송지명 <img
+                                    src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"
+                                    alt="필수"/></th>
+                        <td><input id="ma_rcv_title" name="ma_rcv_title" fw-filter="isFill" fw-label="배송지명"
+                                   fw-msg="" class="inputTypeText" placeholder="" value="" type="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">성명 <img
+                                    src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"
+                                    alt="필수"/></th>
+                        <td><input id="ma_rcv_name" name="ma_rcv_name" fw-filter="isFill" fw-label="성명"
+                                   fw-msg="" class="ec-member-name" placeholder="" value="" type="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">주소 <img
+                                    src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"
+                                    alt="필수"/></th>
+                        <td>
+                            <input id="address_zip1" name="address_zip1" fw-filter="isMin[3]&isMax[8]"
+                                   fw-label="우편번호" fw-msg="" class="inputTypeText" placeholder=""
+                                   readonly="readonly" maxlength="14" value="" type="text"/> <a href="#none"
+                                                                                                onclick="ZipcodeFinder.Opener.bind('SearchAddress', 'address_zip1', 'address_zip2', 'address_addr1', 'layer', 'city_name', 'state_name', 'address_addr2' );"
+                                                                                                id="SearchAddress"><img
+                                        src="//img.echosting.cafe24.com/skin/base_ko_KR/order/btn_zipcode.gif"
+                                        alt="우편번호"/></a><br/>
+                            <input id="address_addr1" name="address_addr1" fw-filter="" fw-label="주소"
+                                   fw-msg="" class="inputTypeText" placeholder="" readonly="readonly"
+                                   value="" type="text"/> 기본주소<br/>
+                            <input id="address_addr2" name="address_addr2" fw-filter="isFill" fw-label="주소"
+                                   fw-msg="" class="inputTypeText" placeholder="" value="" type="text"/>
+                            나머지주소<span class="displaynone">(선택입력가능)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">일반전화 <span class="displaynone"><img
+                                        src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"
+                                        alt="필수"/></span>
+                        </th>
+                        <td><select id="ma_rcv_phone1" name="ma_rcv_phone[]" fw-filter="isNumber"
+                                    fw-label="유선전화" fw-alone="N" fw-msg="">
+                                <option value="02">02</option>
+                                <option value="031">031</option>
+                                <option value="032">032</option>
+                                <option value="033">033</option>
+                                <option value="041">041</option>
+                                <option value="042">042</option>
+                                <option value="043">043</option>
+                                <option value="044">044</option>
+                                <option value="051">051</option>
+                                <option value="052">052</option>
+                                <option value="053">053</option>
+                                <option value="054">054</option>
+                                <option value="055">055</option>
+                                <option value="061">061</option>
+                                <option value="062">062</option>
+                                <option value="063">063</option>
+                                <option value="064">064</option>
+                                <option value="0502">0502</option>
+                                <option value="0503">0503</option>
+                                <option value="0504">0504</option>
+                                <option value="0505">0505</option>
+                                <option value="0506">0506</option>
+                                <option value="0507">0507</option>
+                                <option value="070">070</option>
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="016">016</option>
+                                <option value="017">017</option>
+                                <option value="018">018</option>
+                                <option value="019">019</option>
+                            </select>-<input id="ma_rcv_phone2" name="ma_rcv_phone[]" maxlength="4"
+                                             fw-filter="isNumber" fw-label="유선전화" fw-alone="N" fw-msg=""
+                                             value="" type="text"/>-<input id="ma_rcv_phone3"
+                                                                           name="ma_rcv_phone[]" maxlength="4"
+                                                                           fw-filter="isNumber" fw-label="유선전화"
+                                                                           fw-alone="N" fw-msg="" value=""
+                                                                           type="text"/></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">휴대전화 <span class=""><img
+                                        src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"
+                                        alt="필수"/></span>
+                        </th>
+                        <td><select id="ma_rcv_mobile_no1" name="ma_rcv_mobile_no[]"
+                                    fw-filter="isNumber&isFill" fw-label="휴대전화" fw-alone="N" fw-msg="">
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="016">016</option>
+                                <option value="017">017</option>
+                                <option value="018">018</option>
+                                <option value="019">019</option>
+                            </select>-<input id="ma_rcv_mobile_no2" name="ma_rcv_mobile_no[]" maxlength="4"
+                                             fw-filter="isNumber&isFill" fw-label="휴대전화" fw-alone="N" fw-msg=""
+                                             value="" type="text"/>-<input id="ma_rcv_mobile_no3"
+                                                                           name="ma_rcv_mobile_no[]"
+                                                                           maxlength="4"
+                                                                           fw-filter="isNumber&isFill"
+                                                                           fw-label="휴대전화" fw-alone="N"
+                                                                           fw-msg="" value="" type="text"/></td>
+                    </tr>
+                    <tr class="right">
+                        <td colspan="2"><input id="ma_main_flag0" name="ma_main_flag" fw-filter=""
+                                               fw-label="기본 배송지로 저장" fw-msg="" value="T"
+                                               type="checkbox"/><label for="ma_main_flag0">기본 배송지로
+                                저장</label></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ec-base-button">
+        <span class="gRight">
+            <a href="#none" onclick="myshopAddr.formCheck();"><img
+                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_address_register2.gif" alt="등록"/></a>
+            <a href="list.ejs"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_address_cancel.gif"
+                                    alt="취소"/></a>
+        </span>
+            </div>
+        </div>
+    </form>
+    <div class="ec-base-help">
+        <h3>배송주소록 유의사항</h3>
+        <div class="inner">
+            <ol>
+                <li class="item1">배송 주소록은 최대 10개까지 등록할 수 있으며, 별도로 등록하지 않을 경우 최근 배송 주소록 기준으로 자동 업데이트 됩니다.
+                </li>
+                <li class="item2">자동 업데이트를 원하지 않을 경우 주소록 고정 선택을 선택하시면 선택된 주소록은 업데이트 대상에서 제외됩니다.</li>
+                <li class="item3">기본 배송지는 1개만 저장됩니다. 다른 배송지를 기본 배송지로 설정하시면 기본 배송지가 변경됩니다.</li>
+            </ol>
+        </div>
+    </div>
+</div>

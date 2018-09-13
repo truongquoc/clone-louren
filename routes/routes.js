@@ -34,7 +34,7 @@ router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
 router.use('/nguoi-dung', clientUserRouter);
-router.use('/', (req, res) => res.render('errors/client/404'));
+router.use('/', (req, res) => res.sendStatus(404));
 
 router.use(handleExceptionHelper.handleException);
 
