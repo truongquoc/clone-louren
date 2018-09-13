@@ -23,7 +23,7 @@ class ClassificationRepository extends BaseRepository {
         });
         if (classification) {
             classification.name = data.name;
-            classification.slug = data.slug;
+            classification.slug = getSlug(data.slug || data.name);
             classification.createdAt = new Date();
             classification.deletedAt = null;
 

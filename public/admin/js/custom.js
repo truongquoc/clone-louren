@@ -70,18 +70,62 @@ function deleteRecord(data) {
                         return false;
                     }
                 }
-                const decreaseConditionsNumber = (name) => {
-                    const $element = $(`.temp-condition__total--${name} span`);
-                    const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
-                    $element.text(total).html();
-                };
-                if (res.data.conditions) {
-                    decreaseConditionsNumber('display');
+                const checkIsProductType = $('.module__table').hasClass('product-types__table');
+                if (checkIsProductType) {
+                    const id = res.data[0];
+                    const $elementUseParent = $(`.module__table__parentType[data-parent-key="${id}"]`);
+                    $elementUseParent.html('');
+                    $elementUseParent.removeAttr('data-parent-key');
+                    $(`option[value=${id}]`).remove();
+                    $(`tr[data-key="${id}"] .module__delete-container`).addClass('hide');
+                    $(`tr[data-key="${id}"] .module__revert-container`).removeClass('hide');
+                } else {
+                    $(data.element).closest('tr').fadeOut();
                 }
-                if (res.data.searchConditions) {
-                    decreaseConditionsNumber('search');
+                swal(data.successResponse.title, data.successResponse.description, data.successResponse.type);
+            },
+        });
+    }, (dismiss) => {
+        if (dismiss === 'cancel') {
+            return false;
+        }
+    });
+}
+
+function revertRecord(data) {
+    swal({
+        title: 'Bạn chắc chứ?',
+        text: 'Bạn đang khôi phục lại dữ liệu này!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+    }).then(() => {
+        $.ajax({
+            url: data.url,
+            dataType: 'json',
+            type: 'PUT',
+            data: {
+                _method: 'PUT',
+            },
+            success: (res) => {
+                if (!res.status) {
+                    if (res.error.code === 404) {
+                        swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                        return false;
+                    }
+                    if (res.error.code === 500) {
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                        return false;
+                    }
                 }
-                $(data.element).closest('tr').fadeOut();
+                const id = res.data[0];
+                $(`tr[data-key="${id}"] .module__delete-container`).removeClass('hide');
+                $(`tr[data-key="${id}"] .module__revert-container`).addClass('hide');
                 swal(data.successResponse.title, data.successResponse.description, data.successResponse.type);
             },
         });
@@ -140,12 +184,17 @@ function init_createSubModule() {
                         <i class="fa fa-check"></i>
                     </button>`;
                 }
+                const checkIsProductType = $('.module__table').hasClass('product-types__table');
+                if (checkIsProductType) {
+                    const $selectElement = $('.module__form__parentType');
+                    $($selectElement[0]).find('option:first').after(`<option value="${result._id}">${result.name}</option>`);
+                    $($selectElement[1]).find('option:first').after(`<option value="${result._id}">${result.name}</option>`);
+                }
                 $('.module__table tbody tr:nth-child(1)').after(
                     `<tr data-key="${result._id}">
                         <td>1</td>
                         <td class="module__table__name">${result.name}</td>
-                        ${result.city ? '<td class="module__table__city">' + result.city.name + '</td>' : ''}
-                        ${result.icon ? '<td class="module__table__icon">' + result.icon + '</td>' : ''}
+                        ${checkIsProductType ? '<td class="module__table__parentType"' + (result.parentType ? 'data-parent-key="' + result.parentType._id + '"' : '') + '>' + (result.parentType ? result.parentType.name : '') + '</td>' : ''}
                         ${result.slug ? '<td class="module__table__slug">' + result.slug + '</td>' : ''}
                         <td class="module__table__update-time">
                             ${moment(result.updatedAt).format('HH:mm DD/MM/YYYY')}
@@ -171,11 +220,11 @@ function init_createSubModule() {
         e.preventDefault();
         const name = $(this).find('.module__form__name').val();
         const slug = $(this).find('.module__form__slug').val();
-        const city = $(this).has('.module__form__city') ? $(this).find('.module__form__city').val() : '';
-        const icon = $(this).has('.module__form__icon') ? $(this).find('.module__form__icon').val() : '';
+        const parentType = $(this).has('.module__form__parentType') ?
+            $(this).find('.module__form__parentType').val() : '';
         const url = $(this).attr('action');
 
-        createSubModule(url, { name, city, icon, slug });
+        createSubModule(url, { name, parentType, slug });
     });
 }
 
@@ -207,13 +256,14 @@ function init_editSubModule() {
                 }
                 const result = res.data;
                 const $row = $(`.module__table tr[data-key="${result._id}"]`);
+                const checkIsProductType = $('.module__table').hasClass('product-types__table');
+                if (checkIsProductType) {
+                    $(`tr[data-key=${result._id}]`).find('.module__table__parentType').html(result.parentType ? result.parentType.name : '');
+                    const $elementUseParent = $(`.module__table__parentType[data-parent-key="${result._id}"]`);
+                    $elementUseParent.html(`${result.name}`);
+                    $(`option[value=${result._id}]`).html(`${result.name}`);
+                }
                 $row.find('.module__table__name').text(result.name).html();
-                if (result.city) {
-                    $row.find('.module__table__city').attr('data-city', result.city._id).text(result.city.name).html();
-                }
-                if (result.icon) {
-                    $row.find('.module__table__icon').text(result.icon).html();
-                }
                 $row.find('.module__table__slug').text(result.slug).html();
                 $row.find('.module__table__update-time').text(moment(result.updatedAt).format('HH:mm MM/DD/YYYY')).html();
                 $form.find('.form__error-message').html('');
@@ -238,13 +288,13 @@ function init_editSubModule() {
 
     $(document).on('submit', '.module__edit-form', function (e) {
         e.preventDefault();
-        const city = $(this).has('.module__form__city') ? $(this).find('.module__form__city').val() : '';
+        const parentType = $(this).has('.module__form__parentType') ? $(this).find('.module__form__parentType').val() : '';
         const icon = $(this).has('.module__form__icon') ? $(this).find('.module__form__icon').val() : '';
         const name = $(this).find('.module__form__name').val();
         const slug = $(this).find('.module__form__slug').val();
         const url = $(this).attr('action');
         const key = $(this).find('.module__form__key').val();
-        editSubModule(`${url}/${key}`, { _method: 'PUT', city, name, icon, slug });
+        editSubModule(`${url}/${key}`, { _method: 'PUT', parentType, name, icon, slug });
     });
 }
 
@@ -484,6 +534,22 @@ function init_viewRequests() {
     });
 }
 
+function init_revertModule() {
+    $(document).on('click', '.module__revert-btn', function (e) {
+        const url = $('.module__table').data('revert-url');
+        const key = $(this).closest('tr').data('key');
+        revertRecord({
+            url: `${url}/${key}`,
+            element: this,
+            successResponse: {
+                title: 'Đã khôi phục!',
+                description: 'Thành công.',
+                type: 'success',
+            },
+        });
+    });
+}
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
@@ -495,4 +561,5 @@ $(document).ready(() => {
     init_pickImages();
     init_deleteImages();
     init_viewRequests();
+    init_revertModule();
 });

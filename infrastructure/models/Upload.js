@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate');
 
 const { Schema } = mongoose;
 
@@ -32,7 +31,5 @@ const Upload = new Schema({
         type: Date,
     },
 });
-
-Upload.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('uploads', Upload);
