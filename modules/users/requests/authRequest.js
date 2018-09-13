@@ -53,7 +53,11 @@ const forgotPasswordRequest = [
         }),
 ];
 
-const resetPasswordRequest = changePasswordRequest.splice(1);
+const resetPasswordRequest = [
+    check('newPassword').trim()
+        .not().isEmpty().withMessage('Mật khẩu mới không được bỏ trống'),
+    check('passwordConfirmation').custom((value, { req }) => value === req.body.newPassword).withMessage('Xác thực mật khẩu không chính xác'),
+];
 
 module.exports = {
     loginRequest,

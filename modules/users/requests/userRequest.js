@@ -86,8 +86,6 @@ const editRequest = [
         }
         return value && value.length;
     }).withMessage('Vai trò không được bỏ trống'),
-    check('imagesQuantity').not().isEmpty().withMessage('Số lượng ảnh không được bỏ trống')
-        .custom(value => (parseInt(value, 10) > 0)).withMessage('Số lượng không hợp lệ'),
 ];
 
 const clientEditProfileRequest = editProfileRequest.concat(
