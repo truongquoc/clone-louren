@@ -111,6 +111,10 @@ class BaseRepository {
     deleteById(id) {
         return this.baseDelete({ _id: id });
     }
+
+    revertById(id) {
+        return this.model.update({ _id: id, deletedAt: { $ne: null } }, { deletedAt: undefined });
+    }
 }
 
 module.exports = BaseRepository;

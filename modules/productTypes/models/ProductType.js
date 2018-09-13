@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
-const getSlug = require('speakingurl');
 
 const { Schema } = mongoose;
 
-const BlogCategory = new Schema({
+const ProductType = new Schema({
+    parentType: {
+        type: Schema.Types.ObjectId,
+        ref: 'product_types',
+    },
     name: {
         type: String,
         required: true,
@@ -23,11 +26,4 @@ const BlogCategory = new Schema({
     timestamps: true,
 });
 
-BlogCategory.pre('validate', function callback(next) {
-    if (this.isModified('slug')) {
-        this.slug = getSlug(this.slug || this.name);
-    }
-    next();
-});
-
-module.exports = mongoose.model('blog_categories', BlogCategory);
+module.exports = mongoose.model('product_types', ProductType);
