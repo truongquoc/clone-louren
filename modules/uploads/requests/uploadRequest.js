@@ -1,5 +1,5 @@
 const { check } = require('express-validator/check');
-const commonConstant = require('../../constants/commonConstant');
+const commonConstant = require('../../../constants/commonConstant');
 
 const uploadImageRequest = [
     check('images').custom((value, { req }) => {
