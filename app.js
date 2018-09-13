@@ -11,11 +11,6 @@ const { port } = require('./config/config'); // import from manually created fil
 const main = express();
 const { session } = require('./config/app')(main, express);
 
-const certOptions = {
-    key: fs.readFileSync('../../../../../home/taile/rootCA.key', 'utf8'),
-    cert: fs.readFileSync('../../../../../home/taile/rootCA.crt', 'utf8'),
-    passphrase: '123456',
-};
 main.engine('ejs', require('ejs-locals'));
 
 main.set('view engine', 'ejs');
