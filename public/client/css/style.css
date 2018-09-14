@@ -1,4 +1,4 @@
-/*------------------------------------------------------------------
+f/*------------------------------------------------------------------
 [Main Stylesheet]
 
 Project:    The Nest
@@ -7285,3 +7285,30 @@ table.manage-table .title-container .title span {
     height: 220px;
 }
 
+.title-blog {
+    max-width:450px;
+    font-family: 'Droid Serif', serif;
+    font-style:italic;
+    margin:20px auto 0;
+    text-align:center;
+    font-size:35px;
+    color:rgba(255,255,255,0.81);
+}
+
+.post-grid-holder {
+    height: 100% !important;
+}
+.pagination-list {
+    display: inline-block;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.pagination-list .pagination {
+    width: 100%;
+}
+
+.pagination-list .pagination li.page-item.active a.page-link.active {
+    color: #fff;
+    background: #808f66;
+}

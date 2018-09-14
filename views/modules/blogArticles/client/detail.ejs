@@ -1,244 +1,84 @@
-<% layout('/layouts/client/blog') %>
+<% layout('../../../layouts/client/blog') %>
 
 <% block('title', 'Hello world') %>
-
+<div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 <article
-        class="cth-single content-single single-article post-15 post type-post status-publish format-video has-post-thumbnail hentry category-films category-trip tag-adventure tag-camping tag-happy post_format-post-format-video">
-    <span class="single-article-date">19 Jul 2016</span>
-    <h1 class="single-article-title fl-wrap"><span>Travel in Oslo Norway</span></h1>
-    <div class="single-article-cat fl-wrap">
-        <ul class="post-categories">
-            <li><a href="http://demowp.cththemes.net/springbook/category/films/" rel="category tag">Films</a></li>
-            <li><a href="http://demowp.cththemes.net/springbook/category/trip/" rel="category tag">Trip</a></li>
-        </ul>
-    </div>
-    <div class="clearfix"></div>
-    <div class="separator img-separator"><img
-                src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt="">
-    </div>
-    <div class="blog-media">
-        <div class="resp-video">
-            <iframe src="https://player.vimeo.com/video/97871257" width="616" height="347" frameborder="0"
-                    title="Movi M10 5DMKII Test - Lumberjack" webkitallowfullscreen mozallowfullscreen
-                    allowfullscreen></iframe>
-        </div>
-    </div>
-    <div class="single-article-inner d-flex flex-column">
-
-        <ul class="post-counters art-fact d-flex mb-4 p-3 justify-content-around align-items-center">
-            <li class="col-auto text-center m-0"><span class="springbook-like-wrapper"><a
-                            href="http://demowp.cththemes.net/springbook/wp-admin/admin-ajax.php?action=springbook_process_like&post_id=15&nonce=0fac34035d&is_comment=0&disabled=false"
-                            class="springbook-like-button springbook-like-button-15" data-nonce="0fac34035d"
-                            data-post-id="15" data-iscomment="0" title="Like"><i class="fa fa-heart-o"
-                                                                                 aria-hidden="true"></i><span
-                                class="springbook-like-count">10</span></a><span
-                            id="springbook-like-loader"></span></span>
-            </li>
-            <li class="col-auto text-center m-0"><i class="fa fa-eye" aria-hidden="true"></i><span>722</span></li>
-            <li class="col-auto text-center m-0"><a
-                        href="http://demowp.cththemes.net/springbook/travel-in-oslo-norway/#comments"><i
-                            class="fa fa-comment-o" aria-hidden="true"></i><span>3</span></a></li>
-        </ul>
-        <div class="single-article-content">
-            <p>Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet, consectetur Nulla fringilla
-                purus at leo dignissim congue. Mauris elementum accumsan leo vel tempor. Sit amet cursus nisl aliquam.
-                Aliquam et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum dolor sit amet, consectetur
-                Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo dignissim congue. Mauris elementum
-                accumsan leo vel tempor . Aliquam et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum
-                dolor sit amet, consectetur Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo
-                dignissim congue. Mauris elementum accumsan leo vel tempor</p>
-            <p><img class="alignleft wp-image-46 size-full"
-                    src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/1-1.jpg" alt="1" width="250"
-                    height="180"/>Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet,
-                consectetur Nulla fringilla purus at leo dignissim congue. Mauris elementum accumsan leo vel tempor. Sit
-                amet cursus nisl aliquam. Aliquam et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum
-                dolor sit amet, consectetur Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo
-                dignissim congue. Mauris elementum accumsan leo vel tempor . Aliquam et elit eu nunc rhoncus viverra
-                quis at felis. Sed do.Lorem ipsum dolor sit amet, consectetur Nulla fringilla purus Lorem ipsum
-                dosectetur adipisicing elit at leo dignissim congue. Mauris elementum accumsan leo vel tempor. Aliquam
-                et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum dolor sit amet, consectetur Nulla
-                fringilla purus Lorem ipsum dosectetur adipisicing elit at leo dignissim congue. Mauris elementum
-                accumsan leo vel tempor</p>
-            <p><img class="alignright wp-image-45 size-full"
-                    src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/2-1.jpg" alt="2" width="250"
-                    height="180"/>Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet,
-                consectetur Nulla fringilla purus at leo dignissim congue. Mauris elementum accumsan leo vel tempor. Sit
-                amet cursus nisl aliquam. Aliquam et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum
-                dolor sit amet, consectetur Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo
-                dignissim congue. Mauris elementum accumsan leo vel tempor Mauris elementum accumsan leo vel tempor. Sit
-                amet cursus nisl aliquam. Aliquam et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum
-                dolor sit amet, consectetur Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo
-                dignissim congue. Mauris elementum accumsan leo vel tempor.</p>
-            <blockquote>
-                <p>Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Aenean eu
-                    leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo
-                    luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non
-                    metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.</p>
-            </blockquote>
-            <p>Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet, consectetur Nulla fringilla
-                purus at leo dignissim congue. Mauris elementum accumsan leo vel tempor. Sit amet cursus nisl aliquam.
-                Aliquam et elit eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum dolor sit amet, consectetur
-                Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo dignissim congue. Mauris elementum
-                accumsan leo vel tempor</p>
-            <div class="fl-wrap share-buts-wrap">
-                <div class="single-post-tags fl-left"><i class="fa fa-tags"></i> <a
-                            href="http://demowp.cththemes.net/springbook/tag/adventure/" rel="tag">Adventure</a><a
-                            href="http://demowp.cththemes.net/springbook/tag/camping/" rel="tag">Camping</a><a
-                            href="http://demowp.cththemes.net/springbook/tag/happy/" rel="tag">Happy</a></div>
-                <div class="share-button">Share<i class="fa fa-bullhorn"></i></div>
-                <div class="share-inner">
-                    <div class="share-container"
-                         data-share="['facebook&#039;,&#039;pinterest&#039;,&#039;googleplus&#039;,&#039;twitter&#039;,&#039;linkedin']"></div>
-                </div>
+   class="cth-single content-single single-article post-15 post type-post status-publish format-video has-post-thumbnail hentry category-films category-trip tag-adventure tag-camping tag-happy post_format-post-format-video">
+   <h1 class="single-article-title fl-wrap"><span><%= blogArticle.title %></span></h1>
+   <div class="single-article-cat fl-wrap">
+      <ul class="post-categories">
+         <li><a href="/blog/chuyen-muc-<%= blogArticle.category.slug %>" rel="category tag"><%= blogArticle.category.name %></a></li>
+      </ul>
+   </div>
+   <div class="clearfix"></div>
+   <div class="separator img-separator"><img
+      src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt="">
+   </div>
+   <% if(blogArticle.display.useVideo === 'underfined') { %> 
+   <div class="blog-media">
+      <div class="resp-video">
+        <video width="616" height="347" controls>
+            <source src="<%= blogArticle.display.useVideo %>" type="video/mp4">
+            <source src="<%= blogArticle.display.useVideo %>" type="video/ogg">
+        </video>
+      </div>
+   </div>
+   <% } %>
+   <div class="single-article-inner d-flex flex-column">
+      <div class="single-article-content">
+         <p><%= blogArticle.content %></p>
+         <div class="fl-wrap share-buts-wrap">
+            <div class="single-post-tags fl-left"><i class="fa fa-tags"></i>
+                <%  blogArticle.tags.forEach((tag) => { %>
+                <a href="#" rel="tag"><%= tag.name %></a>
+                <% }) %>
             </div>
-        </div>
 
-        <div class="limit-box"></div>
-    </div>
+            <div class="share-button">
+              <div class="fb-share-button" data-href="https://www.facebook.com/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+            </div>
+            <div class="share-inner">
+               <div class="share-container"
+                  data-share="['facebook&#039;,&#039;pinterest&#039;,&#039;googleplus&#039;,&#039;twitter&#039;,&#039;linkedin']"></div>
+            </div>
+         </div>
+      </div>
+      <div class="limit-box"></div>
+   </div>
 </article>
-<div class="post-author">
-    <div class="post-author-wrap">
-        <div class="post-author-img"><img alt=''
-                                          src='http://0.gravatar.com/avatar/fef9799e32e62159bb4e09647af64abc?s=80&#038;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D80&#038;r=g'
-                                          srcset="http://0.gravatar.com/avatar/fef9799e32e62159bb4e09647af64abc?s=160&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D80&amp;r=g 2x"
-                                          class='avatar avatar-80 photo' height='80' width='80'/></div>
-        <span>Written By</span>
-        <h3><a href="http://demowp.cththemes.net/springbook/author/admin/">Matthew Kowalsky</a></h3>
-        <p>Praesent eu massa vel diam laoreet elementum ac sed felis. Donec suscipit ultricies risus sed mollis. Donec
-            volutpat porta risus posuere imperdiet.</p>
-        <ul>
-            <li><a title="Follow on Twitter" href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-            <li><a title="Like on Facebook" href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-            <li><a title="Follow on Instagram" href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-            <li><a title="Follow on  Tumblr" href="#" target="_blank"><i class="fa fa-tumblr"></i></a></li>
-        </ul>
-    </div>
-</div>
+
 <div class="clearfix"></div>
 <div class="post-related-wrap">
-    <h3 class="middle-title">YOU MIGHT ALSO LIKE</h3>
-    <div class="post-related row">
-        <div class="item-related col-md-4">
-            <a href="http://demowp.cththemes.net/springbook/connecting-the-lost/"><img width="293" height="194"
-                                                                                       src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27.jpg"
-                                                                                       class="attachment-springbook-related size-springbook-related wp-post-image"
-                                                                                       alt="27"
-                                                                                       srcset="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27.jpg 800w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27-300x199.jpg 300w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27-768x509.jpg 768w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27-328x217.jpg 328w"
-                                                                                       sizes="(max-width: 293px) 100vw, 293px"/></a>
-            <h3><a href="http://demowp.cththemes.net/springbook/connecting-the-lost/">Connecting the lost</a></h3> <span
-                    class="post-date">13 Jul 2016</span></div>
-        <div class="item-related col-md-4">
-            <a href="http://demowp.cththemes.net/springbook/explore-the-pacific-country/"><img width="194" height="194"
-                                                                                               src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/20.jpg"
-                                                                                               class="attachment-springbook-related size-springbook-related wp-post-image"
-                                                                                               alt="20"
-                                                                                               srcset="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/20.jpg 604w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/20-150x150.jpg 150w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/20-300x300.jpg 300w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/20-50x50.jpg 50w"
-                                                                                               sizes="(max-width: 194px) 100vw, 194px"/></a>
-            <h3><a href="http://demowp.cththemes.net/springbook/explore-the-pacific-country/">Explore the Pacific
-                    Country</a></h3> <span class="post-date">07 Jul 2016</span></div>
-        <div class="item-related col-md-4">
-            <a href="http://demowp.cththemes.net/springbook/canada-road-trip/"><img width="293" height="194"
-                                                                                    src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/18.jpg"
-                                                                                    class="attachment-springbook-related size-springbook-related wp-post-image"
-                                                                                    alt="18"
-                                                                                    srcset="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/18.jpg 800w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/18-300x199.jpg 300w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/18-768x509.jpg 768w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/18-328x217.jpg 328w"
-                                                                                    sizes="(max-width: 293px) 100vw, 293px"/></a>
-            <h3><a href="http://demowp.cththemes.net/springbook/canada-road-trip/">Canada Road Trip</a></h3> <span
-                    class="post-date">03 Jul 2016</span></div>
-    </div>
+   <h3 class="middle-title">Bài viết tiếp theo</h3>
+   <div class="post-related row">
+     <% if(postNext.length === 0 ) {  %>
+        Không có bài viết cùng thể loại
+      <% } else { %>
+        <% postNext.forEach((post) => { %>
+      <div class="item-related col-md-4">
+         <a href="<%= post.slug %>"><img width="293" height="194"
+            src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27.jpg"
+            class="attachment-springbook-related size-springbook-related wp-post-image"
+            alt="27" sizes="(max-width: 293px) 100vw, 293px"/></a>
+         <h3><a href="<%= post.slug %>"><%= post.title %></a></h3>
+         <span
+            class="post-date"><%= moment(post.updatedAt).format('L') %></span>
+      </div>
+      <% }) %>
+    <% } %>
+   </div>
 </div>
-<div class="post-comments" id="comments">
-    <h3 class="middle-title">3 Comments</h3>
-    <ul class="comments">
-        <li class="comment even thread-even depth-1 media parent" id="comment-2">
-            <div id="div-comment-2" class="thecomment">
-                <div class="author-img"><img alt=''
-                                             src='http://0.gravatar.com/avatar/fef9799e32e62159bb4e09647af64abc?s=60&#038;d=mm&#038;r=g'
-                                             srcset="http://0.gravatar.com/avatar/fef9799e32e62159bb4e09647af64abc?s=120&amp;d=mm&amp;r=g 2x"
-                                             class='avatar avatar-60 photo' height='60' width='60'/></div>
-                <div class="comment-text"><span class="author">Matthew Kowalsky</span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p> <span class="date">July 12, 2016 - 4:38 am</span>
-                    <span class="reply"> <a rel='nofollow' class='comment-reply-link'
-                                            href='http://demowp.cththemes.net/springbook/travel-in-oslo-norway/?replytocom=2#respond'
-                                            onclick='return addComment.moveForm( "div-comment-2", "2", "respond", "15" )'
-                                            aria-label='Reply to Matthew Kowalsky'>Reply</a>                </span>
-                </div>
-            </div>
-            <ul class="children">
-                <li class="comment odd alt depth-2 media" id="comment-3">
-                    <div id="div-comment-3" class="thecomment">
-                        <div class="author-img"><img alt=''
-                                                     src='http://2.gravatar.com/avatar/b26407fdbb151a3a44fceda692c92874?s=60&#038;d=mm&#038;r=g'
-                                                     srcset="http://2.gravatar.com/avatar/b26407fdbb151a3a44fceda692c92874?s=120&amp;d=mm&amp;r=g 2x"
-                                                     class='avatar avatar-60 photo' height='60' width='60'/></div>
-                        <div class="comment-text"><span class="author">Jane Kowalski</span>
-                            <p>Mauris elementum accumsan leo vel tempor. Sit amet cursus nisl aliquam. Aliquam et elit
-                                eu nunc rhoncus viverra quis at felis. Sed do.Lorem ipsum dolor sit amet, consectetur
-                                Nulla fringilla purus Lorem ipsum dosectetur adipisicing elit at leo dignissim congue.
-                                Mauris elementum accumsan leo vel tempor.</p> <span
-                                    class="date">July 12, 2016 - 4:39 am</span> <span class="reply"> <a rel='nofollow'
-                                                                                                        class='comment-reply-link'
-                                                                                                        href='http://demowp.cththemes.net/springbook/travel-in-oslo-norway/?replytocom=3#respond'
-                                                                                                        onclick='return addComment.moveForm( "div-comment-3", "3", "respond", "15" )'
-                                                                                                        aria-label='Reply to Jane Kowalski'>Reply</a>                </span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </li>
-        <li class="comment even thread-odd thread-alt depth-1 media" id="comment-4">
-            <div id="div-comment-4" class="thecomment">
-                <div class="author-img"><img alt=''
-                                             src='http://0.gravatar.com/avatar/fef9799e32e62159bb4e09647af64abc?s=60&#038;d=mm&#038;r=g'
-                                             srcset="http://0.gravatar.com/avatar/fef9799e32e62159bb4e09647af64abc?s=120&amp;d=mm&amp;r=g 2x"
-                                             class='avatar avatar-60 photo' height='60' width='60'/></div>
-                <div class="comment-text"><span class="author">Matthew Kowalsky</span>
-                    <p>At one extremity the rope was unstranded, and the separate spread yarns were all braided and
-                        woven round the socket of the harpoon; the pole was then driven hard up into the socket</p>
-                    <span class="date">July 12, 2016 - 4:44 am</span> <span class="reply"> <a rel='nofollow'
-                                                                                              class='comment-reply-link'
-                                                                                              href='http://demowp.cththemes.net/springbook/travel-in-oslo-norway/?replytocom=4#respond'
-                                                                                              onclick='return addComment.moveForm( "div-comment-4", "4", "respond", "15" )'
-                                                                                              aria-label='Reply to Matthew Kowalsky'>Reply</a>                </span>
-                </div>
-            </div>
-        </li>
-    </ul>
-    <div class="comment-reply-form">
-        <div id="respond" class="comment-respond">
-            <h3 id="reply-title" class="comment-reply-title">Leave A Comment
-                <small><a rel="nofollow" id="cancel-comment-reply-link"
-                          href="/springbook/travel-in-oslo-norway/#respond" style="display:none;">Cancel reply</a>
-                </small>
-            </h3>
-            <form action="http://demowp.cththemes.net/springbook/wp-comments-post.php" method="post" id="commentform"
-                  class="comment-form" novalidate>
-                <p class="comment-notes">Your email address will not be published.</p>
-                <p class="comment-form-comment">
-                    <textarea placeholder="Your comment here..." id="comment" cols="50" rows="8" name="comment"
-                              aria-required='true'></textarea>
-                </p>
-                <p class="comment-form-author">
-                    <label for="author">Name <span class="required">*</span></label>
-                    <input type="text" id="author" name="author" placeholder="Name" value="" aria-required='true'
-                           size="40">
-                </p>
-                <p class="comment-form-email">
-                    <label for="email">Email <span class="required">*</span></label>
-                    <input id="email" name="email" type="text" placeholder="E-mail" value="" aria-required='true'
-                           size="40">
-                </p>
-                <p class="comment-form-url">
-                    <label for="url">Website </label>
-                    <input id="url" name="url" type="text" value="" placeholder="Website" size="40">
-                </p>
-                <p class="form-submit">
-                    <input name="submit" type="submit" id="submit" class="submit" value="Post Comment"/>
-                    <input type='hidden' name='comment_post_ID' value='15' id='comment_post_ID'/>
-                    <input type='hidden' name='comment_parent' id='comment_parent' value='0'/>
-                </p>
-            </form>
-        </div>
-    </div>
-</div>
+
+<div id="fb-root"></div>
+
+
+<div class="fb-comments" data-href="https://www.facebook.com/" data-width="616" data-numposts="7"></div>

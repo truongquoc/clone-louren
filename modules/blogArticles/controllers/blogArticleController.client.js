@@ -1,4 +1,5 @@
 const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
+const CategoryArticleRepository = require('../../blogCategories/repositories/BlogCategoryRepository');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 
@@ -13,6 +14,8 @@ const index = async (req, res, next) => {
                 pageUrl: req.baseUrl,
             }),
         ]);
+
+
         blogArticles.renderPagination = paginationHelper.renderPagination;
         return res.render('modules/blogArticles/client/list', {
             blogArticles, query,
@@ -27,15 +30,20 @@ const show = async (req, res, next) => {
         // , blogCategories, recentBlogArticles
         // PropertyCategoryRepository.get(),
         // PropertyArticleRepository.getRecentArticles(),
-        const [blogArticle] = await Promise.all([
+        const [blogArticle, postNext] = await Promise.all([
             BlogArticleRepository.show(req.params.slug),
+            BlogArticleRepository.postNext(req.params.slug),
         ]);
+
+
         return res.render('modules/blogArticles/client/detail', {
             blogArticle,
+            postNext,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
     }
 };
+
 
 module.exports = { index, show };
