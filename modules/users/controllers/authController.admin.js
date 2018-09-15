@@ -20,7 +20,7 @@ const login = async (req, res, next) => {
     }
     try {
         const user = await AuthRepository.login(data);
-        if (!user) {
+        if (!user || roleHelper.hasRoleOnly(user, 'User')) {
             req.flash('oldValue', data);
             req.flash('errors', { email: { msg: 'Email hoặc mật khẩu không chính xác' } });
             return res.redirectBack();
@@ -41,7 +41,7 @@ const logout = (req, res) => {
     const user = req.session.cUser;
     delete req.session.cUser;
     if (roleHelper.hasRoleOnly(user, 'User')) {
-        return res.redirect('/login');
+        return res.redirect('/dang-nhap');
     }
     return res.redirect('/admin/login');
 };
@@ -81,7 +81,7 @@ const sendMessage = async (req, res, next) => {
     try {
         const user = await AuthRepository.getForgotPasswordUser(data);
         if (data.email) {
-            await AuthRepository.sendMail(user, req.headers.origin);
+            await AuthRepository.sendMail(user, `${req.headers.origin}/admin/password/reset`);
             req.flash('success', 'Gửi mail thành công');
         } else {
             // Firebase implementation
@@ -92,11 +92,7 @@ const sendMessage = async (req, res, next) => {
     }
 };
 
-const showResetPasswordForm = async (req, res) => {
-    const user = await AuthRepository.findUserWithToken(req.params.token);
-
-    return res.render('modules/users/admin/auth/resetPassword', { user });
-};
+const showResetPasswordForm = async (req, res) => res.render('modules/users/admin/auth/resetPassword',);
 
 const resetPassword = async (req, res, next) => {
     const data = req.body;
