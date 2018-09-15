@@ -1,0 +1,128 @@
+<% layout('../../../layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/flat/green.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
+<% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=kohqnigwmla1nr4w3k7rpqcrl8qvhh1uvmjz5cn6c2mzglxv') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+
+<% block('title', 'Sản phẩm - Tạo sản phẩm mới') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Sản phẩm</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">General Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tạo sản phẩm</h3>
+            </div>
+            <div class="card-body">
+                <form class="blog-articles__form" action="" enctype="multipart/form-data" method="POST">
+                    <div class="form-group">
+                        <label for="name">Tên sản phẩm</label>
+                        <input type="text" class="form-control form__title__input" value="<%= old('name') %>" name="name">
+                        <p class="form__error-message form__title__error-message"><%= errors('name') %></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Thể loại</label>
+                        <select class="form-control form__category__input" name="type" style="width: 100%;">
+                            <option value="0">Chọn thể loại</option>
+                            <% productTypes.forEach(function (element) { %>
+                                <option <%= old('type') == element._id ? 'selected' : '' %>
+                                    value="<%= element._id %>"><%= element.name %></option>
+                            <% }) %>
+                        </select>
+                        <p class="form__error-message form__category__error-message"><%= errors('type') %></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả sản phẩm</label>
+                        <textarea name="info" class="form-control tinymce"><%= old('info') %></textarea>
+                        <p class="form__error-message form__title__error-message"><%= errors('info') %></p>
+                    </div>
+                    <div class="form-group">
+                        <div class="row justify-content-between m-0">
+                            <div class="col p-0">
+                                <label for="price">Giá tiền (VNĐ)</label>
+                            </div>
+                            <div class="col-auto text-right font-weight-light font-weight-bold">
+                                <span id="priceText">
+                                    <%= old('priceText') %>
+                                </span>
+                                <input type="hidden" name="priceText" value="<%= old('priceText') %>">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" autocomplete="off" maxlength="15" data-original="" class="form-control" id="price" name="priceValue" placeholder="Nhập giá (ngàn đồng)" value="<%= old('priceValue') %>">
+                            <p class="form__error-message form__title__error-message"><%= errors('price') %></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Chi tiết sản phẩm</label>
+                        <textarea name="detail" class="form-control form__content__input tinymce"><%= old('detail') %></textarea>
+                        <p class="form__error-message form__content__error-message"><%= errors('detail') %></p>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="isDraft" class="flat-red" <%= old('isDraft') ? 'checked' : '' %>> Nháp
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đăng bài</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts', `
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+        getCurrency();
+        tinymce.init({
+            selector: 'textarea.tinymce',
+            height: 500,
+            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+            toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            images_upload_handler: function (blobInfo, success, failure) {
+                const formData = new FormData();
+                formData.append('images', blobInfo.blob(), blobInfo.filename());
+                $.ajax({
+                    url: '/admin/images/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (!res.status) {
+                            failure(res.error.message[0]);
+                        }
+                        success(res.data[0]);
+                    }
+                });
+            }
+        });
+    });
+</script>
+`) %>

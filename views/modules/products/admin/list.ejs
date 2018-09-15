@@ -4,13 +4,13 @@
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
 
-<% block('title', 'Bất động sản - Bài viết') %>
+<% block('title', 'Sản phẩm') %>
 
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Người dùng</h1>
+                <h1>Sản phẩm</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title pull-left"></h3>
+                <h3 class="card-title pull-left">Sản phẩm</h3>
                 <div class="pull-right">
                     <form action="" class="form-inline" method="get">
                         <div class="form-group">
@@ -39,34 +39,36 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered module__table" data-delete-url="/admin/users/delete">
+                <table class="table table-bordered module__table"
+                       data-approve-url="/admin/product/approve" data-delete-url="/admin/product/delete">
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th>Tên</th>
-                        <th>Vai trò</th>
-                        <th>Email</th>
-                        <th>Số điện thoại</th>
-                        <th>Ngày tham gia</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Thể loại</th>
+                        <th>Giá</th>
+                        <th>Ngày tạo</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
-                    <% users.docs.forEach(function (user, index) { %>
-                        <tr data-key="<%= user._id %>">
+                    <% products.docs.forEach(function (product, index) { %>
+                        <tr data-key="<%= product._id %>">
                             <td><%= pageIndex + index + 1 %></td>
-                            <td><%= user.name %></td>
+                            <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
+                            <td><%= product.type.name %></td>
+                            <td><%= product.price.string %></td>
+                            <td><%= moment(product.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
-                                <% user.roles.forEach(function (role) { %>
-                                    <span class="badge bg-success"><%= role.name %></span>
-                                <% }) %>
-                            </td>
-                            <td><%= user.email %></td>
-                            <td><%= user.telephone || '' %></td>
-                            <td><%= moment(user.createdAt).format('HH:mm DD/MM/YYYY') %></td>
-                            <td>
-                                <a href="/admin/users/<%= user.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
-                                <% if (!(hasRole(user, 'Admin') && !hasRole(cUser, 'Admin'))) { %>
-                                    <a href="/admin/users/edit/<%= user.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
+                                <a href="/product/<%= product.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
+                                <% if (!product.isApproved) { %>
+                                    <button class="badge bg-success-gradient module__approve-btn">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                <% } else { %>
+                                    <button class="badge bg-warning-gradient module__approve-btn">
+                                        <i class="fa fa-check"></i>
+                                    </button>
                                 <% } %>
+                                <a href="/admin/product/edit/<%= product.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
                                 <button class="badge bg-danger-gradient module__delete-btn">
                                     <i class="fa fa-times"></i>
                                 </button>
@@ -77,7 +79,7 @@
             </div>
             <div class="card-footer clearfix">
                 <div class=" pagination-sm m-0 float-right">
-                    <%- users.renderPagination(users, query.page) %>
+                    <%- products.renderPagination(products, query.page) %>
                 </div>
             </div>
         </div>

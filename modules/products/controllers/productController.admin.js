@@ -1,65 +1,66 @@
 const { validationResult } = require('express-validator/check');
 const url = require('url');
 const getSlug = require('speakingurl');
-const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
-const BlogCategoryRepositoryClass = require('../../blogCategories/repositories/BlogCategoryRepository');
-const BlogTagRepositoryClass = require('../../blogTags/repositories/BlogTagRepository');
+const ProductRepositoryClass = require('../repositories/ProductRepository');
+const ProductTypeRepositoryClass = require('../../productTypes/repositories/ProductTypeRepository');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 
-const BlogArticleRepository = new BlogArticleRepositoryClass();
-const BlogCategoryRepository = new BlogCategoryRepositoryClass();
-const BlogTagRepository = new BlogTagRepositoryClass();
+const ProductRepository = new ProductRepositoryClass();
+const ProductTypeRepository = new ProductTypeRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogArticles = await BlogArticleRepository.adminList(undefined, {
+        const products = await ProductRepository.adminList(undefined, {
             query,
             pageUrl: req.baseUrl,
         });
-        blogArticles.renderPagination = paginationHelper.renderPagination;
+        products.renderPagination = paginationHelper.renderPagination;
 
-        console.log(blogArticles);
-        return res.render('modules/blogArticles/admin/list', {
-            blogArticles, query,
+        console.log(products);
+        return res.render('modules/products/admin/list', {
+            products, query,
         });
     } catch (e) {
+        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
 
-const showMyArticles = async (req, res, next) => {
+const showMyProducts = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogArticles = await BlogArticleRepository.adminList(req.session.cUser._id, {
+        const products = await ProductRepository.adminList(req.session.cUser._id, {
             query,
             pageUrl: url.parse(req.originalUrl).pathname,
         });
-        blogArticles.renderPagination = paginationHelper.renderPagination;
+        products.renderPagination = paginationHelper.renderPagination;
 
-        return res.render('modules/blogArticles/admin/me', {
-            blogArticles, query,
+        return res.render('modules/products/admin/me', {
+            products, query,
         });
     } catch (e) {
+        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
 
 const create = async (req, res, next) => {
     try {
-        const [blogCategories, blogTags] = await Promise.all([
-            BlogCategoryRepository.baseGet(),
-            BlogTagRepository.baseGet(),
+        const [productTypes] = await Promise.all([
+            ProductTypeRepository.baseGet(),
         ]);
+        console.log(productTypes);
 
-        return res.render('modules/blogArticles/admin/create', {
-            blogCategories, blogTags,
+        return res.render('modules/products/admin/create', {
+            productTypes,
         });
     } catch (e) {
+        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
@@ -82,24 +83,25 @@ const store = async (req, res, next) => {
             });
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
-        await BlogArticleRepository.create(data, req.session.cUser);
-        return res.redirect('/admin/blog/articles/me');
+        await ProductRepository.create(data, req.session.cUser);
+        return res.redirect('/admin/product');
     } catch (e) {
+        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
 
 const edit = async (req, res, next) => {
     try {
-        const [blogArticle, blogCategories, blogTags] = await Promise.all([
-            BlogArticleRepository.getEditArticle(req.params.slug),
-            BlogCategoryRepository.baseGet(),
-            BlogTagRepository.baseGet(),
+        const [product, productTypes] = await Promise.all([
+            ProductRepository.getEditArticle(req.params.slug),
+            ProductTypeRepository.baseGet(),
         ]);
-        return res.render('modules/blogArticles/admin/edit', {
-            blogCategories, blogTags, blogArticle,
+        return res.render('modules/products/admin/edit', {
+            productTypes, product,
         });
     } catch (e) {
+        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
@@ -122,19 +124,21 @@ const update = async (req, res, next) => {
             });
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
-        await BlogArticleRepository.update(data, req.params.id);
-        return res.redirect(`/admin/blog/articles/edit/${getSlug(`${data.title || data.slug}-${data.createdTime}`)}`);
+        await ProductRepository.update(data, req.params.id);
+        return res.redirect(`/admin/product/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
+        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
 
 const approve = async (req, res) => {
     try {
-        const article = await BlogArticleRepository.approve(req.params.id);
+        const product = await ProductRepository.approve(req.params.id);
 
-        return res.json(responseHelper.success(article));
+        return res.json(responseHelper.success(product));
     } catch (e) {
+        console.log(e);
         return res.json(responseHelper.error(e.message));
     }
 };
@@ -142,7 +146,7 @@ const approve = async (req, res) => {
 const destroy = async (req, res) => {
     const { id } = req.params;
     try {
-        await BlogArticleRepository.deleteById(id);
+        await ProductRepository.deleteById(id);
 
         return res.json(responseHelper.success());
     } catch (e) {
@@ -151,5 +155,5 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
-    index, showMyArticles, create, store, edit, update, approve, destroy,
+    index, showMyProducts, create, store, edit, update, approve, destroy,
 };

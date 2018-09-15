@@ -550,6 +550,78 @@ function init_revertModule() {
     });
 }
 
+function splitCurrency(input, event) {
+    let value = $(input).val();
+    
+    if(event) {
+        if ($.inArray(event.keyCode, [37, 38, 39, 40]) !== -1) {
+            return;
+        }
+        
+        value = value.replace(/[\D\s\._\-]+/g, '');
+        value = value ? parseInt(value, 10) : 0;
+        
+        $(input).val(() => ((value === 0) ? '' : value.toLocaleString()));
+    }
+    
+    return value.toLocaleString();
+}
+
+function calcCurrency(value) {
+    let quotient;
+    let remainder;
+
+    if (value >= 1e6) {
+        quotient = value / 1e6;
+        remainder = value % 1e6;
+
+       return (remainder === 0) ? `${quotient.toLocaleString()} tỷ đồng` : `${Math.floor(quotient).toLocaleString()} tỷ ${remainder.toLocaleString()} đồng`;
+    }
+
+    if (value >= 1e3) {
+        quotient = value / 1e3;
+        remainder = value % 1e3;
+
+       return (remainder === 0) ? `${quotient.toLocaleString()} triệu đồng` : `${Math.floor(quotient).toLocaleString()} triệu ${remainder.toLocaleString()} đồng`;
+    }
+
+    if (value > 0) {
+        quotient = value;
+
+       return `${quotient.toLocaleString()} ngàn đồng`;
+    }
+    return '';
+}
+
+function getTextCurrency(input) {
+    const value = $(input).val();
+    const originalValue = value.replace(/[($)\s\._\-]+/g, '');
+    $(input).attr('data-original', originalValue);
+    $(input).val(splitCurrency(input, null));
+
+    const value1 = parseInt(originalValue, 10);
+    const result = calcCurrency(value1);
+
+    $('#priceText').text(result);
+    $('[name="priceText"]').val(result);
+}
+function getCurrency() {
+    $('#priceUnitSelected').text($('#priceUnit').val());
+    getTextCurrency('#price');
+
+
+    $(document).on('change', '#priceUnit', function unit() {
+       const getUnit = $(this).val();
+
+       $('#priceUnitSelected').text(getUnit);
+    });
+    $('#price').keyup(function parseCurrency(event) {
+        getTextCurrency(this);
+
+        splitCurrency(this, event);
+    });
+}
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
