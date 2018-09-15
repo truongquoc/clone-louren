@@ -26,6 +26,7 @@ function init_uploadImage() {
     const id = $('.user__form').data('key');
     $('.user-profile__avatar-change-btn').on('click', function () {
         $('.user-profile__avatar-change-btn__overlay input[type="file"]').click();
+        $(this).attr('disabled', true);
     });
 
     $('.user-profile__avatar-change-btn__overlay input[type="file"]').on('change', function (e) {
@@ -59,9 +60,11 @@ function init_cropper() {
             minHeight: 256,
         },
     });
-    const cropper = $image.data('cropper');
+    let cropper = $image.data('cropper');
+    const $uploadBtn = $('.user-profile__avatar-change-btn');
     $modal.on('hidden.bs.modal', function () {
         $image.cropper('destroy');
+        $uploadBtn.attr('disabled', false);
     });
     $('.user__crop-image__finish-btn').on('click', function () {
         const self = this;
@@ -72,7 +75,8 @@ function init_cropper() {
                 $('.user-profile__avatar img').attr('src', res.data[0]);
                 $('#cropImageModal').modal('hide');
                 $(self).html('Hoàn tất');
-                cropper.clear();
+                $image.cropper('destroy');
+                $uploadBtn.attr('disabled', false);
             });
         }, 'image/jpeg');
     });

@@ -78,7 +78,6 @@ class UserRepository extends BaseRepository {
         if (currentUserId !== id) {
             user.roles = data.roles;
         }
-        user.images.max = data.imagesQuantity;
 
         return user.save();
     }
