@@ -1,0 +1,188 @@
+<% layout('/layouts/client/app') %>
+
+<% stylesheet('/public/client/css/styleProfile.css') %>
+
+<% block('title', 'Trang chủ') %>
+
+<div id="contents">
+    <div class="path">
+        <span>현재 위치</span>
+        <ol>
+            <li><a href="/">홈</a></li>
+            <li title="현재 위치"><strong>회원 정보 수정</strong></li>
+        </ol>
+    </div>
+
+    <div class="titleArea">
+        <h2>Chỉnh sửa thông tin người dùng</h2>
+    </div>
+
+    <div class="xans-element- xans-myshop xans-myshop-asyncbenefit">
+        <div class="ec-base-box typeMember gMessage ">
+            <div class="information">
+                <p class="thumbnail"><img src="" alt=""
+                                          onerror="this.src='//img.echosting.cafe24.com/skin/base/member/img_member_default.gif';"
+                                          class="myshop_benefit_group_image_tag"/></p>
+                <div class="description">
+                    <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="xans-element- xans-member xans-member-edit">
+            <h3>Thông tin cơ bản</h3>
+            <p class="required "><span class="red-note">&#8277;</span> Những trường bắt buộc</p>
+            <div class="ec-base-table typeWrite">
+                <table border="1" summary="">
+                    <caption>회원 기본정보</caption>
+                    <colgroup>
+                        <col style="width:150px;"/>
+                        <col style="width:auto;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Email <span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="email" value="<%= user.email || old('email') %>" type="text" autocomplete="off" disabled/>
+                            <%= errors('email') %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mật khẩu hiện tại<span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="password" type="password"/>
+                            <%= errors('password') %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mật khẩu mới<span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="newPassword" type="password"/>
+                            <%= errors('newPassword') %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Xác nhận mật khẩu <span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="passwordConfirmation" type="password"/>
+                            <%= errors('passwordConfirmation') %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tên <span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="name" class="ec-member-name" value="<%= old('name', user.name) %>" type="text"/>
+                            <%= errors('name') %>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <th scope="row">Địa chỉ <span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="address" value="<%= old('address', user.address) %>" type="text"/>
+                            <%= errors('address') %>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <th scope="row">Điện thoại di động <span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input name="telephone" value="<%= old('telephone', user.telephone) %>" type="text"/>
+                            <%= errors('telephone') %>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class=" ">Thông tin thêm</h3>
+            <div class="ec-base-table typeWrite ">
+                <table border="1" summary="">
+                    <caption>Thông tin bổ sung</caption>
+                    <colgroup>
+                        <col style="width:150px;"/>
+                        <col style="width:auto;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Giới tính</th>
+                        <td>
+                            <input id="is_male" name="gender" type="radio"
+                                   value="1" <%= old('gender', user.gender.toString()) === '1' ? 'checked' : '' %>/>
+                            <label for="is_male">Nam</label>
+                            <input id="is_female" name="gender" type="radio"
+                                   value="2" <%= old('gender', user.gender.toString()) === '2' ? 'checked' : '' %>/>
+                            <label for="is_female">Nữ</label>
+                            <input id="is_another" name="gender" type="radio"
+                                   value="3" <%= old('gender', user.gender.toString()) === '3' ? 'checked' : '' %>/>
+                            <label for="is_another">Khác</label>
+                            <%= errors('gender') %>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <th scope="row">Ngày sinh</th>
+                        <td>
+                            <input name="birthday" value="<%= old('birthday', user.birthday ? moment(user.birthday).format('DD/MM/YYYY') : '') %>" type="text"/>
+                            <%= errors('birthday') %>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ec-base-button justify">
+                <button class="custom_btn custom_btn_login custom_btn_submit">Thay đổi</button>
+                <a href="/nguoi-dung" class="custom_btn custom_btn_login custom_btn_submit">Về trang người dùng</a>
+            </div>
+            <!--<div class="layerLeave ec-base-layer" id="">
+                <div class="header">
+                    <h3>회원탈퇴</h3>
+                </div>
+                <div class="content">
+                    <div class="ec-base-box typeMember">
+                        <div class="information">
+                            <strong class="title">혜택 내역</strong>
+                            <div class="description">
+                                <ul>
+                                    <li id="">탈퇴시 보유하고 있는 적립금은 모두 삭제됩니다.</li>
+                                    <li>현재 적립금 : <strong id="" class="txtEm">0</strong>
+                                    </li>
+                                    <li id="">현재 예치금 : <strong id="" class="txtEm">0</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <h4>회원탈퇴 사유</h4>
+                    <div class="ec-base-table typeWrite">
+                        <table border="1" summary="">
+                            <caption>회원탈퇴 사유</caption>
+                            <colgroup>
+                                <col style="width:140px;"/>
+                                <col style="width:auto;"/>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row">선택</th>
+                                <td></td>
+                            </tr>
+                            <tr id="">
+                                <th scope="row">기타</th>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ec-base-button">
+                    <a href="#none" id=""><img
+                                src="//img.echosting.cafe24.com/skin/base_ko_KR/member/btn_leave.gif" alt="탈퇴"/></a>
+                    <a href="#none" onclick="$('#').hide();"><img
+                                src="//img.echosting.cafe24.com/skin/base_ko_KR/member/btn_leave_cancel.gif"
+                                alt="취소"/></a>
+                </div>
+                <a href="#none" class="close" onclick="$('#').hide();"><img
+                            src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기"/></a>
+            </div>-->
+        </div>
+    </form>
+</div>

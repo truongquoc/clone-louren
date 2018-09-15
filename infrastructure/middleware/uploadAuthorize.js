@@ -16,7 +16,7 @@ const uploadAuthorize = async (req, res, next) => {
 };
 
 const storeAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager', 'Blogger', 'User'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blogger', 'User'])) {
         return res.json(responseHelper.notAuthorized());
     }
     next();

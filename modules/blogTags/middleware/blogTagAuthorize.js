@@ -5,7 +5,7 @@ const BlogTagRepositoryClass = require('../repositories/BlogTagRepository');
 const BlogTagRepository = new BlogTagRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
         return req.xhr ? res.json(responseHelper.notAuthorized())
             : next(responseHelper.notAuthorized());
     }
@@ -25,7 +25,7 @@ const showArticlesAuthorize = async (req, res, next) => {
 };
 
 const editAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
         return res.json(responseHelper.notAuthorized());
     }
     const { id } = req.params;

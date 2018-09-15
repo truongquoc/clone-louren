@@ -5,7 +5,6 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 const commonConstant = require('../../../config/config');
-const roleHelper = require('../../../helpers/roleHelper');
 const User = require('../models/User');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const RoleRepositoryClass = require('./RoleRepository');
@@ -19,7 +18,7 @@ class AuthRepository extends BaseRepository {
 
     async login(data) {
         const user = await this.model.findOne({ email: data.email, deletedAt: null }).populate('roles', '-_id name');
-        if (user && bcrypt.compareSync(data.password, user.password) && !roleHelper.hasRoleOnly(user, 'User')) {
+        if (user && bcrypt.compareSync(data.password, user.password)) {
             return user;
         }
 
@@ -93,7 +92,7 @@ class AuthRepository extends BaseRepository {
         return this.getDetail({ telephone: data.telephone });
     }
 
-    async sendMail(user, host) {
+    async sendMail(user, url) {
         user.resetPasswordToken = await (new Promise((resolve, reject) => {
             crypto.randomBytes(20, (err, buf) => {
                 if (err) {
@@ -118,7 +117,7 @@ class AuthRepository extends BaseRepository {
             subject: 'The NEST: Khôi phục mật khẩu',
             text: `Bạn nhận được mail này vì bạn (hoặc một người khác) đã yêu cầu khôi phục password cho tài khoản này.\n\n
 			Hãy click vào link dưới đây, hoặc copy và paste đường link này vào trình duyệt của bạn:\n\n
-			${host}/admin/password/reset/${user.resetPasswordToken}\n\n
+			${url}/${user.resetPasswordToken}\n\n
 			Nếu bạn không làm việc này, hãy bỏ qua mail này và mật khẩu của bạn sẽ không thay đổi\n\n`,
         };
 

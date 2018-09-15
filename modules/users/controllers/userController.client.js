@@ -1,7 +1,11 @@
 const { validationResult } = require('express-validator/check');
+const bcrypt = require('bcryptjs');
+const responseHelper = require('../../../helpers/responseHelper');
 const UserRepositoryClass = require('../repositories/UserRepository');
 
 const UserRepository = new UserRepositoryClass();
+
+const index = (req, res) => res.render('modules/users/client/index');
 
 const showProfile = async (req, res, next) => {
     try {
@@ -26,6 +30,18 @@ const updateProfile = async (req, res, next) => {
         return res.redirectBack();
     }
     try {
+        if (data.password) {
+            const user = await UserRepository.getById(req.session.cUser._id);
+            if (!bcrypt.compareSync(data.password, user.password)) {
+                req.flash('oldValue', data);
+                req.flash('errors', {
+                    password: {
+                        msg: 'Mật khẩu không chính xác',
+                    },
+                });
+                return res.redirectBack();
+            }
+        }
         await UserRepository.updateProfile(data, req.session.cUser._id, !!req.session.cUser.email);
         return res.redirectBack();
     } catch (e) {
@@ -34,6 +50,7 @@ const updateProfile = async (req, res, next) => {
 };
 
 module.exports = {
+    index,
     showProfile,
     updateProfile,
 };
