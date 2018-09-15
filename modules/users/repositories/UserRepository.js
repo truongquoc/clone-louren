@@ -60,8 +60,12 @@ class UserRepository extends BaseRepository {
             password: bcrypt.hashSync(data.password, salt),
             telephone: data.telephone,
             gender: data.gender,
+            address: data.address,
             slug: getSlug(data.email),
         };
+        if (data.birthday) {
+            user.birthday = moment(data.birthday, 'DD/MM/YYYY');
+        }
 
         return this.baseCreate(user);
     }
@@ -82,9 +86,16 @@ class UserRepository extends BaseRepository {
         const user = {
             name: data.name,
             telephone: data.telephone,
-            birthday: moment(data.birthday, 'DD/MM/YYYY'),
             gender: data.gender,
+            address: data.address,
         };
+        if (data.newPassword) {
+            const salt = bcrypt.genSaltSync(10);
+            user.password = bcrypt.hashSync(data.newPassword, salt);
+        }
+        if (data.birthday) {
+            user.birthday = moment(data.birthday, 'DD/MM/YYYY');
+        }
         if (!hasEmail) {
             user.email = data.email;
             user.slug = getSlug(data.email);

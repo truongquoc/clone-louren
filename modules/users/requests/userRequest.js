@@ -88,28 +88,28 @@ const editRequest = [
     }).withMessage('Vai trò không được bỏ trống'),
 ];
 
-const clientEditProfileRequest = editProfileRequest.concat(
-    check('email').trim()
-        .custom(async (value, { req }) => {
-            try {
-                if (!req.session.cUser.email) {
-                    if (!value) {
-                        throw new Error('Email không được bỏ trống');
-                    }
-                    if (!validator.isEmail(value)) {
-                        throw new Error('Email không đúng định dạng');
-                    }
-                    const user = await UserRepository.checkExistWithTrashed({ email: value });
-                    if (user) {
-                        throw new Error('Email đã tồn tại');
-                    }
-                }
-                return true;
-            } catch (e) {
-                return Promise.reject(e.message);
-            }
-        }),
-);
+const clientEditProfileRequest = [
+    check('name').trim()
+        .not().isEmpty().withMessage('Tên không được bỏ trống'),
+    check('password').trim().custom((value, { req }) => (req.body.newPassword ? value : true))
+        .withMessage('Mật khẩu không được bỏ trống'),
+    check('newPassword').trim(),
+    check('passwordConfirmation')
+        .custom((value, { req }) => (req.body.newPassword ? value === req.body.newPassword : true))
+        .withMessage('Xác thực mật khẩu không đúng'),
+    check('address').trim()
+        .not().isEmpty().withMessage('Địa chỉ không được bỏ trống'),
+    check('telephone').trim()
+        .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
+        .custom(value => validator.isMobilePhone(value, ['vi-VN']))
+        .withMessage('Số điện thoại không đúng định dạng'),
+    check('gender')
+        .custom(value => (value ? ['1', '2', '3'].includes(value) : true))
+        .withMessage('Giới tính không hợp lệ'),
+    check('birthday').trim()
+        .custom(value => (value ? (moment(value, 'DD/MM/YYYY').isValid() && moment().year() - moment(value, 'DD/MM/YYYY').year() >= 18) : true))
+        .withMessage('Ngày sinh không hợp lệ'),
+];
 
 const uploadAvatar = [
     check('avatar').custom((value, { req }) => {
