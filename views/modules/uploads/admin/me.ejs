@@ -1,0 +1,79 @@
+<% layout('/layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/flat/green.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+<% script('https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
+
+<% block('title', 'Ảnh của tôi') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Ảnh</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Simple Tables</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title images__table__title pull-left">Ảnh của tôi</h3>
+                <div class="pull-right">
+                    <button class="btn btn-danger images__table__delete-btn">Xóa <i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered images__table" data-delete-url="/admin/images/delete">
+                    <tr>
+                        <th style="width: 10px"></th>
+                        <th>Ảnh</th>
+                        <th>Đường dẫn</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                    <% images.docs.forEach(function (image) { %>
+                    <tr data-key="<%= image._id %>">
+                        <td style="width: 10px">
+                            <label>
+                                <input type="checkbox" class="flat-red images__table__delete-checkbox">
+                            </label>
+                        </td>
+                        <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
+                        <td><a href="<%= image.url %>" target="_blank">Đường dẫn</a></td>
+                        <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
+                    </tr>
+                    <% }) %>
+                </table>
+            </div>
+            <div class="card-footer clearfix">
+                <div class=" pagination-sm m-0 float-right">
+                    <%- images.renderPagination(images, query.page) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts', `
+<script>
+    $(document).ready(function () {
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+        $('img.lazyload').lazyload();
+    });
+</script>
+`) %>

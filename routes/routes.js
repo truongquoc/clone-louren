@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const adminInfrastructureRouter = require('../infrastructure/routes.admin');
+const adminUploadRouter = require('../modules/uploads/routes.admin');
 const adminAuthRoutes = require('../modules/users/authRoutes.admin');
 const adminUserRouter = require('../modules/users/routes.admin');
 const adminProductTypeRouter = require('../modules/productTypes/routes.admin');
@@ -21,7 +21,7 @@ router.use((req, res, next) => {
 });
 
 router.use('/admin', adminAuthRoutes);
-router.use('/admin', adminInfrastructureRouter);
+router.use('/admin/images', adminUploadRouter);
 router.use('/admin/users', adminUserRouter);
 router.use('/admin/product/types', adminProductTypeRouter);
 router.use('/admin/blog/articles', adminBlogArticleRouter);

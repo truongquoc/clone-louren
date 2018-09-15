@@ -5,7 +5,9 @@ const userController = require('./controllers/userController.client');
 
 router.use(authAuthorize.clientRedirectIfNotAuthenticated);
 
-router.get('/thong-tin', userRequest.clientEditProfileRequest, userController.showProfile);
+router.get('/', userController.index);
+
+router.get('/thong-tin', userController.showProfile);
 
 router.put('/thong-tin', userRequest.clientEditProfileRequest, userController.updateProfile);
 

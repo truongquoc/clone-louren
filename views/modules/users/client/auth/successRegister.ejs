@@ -1,0 +1,44 @@
+<% layout('/layouts/client/app') %>
+
+<% stylesheet('/public/client/css/styleSuccessRegister.css') %>
+
+<% block('title', 'Trang chủ') %>
+
+<div id="contents">
+    <div class="titleArea">
+        <h2>Hoàn tất đăng ký</h2>
+    </div>
+
+    <div class="xans-element- xans-member xans-member-joincomplete ">
+        <div class="joinComplete">
+            <p class="desc">Đăng ký thành công</p>
+            <div class="ec-base-box typeMember gMessage">
+                <strong class="message">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</strong>
+                <div class="information">
+                    <p class="thumbnail"><img src="//louren.co.krF" alt="일반 회원"
+                                              onerror="this.src='//img.echosting.cafe24.com/skin/base/member/img_member_default.gif';"/>
+                    </p>
+                    <div class="description">
+                        <dl class="ec-base-desc typeBullet gSmall gBlank5">
+                            <dt>Tên</dt>
+                            <dd><span class="authssl_c_name"><%= user.name %></span></dd>
+                            <dt>Email</dt>
+                            <dd><span class="authssl_c_email"><%= user.email %></span></dd>
+                            <dt>Số điện thoại</dt>
+                            <dd><span class="authssl_c_email"><%= user.telephone %></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <p class="memberEmail displaynone">이메일 주소로 발송된 인증 메일을 통해 인증하신 후에 로그인이 가능합니다.</p>
+            <p class="memberAge displaynone">
+                <strong><span class="authssl_c_name">*****</span> 님</strong>은 14세 미만 회원이므로 <br/>관리자 인증 후 아이디
+                사용이 가능합니다.
+            </p>
+            <p class="ec-base-button">
+                <a href="/dang-nhap" class="custom_btn custom_btn_login custom_btn_submit">Đăng nhập</a>
+                <a href="/" class="custom_btn custom_btn_login custom_btn_submit">Về trang chủ</a>
+            </p>
+        </div>
+    </div>
+</div>

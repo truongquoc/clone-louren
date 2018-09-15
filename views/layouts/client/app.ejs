@@ -25,6 +25,7 @@
     <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
     <%- block('beforeCommon') %>
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/public/client/css/custom.css"/>
     <%- stylesheets %>
     <title>로렌 louren | <%= block('title') %></title>
     <meta name="path_role" content="MAIN"/>
@@ -39,11 +40,11 @@
 </div>
 
 <div id="header">
-    <%- include ../layouts/partials/header.ejs %>
+    <%- include partials/header.ejs %>
 </div>
 <hr class="layout"/>
 <div id="wrap">
-    <%- include ../layouts/partials/navigation.ejs %>
+    <%- include partials/navigation.ejs %>
     <div id="container">
         <div class="fixed_row">
             <%- body %>
@@ -74,7 +75,7 @@
 </div>
 <hr class="layout"/>
 <div id="footer">
-    <%- include ../layouts/partials/footer.ejs %>
+    <%- include partials/footer.ejs %>
 </div><!-- /#footer -->
 
 

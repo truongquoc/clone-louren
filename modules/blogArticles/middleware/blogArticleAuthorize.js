@@ -5,14 +5,14 @@ const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepositor
 const BlogArticleRepository = new BlogArticleRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
 };
 
 const showMyArticlesAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager', 'Blogger'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blogger'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
@@ -35,14 +35,14 @@ const showAuthorize = async (req, res, next) => {
 };
 
 const createArticleAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager', 'Blogger'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blogger'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
 };
 
 const editAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager', 'Blogger'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blogger'])) {
         const response = responseHelper.notAuthorized();
         return req.xhr ? res.json(response) : next(response);
     }
@@ -53,7 +53,7 @@ const editAuthorize = async (req, res, next) => {
             const response = responseHelper.notFound();
             return req.xhr ? res.json(response) : next(response);
         }
-        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Blog Manager'])
+        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])
             && article.author.toString() !== req.session.cUser._id) {
             const response = responseHelper.notAuthorized();
             return req.xhr ? res.json(response) : next(response);
