@@ -43,9 +43,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Vai trò</label>
-                                <select class="form-control select2" multiple style="width: 100%;" name="roles"
+                                <select class="form-control select2" multiple style="width: 100%;" name="roles[]"
                                         <%= cUser._id === user._id.toString() ? 'disabled' : '' %>>
-                                    <% const oldRoles = old('roles', user.roles); let check; %>
+                                    <% let oldRoles = old('roles', user.roles); let check; %>
+                                    <% oldRoles = cUser._id === user._id.toString() ? user.roles : oldRoles; %>
                                     <% roles.forEach(function (role) { %>
                                         <% if (oldRoles) { %>
                                             <% oldRoles.some(function (oldRole) { %>
@@ -74,15 +75,6 @@
                                 <label>Số điện thoại</label>
                                 <input type="text" class="form-control" value="<%= old('telephone', user.telephone) %>" name="telephone">
                                 <p class="form__error-message"><%= errors('telephone') %></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Số lượng ảnh</label>
-                                <input type="text" class="form-control" value="<%= old('imagesQuantity', user.images.max) %>" name="imagesQuantity">
-                                <p class="form__error-message"><%= errors('imagesQuantity') %></p>
                             </div>
                         </div>
                     </div>
