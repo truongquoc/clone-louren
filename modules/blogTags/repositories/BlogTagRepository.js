@@ -5,6 +5,14 @@ class BlogTagRepository extends ClassificationRepository {
     model() {
         return BlogTag;
     }
+
+    async getNewTags() {
+        return this.model
+                    .find()
+                    .sort({ createdAt: -1 })
+                    .select('name slug');
+    }
 }
+
 
 module.exports = BlogTagRepository;

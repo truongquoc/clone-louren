@@ -19,6 +19,7 @@ const index = async (req, res, next) => {
                 pageUrl: req.baseUrl,
             }),
         ]);
+
         blogArticles.renderPagination = paginationHelper.renderPagination;
         return res.render('modules/blogCategories/client/list', {
             blogArticles, query, blogCategory,

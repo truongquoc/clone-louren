@@ -1,24 +1,19 @@
-const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
-const CategoryArticleRepository = require('../../blogCategories/repositories/BlogCategoryRepository');
-const paginationHelper = require('../../../helpers/paginationHelper');
+const BillRepositoryClass = require('../repositories/BillRepository');
 const responseHelper = require('../../../helpers/responseHelper');
 
-const BlogArticleRepository = new BlogArticleRepositoryClass();
+const billRepository = new BillRepositoryClass();
 
 const index = async (req, res, next) => {
+    const { query } = req;
     try {
-        const { query } = req;
-        const [blogArticles] = await Promise.all([
-            BlogArticleRepository.clientList(undefined, {
+        console.log(req.session.cUser._id);
+
+        const bills = await billRepository.listBills(req.session.cUser._id, {
                 query,
                 pageUrl: req.baseUrl,
-            }),
-        ]);
-
-
-        blogArticles.renderPagination = paginationHelper.renderPagination;
-        return res.render('modules/blogArticles/client/list', {
-            blogArticles, query,
+        });
+        res.render('modules/client/orderHistory', {
+            bills,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
