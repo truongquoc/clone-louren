@@ -13,14 +13,14 @@ const indexAuthorize = (req, res, next) => {
 };
 
 const uploadAuthorize = async (req, res, next) => {
-    if (roleHelper.hasRole(req.session.cUser, ['User'])) {
+    if (roleHelper.hasRole(req.session.cUser, 'User')) {
         return next(responseHelper.notAuthorized());
     }
     next();
 };
 
 const storeAuthorize = (req, res, next) => {
-    if (roleHelper.hasRole(req.session.cUser, ['User'])) {
+    if (roleHelper.hasRole(req.session.cUser, 'User')) {
         return res.json(responseHelper.notAuthorized());
     }
     next();
