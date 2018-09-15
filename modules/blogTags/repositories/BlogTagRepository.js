@@ -9,8 +9,7 @@ class BlogTagRepository extends ClassificationRepository {
     async getNewTags() {
         return this.model
                     .find()
-                    .sort({ updatedAt: -1 })
-                    .limit(7)
+                    .sort({ createdAt: -1 })
                     .select('name slug');
     }
 }

@@ -10,22 +10,22 @@
         <% if(blogArticles.length === 0 ) { %>
             <p>Không có bài viết nào</p>
         <% } else { %>
-            <% blogArticles.docs.forEach((post) => { %>
+            <% blogArticles.docs.forEach((article) => { %>
         <div class="grid-sb-wrap col-12 col-sm-6">
             <article class="grid-sb">
-                    <div class="blog-media"> <img width="328" height="217" src="<%= post.display.image %>" class="respimg wp-post-image" alt="23" sizes="(max-width: 328px) 100vw, 328px">
-                        <div class="overlay"></div> <a href="/blog/<%= post.slug %>" class="dec-link">Xem bài viết</a></div>
+                    <div class="blog-media"> <img width="328" height="217" src="<%= article.display.image %>" class="respimg wp-post-image" alt="23" sizes="(max-width: 328px) 100vw, 328px">
+                        <div class="overlay"></div> <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a></div>
                 <ul class="cat-list">
-                        <li><%= moment(post.updatedAt).format('L') %></li>
+                        <li><%= moment(article.updatedAt).format('L') %></li>
                     <li>
                         <ul class="post-categories">
-                                <li><a href="/blog/chuyen-muc-<%= post.category.slug %>" rel="category tag"><%= post.category.name %></a></li>  
+                                <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.name %></a></li>  
                         </ul>
                     </li>
                 </ul>
-                    <h2><a href="/blog/<%= post.slug %>"><%= post.title %></a></h2>
-                    <p><%= post.description %></p>
-                    <div class="clearfix"></div><a href="/blog/<%= post.slug %>" class="post-link">Xem thêm</a>
+                    <h2><a href="/blog/<%= article.slug %>"><%= article.title %></a></h2>
+                    <p><%= article.description %></p>
+                    <div class="clearfix"></div><a href="/blog/<%= article.slug %>" class="post-link">Xem thêm</a>
             </article>
         </div>
             <% }) %>

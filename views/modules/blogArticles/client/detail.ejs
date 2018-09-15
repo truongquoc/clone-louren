@@ -63,15 +63,15 @@
      <% if(postNext.length === 0 ) {  %>
         Không có bài viết cùng thể loại
       <% } else { %>
-        <% postNext.forEach((post) => { %>
+        <% postNext.forEach((article) => { %>
       <div class="item-related col-md-4">
-         <a href="<%= post.slug %>"><img width="293" height="194"
+         <a href="<%= article.slug %>"><img width="293" height="194"
             src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/27.jpg"
             class="attachment-springbook-related size-springbook-related wp-post-image"
             alt="27" sizes="(max-width: 293px) 100vw, 293px"/></a>
-         <h3><a href="<%= post.slug %>"><%= post.title %></a></h3>
+         <h3><a href="<%= article.slug %>"><%= article.title %></a></h3>
          <span
-            class="post-date"><%= moment(post.updatedAt).format('L') %></span>
+            class="post-date"><%= moment(article.updatedAt).format('L') %></span>
       </div>
       <% }) %>
     <% } %>
