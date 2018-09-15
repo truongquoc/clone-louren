@@ -64,7 +64,7 @@
                             <td><%= moment(user.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
                                 <a href="/admin/users/<%= user.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
-                                <% if (!(hasRole(user, 'Admin') && !hasRole(cUser, 'Admin'))) { %>
+                                <% if (!(hasRole(user, 'Admin') && !hasRole(cUser, 'Admin')) && !(hasRole(user, 'Admin') && hasRole(cUser, 'Admin') && user._id.toString() !== cUser._id)) { %>
                                     <a href="/admin/users/edit/<%= user.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
                                 <% } %>
                                 <button class="badge bg-danger-gradient module__delete-btn">

@@ -54,7 +54,11 @@ const editAuthorize = async (req, res, next) => {
         if (!user) {
             return next(responseHelper.notFound());
         }
-        if (roleHelper.hasRole(user, 'Admin') && !roleHelper.hasRole(cUser, 'Admin')) {
+        if ((roleHelper.hasRole(user, 'Admin') && !roleHelper.hasRole(cUser, 'Admin'))
+            || (roleHelper.hasRole(user, 'Admin') && roleHelper.hasRole(cUser, 'Admin') && user._id.toString() !== cUser._id)) {
+            return next(responseHelper.notAuthorized());
+        }
+        if (roleHelper.hasRole(user, 'Manager') && roleHelper.hasRole(cUser, 'Manager') && user._id.toString() !== cUser._id) {
             return next(responseHelper.notAuthorized());
         }
         next();
