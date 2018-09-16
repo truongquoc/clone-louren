@@ -5,14 +5,14 @@ const ProductRepositoryClass = require('../repositories/ProductRepository');
 const ProductRepository = new ProductRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Manager'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
 };
 
 const showMyProductsAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Manager', 'Product creator'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
@@ -35,14 +35,14 @@ const showAuthorize = async (req, res, next) => {
 };
 
 const createProductAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Manager', 'Product Creator'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
 };
 
 const editAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Manager', 'Product Creator'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         const response = responseHelper.notAuthorized();
         return req.xhr ? res.json(response) : next(response);
     }
@@ -53,7 +53,7 @@ const editAuthorize = async (req, res, next) => {
             const response = responseHelper.notFound();
             return req.xhr ? res.json(response) : next(response);
         }
-        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Manager'])
+        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])
             && product.author.toString() !== req.session.cUser._id) {
             const response = responseHelper.notAuthorized();
             return req.xhr ? res.json(response) : next(response);
@@ -66,7 +66,7 @@ const editAuthorize = async (req, res, next) => {
 };
 
 const approveAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Manager'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
         return res.json(responseHelper.notAuthorized());
     }
     try {
