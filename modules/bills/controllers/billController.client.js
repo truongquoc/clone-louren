@@ -6,12 +6,11 @@ const billRepository = new BillRepositoryClass();
 const index = async (req, res, next) => {
     const { query } = req;
     try {
-        console.log(req.session.cUser._id);
-
         const bills = await billRepository.listBills(req.session.cUser._id, {
                 query,
                 pageUrl: req.baseUrl,
         });
+        console.log(bills);
         res.render('modules/client/orderHistory', {
             bills,
         });

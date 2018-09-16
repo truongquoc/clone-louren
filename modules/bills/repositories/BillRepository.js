@@ -23,6 +23,7 @@ class BillRepository extends BaseRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
+                .populate('products', '-_id product quantity price')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 }),
