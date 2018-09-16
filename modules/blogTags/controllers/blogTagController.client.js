@@ -1,15 +1,15 @@
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
-const BlogCategoryRepositoryClass = require('../repositories/BlogTagRepository');
+const BlogTagRepositoryClass = require('../repositories/BlogTagRepository');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 
 const BlogArticleRepository = new BlogArticleRepositoryClass();
-const BlogCategoryRepository = new BlogCategoryRepositoryClass();
+const BlogTagRepository = new BlogTagRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
         const { query } = req;
-        const blogTag = await BlogCategoryRepository.getDetailBySlug(req.params.slug);
+        const blogTag = await BlogTagRepository.getDetailBySlug(req.params.slug);
         const [blogArticles] = await Promise.all([
             BlogArticleRepository.clientList({
                 name: 'tags',

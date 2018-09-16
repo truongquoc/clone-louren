@@ -29,6 +29,7 @@ class BlogArticleRepository extends ArticleRepository {
                 .find(conditions)
                 .populate('category', '-_id name slug', { deletedAt: null })
                 .populate('author', '-_id name', { deletedAt: null })
+                .populate('tags', '-_id name slug ')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 })
@@ -109,6 +110,10 @@ class BlogArticleRepository extends ArticleRepository {
             .select('-isApproved -updatedAt');
     }
 
+    async postNext(slug) {
+         return this.model.find({ slug: { $gt: slug }, deletedAt: null }).limit(3);
+    }
+
     create(data, user) {
         const article = {
             category: data.category,
@@ -149,5 +154,6 @@ class BlogArticleRepository extends ArticleRepository {
         return this.baseUpdate(article, { _id: id });
     }
 }
+
 
 module.exports = BlogArticleRepository;

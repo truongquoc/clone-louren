@@ -1,7 +1,9 @@
 const router = require('express').Router();
-const blogCategoryMiddleware = require('./middleware/blogTagAuthorize');
-const blogCategoryController = require('./controllers/blogTagController.client');
+const blogArticleRight = require('../../infrastructure/controllers/blogArticleController.client');
 
-router.get('/the-:slug', blogCategoryMiddleware.showArticlesAuthorize, blogCategoryController.index);
+const blogCategoryMiddleware = require('./middleware/blogTagAuthorize');
+const blogTagController = require('./controllers/blogTagController.client');
+
+router.get('/the-:slug', blogArticleRight.blogAticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogTagController.index);
 
 module.exports = router;

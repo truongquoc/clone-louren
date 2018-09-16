@@ -4,7 +4,6 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
-const commonConstant = require('../../../config/config');
 const User = require('../models/User');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const RoleRepositoryClass = require('./RoleRepository');
@@ -107,14 +106,14 @@ class AuthRepository extends BaseRepository {
         const smtpTransport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: commonConstant.emailAddress,
-                pass: commonConstant.emailPassword,
+                user: config.emailAddress,
+                pass: config.emailPassword,
             },
         });
         const mailOptions = {
             to: user.email,
-            from: commonConstant.emailAddress,
-            subject: 'The NEST: Khôi phục mật khẩu',
+            from: config.emailAddress,
+            subject: 'Louren: Khôi phục mật khẩu',
             text: `Bạn nhận được mail này vì bạn (hoặc một người khác) đã yêu cầu khôi phục password cho tài khoản này.\n\n
 			Hãy click vào link dưới đây, hoặc copy và paste đường link này vào trình duyệt của bạn:\n\n
 			${url}/${user.resetPasswordToken}\n\n

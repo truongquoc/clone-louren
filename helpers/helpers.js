@@ -39,6 +39,10 @@ module.exports = (res) => {
 
     res.locals.strLimit = (string, limit, end = '...') => `${string.substr(0, limit)}${end}`;
 
+    res.locals.formatPrice = (string) => {
+        return string;
+    };
+
     res.locals.hasRole = RoleHelper.hasRole;
 
     res.locals.hasRoleOnly = RoleHelper.hasRoleOnly;

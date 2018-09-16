@@ -290,3 +290,23 @@ button.badge {
 .cropper-container {
     width: 100% !important;
 }
+
+.bills__table__search {
+    border-radius: 0;
+}
+
+.input-daterange input {
+    width: 130px !important;
+}
+
+.input-daterange .bills__table__search-date__start {
+    margin: 0 10px;
+}
+
+.bills__table__search-normal > select {
+    margin: 0 10px;
+}
+
+.bills__table__search-status {
+    margin: 0 5px;
+}
