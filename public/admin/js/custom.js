@@ -702,9 +702,5 @@ $(document).ready(() => {
     init_deleteImages();
     init_viewRequests();
     init_revertModule();
-<<<<<<< HEAD
-});
-=======
     init_changeSearchType();
 });
->>>>>>> a41169eafa5d4ca31af33e837a5479752512e0e5

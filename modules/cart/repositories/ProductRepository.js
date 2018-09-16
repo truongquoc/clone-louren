@@ -75,6 +75,18 @@ class ProductRepository extends ArticleRepository {
         return data;
     }
 
+    homeGetNewest() {
+        return this.model
+            .find({
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            })
+            .select('name price image slug type updatedAt')
+            .sort({ createdAt: -1 })
+            .limit(3);
+    }
+
     show(slug) {
         return this.model.findOne({ slug, deletedAt: null })
             .sort({ createdAt: -1 })
