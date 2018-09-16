@@ -1,6 +1,7 @@
 .ec-base-button {
     text-align: center;
 }
+
 .custom_btn_login {
     /*display: block;*/
     /*width: 100%;*/
@@ -13,4 +14,56 @@
 
 .login-form__error-msg {
     margin-bottom: 8px;
+}
+
+.depth1.xans-record-:hover .sub-category {
+    display: block !important;
+}
+
+.shopping__icon {
+    padding: 5px 6px !important;
+    color: #1e1813;
+    font-size: 23px;
+}
+
+.product__name {
+    color: #555555;
+    font-size: 12px;
+}
+
+.product__price {
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.likeButton .rate {
+    font-size: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+}
+
+.likeButton .rate i {
+    vertical-align: middle;
+}
+
+.pagination a[disabled] {
+    color: #939393;
+    cursor: default;
+    pointer-events: none;
+    text-decoration: none;
+}
+
+.ec-base-paginate li a {
+    color: #333;
+    font-size: 16px;
+}
+
+.ec-base-paginate li a.active {
+    font-weight: bold;
+    color: #333;
+}
+
+.prevent-opacity {
+    opacity: 1 !important;
 }
