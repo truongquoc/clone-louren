@@ -55,6 +55,23 @@ const createProductRequest = [
                 return Promise.reject(e.message);
             }
         }),
+    check('image').custom((value, { req }) => {
+        try {
+            if (req.file) {
+                if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                    throw new Error('Loại ảnh không hợp lệ');
+                } else if (req.file.size > commonConstant.imageMaxsize) {
+                    throw new Error('Kích thước ảnh quá lớn');
+                }
+            }
+            if (!req.file && !(req.body.video && req.body.useVideo)) {
+                throw new Error('Ảnh hoặc video không được bỏ trống');
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
+    }),
     check('slug').trim()
         .custom(async (value, { req }) => {
         if (!value) {
@@ -111,6 +128,23 @@ const editProductRequest = [
         .not()
         .isEmpty()
         .withMessage('Giá tiền không được bỏ trống'),
+    check('image').custom((value, { req }) => {
+        try {
+            if (req.file) {
+                if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                    throw new Error('Loại ảnh không hợp lệ');
+                } else if (req.file.size > commonConstant.imageMaxsize) {
+                    throw new Error('Kích thước ảnh quá lớn');
+                }
+            }
+            if (!req.body.imageUrl && !(req.body.video && req.body.useVideo) && !req.file) {
+                throw new Error('Ảnh hoặc video không được bỏ trống');
+            }
+            return true;
+        } catch (e) {
+            return Promise.reject(e.message);
+        }
+    }),
     check('sku')
         .not()
         .isEmpty()
@@ -151,4 +185,13 @@ const editProductRequest = [
         }),
 ];
 
-module.exports = { createProductRequest, editProductRequest };
+const storeImagesRequest = [
+    check('images').not().isEmpty().withMessage('Ảnh không được bỏ trống'),
+    check('type').isIn(['1', '2']).withMessage('Cách lưu trữ không hợp lệ'),
+];
+
+module.exports = {
+    createProductRequest,
+    editProductRequest,
+    storeImagesRequest,
+};

@@ -5,14 +5,14 @@ const BillRepositoryClass = require('../repositories/BillRepository');
 const BillRepository = new BillRepositoryClass();
 
 const indexAuthorize = (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Writer'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         return next(responseHelper.notAuthorized());
     }
     next();
 };
 
 const showAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Writer'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         return next(responseHelper.notAuthorized());
     }
     try {
@@ -27,7 +27,7 @@ const showAuthorize = async (req, res, next) => {
 };
 
 const approveAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Writer'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         return res.json(responseHelper.notAuthorized());
     }
     try {
@@ -42,7 +42,7 @@ const approveAuthorize = async (req, res, next) => {
 };
 
 const revertAuthorize = async (req, res, next) => {
-    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Writer'])) {
+    if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
         return res.json(responseHelper.notAuthorized());
     }
     try {

@@ -68,6 +68,9 @@
                                 <% } %>
                             </td>
                             <td>
+                                <a href="/admin/products/<%= product.slug %>/images" class="badge bg-success-gradient">
+                                    <i class="fa fa-picture-o"></i>
+                                </a>
                                 <% if (!product.isApproved) { %>
                                     <button class="badge bg-success-gradient module__approve-btn" disabled>
                                         <i class="fa fa-check"></i>
