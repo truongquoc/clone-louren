@@ -34,8 +34,17 @@ async function fakeProducts() {
                     number: Math.floor(Math.random() * 1000000),
                     string: 'test',
                 },
-                'image.cover': 'test',
+                image: {
+                    cover: '//louren.co.kr/web/product/medium/201807/99_shop1_15307591986966.jpg',
+                    array: [
+                        '//louren.co.kr/web/product/medium/201807/99_shop1_15307591986966.jpg',
+                        '//louren.co.kr/web/product/medium/201807/99_shop1_15307591986966.jpg',
+                        '//louren.co.kr/web/product/medium/201807/99_shop1_15307591986966.jpg',
+                        '//louren.co.kr/web/product/medium/201807/99_shop1_15307591986966.jpg',
+                    ],
+                },
                 quantity: Math.floor(Math.random() * 100),
+                isApproved: true,
                 slug: getSlug(`${name}-${dateHelper.getSlugCurrentTime()}`),
                 createdAt: new Date(),
                 updatedAt: new Date(),

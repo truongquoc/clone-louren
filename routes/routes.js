@@ -9,6 +9,8 @@ const adminBlogArticleRouter = require('../modules/blogArticles/routes.admin');
 const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin');
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
+const clientProductTypeRouter = require('../modules/productTypes/routes.client');
+const clientProductRoutes = require('../modules/products/routes.client');
 const clientBlogCategoryRouter = require('../modules/blogCategories/routes.client');
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes.client');
@@ -38,6 +40,8 @@ router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
 router.use('/nguoi-dung', clientUserRouter);
+router.use('/mat-hang', clientProductTypeRouter);
+router.use('/', clientProductRoutes);
 router.use('/', (req, res) => res.sendStatus(404));
 
 router.use(handleExceptionHelper.handleException);
