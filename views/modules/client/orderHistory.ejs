@@ -1,5 +1,5 @@
 <% layout('../../layouts/client/app') %>
-
+<% stylesheet('../../../public/client/css/style.css') %>
 <% stylesheet('/public/client/css/styleOrderHistory.css') %>
 
 <% block('title', 'Trang chủ') %>
@@ -85,30 +85,37 @@
             <tbody class="center ">
              
                 <% if(bills.docs.length !== 0) { %>
-                    <% bills.forEach((bill) => { %>
+                    <% bills.docs.forEach((bill) => { %> 
                         <tr class="">
                             <td  class="number ">
-                                <%= bill.createdAt %>   
+                                <a href="/nguoi-dung/don-hang/chi-tiet/<%= bill._id %>"><%= bill.code %> </a>
+                                    
                             </td>
-                            <td class="thumb">
-                                <a href="">
-                                    <img src="https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjll9ygpL3dAhVPNrwKHTH_DaMQjRx6BAgBEAU&url=https%3A%2F%2Fwww.uef.edu.vn%2Ftin-tuyen-sinh%2Fhoc-nganh-cong-nghe-thong-tin-ra-truong-lam-nghe-gi-3853&psig=AOvVaw3VehJ41VcEGEnixxS4Q0sh&ust=1537109491014911"  alt=""/>
-                                </a>
+                            <td class="time">
+                                <%= moment(bill.createAt).format('L') %>
                             </td>
-                            <td class="">
-                                egegerger
+                        
+                            <td class="name">
+                                <% if(bill.productBill.length > 3) {%>
+                                    <a href="/nguoi-dung/don-hang/chi-tiet/<%= bill._id %>"><%= bill.productBill[0].product.name %> và <%= bill.productBill.length -1 %> sản phẩm khác</a>
+                                <% } else { %> 
+                                    <% bill.productBill.forEach((p) => { %>
+                                        <a href="/nguoi-dung/don-hang/chi-tiet/<%= bill._id %>"><%= p.product.name %>, </a>
+                                    <% }) %>
+                                <% } %>
+                                
                             </td>
-                            <td> 12</td>
-                            <td class="right">
-                                <strong>12400000</strong>
+                            <td class="quantity"> <%= bill.productBill.length %></td>
+                            <td class="right price">
+                                <strong><%= bill.price %></strong>
                             </td>
-                            <td class="state">
-                                Chưa xác nhận
+                            <td class="status">
+                                <%= bill.isApproved === 'false' ? 'Chưa xác nhận' : 'Đã xác nhận'  %>   
                             </td>
                             <td>
-                                Hủy/đổi
+                                <a href="#">Hủy/ đổi/ trả</a>
                             </td>
-                        </tr>   
+                        </tr>  
                     <% }) %>
                 <% } %>
     
@@ -118,13 +125,12 @@
         <p class="message ">Chưa có đơn đặt hàng nào.</p>
         <% } %>
     </div>
+    <% if(bills.docs.length !== 0 ) { %>
+        <div class="card-footer clearfix order" style="margin-top: 30px;">
+            <div class="pagination-list">
+                <%- bills.renderPagination(bills, query.page) %>
+            </div>
+        </div>
+    <% } %>
 
-    <div class="xans-element- xans-myshop xans-myshop-orderhistorypaging ec-base-paginate"><a href="?page=1&history_start_date=2018-06-13&history_end_date=2018-09-11" class="first"><img src="//img.echosting.cafe24.com/skin/base/common/btn_page_first.gif" alt="첫 페이지"/></a>
-        <a href="?page=1&history_start_date=2018-06-13&history_end_date=2018-09-11"><img src="//img.echosting.cafe24.com/skin/base/common/btn_page_prev.gif" alt="이전 페이지"/></a>
-        <ol>
-            <li class="xans-record-"><a href="?page=1&history_start_date=2018-06-13&history_end_date=2018-09-11" class="this">1</a></li>
-        </ol>
-        <a href="?page=1&history_start_date=2018-06-13&history_end_date=2018-09-11"><img src="//img.echosting.cafe24.com/skin/base/common/btn_page_next.gif" alt="다음 페이지"/></a>
-        <a href="?page=1&history_start_date=2018-06-13&history_end_date=2018-09-11" class="last"><img src="//img.echosting.cafe24.com/skin/base/common/btn_page_last.gif" alt="마지막 페이지"/></a>
-    </div>
 </div>

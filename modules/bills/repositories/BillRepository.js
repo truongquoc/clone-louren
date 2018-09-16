@@ -6,6 +6,8 @@ const config = require('../../../config/config');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const commonConstant = require('../../../constants/commonConstant');
 const Bill = require('../models/Bill');
+const ProductBill = require('../models/ProductBill');
+const Product = require('../../products/models/Product');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const UserRepositoryClass = require('../../users/repositories/UserRepository');
 const ProductBillRepositoryClass = require('../repositories/ProductBillRepository');
@@ -14,9 +16,7 @@ const UserRepository = new UserRepositoryClass();
 const ProductBillRepository = new ProductBillRepositoryClass();
 
 class BillRepository extends BaseRepository {
-    model() {
-        return Bill;
-    }
+    model() { return Bill; }
 
     async adminList(options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
@@ -70,44 +70,54 @@ class BillRepository extends BaseRepository {
         if (id) {
             conditions.user = id;
         }
-        const [total, docs] = await Promise.all([
-            this.model.countDocuments(conditions),
-            this.model
-                .find(conditions)
-                .populate('products', '-_id product quantity price')
-                .skip((options.query.page - 1) * options.limit)
-                .limit(options.limit)
-                .sort({ createdAt: -1 }),
-        ]);
+        const total = await this.model.countDocuments(conditions);
+        const docs = await this.model
+            .find(conditions)
+            .populate({
+                path: 'productBill',
+                select: '-_id product',
+                match: { deletedAt: null },
+                populate: {
+                    path: 'product',
+                    select: '-_id name',
+                },
+            })
+            .skip((options.query.page - 1) * options.limit)
+            .limit(options.limit)
+            .sort({ createdAt: -1 });
+
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
 
         return data;
     }
 
-    show(condition) {
+    async show(id, options) {
+        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.clientLimit;
         const conditions = {
-            deletedAt: null,
+            _id: id, deletedAt: null,
         };
-        if (condition.name === 'code') {
-            conditions.code = condition.value;
-        } else {
-            conditions._id = condition.value;
-        }
-
-        return this.model
-            .findOne(conditions)
-            .populate('user', '-_id name email telephone')
+        const total = await this.model.countDocuments(conditions);
+        const docs = await this.model
+            .findById(conditions)
             .populate({
                 path: 'productBill',
-                select: '-_id product price quantity',
+                select: '-_id product quantity price',
                 match: { deletedAt: null },
                 populate: {
                     path: 'product',
-                    select: '-_id name sku price.number image.cover',
-                    match: { deletedAt: null },
+                    select: '-_id name',
                 },
-            });
+            })
+            .skip((options.query.page - 1) * options.limit)
+            .limit(options.limit)
+            .sort({ createdAt: -1 });
+
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
+
+        return data;
     }
 
     async sendConfirmEmail(id) {

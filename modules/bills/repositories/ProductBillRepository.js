@@ -5,6 +5,10 @@ class ProductBillRepository extends BaseRepository {
     model() {
         return ProductBill;
     }
+
+    async show(id) {
+        this.model.find();
+    }
 }
 
 module.exports = ProductBillRepository;

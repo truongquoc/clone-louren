@@ -1,43 +1,44 @@
+const url = require('url');
 const BillRepositoryClass = require('../repositories/BillRepository');
+const ProductBillRepositoryClass = require('../repositories/ProductBillRepository');
+const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 
 const billRepository = new BillRepositoryClass();
-
+const productBillRepository = new ProductBillRepositoryClass();
 const index = async (req, res, next) => {
     const { query } = req;
     try {
         const bills = await billRepository.listBills(req.session.cUser._id, {
                 query,
-                pageUrl: req.baseUrl,
+                pageUrl: url.parse(req.originalUrl).pathname,
         });
-        console.log(bills);
+        bills.renderPagination = paginationHelper.renderPagination;
         res.render('modules/client/orderHistory', {
-            bills,
+            bills, query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
     }
 };
 
-const show = async (req, res, next) => {
+const showBill = async (req, res, next) => {
+    const { id } = req.params;
+    const { query } = req;
+
     try {
-        // , blogCategories, recentBlogArticles
-        // PropertyCategoryRepository.get(),
-        // PropertyArticleRepository.getRecentArticles(),
-        const [blogArticle, postNext] = await Promise.all([
-            BlogArticleRepository.show(req.params.slug),
-            BlogArticleRepository.postNext(req.params.slug),
-        ]);
+        const billDetail = await billRepository.show(id, {
+                query,
+                pageUrl: url.parse(req.originalUrl).pathname,
+        });
 
-
-        return res.render('modules/blogArticles/client/detail', {
-            blogArticle,
-            postNext,
+        billDetail.renderPagination = paginationHelper.renderPagination;
+        res.render('modules/client/returnedOrderHistory', {
+            billDetail, id, query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
     }
 };
 
-
-module.exports = { index, show };
+module.exports = { index, showBill };
