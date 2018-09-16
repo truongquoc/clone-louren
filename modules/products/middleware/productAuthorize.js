@@ -1,6 +1,6 @@
 const responseHelper = require('../../../helpers/responseHelper');
 const roleHelper = require('../../../helpers/roleHelper');
-const ProductRepositoryClass = require('../repositories/productRepository');
+const ProductRepositoryClass = require('../repositories/ProductRepository');
 
 const ProductRepository = new ProductRepositoryClass();
 

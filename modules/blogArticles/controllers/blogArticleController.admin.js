@@ -23,7 +23,6 @@ const index = async (req, res, next) => {
         });
         blogArticles.renderPagination = paginationHelper.renderPagination;
 
-        console.log(blogArticles);
         return res.render('modules/blogArticles/admin/list', {
             blogArticles, query,
         });

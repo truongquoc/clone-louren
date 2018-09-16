@@ -44,6 +44,7 @@
                         <th style="width: 10px">#</th>
                         <th>Tiêu đề</th>
                         <th>Thể loại</th>
+                        <th class="text-center">Bài nháp</th>
                         <th>Ngày tạo</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
@@ -53,6 +54,13 @@
                         <td><%= pageIndex + index + 1 %></td>
                         <td title="<%= article.title %>"><%= strLimit(article.title, 70) %></td>
                         <td><%= article.category.name %></td>
+                        <td>
+                            <% if (article.isDraft) { %>
+                                <div class="text-center">
+                                    <i class="fa fa-check text-green"></i>
+                                </div>
+                            <% } %>
+                        </td>
                         <td><%= moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                         <td>
                             <a href="/blog/<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>

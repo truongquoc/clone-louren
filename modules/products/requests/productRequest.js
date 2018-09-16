@@ -1,9 +1,8 @@
 const { check } = require('express-validator/check');
 const getSlug = require('speakingurl');
 const commonConstant = require('../../../constants/commonConstant');
-const ProductRepositoryClass = require('../repositories/productRepository');
+const ProductRepositoryClass = require('../repositories/ProductRepository');
 const dateHelper = require('../../../helpers/dateHelper');
-const adminHelper = require('../../../helpers/adminHelper');
 
 const ProductRepository = new ProductRepositoryClass();
 
@@ -28,28 +27,34 @@ const createProductRequest = [
                 return Promise.reject(e.message);
             }
         }),
-
     check('type')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not()
-        .isIn([0])
+        .isIn(['0'])
         .withMessage('Thể loại không được bỏ trống'),
-
     check('quantity')
         .not()
         .isEmpty()
         .withMessage('Số lượng không được bỏ trống'),
-
     check('priceValue')
         .not()
         .isEmpty()
         .withMessage('Giá tiền không được bỏ trống'),
-
     check('sku')
         .not()
         .isEmpty()
-        .withMessage('Mã SKU không được bỏ trống'),
-
+        .withMessage('Mã SKU không được bỏ trống')
+        .custom(async (value) => {
+            try {
+                const product = await ProductRepository.checkExistWithTrashed({ code: value });
+                if (product) {
+                    throw new Error('Mã sản phẩm đã được sử dụng');
+                }
+                return true;
+            } catch (e) {
+                return Promise.reject(e.message);
+            }
+        }),
     check('slug').trim()
         .custom(async (value, { req }) => {
         if (!value) {
@@ -93,28 +98,37 @@ const editProductRequest = [
                 return Promise.reject(e.message);
             }
         }),
-
     check('type')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not()
-        .isIn([0])
+        .isIn(['0'])
         .withMessage('Thể loại không được bỏ trống'),
-
-        check('quantity')
+    check('quantity')
         .not()
         .isEmpty()
         .withMessage('Số lượng không được bỏ trống'),
-
     check('priceValue')
         .not()
         .isEmpty()
         .withMessage('Giá tiền không được bỏ trống'),
-
     check('sku')
         .not()
         .isEmpty()
-        .withMessage('Mã SKU không được bỏ trống'),
-
+        .withMessage('Mã SKU không được bỏ trống')
+        .custom(async (value, { req }) => {
+            try {
+                const product = await ProductRepository.checkExistWithTrashed({
+                    _id: { $ne: req.params.id },
+                    code: value,
+                });
+                if (product) {
+                    throw new Error('Mã sản phẩm đã được sử dụng');
+                }
+                return true;
+            } catch (e) {
+                return Promise.reject(e.message);
+            }
+        }),
     check('slug').trim()
         .custom(async (value, { req }) => {
             if (!value) {

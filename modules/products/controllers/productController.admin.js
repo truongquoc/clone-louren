@@ -18,7 +18,6 @@ const index = async (req, res, next) => {
         const products = await ProductRepository.adminList(undefined, {
             query,
             pageUrl: req.baseUrl,
-            isDraft: false,
         });
         products.renderPagination = paginationHelper.renderPagination;
 
@@ -36,7 +35,6 @@ const showMyProducts = async (req, res, next) => {
         const products = await ProductRepository.adminList(req.session.cUser._id, {
             query,
             pageUrl: url.parse(req.originalUrl).pathname,
-            isDraft: true,
         });
         products.renderPagination = paginationHelper.renderPagination;
 
@@ -50,9 +48,7 @@ const showMyProducts = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const [productTypes] = await Promise.all([
-            ProductTypeRepository.baseGet(),
-        ]);
+        const productTypes = await ProductTypeRepository.baseGet();
 
         return res.render('modules/products/admin/create', {
             productTypes,
@@ -81,7 +77,7 @@ const store = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await ProductRepository.create(data, req.session.cUser);
-        return res.redirect('/admin/product');
+        return res.redirect('/admin/products');
     } catch (e) {
         next(responseHelper.error(e.message));
     }
@@ -120,7 +116,7 @@ const update = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await ProductRepository.update(data, req.params.id);
-        return res.redirect(`/admin/product/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
+        return res.redirect(`/admin/products/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
         return next(responseHelper.error(e.message));
     }
