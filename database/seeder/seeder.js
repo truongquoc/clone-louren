@@ -7,6 +7,10 @@ const { dropUsersTable, fakeUsers } = require('./users/usersSeeder');
 const { dropBlogCategoriesTable, fakeBlogCategories } = require('./blog/categoriesSeeder');
 const { dropBlogTagsTable, fakeBlogTags } = require('./blog/tagsSeeder');
 const { dropBlogArticlesTable, fakeBlogArticles } = require('./blog/articlesSeeder');
+const { dropProductTypesTable, fakeProductTypes } = require('./products/productTypesSeeder');
+const { dropProductsTable, fakeProducts } = require('./products/productsSeeder');
+const { dropProductBillsTable, fakeProductBills } = require('./products/productBillSeeder');
+const { dropBillsTable, fakeBillsTable } = require('./products/billsSeeder');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl, { useNewUrlParser: true });
@@ -76,6 +80,54 @@ const pumpItUp = () => [
             title: 'Create simple data for BlogArticle model👌',
             task: async () => {
                 await fakeBlogArticles();
+            },
+        },
+        {
+            title: 'Drop product types table👌',
+            task: async () => {
+                await dropProductTypesTable();
+            },
+        },
+        {
+            title: 'Create simple data for ProductType model👌',
+            task: async () => {
+                await fakeProductTypes();
+            },
+        },
+        {
+            title: 'Drop products table👌',
+            task: async () => {
+                await dropProductsTable();
+            },
+        },
+        {
+            title: 'Create simple data for Product model👌',
+            task: async () => {
+                await fakeProducts();
+            },
+        },
+        {
+            title: 'Drop product bills table👌',
+            task: async () => {
+                await dropProductBillsTable();
+            },
+        },
+        {
+            title: 'Create simple data for ProductBill model👌',
+            task: async () => {
+                await fakeProductBills();
+            },
+        },
+        {
+            title: 'Drop bills table👌',
+            task: async () => {
+                await dropBillsTable();
+            },
+        },
+        {
+            title: 'Create simple data for Bill model👌',
+            task: async () => {
+                await fakeBillsTable();
             },
         },
     ],
