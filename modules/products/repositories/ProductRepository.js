@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
-const paginationHelper = require('../../../helpers/paginationHelper');
+const getSlug = require('speakingurl');
 const Product = require('../models/Product');
-const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
+const ArticleRepository = require('../../../infrastructure/repositories/ArticleRepository');
+const commonConstant = require('../../../constants/commonConstant');
+const paginationHelper = require('../../../helpers/paginationHelper');
+const storageHelper = require('../../../helpers/storage/storageHelper');
 
-class ProductRepository extends BaseRepository {
+class ProductRepository extends ArticleRepository {
     model() {
         return Product;
     }
@@ -52,6 +55,41 @@ class ProductRepository extends BaseRepository {
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),
+        ]);
+        const data = { docs, total };
+        paginationHelper.setUpUrl(data, options);
+
+        return data;
+    }
+
+    async adminList(userId, options) {
+        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.limit = commonConstant.limit;
+        const search = new RegExp(options.query.search, 'i');
+        const conditions = { name: search, deletedAt: null };
+        if (!userId) {
+            conditions.isDraft = false;
+        } else {
+            conditions.author = userId;
+        }
+        const [total, docs] = await Promise.all([
+            this.model.countDocuments(conditions),
+            this.model
+                .find(conditions)
+                .populate('type', '-_id name', { deletedAt: null })
+                .populate({
+                    path: 'author',
+                    select: '-_id name',
+                    match: { deletedAt: null },
+                    populate: {
+                        path: 'roles',
+                        select: '-_id name',
+                    },
+                })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ isDraft: -1, createdAt: -1 })
+                .select('name price image slug type quantity isApproved isDraft sku updatedAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -114,6 +152,64 @@ class ProductRepository extends BaseRepository {
         paginationHelper.setUpUrl(data, options);
 
         return data;
+    }
+
+    show(slug) {
+        return this.model.findOne({ slug, deletedAt: null })
+            .sort({ createdAt: -1 })
+            .populate({
+                path: 'author',
+                select: '-_id name',
+                match: { deletedAt: null },
+            })
+            .populate({
+                path: 'type',
+                select: '_id name slug',
+                match: { deletedAt: null },
+            })
+            .select('-isApproved -updatedAt');
+    }
+
+    create(data, user) {
+        const product = {
+            type: data.type,
+            author: user._id,
+            name: data.name,
+            quantity: data.quantity,
+            sku: data.sku,
+            price: {
+                number: data.priceValue,
+                string: data.priceText,
+            },
+            discount: data.discount,
+            info: data.info,
+            detail: data.detail,
+            isDraft: !!data.isDraft,
+            slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
+        };
+        return this.baseCreate(product);
+    }
+
+    update(data, id) {
+        if (data.image) {
+            storageHelper.storage('s3').destroy(data.imageUrl);
+        }
+        const product = {
+            type: data.type,
+            name: data.name,
+            quantity: data.quantity,
+            sku: data.sku,
+            price: {
+                number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
+                string: data.priceText,
+            },
+            discount: data.discount,
+            info: data.info,
+            detail: data.detail,
+            isDraft: !!data.isDraft,
+            slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
+        };
+        return this.baseUpdate(product, { _id: id });
     }
 }
 

@@ -9,7 +9,6 @@ const index = async (req, res, next) => {
     const { query } = req;
     try {
         const newestProducts = await ProductRepository.getNewestProducts();
-        console.log(newestProducts);
 
         return res.render('modules/products/client/index', {
             newestProducts,
