@@ -3,19 +3,41 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
+    type: {
+        type: Schema.Types.ObjectId,
+        ref: 'product_types',
+    },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+    },
     name: {
         type: String,
         required: true,
+        min: 0,
+    },
+    sku: {
+        type: String,
+        unique: true,
     },
     price: {
-        number: Number,
-        string: String,
+        number: {
+            min: 0,
+            required: true,
+            type: Number,
+        },
+        string: {
+            type: String,
+            required: true,
+        },
     },
     detail: String,
+    info: String,
     image: {
         cover: {
             type: String,
-            require: true,
+            required: true,
             default: '',
         },
         array: {
@@ -23,19 +45,15 @@ const productSchema = new Schema({
             default: [],
         },
     },
-    info: String,
-    type: {
-        type: Schema.Types.ObjectId,
-        ref: 'product_types',
+    discount: {
+        type: Number,
+        min: 0,
+        max: 1,
+        default: 0,
     },
     quantity: {
         type: Number,
         min: 0,
-        required: true,
-    },
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
         required: true,
     },
     isDraft: {

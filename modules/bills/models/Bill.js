@@ -1,22 +1,30 @@
 const mongoose = require('mongoose');
+const ProductBill = require('./ProductBill');
 
 const { Schema } = mongoose;
 
 const Bill = new Schema({
-    products: [{
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+    },
+    productBill: [{
         type: Schema.Types.ObjectId,
         ref: 'product_bill',
         required: true,
     }],
-    isShipped: {
-        type: Number,
-        default: false,
+    code: {
+        type: String,
+        unique: true,
+        required: true,
     },
     price: {
         type: Number,
         required: true,
+        min: 0,
     },
-    status: {
+    isApproved: {
         type: Boolean,
         default: false,
     },

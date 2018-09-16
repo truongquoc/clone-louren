@@ -112,6 +112,11 @@ class BaseRepository {
         return this.baseDelete({ _id: id });
     }
 
+    baseRevert(conditions) {
+        conditions.deletedAt = { $ne: null };
+        return this.model.update(conditions, { deletedAt: undefined }, { multi: true });
+    }
+
     revertById(id) {
         return this.model.update({ _id: id, deletedAt: { $ne: null } }, { deletedAt: undefined });
     }
