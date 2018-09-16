@@ -44,8 +44,10 @@
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Tên sản phẩm</th>
+                        <th>Mã sản phẩm</th>
                         <th>Thể loại</th>
                         <th>Giá</th>
+                        <th>Số lượng</th>
                         <th>Ngày tạo</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
@@ -54,8 +56,10 @@
                         <tr data-key="<%= product._id %>">
                             <td><%= pageIndex + index + 1 %></td>
                             <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
+                            <td><%= product.sku %></td>
                             <td><%= product.type.name %></td>
                             <td><%= product.price.string %></td>
+                            <td><%= product.quantity %></td>
                             <td><%= moment(product.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
                                 <a href="/product/<%= product.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>

@@ -4,13 +4,13 @@
 
 <% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
 
-<% block('title', 'Sản phẩm - Sản phẩm của tôi') %>
+<% block('title', 'Sản phẩm') %>
 
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Blog</h1>
+                <h1>Sản phẩm</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title pull-left">Bài viết của tôi</h3>
+                <h3 class="card-title pull-left">Sản phẩm</h3>
                 <div class="pull-right">
                     <form action="" class="form-inline" method="get">
                         <div class="form-group">
@@ -39,44 +39,41 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered module__table" data-delete-url="/admin/blog/articles/delete">
+                <table class="table table-bordered module__table"
+                       data-approve-url="/admin/product/approve" data-revert-url="/admin/product/revert" data-delete-url="/admin/product/delete">
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th>Tiêu đề</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Mã sản phẩm</th>
                         <th>Thể loại</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
                         <th>Ngày tạo</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
-                    <% blogArticles.docs.forEach(function (article, index) { %>
-                    <tr data-key="<%= article._id %>">
-                        <td><%= pageIndex + index + 1 %></td>
-                        <td title="<%= article.title %>"><%= strLimit(article.title, 70) %></td>
-                        <td><%= article.category.name %></td>
-                        <td><%= moment(article.createdAt).format('HH:mm DD/MM/YYYY') %></td>
-                        <td>
-                            <a href="/blog/<%= article.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
-                            <% if (!article.isApproved) { %>
-                                <button class="badge bg-success-gradient" disabled>
-                                    <i class="fa fa-check"></i>
+                    <% products.docs.forEach(function (product, index) { %>
+                        <tr data-key="<%= product._id %>">
+                            <td><%= pageIndex + index + 1 %></td>
+                            <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
+                            <td><%= product.sku %></td>
+                            <td><%= product.type.name %></td>
+                            <td><%= product.price.string %></td>
+                            <td><%= product.quantity %></td>
+                            <td><%= moment(product.createdAt).format('HH:mm DD/MM/YYYY') %></td>
+                            <td>
+                                <a href="/admin/product/edit/<%= product.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
+                                <button class="badge bg-danger-gradient module__delete-btn">
+                                    <i class="fa fa-times"></i>
                                 </button>
-                            <% } else { %>
-                                <button class="badge bg-warning-gradient" disabled>
-                                    <i class="fa fa-check"></i>
-                                </button>
-                            <% } %>
-                            <a href="/admin/blog/articles/edit/<%= article.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
-                            <button class="badge bg-danger-gradient module__delete-btn">
-                                <i class="fa fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     <% }) %>
                 </table>
             </div>
             <div class="card-footer clearfix">
                 <div class=" pagination-sm m-0 float-right">
-                    <%- blogArticles.renderPagination(blogArticles, query.page) %>
+                    <%- products.renderPagination(products, query.page) %>
                 </div>
             </div>
         </div>

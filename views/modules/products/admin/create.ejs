@@ -37,7 +37,7 @@
                 <form class="blog-articles__form" action="" enctype="multipart/form-data" method="POST">
                     <div class="form-group">
                         <label for="name">Tên sản phẩm</label>
-                        <input type="text" class="form-control form__title__input" value="<%= old('name') %>" name="name">
+                        <input type="text" class="form-control form__title__input" value="<%= old('name') %>" id="name" name="name">
                         <p class="form__error-message form__title__error-message"><%= errors('name') %></p>
                     </div>
                     <div class="form-group">
@@ -51,27 +51,62 @@
                         </select>
                         <p class="form__error-message form__category__error-message"><%= errors('type') %></p>
                     </div>
-                    <div class="form-group">
-                        <label>Mô tả sản phẩm</label>
-                        <textarea name="info" class="form-control tinymce"><%= old('info') %></textarea>
-                        <p class="form__error-message form__title__error-message"><%= errors('info') %></p>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md">
+                            <label for="sku">Mã sản phẩm (SKU)</label>
+                            <input type="text" class="form-control form__title__input" value="<%= old('sku') %>" id="sku" name="sku">
+                            <p class="form__error-message form__title__error-message"><%= errors('sku') %></p>
+                        </div>
+                        <div class="col-12 col-md">
+                            <label for="quantity">Số lượng hàng</label>
+                            <input type="number" min="0" class="form-control form__title__input" value="<%= old('quantity') %>" id="quantity" name="quantity">
+                            <p class="form__error-message form__title__error-message"><%= errors('quantity') %></p>
+                        </div>
                     </div>
+
+                    <div class="form-group row">
+                            <div class="col-12 col-md">
+                                <div class="row justify-content-between m-0">
+                                    <div class="col p-0">
+                                        <label for="price">Giá tiền (VNĐ)</label>
+                                    </div>
+                                    <div class="col-auto text-right font-weight-light font-weight-bold">
+                                        <span id="priceText">
+                                            <%= old('priceText') %>
+                                        </span>
+                                        <input type="hidden" name="priceText" value="<%= old('priceText') %>">
+                                        <input type="hidden" name="priceValue" value="<%= old('priceValue') %>">
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" autocomplete="off" maxlength="15" data-original="" class="form-control" id="price" name="priceInput" placeholder="Nhập giá (ngàn đồng)" value="">
+                                </div>
+                                <p class="form__error-message form__title__error-message"><%= errors('priceValue') %></p>
+                            </div>
+                            <div class="col-12 col-md">
+                                <div class="row justify-content-between m-0">
+                                    <div class="col p-0">
+                                        <label for="discount">Giảm giá (đơn vị %)</label>
+                                    </div>
+                                    <div class="col-auto text-right font-weight-light font-weight-bold">
+                                        <span id="discountedPrice">
+                                            
+                                        </span>
+                                        <input type="hidden" min="0" max="1" value="<%= old('discount') %>" id="discount" name="discount">
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" min="0" max="100" class="form-control form__title__input" id="discountInput" name="discountInput">
+                                </div>
+                                <p class="form__error-message form__title__error-message"><%= errors('discount') %></p>
+                            </div>
+                    </div>
+
                     <div class="form-group">
-                        <div class="row justify-content-between m-0">
-                            <div class="col p-0">
-                                <label for="price">Giá tiền (VNĐ)</label>
-                            </div>
-                            <div class="col-auto text-right font-weight-light font-weight-bold">
-                                <span id="priceText">
-                                    <%= old('priceText') %>
-                                </span>
-                                <input type="hidden" name="priceText" value="<%= old('priceText') %>">
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" autocomplete="off" maxlength="15" data-original="" class="form-control" id="price" name="priceValue" placeholder="Nhập giá (ngàn đồng)" value="<%= old('priceValue') %>">
-                            <p class="form__error-message form__title__error-message"><%= errors('price') %></p>
-                        </div>
+                        <label for="info">Giới thiệu sản phẩm</label>
+                        <textarea name="info" id="info" class="form-control tinymce"><%= old('info') %></textarea>
+                        <p class="form__error-message form__title__error-message"><%= errors('info') %></p>
                     </div>
                     <div class="form-group">
                         <label>Chi tiết sản phẩm</label>
@@ -79,8 +114,8 @@
                         <p class="form__error-message form__content__error-message"><%= errors('detail') %></p>
                     </div>
                     <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="isDraft" class="flat-red" <%= old('isDraft') ? 'checked' : '' %>> Nháp
+                        <label for="isDraft">
+                            <input type="checkbox" name="isDraft" id="isDraft" class="flat-red" <%= old('isDraft') ? 'checked' : '' %>> Nháp
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Đăng bài</button>
@@ -98,7 +133,9 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });
+        convertPercent ();
         getCurrency();
+        discountedPrice();
         tinymce.init({
             selector: 'textarea.tinymce',
             height: 500,

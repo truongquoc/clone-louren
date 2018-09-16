@@ -10,7 +10,7 @@ const ProductRepository = new ProductRepositoryClass();
 const createProductRequest = [
     check('name').trim()
         .not().isEmpty()
-.withMessage('Tên sản phẩm không được bỏ trống')
+        .withMessage('Tên sản phẩm không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
                 const currentTime = dateHelper.getSlugCurrentTime();
@@ -28,18 +28,28 @@ const createProductRequest = [
                 return Promise.reject(e.message);
             }
         }),
+
     check('type')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not()
-.isIn([0])
-.withMessage('Thể loại không được bỏ trống'),
-    check('info').trim().not().isEmpty()
-.withMessage('Thông tin không được bỏ trống'),
-    check('detail').trim()
-        .not().isEmpty()
-.withMessage('Nội dung không được bỏ trống')
-        .custom(value => value.replace(/<\/?[^>]+(>|$)/g, '').trim())
-        .withMessage('Nội dung không được bỏ trống'),
+        .isIn([0])
+        .withMessage('Thể loại không được bỏ trống'),
+
+    check('quantity')
+        .not()
+        .isEmpty()
+        .withMessage('Số lượng không được bỏ trống'),
+
+    check('priceValue')
+        .not()
+        .isEmpty()
+        .withMessage('Giá tiền không được bỏ trống'),
+
+    check('sku')
+        .not()
+        .isEmpty()
+        .withMessage('Mã SKU không được bỏ trống'),
+
     check('slug').trim()
         .custom(async (value, { req }) => {
         if (!value) {
@@ -66,7 +76,7 @@ const createProductRequest = [
 const editProductRequest = [
     check('name').trim()
         .not().isEmpty()
-.withMessage('Tên sản phẩm không được bỏ trống')
+        .withMessage('Tên sản phẩm không được bỏ trống')
         .custom(async (value, { req }) => {
             try {
                 const oldProduct = await ProductRepository.getDetail({ _id: req.params.id }, { select: '-_id slug' });
@@ -83,19 +93,28 @@ const editProductRequest = [
                 return Promise.reject(e.message);
             }
         }),
+
     check('type')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
         .not()
-.isIn([0])
-.withMessage('Thể loại không được bỏ trống'),
-    check('info').trim()
-        .not().isEmpty()
-.withMessage('Thông tin không được bỏ trống'),
-    check('detail').trim()
-        .not().isEmpty()
-.withMessage('Nội dung không được bỏ trống')
-        .custom(value => value.replace(/<\/?[^>]+(>|$)/g, '').trim())
-        .withMessage('Nội dung không được bỏ trống'),
+        .isIn([0])
+        .withMessage('Thể loại không được bỏ trống'),
+
+        check('quantity')
+        .not()
+        .isEmpty()
+        .withMessage('Số lượng không được bỏ trống'),
+
+    check('priceValue')
+        .not()
+        .isEmpty()
+        .withMessage('Giá tiền không được bỏ trống'),
+
+    check('sku')
+        .not()
+        .isEmpty()
+        .withMessage('Mã SKU không được bỏ trống'),
+
     check('slug').trim()
         .custom(async (value, { req }) => {
             if (!value) {

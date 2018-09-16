@@ -44,7 +44,7 @@ class ProductRepository extends ArticleRepository {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
-        const conditions = { name: search, deletedAt: null };
+        const conditions = { name: search, deletedAt: null, isDraft: options.isDraft };
         if (!userId) {
             conditions.isDraft = false;
         } else {
@@ -67,7 +67,7 @@ class ProductRepository extends ArticleRepository {
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 })
-                .select('name price image slug type updateddAt'),
+                .select('name price image slug type quantity sku updateddAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -108,16 +108,18 @@ class ProductRepository extends ArticleRepository {
             type: data.type,
             author: user._id,
             name: data.name,
+            quantity: data.quantity,
+            sku: data.sku,
             price: {
-                number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
+                number: data.priceValue,
                 string: data.priceText,
             },
+            discount: data.discount,
             info: data.info,
             detail: data.detail,
             isDraft: !!data.isDraft,
             slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
         };
-        console.log('HHHHJLHJJ', product);
         return this.baseCreate(product);
     }
 
@@ -128,16 +130,18 @@ class ProductRepository extends ArticleRepository {
         const product = {
             type: data.type,
             name: data.name,
+            quantity: data.quantity,
+            sku: data.sku,
             price: {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
                 string: data.priceText,
             },
+            discount: data.discount,
             info: data.info,
             detail: data.detail,
             isDraft: !!data.isDraft,
             slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
         };
-        console.log(product);
         return this.baseUpdate(product, { _id: id });
     }
 }

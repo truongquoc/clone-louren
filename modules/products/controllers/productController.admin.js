@@ -18,16 +18,15 @@ const index = async (req, res, next) => {
         const products = await ProductRepository.adminList(undefined, {
             query,
             pageUrl: req.baseUrl,
+            isDraft: false,
         });
         products.renderPagination = paginationHelper.renderPagination;
 
-        console.log(products);
         return res.render('modules/products/admin/list', {
             products, query,
         });
     } catch (e) {
-        console.log(e);
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 
@@ -37,6 +36,7 @@ const showMyProducts = async (req, res, next) => {
         const products = await ProductRepository.adminList(req.session.cUser._id, {
             query,
             pageUrl: url.parse(req.originalUrl).pathname,
+            isDraft: true,
         });
         products.renderPagination = paginationHelper.renderPagination;
 
@@ -44,8 +44,7 @@ const showMyProducts = async (req, res, next) => {
             products, query,
         });
     } catch (e) {
-        console.log(e);
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 
@@ -54,14 +53,12 @@ const create = async (req, res, next) => {
         const [productTypes] = await Promise.all([
             ProductTypeRepository.baseGet(),
         ]);
-        console.log(productTypes);
 
         return res.render('modules/products/admin/create', {
             productTypes,
         });
     } catch (e) {
-        console.log(e);
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 
@@ -86,8 +83,7 @@ const store = async (req, res, next) => {
         await ProductRepository.create(data, req.session.cUser);
         return res.redirect('/admin/product');
     } catch (e) {
-        console.log(e);
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 
@@ -101,8 +97,7 @@ const edit = async (req, res, next) => {
             productTypes, product,
         });
     } catch (e) {
-        console.log(e);
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 
@@ -127,7 +122,6 @@ const update = async (req, res, next) => {
         await ProductRepository.update(data, req.params.id);
         return res.redirect(`/admin/product/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
-        console.log(e);
         return next(responseHelper.error(e.message));
     }
 };
@@ -138,7 +132,6 @@ const approve = async (req, res) => {
 
         return res.json(responseHelper.success(product));
     } catch (e) {
-        console.log(e);
         return res.json(responseHelper.error(e.message));
     }
 };
