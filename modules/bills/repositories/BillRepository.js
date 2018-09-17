@@ -76,7 +76,7 @@ class BillRepository extends BaseRepository {
                 .find(conditions)
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
-                .sort({ createdAt: -1 }),
+                .sort({ isApproved: 1, createdAt: -1 }),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -109,6 +109,34 @@ class BillRepository extends BaseRepository {
             });
     }
 
+    async sendApprovedEmail(id) {
+        const bill = await this.show({
+            name: 'id',
+            value: id,
+        });
+        const smtpTransport = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: config.emailAddress,
+                pass: config.emailPassword,
+            },
+        });
+        const file = fs.readFileSync('views/modules/mail/client/approvedMail.ejs', {
+            encoding: 'utf8',
+        });
+        const template = ejs.compile(file);
+        const mailOptions = {
+            to: bill.user.email,
+            from: config.emailAddress,
+            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            html: template({
+                bill,
+            }),
+        };
+
+        return smtpTransport.sendMail(mailOptions);
+    }
+
     async sendConfirmEmail(id) {
         const bill = await this.show({
             name: 'id',
@@ -121,14 +149,14 @@ class BillRepository extends BaseRepository {
                 pass: config.emailPassword,
             },
         });
-        const file = fs.readFileSync('views/modules/mail/client/template.ejs', {
+        const file = fs.readFileSync('views/modules/mail/client/confirmMail.ejs', {
             encoding: 'utf8',
         });
         const template = ejs.compile(file);
         const mailOptions = {
-            to: 'ltquoctaidn98@gmail.com',
+            to: bill.user.email,
             from: config.emailAddress,
-            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            subject: `Xác nhận đơn hàng ${bill.code}`,
             html: template({
                 bill,
             }),

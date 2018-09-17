@@ -9,7 +9,7 @@ const UserRepository = new UserRepositoryClass();
 async function dropBillsTable() {
     await Bill.remove({}, (err) => {});
 }
-async function fakeBillsTable() {
+async function fakeBills() {
     try {
         const [
             users,
@@ -37,4 +37,4 @@ async function fakeBillsTable() {
     }
 }
 
-module.exports = { dropBillsTable, fakeBillsTable };
+module.exports = { dropBillsTable, fakeBills };

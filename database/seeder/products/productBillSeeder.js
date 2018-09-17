@@ -1,9 +1,8 @@
 /* eslint-disable no-await-in-loop */
-const Product = require('../../../modules/products/models/Product');
 const ProductBill = require('../../../modules/bills/models/ProductBill');
-// const ProductRepositoryClass = require('../../../modules/products/repositories/ProductRepository');
+const ProductRepositoryClass = require('../../../modules/products/repositories/ProductRepository');
 
-// const ProductRepository = new ProductRepositoryClass();
+const ProductRepository = new ProductRepositoryClass();
 
 async function dropProductBillsTable() {
     await ProductBill.remove({}, (err) => {});
@@ -13,8 +12,7 @@ async function fakeProductBills() {
         const [
             products,
         ] = await Promise.all([
-            // ProductRepository.baseGet(),
-            Product.find(),
+            ProductRepository.baseGet(),
         ]);
         for (let i = 0; i < 40; i += 1) {
             await ProductBill.create({
