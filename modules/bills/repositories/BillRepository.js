@@ -14,7 +14,9 @@ const UserRepository = new UserRepositoryClass();
 const ProductBillRepository = new ProductBillRepositoryClass();
 
 class BillRepository extends BaseRepository {
-    model() { return Bill; }
+    model() {
+        return Bill;
+    }
 
     async adminList(options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
