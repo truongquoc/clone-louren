@@ -6,8 +6,6 @@ const config = require('../../../config/config');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const commonConstant = require('../../../constants/commonConstant');
 const Bill = require('../models/Bill');
-const ProductBill = require('../models/ProductBill');
-const Product = require('../../products/models/Product');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const UserRepositoryClass = require('../../users/repositories/UserRepository');
 const ProductBillRepositoryClass = require('../repositories/ProductBillRepository');
@@ -120,6 +118,34 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
+    async sendApprovedEmail(id) {
+        const bill = await this.show({
+            name: 'id',
+            value: id,
+        });
+        const smtpTransport = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: config.emailAddress,
+                pass: config.emailPassword,
+            },
+        });
+        const file = fs.readFileSync('views/modules/mail/client/approvedMail.ejs', {
+            encoding: 'utf8',
+        });
+        const template = ejs.compile(file);
+        const mailOptions = {
+            to: bill.user.email,
+            from: config.emailAddress,
+            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            html: template({
+                bill,
+            }),
+        };
+
+        return smtpTransport.sendMail(mailOptions);
+    }
+
     async sendConfirmEmail(id) {
         const bill = await this.show({
             name: 'id',
@@ -132,14 +158,14 @@ class BillRepository extends BaseRepository {
                 pass: config.emailPassword,
             },
         });
-        const file = fs.readFileSync('views/modules/mail/client/template.ejs', {
+        const file = fs.readFileSync('views/modules/mail/client/confirmMail.ejs', {
             encoding: 'utf8',
         });
         const template = ejs.compile(file);
         const mailOptions = {
-            to: 'ltquoctaidn98@gmail.com',
+            to: bill.user.email,
             from: config.emailAddress,
-            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            subject: `Xác nhận đơn hàng ${bill.code}`,
             html: template({
                 bill,
             }),

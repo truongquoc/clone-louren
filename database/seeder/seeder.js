@@ -10,7 +10,8 @@ const { dropBlogArticlesTable, fakeBlogArticles } = require('./blog/articlesSeed
 const { dropProductTypesTable, fakeProductTypes } = require('./products/productTypesSeeder');
 const { dropProductsTable, fakeProducts } = require('./products/productsSeeder');
 const { dropProductBillsTable, fakeProductBills } = require('./products/productBillSeeder');
-const { dropBillsTable, fakeBillsTable } = require('./products/billsSeeder');
+const { dropBillsTable, fakeBills } = require('./products/billsSeeder');
+const { dropCartsTable, fakeCarts } = require('./products/cartsSeeder');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl, { useNewUrlParser: true });
@@ -127,7 +128,19 @@ const pumpItUp = () => [
         {
             title: 'Create simple data for Bill model👌',
             task: async () => {
-                await fakeBillsTable();
+                await fakeBills();
+            },
+        },
+        {
+            title: 'Drop carts table👌',
+            task: async () => {
+                await dropCartsTable();
+            },
+        },
+        {
+            title: 'Create simple data for Cart model👌',
+            task: async () => {
+                await fakeCarts();
             },
         },
     ],

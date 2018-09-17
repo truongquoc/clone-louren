@@ -1,11 +1,10 @@
 const url = require('url');
 const BillRepositoryClass = require('../repositories/BillRepository');
-const ProductBillRepositoryClass = require('../repositories/ProductBillRepository');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 
 const billRepository = new BillRepositoryClass();
-const productBillRepository = new ProductBillRepositoryClass();
+
 const index = async (req, res, next) => {
     const { query } = req;
     try {
