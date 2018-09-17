@@ -118,34 +118,23 @@ class BillRepository extends BaseRepository {
             });
     }
 
-    async showDetail(code, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
-        options.limit = commonConstant.clientLimit;
+    async showDetail(code) {
         const conditions = {
             code, deletedAt: null,
         };
-        const [total, docs] = await Promise.all([
-            this.model.countDocuments(conditions),
-            this.model
+
+         return this.model
                     .findOne(conditions)
                     .populate({
                         path: 'productBill',
-                        select: '-_id product quantity price',
+                        select: '-_id product price quantity',
                         match: { deletedAt: null },
                         populate: {
                             path: 'product',
-                            select: '-_id name',
+                            select: '-_id name sku price.number image.cover',
                         },
                     })
-                    .skip((options.query.page - 1) * options.limit)
-                    .limit(options.limit)
-                    .sort({ createdAt: -1 }),
-
-        ]);
-        const data = { docs, total };
-        paginationHelper.setUpUrl(data, options);
-
-        return data;
+                    .sort({ createdAt: -1 });
     }
 
     async sendApprovedEmail(id) {

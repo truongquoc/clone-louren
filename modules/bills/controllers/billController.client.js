@@ -26,18 +26,11 @@ const index = async (req, res, next) => {
 const showBill = async (req, res, next) => {
     const { code } = req.params;
 
-
-    const { query } = req;
-
     try {
-        const billDetail = await BillRepository.showDetail(code, {
-                query,
-                pageUrl: url.parse(req.originalUrl).pathname,
-        });
+        const billDetail = await BillRepository.showDetail(code);
 
-        billDetail.renderPagination = paginationHelper.renderPagination;
         res.render('modules/client/returnedOrderHistory', {
-            billDetail, code, query,
+            billDetail, code,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
