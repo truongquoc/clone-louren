@@ -1,1303 +1,367 @@
-<% layout('/client/layouts/main') %>
+<% layout('../../layouts/client/app') %>
 
 <% stylesheet('/public/client/css/styleDetail.css') %>
+<% block('beforeCommon', `
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
+      // Add the new slick-theme.css if you want the default styling
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+      <style>
+            .js .slider-single > div:nth-child(1n+2) { display: none }
+
+            .js .slider-single.slick-initialized > div:nth-child(1n+2) { display: block }
+
+            .item-box {
+                  background: #f0f0f0;
+                  color: #3498db;
+                  font-size: 2.25rem;
+                  padding: 2%;
+                  position: relative;
+                  text-align: center;
+            }
+
+            .slider-single .item-box {
+                  line-height: 10rem;
+            }
+
+            .slider-nav .item-box::before {
+                  content: "";
+                  display: block;
+                  padding-top: 75%;
+            }
+
+            .slider-nav .item-box img {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  width: 100%;
+            }
+
+            .slider-nav .item-box {
+                  min-width: 98px !important;
+            }
+
+            .slide-custom .slick-slide {
+                  min-width: 98px !important;
+                  margin-right: 10px;
+            }
+
+            .slide-custom {
+                  margin-top: 15px;
+            }
+
+            .slick-track {
+                  min-width: max-content !important;
+                  min-width: -moz-max-content !important;
+            }
+
+            .slider-nav .slick-slide { cursor: pointer; }
+
+            .slick-slide.is-active .item-box {
+                  color: #c00;
+                  background-color: #fff
+            }
+
+            .autoslide .box {
+                  margin: 0 10px !important;
+            }
+
+            .product-item-related {
+                  padding: 10px;
+            }
+
+            .slide-showed .slick-list{
+                  height: auto !important;
+                  min-height: 500px;
+            }
+      </style>
+`) %>
+<% block('script', `
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+      <script>
+            $(document).ready(function() {
+                   $('.lazyLoad').lazy({
+                        effect: 'fadeIn',
+                        effectTime: 1000,
+                        threshold: 0,
+                  });
+                  $('.slider-single').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        arrows: true,
+                        fade: false,
+                        adaptiveHeight: true,
+                        infinite: false,
+                        useTransform: true,
+                        prevArrow: false,
+                        nextArrow: false,
+                        speed: 400,
+                        cssEase: 'cubic-bezier(0.77, 0, 0.18, 1)',
+                  });
+
+                  $('.slider-nav')
+                        .on('init', function(event, slick) {
+                              $('.slider-nav .slick-slide.slick-current').addClass('is-active');
+                        })
+                        .slick({
+                              slidesToShow: 7,
+                              slidesToScroll: 7,
+                              dots: false,
+                              focusOnSelect: false,
+                              infinite: false,
+                              responsive: [{
+                                    breakpoint: 1024,
+                                    settings: {
+                                          slidesToShow: 5,
+                                          slidesToScroll: 5,
+                                    }
+                              }, {
+                                    breakpoint: 640,
+                                    settings: {
+                                          slidesToShow: 4,
+                                          slidesToScroll: 4,
+                                    }
+                              }, {
+                                    breakpoint: 420,
+                                    settings: {
+                                          slidesToShow: 3,
+                                          slidesToScroll: 3,
+                              }
+                              }]
+                        });
+
+                  $('.slider-single').on('afterChange', function(event, slick, currentSlide) {
+                        $('.slider-nav').slick('slickGoTo', currentSlide);
+                        var currrentNavSlideElem = '.slider-nav .slick-slide[data-slick-index="' + currentSlide + '"]';
+                        $('.slider-nav .slick-slide.is-active').removeClass('is-active');
+                        $(currrentNavSlideElem).addClass('is-active');
+                  });
+
+                  $('.slider-nav').on('click', '.slick-slide', function(event) {
+                        event.preventDefault();
+                        var goToSingleSlide = $(this).data('slick-index');
+
+                        $('.slider-single').slick('slickGoTo', goToSingleSlide);
+                  });
+                  
+                  $('.autoplay').slick({
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 1000,
+                        infinite: false,
+                  });
+            })
+      </script>
+`) %>
+
 
 <% block('title', 'Trang chủ') %>
 
+
 <div id="contents">
-
-
-    <!-- DMOON : CSS -->
-
-
-    <!-- DMOON : SCRIPT -->
-
-
-    <!--
-        $category_page = /product/list.html
-        $project_page = /product/project.html
-        $jointbuy_page = /product/jointbuy.html
-    -->
-    <div class="xans-element- xans-product xans-product-headcategory path "><span>현재 위치</span>
-        <ol>
-            <li><a href="/">홈</a></li>
-            <li class=""><a href="/category/chair/24/">chair</a></li>
-            <li class="displaynone"><a href=""></a></li>
-            <li class="displaynone"><a href=""></a></li>
-            <li class="displaynone"><strong><a href=""></a></strong></li>
-        </ol>
-    </div>
-
-    <!-- 상단 제품 정보  -->
-    <div class="xans-element- xans-product xans-product-detail">
-        <div class="detailArea">
-            <!-- 이미지 영역 -->
-            <div class="xans-element- xans-product xans-product-image imgArea">
-                <div class="keyImg ">
-                    <div class="thumbnail">
-                        <a href="/product/image_zoom2.html?product_no=11&cate_no=24&display_group=1"
-                           alt="P000000K"
-                           onclick="window.open(this.href, 'image_zoom2', 'toolbar=no,scrollbars=auto,resizable=yes,width=450,height=693,left=0,top=0', this);return false;">
-                            <img src="//louren.co.kr/web/product/big/201805/11_shop1_1527656954625.png"
-                                 alt="aska  아스카 라탄 의자 " class="BigImage "/> </a>
-                        <div class="likeButton likePrd likePrd_11">
-                            <button type="button"><span class="title">Like</span><img
-                                        src="/public/client/images/icons/icon_201803131803583600.png" class="likePrdIcon"
-                                        product_no="11" category_no="24" icon_status="off" alt="좋아요 등록 전"/><span
-                                        class="count"><span class="likePrdCount likePrdCount_11">7</span></span>
-                            </button>
+        <div class="xans-element- xans-product xans-product-detail">
+           <div class="detailArea">
+              <div class="xans-element- xans-product xans-product-image imgArea">
+                
+                        <div class="slider slider-single slide-showed">
+                                    <div>
+                                          <img data-src="<%= product.image.cover %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                           class="ThumbImage lazyLoad">
+                                    </div>
+                                    <% product.image.array.forEach((img) => { %>
+                                          <div>
+                                                <img data-src="<%= img %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                                 class="ThumbImage lazyLoad">
+                                          </div>
+                                    <% }) %>
                         </div>
-                        <div id="zoom_wrap"></div>
-                    </div>
-                </div>
-                <!-- 참고 : 뉴상품관리 전용 모듈입니다. 뉴상품관리 이외의 곳에서 사용하면 정상동작하지 않습니다. -->
-                <div class="xans-element- xans-product xans-product-addimage listImg">
-                    <ul>
-                        <li class="xans-record-"><img
-                                    src="//louren.co.kr/web/product/small/201805/11_shop1_1527656954625.png"
-                                    class="ThumbImage"/></li>
-                        <li class="xans-record-"><img
-                                    src="//louren.co.kr/web/product/extra/small/201803/11_shop1_708358.png"
-                                    class="ThumbImage" alt=""/></li>
-                        <li class="xans-record-"><img
-                                    src="//louren.co.kr/web/product/extra/small/201803/11_shop1_628965.jpg"
-                                    class="ThumbImage" alt=""/></li>
-                        <li class="xans-record-"><img
-                                    src="//louren.co.kr/web/product/extra/small/201804/11_shop1_619347.png"
-                                    class="ThumbImage" alt=""/></li>
-                    </ul>
-                </div>
-                <!-- //참고 -->
-                <div class="control hide ">
-                    <a href="/product/image_zoom2.html?product_no=11&cate_no=24&display_group=1"
-                       onclick="window.open(this.href, 'image_zoom2', 'toolbar=no,scrollbars=auto,resizable=yes,width=560,height=710,left=0,top=0', this);return false;"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_product_zoom.gif"
-                                alt="확대보기"/></a>
-                </div>
-                <!-- 참고 : 뉴상품관리 전용 변수가 포함되어 있습니다. 뉴상품관리 이외의 곳에서 사용하면 일부 변수가 정상동작하지 않을 수 있습니다. -->
-                <div class="xans-element- xans-product xans-product-action ec-base-button hide "><a
-                            href="#none" onclick="recommend_mail_pop('11', '24', '1')"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_recommend_email.gif"
-                                alt="추천메일 보내기"/></a>
-                    <a href="#none" onclick="" class="displaynone"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_product_request.gif"
-                                alt="상품조르기"/></a>
-                    <a href="/board/inquiry/write.html" class="displaynone"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_large_purchase.gif"
-                                alt="대량구매문의"/></a>
-                </div>
-                <!-- //참고 -->
-            </div>
-            <!-- //이미지 영역 -->
+                        <div class="slider slider-nav slide-custom">
+                              <div><div class="item-box">
+                                    <img data-src="<%= product.image.cover %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                    class="image-item ThumbImage lazyLoad">
+                              </div></div>
+                              <% product.image.array.forEach((img) => { %>
+                                    <div>
+                                          <div class="item-box">
+                                                <img  data-src="<%= img %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                                class="image-item lazyLoad ThumbImage">
+                                          </div>
+                                    </div>
+                              <% }) %>
+                        </div>
 
 
-            <!-- 상세정보 내역 -->
-            <div class="infoArea">
-
-                <div class="headingArea ">
+              </div>
+              <div class="infoArea">
+                 <div class="headingArea ">
                     <div class="icon"></div>
-                    <h2>
-                        <span class="hide">[]</span>aska <br> 아스카 라탄 의자 </br></h2>
-                    <div class="desc displaynone"></div>
-
-                    <!-- 참고 : 뉴상품관리 전용 모듈입니다. 뉴상품관리 이외의 곳에서 사용하면 정상동작하지 않습니다. -->
-                    <div class="color displaynone">
-                    </div>
-                    <!-- //참고 -->
-
-                    <span class="delivery ">(해외배송 가능상품)</span>
-                    <!-- 공급사 바로가기버튼 영역 -->
-                    <div class="supply displaynone">
-                        <span></span>
-                        <a href="#none" onclick=""><img src="" alt="공급사 바로가기"/></a>
-                    </div>
-                    <!-- //공급사 바로가기버튼 영역 -->
-                </div>
-
-                <span class="price dc_price" product_dc data-custom-price="" data-price="214000"
-                      data-price-sale="214000" data-target="#span_product_price_text"
-                      data-target2="#span_product_price_sale" style="display:none;">% <i
-                            class="fa fa-long-arrow-down" aria-hidden="true"></i></span> <!-- 판매가 할인율 -->
-
-                <div class="xans-element- xans-product xans-product-detaildesign"><!--
-                    출력 갯수 지정 변수, 없으면 설정된 전체가 나옵니다.
-                    count = 10
-                -->
+                    <h1>
+                       <span class="hide">[]</span><%= product.type.name %><br><%= product.name %></br>
+                    </h1>
+                 </div>
+                 <div class="xans-element- xans-product xans-product-detaildesign">
                     <table border="1" summary="">
-                        <caption> 기본 정보</caption>
-                        <tbody>
-                        <tr class=" hide xans-record-">
-                            <th scope="row"><span style="font-size:16px;color:#555555;">상품명</span></th>
-                            <td><span style="font-size:16px;color:#555555;">aska <br> 아스카 라탄 의자 </br></span>
-                            </td>
-                        </tr>
-                        <tr class=" xans-record-">
-                            <th scope="row"><span
-                                        style="font-size:12px;color:#000000;font-weight:bold;">판매가</span></th>
-                            <td><span style="font-size:12px;color:#000000;font-weight:bold;"><strong
-                                            id="span_product_price_text">214,000원 </strong><input id="product_price"
-                                                                                                  name="product_price"
-                                                                                                  value=""
-                                                                                                  type="hidden"/></span>
-                            </td>
-                        </tr>
-                        <tr class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">국내·해외배송</span></th>
-                            <td><span style="font-size:12px;color:#555555;"><span class="delivery"><label
-                                                for="delv_type_A"><input id="delv_type_A" name="delv_type" value="A"
-                                                                         type="radio"
-                                                                         checked="checked"> 국내배송</label> <label
-                                                for="delv_type_B"><input id="delv_type_B" name="delv_type" value="B"
-                                                                         type="radio"> 해외배송</label></span></span></td>
-                        </tr>
-                        <tr class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">배송방법</span></th>
-                            <td><span style="font-size:12px;color:#555555;">택배</span></td>
-                        </tr>
-                        <tr class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">배송비</span></th>
-                            <td><span style="font-size:12px;color:#555555;"><span
-                                            class="delv_price_B"><input id="delivery_cost_prepaid"
-                                                                        name="delivery_cost_prepaid" value="P"
-                                                                        type="hidden"/>1개 주문시 <strong>11,000원</strong></span></span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <table border="1" summary="" class="share_social">
-                    <caption>SNS 상품홍보</caption>
-                    <tbody>
-                    <tr class="">
-                        <th scope="row">SNS 상품홍보</th>
-                        <td class="social"><img src="/public/client/images/icons/16319530795ab223fb4a427.gif"
-                                                onclick="SnsLinkAction('facebook',11);" alt=""/> <img
-                                    src="/public/client/images/icons/17140657385ab223fb4a368.gif"
-                                    onclick="SnsLinkAction('twitter',11);" alt=""/>
-                            <ul class="xans-element- xans-product xans-product-customsns xans-record-">
-                                <li></li>
-                            </ul>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <p class="displaynone"><img
-                            src="//img.echosting.cafe24.com/skin/base_ko_KR/product/txt_naver.gif"
-                            alt="개인결제창을 통한 결제 시 네이버 마일리지 적립 및 사용이 가능합니다."/></p>
-                <!-- //상세정보 내역 -->
-
-                <table border="1" summary=""
-                       class="xans-element- xans-product xans-product-option option_table xans-record-">
-                    <caption>상품 옵션</caption>
-                    <!-- 참고 : 뉴상품관리 전용 변수가 포함되어 있습니다. 뉴상품관리 이외의 곳에서 사용하면 일부 변수가 정상동작하지 않을 수 있습니다. -->
-                    <tbody></tbody>
-                    <tbody>
-                    <tr class="displaynone" id="">
-                        <td colspan="2" class="selectButton"><a href="#none" onclick=""><img
-                                        src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_manual_select.gif"
-                                        alt="옵션 선택"/></a></td>
-                    </tr>
-                    </tbody>
-                    <!-- //참고 -->
-                </table>
-                <div class="guideArea">
-                    <!-- 참고 : 뉴상품관리 전용 변수가 포함되어 있습니다. 뉴상품관리 이외의 곳에서 사용하면 일부 변수가 정상동작하지 않을 수 있습니다. -->
-                    <p class="info ">(최소주문수량 1개 이상<span class="displaynone"> / 최대주문수량 0개 이하</span>)</p>
-                    <!-- //참고 -->
-                    <span class="sizeGuide displaynone"><a href="#none" class="size_guide_info"
-                                                           product_no="11">사이즈 가이드</a></span>
-                </div>
-
-                <!-- 참고 : 뉴상품관리 전용 모듈입니다. 뉴상품관리 이외의 곳에서 사용하면 정상동작하지 않습니다. -->
-                <!-- //참고 -->
-
-                <!-- 참고 : 뉴상품관리 전용 모듈입니다. 뉴상품관리 이외의 곳에서 사용하면 정상동작하지 않습니다. -->
-                <div class="xans-element- xans-product xans-product-addproduct productSet additional">
-                    <div class="title">
-                        <h3>추가구성상품 <span>추가로 구매를 원하시면 선택하세요.</span>
-                        </h3>
-                        <a href="#self" class="toggle"><img
-                                    src="//img.echosting.cafe24.com/skin/base/product/btn_additional_close.gif"
-                                    alt="추가구성상품 닫기"/></a>
-                    </div>
-                    <ul class="product">
-                        <li class="xans-record-">
-                            <div class="information">
-                                <div class="thumbnail"><a href="/product/vede-베르데-원형방석50cm/140/"><img
-                                                src="//louren.co.kr/web/product/tiny/201808/ab0031514c41c4504333c7f55304c8ed.png"
-                                                alt="" id="ec-add-product-composed-product-140"/></a></div>
-                                <p class="name" title="상품명"><strong>vede<br> 베르데 원형방석(50cm)</br></strong>
-                                </p>
-                                <p class="price " title="판매가"><strong class="">31,000원</strong></p>
-                                <p class="salePrice displaynone" title="할인판매가"></p>
-                            </div>
-                            <ul class="option">
-                                <li class="xans-element- xans-product xans-product-noneoption xans-record-">
-                                    <ul>
-                                        <li>
-                                            <strong class="name">상품선택</strong>
-                                            <select id="addproduct_option_id_140_1"
-                                                    name="addproduct_option_name_140" required="true"
-                                                    option_title="vede&lt;br&gt; 베르데 원형방석(50cm)&lt;/br&gt;">
-                                                <option value="*" selected="selected">- [필수] 상품 선택 -
-                                                </option>
-                                                <option value="P00000FK000A">vede<br> 베르데 원형방석(50cm)</br>
-                                                </option>
-                                            </select></li>
-                                    </ul>
-                                </li>
-                                <li class="displaynone selectButton" id="">
-                                    <a href="#none" onclick=""><img
-                                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_manual_select.gif"
-                                                alt="옵션 선택"/></a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //참고 -->
-
-                <!-- 참고 : 뉴상품관리 전용 변수가 포함되어 있습니다. 뉴상품관리 이외의 곳에서 사용하면 일부 변수가 정상동작하지 않을 수 있습니다. -->
-                <div id="totalProducts" class=" ">
-                    <p class="ec-base-help txtWarn txt11 "> 수량을 선택해주세요.</p>
-                    <p class="ec-base-help txtWarn txt11 displaynone"> 위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
-                    <table border="1" summary="">
-                        <caption>상품 목록</caption>
-                        <colgroup>
-                            <col style="width:274px;"/>
-                            <col style="width:90px;"/>
-                            <col style="width:110px;"/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th scope="col">상품명</th>
-                            <th scope="col">상품수</th>
-                            <th scope="col">가격</th>
-                        </tr>
-                        </thead>
-                        <tbody class="">
-                        <tr>
-                            <td>aska <br> 아스카 라탄 의자 </br></td>
-                            <td>
-                                <span class="quantity">
-                                    <input id="quantity" name="quantity_opt[]" style="" value="1" type="text"/>                                    <a
-                                            href="#none"><img
-                                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif"
-                                                alt="수량증가" class="QuantityUp up"/></a>
-                                    <a href="#none"><img
-                                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif"
-                                                alt="수량감소" class="QuantityDown down"/></a>
+                       <tbody>
+                          <tr class=" xans-record-">
+                             <th scope="row"><span
+                                style="font-size:12px;color:#000000;font-weight:bold;">Giá: </span></th>
+                             <td>
+                                <span style="font-size:12px;color:#000000;font-weight:bold;" >
+                                    <span class="priceDisplay"></span>
+                                    <input class="priceValue"
+                                    value="<%= product.price.number %>"
+                                    type="hidden"/>
+                                    <span class="price dc_price priceDiscountText">
+                                          <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                          <span class="priceDiscountPercent"></span>
+                                    </span> 
+                                    <input class="priceDiscount"
+                                    value="<%= product.discount %>"
+                                    type="hidden"/>
                                 </span>
-                            </td>
-                            <td class="right">
-                                <span class="quantity_price">214000</span> <span
-                                        class="mileage displaynone">(<img src=""/>  <span
-                                            class="mileage_price"></span>)</span>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <!-- 참고 : 옵션선택 또는 세트상품 선택시 상품이 추가되는 영역입니다. 쇼핑몰 화면에는 아래와 같은 마크업구조로 표시됩니다. 삭제시 기능이 정상동작 하지 않습니다.-->
-                        <tbody><!-- tr>
-                            <td>
-                                <p class="product">
-                                    $상품명<br />
-                                    <span>$옵션</span>
-                                </p>
-                            </td>
-                            <td>
-                                <span class="quantity">
-                                    <input type="text" class="quantity_opt" />
-                                    &nbsp;<a href="#none"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가" class="up" /></a>
-                                    <a href="#none"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소" class="down" /></a>
-                                </span>
-                                <a href="#none"><img src="//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif" alt="삭제" class="option_box_del" /></a>
-                            </td>
-                            <td class="right">
-                                <span>$가격</span>
-                                <span class="mileage">(<img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/product/ico_pay_point.gif" /> &nbsp;<span class="mileage_price">$적립금</span>)</span>
-                            </td>
-                        </tr --></tbody>
-                        <!-- //참고 -->
+                             </td>
+                          </tr>
+                          <tr class=" xans-record-">
+                             <th scope="row"><span style="font-size:12px;color:#555555;">Mã sản phẩm</span></th>
+                             <td><span style="font-size:12px;color:#555555;"><%= product.sku %></span></td>
+                          </tr>
+                          <tr class=" xans-record-">
+                             <th scope="row"><span style="font-size:12px;color:#555555;">Loại sản phẩm: </span></th>
+                             <td>
+                                    <span style="font-size:12px;color:#555555;">
+                                          <%= product.type.name %>
+                                    </span>
+                             </td>
+                          </tr>
+                       </tbody>
                     </table>
-                </div>
-                <!-- //참고 -->
+                 </div>
+                 
+                 <div class="guideArea">
 
-                <div id="totalPrice" class="totalPrice">
-                    <strong>총 상품금액</strong>(수량) : <span
-                            class="total"><strong><em>0</em></strong> (0개)</span>
-                </div>
-                <p class="ec-base-help txt11 displaynone EC-price-warning">할인가가 적용된 최종 결제예정금액은 주문 시 확인할 수
-                    있습니다.</p>
-
-                <!-- 참고 : 뉴상품관리 전용 변수가 포함되어 있습니다. 뉴상품관리 이외의 곳에서 사용하면 일부 변수가 정상동작하지 않을 수 있습니다. -->
-                <div class="xans-element- xans-product xans-product-action ">
+                    <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Chọn số lượng và thêm vào giỏ hàng</span>
+                        <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0" name="quantityBuy" value="1" id="quantityBuy">
+                    </p>
+                    
+                 </div>
+                 <div class="xans-element- xans-product xans-product-action ">
                     <div class="ec-base-button">
-                        <a href="#none" class="first custom_btn_buy "
-                           onclick="product_submit(1, '/exec/front/order/basket/', this)"><span id="btnBuy"
-                                                                                                class="transition_type1">BUY NOW</span><span
-                                    class="transition_type1 displaynone" id="btnReserve">BACKORDER</span></a>
-                        <a href="#none" class="custom_btn_basket "
-                           onclick="product_submit(2, '/exec/front/order/basket/', this)"><span
-                                    class="transition_type1">CART</span></a>
-                        <span class="custom_btn_soldout displaynone">SOLD OUT</span>
-                        <a href="#none" onclick="add_wishlist(this, true);" class="custom_btn_wish "><span
-                                    class="transition_type1">WISH</span></a>
+                       <a href="#none" class="first custom_btn_buy " id = "buyNow"><span id="btnBuy"
+                          class="transition_type1">Mua ngay</span></a>
+                       <a href="#none" class="custom_btn_basket " id = "addCart"><span
+                          class="transition_type1">Thêm vào giỏ hàng</span></a>
+                       <span class="custom_btn_soldout displaynone" id = "soldOut"
+                        data-quantity="<%= product.quantity %>" style="line-height: 60px;">Hết hàng</span>
+                       <a href="#none" class="custom_btn_wish "><span
+                          class="transition_type1">Yêu thích</span></a>
                     </div>
-                    <div class="detail_sns_link">
-                        <ul class="detail_sns_talk">
-                            <li><a href="https://talk.naver.com/ct/wc67fx" target="_blank"
-                                   class="custom_btn detail_naver_talk"><img
-                                            src="/public/client/images/icons/naver_talk.png"/><span><strong>네이버 톡톡</strong> 문의하기</span></a>
-                            </li>
-                            <li><a href="https://pf.kakao.com/_TqvhC" target="_blank"
-                                   class="custom_btn detail_kakao_plus"><img
-                                            src="/public/client/images/icons/kakao_plus.png"/><span><strong>카카오톡</strong> 문의하기</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- /.detail_sns_link -->
-                    <!-- 네이버 체크아웃 구매 버튼 -->
-                    <div id="NaverChk_Button"></div>
-                    <!-- //네이버 체크아웃 구매 버튼 -->
-                    <div class="info_event_area displaynone">
-                    </div>
-                </div>
-                <!-- //참고 -->
+                 </div>
+              </div>
+           </div>
+           <div class="supplyInfo displaynone">
+           </div>
+        </div>
+        <div class="xans-element- xans-product xans-product-additional">
+           <div id="prdDetail" class="custom_detail_tabs ">
+              <ul class="menu">
+                 <li class="selected"><a href="#prdDetail"><span
+                    >CHI TIẾT</span></a></li>
+                 <li><a href="#prdInfo"><span
+                    >THÔNG TIN SẢN PHẨM</span></a></li>
+                 <li><a href="#prdReview"><span
+                    >NHẬN XÉT</span><em class="count">3</em></a></li>
+                 <li><a href="#prdQnA"><span
+                    >HỎI ĐÁP</span><em class="count">0</em></a></li>
+              </ul>
+              <div class="eventArea cont displaynone">
+                 <div class="event"></div>
+              </div>
+              <div class="cont">
+                    <%- product.detail %>
+              </div>
+           </div>
+           <div id="prdInfo" class="custom_detail_tabs ">
+              <ul class="menu">
+                  <li><a href="#prdDetail"><span
+                  >CHI TIẾT</span></a></li>
+                  <li class="selected"><a href="#prdInfo"><span
+                  >THÔNG TIN SẢN PHẨM</span></a></li>
+                  <li><a href="#prdReview"><span
+                  >NHẬN XÉT</span><em class="count">3</em></a></li>
+                  <li><a href="#prdQnA"><span
+                  >HỎI ĐÁP</span><em class="count">0</em></a></li>
+              </ul>
+              <div class="cont">
+                 <%- product.info %>
+              </div>
+           </div>
+           <div id="prdRelated" class="cont">
+                  <h2>SẢN PHẨM CÙNG CHUYÊN MỤC</h2>
+ 
+                  
+                  <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
+                         <ul class="prdList hover_zoom grid5 autoplay">
+                               <% productsRelated.forEach((productItem) => { %>
+                                     <li class="item xans-record- product-item-related">
+                                           <div class="box">
+                                                 <div class="thumbnail">
+                                                       <a href="/san-pham/<%= productItem.slug %>" class="thumb_link">
+                                                       <img data-src="<%= productItem.image.cover %>"
+                                                       src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" 
+                                                       alt="<%= productItem.name %>" class="thumb img-class lazyLoad">
+                                                       </a>
+                                                       <div class="custom_layer_btn">
+                                                       <ul>
+                                                             <li class="cart shopping__icon add-to-cart" title="Thêm vào giỏ hàng">
+                                                                   <i class="fa fa-shopping-cart"></i>
+                                                             </li>
+                                                             <li class="wish_btn shopping__icon" title="Yêu thích">
+                                                                   <i class="fa fa-heart-o"></i>
+                                                             </li>
+                                                       </ul>
+                                                       </div>
+                                                       <!-- /.custom_layer_btn -->
+                                                       <div class="like_button">
+                                                       <div class="likeButton">
+                                                             <button type="button" title="Bình chọn" class="rate">
+                                                                   <i class="fa fa-star-o"></i>
+                                                                   <strong><span>0</span></strong>
+                                                             </button>
+                                                       </div>
+                                                       </div>
+                                                 </div>
+                                                 <div class="description">
+                                                       <strong class="name">
+                                                       <a href="/san-pham/<%= productItem.slug %>">
+                                                             <span class="product__name"><%= productItem.name %><br></span>
+                                                       </a>
+                                                       </strong>
+                                                       <ul class="xans-element- xans-product xans-product-listitem spec">
+                                                       <li class="xans-record-">
+                                                                  <span style="font-size:12px;color:#000000;font-weight:bold;" >
+                                                                        <span class="priceDisplay"></span>
+                                                                        <input class="priceValue"
+                                                                        value="<%= productItem.price.number %>"
+                                                                        type="hidden"/>
+                                                                        <span class="price dc_price priceDiscountText">
+                                                                              <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                                              <span class="priceDiscountPercent"></span>
+                                                                        </span> 
+                                                                        <input class="priceDiscount"
+                                                                        value="<%= productItem.discount %>"
+                                                                        type="hidden"/>
+                                                                  </span>
+                                                       </li>
+                                                       </ul>
+                                                 </div>
+                                           </div>
+                                     </li>
+                               <% }) %>
+                         </ul>
+                     </div>
             </div>
         </div>
-        <!-- 공급사:판매사정보 -->
-        <div class="supplyInfo displaynone">
-        </div>
-        <!-- //공급사:판매사정보 -->
-    </div>
-    <!-- //상단 제품 정보 -->
-
-
-    <div class="xans-element- xans-product xans-product-additional">
-        <div id="prdRelated" class="cont">
-        </div>
-        <!-- 상품상세정보 -->
-        <div id="prdDetail" class="custom_detail_tabs ">
-            <ul class="menu">
-                <li class="selected"><a href="#prdDetail"><span class="lang_ko">상품상세정보</span><span
-                                class="lang_en">DETAIL</span></a></li>
-                <li><a href="#prdInfo"><span class="lang_ko">상품구매안내</span><span
-                                class="lang_en">PRODUCT INFO</span></a></li>
-                <li><a href="#prdReview"><span class="lang_ko">상품사용후기</span><span
-                                class="lang_en">REVIEW</span><em class="count">3</em></a></li>
-                <li><a href="#prdQnA"><span class="lang_ko">상품Q&amp;A</span><span
-                                class="lang_en">Q&amp;A</span><em class="count">0</em></a></li>
-            </ul>
-            <!-- 쿠폰 다운로드 --><!-- //쿠폰 다운로드 -->
-
-            <div class="eventArea cont displaynone">
-                <div class="event"></div>
-            </div>
-
-
-            <div class="cont">
-                <h3>상품상세정보</h3>
-                <p style="text-align: center;"><br></p>
-                <div style="text-align: center;"><br></div>
-                <div style="text-align: center;"><br></div>
-                <div style="text-align: center;"><br></div>
-                <p style="text-align: center;"><b><span style="font-size: 12pt;"><span
-                                    style="font-family: Fixedsys;"><span style="font-family: Tahoma;"><span
-                                            style="font-family: Verdana;"><span style="font-family: Fixedsys;"><span
-                                                    style="font-family: helvetica;"><span
-                                                        style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                            style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                                    style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                            style="font-family: helvetica;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-size: 12pt;"><span
-                                                                                            style="background-color: rgb(255, 255, 255);">&nbsp;</span><span
-                                                                                            style="background-color: rgb(235, 235, 235);"><span
-                                                                                                style="background-color: rgb(255, 255, 255);">[aska]</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></b>
-                </p>
-                <p style="text-align: center;"><b><span style="font-size: 12pt;"><span
-                                    style="font-family: Fixedsys;"><span style="font-family: Tahoma;"><span
-                                            style="font-family: Verdana;"><span style="font-family: Fixedsys;"><span
-                                                    style="font-family: helvetica;"><span
-                                                        style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                            style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                                    style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                            style="font-family: helvetica;"><br></span></span></span></span></span></span></span></span></span></span></span></span></b>
-                </p>
-                <p style="text-align: center;"><b><span style="font-size: 12pt;"><span
-                                    style="font-family: Fixedsys;"><span style="font-family: Tahoma;"><span
-                                            style="font-family: Verdana;"><span style="font-family: Fixedsys;"><span
-                                                    style="font-family: helvetica;"><span
-                                                        style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                            style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                                    style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                            style="font-family: helvetica;"><br></span></span></span></span></span></span></span></span></span></span></span></span></b>
-                </p>
-                <p style="text-align: center;"><br></p>
-                <p style="text-align: center;"><font face="sans-serif">/</font></p>
-                <p style="text-align: center;"><span style="font-size: 10pt;"><br></span></p>
-                <p style="text-align: center;"><span style="font-size: 10pt;"><sup><br></sup></span></p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><font face="Gulim"></font><br></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><br></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">아스카(aska) 체어는 전체적으로 부드러운 곡선 짜임으로&nbsp;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">우아함을 느낄 수 있는 의자입니다.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">기존 가구들과의 매치가 좋은 부드러운 느낌의 의자로</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">기본적이면서도 세련된 곡선의 미를 느낄 수 있는 체어입니다.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">2인 부부 테이블, 카페, 레스토랑 등 </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">쿠션을 함께 매치하실 때 더 멋스러운 인테리어 연출이 가능합니다.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><br></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p><span style="font-family: Fixedsys;"><p><br></p><span
-                            style="font-family: Tahoma;"><p><br></p><span style="font-family: Verdana;"><span
-                                    style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                            style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                        style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                        style="font-size: 10pt;"><p
-                                                                            style="text-align: center;"><br></p></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                <p style="text-align: center;"><span style="font-family: Fixedsys;"><span
-                                style="font-family: Tahoma;"><span style="font-family: Verdana;"><span
-                                        style="font-family: Fixedsys;"><span style="font-family: helvetica;"><span
-                                                style="font-family: &quot;Comic Sans MS&quot;;"><span
-                                                    style="font-family: palatino;"><span style="font-family: helvetica;"><span
-                                                            style="font-family: times;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                                            style="font-size: 10pt;"><br></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span
-                                style="font-size: 13.33px;"><b><span style="font-family: sans-serif;"><span
-                                            style="font-size: 12pt;"><span style="font-family: sans-serif;"><span
-                                                    style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                            style="font-size: 9pt;">[size]</span></span></span></span></span></span></b></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span
-                                style="font-size: 13.33px;"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;">W590*D730*H930(mm)</span></span></span></span></span></span></span></font><span
-                            style="font-family: sans-serif; font-size: 9pt;">&nbsp;</span><span
-                            style="font-family: sans-serif; font-size: 9pt;">｜ 시트높이:450mm</span></p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span
-                                style="font-size: 13.33px;"><font face="helvetica"><span
-                                        style="font-size: 13.33px;"><br></span></font></span></font></p><font
-                        face="helvetica"><span style="font-size: 13.33px;"><p style="text-align: center;"><font
-                                    face="helvetica"><br></font></p><font face="helvetica"><span class="se_fs_T4"
-                                                                                                 style="text-align: left;"><font
-                                        face="helvetica"><span class="se_fs_T4"
-                                                               style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 13px;"><div
-                                                style="text-align: center;"><span
-                                                    style="font-family: helvetica; background-color: inherit;"><span
-                                                        style="font-family: sans-serif;"><span style="font-size: 12pt;"><span
-                                                                style="font-family: sans-serif;"><span style="font-size: 9pt;"><strong><span
-                                                                            style="font-family: sans-serif;"><span
-                                                                                style="font-size: 9pt;">[weight]</span></span></strong></span></span></span></span></span></div><p
-                                                style="text-align: center;"></p></span><div
-                                            style="text-align: center; font-size: 13px;"><span
-                                                style="font-family: sans-serif;"><span style="font-size: 10pt;"><span
-                                                        style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                                style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;">4.5kg</span></span></span></span></span></span></div></font><p
-                                        style="text-align: center;"></p></span><p style="text-align: center;"></p></font><p
-                                style="text-align: center;"><br></p><p style="text-align: center;"><br></p><p
-                                style="text-align: center;"><br></p><p style="text-align: center;"><br></p></span>
-                    <p style="text-align: center;"></p></font>
-                <p style="text-align: center;"></p>
-                <p style="text-align: center;"><font face="helvetica"><span
-                                style="font-size: 13.33px;"><b><span style="font-family: sans-serif;"><span
-                                            style="font-size: 10pt;"><span style="font-size: 12pt;"><span
-                                                    style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                            style="font-family: sans-serif;"><span
-                                                                style="font-size: 9pt;">[material]</span></span></span></span></span></span></span></b></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span
-                                style="font-size: 13.33px;"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;">rattan</span></span></span></span></span></span></span></font>
-                </p>
-                <p style="text-align: center;"><br></p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p class="a" style="text-align: center;"><span lang="EN-US"
-                                                               style="font-size: 9pt; line-height: 160%; font-family: &quot;맑은 고딕&quot;; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">Environmentally-Friendly varnish Finishing</span>
-                </p>
-                <p class="a" style="text-align: center;"><span lang="EN-US"
-                                                               style="font-size: 9pt; line-height: 160%; font-family: &quot;맑은 고딕&quot;; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><br></span>
-                </p>
-                <p class="a" style="text-align: center;"><span lang="EN-US"
-                                                               style="font-size: 9pt; line-height: 160%; font-family: &quot;맑은 고딕&quot;; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><br></span>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span style="font-size: 13.33px;"><br></span></font>
-                </p>
-                <p style="text-align: center;"><font face="helvetica"><span
-                                style="font-size: 13.33px;"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><img alt=""
-                                                                     src="/public/client/images/NNEditor/1.aska_story_01_shop1_144846.png"></span></span></span></font>
-                </p>
-                <p style="text-align: right; "><br></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><font face="helvetica"><br></font></p>
-                <p><br></p>
-                <p><br></p><font face="helvetica"><img alt=""
-                                                       src="/public/client/images/NNEditor/1.aska_story_02_shop1_144847.png">
-                    <p>&nbsp;</p><img alt=""
-                                      src="/public/client/images/NNEditor/1.aska_story_03_shop1_144847.png">
-                    <p style="text-align: center; "><span style="color: rgb(255, 0, 0);"><span
-                                    style="color: rgb(255, 255, 255);">&nbsp;</span></span><span
-                                style="font-size: 8pt; color: rgb(235, 235, 235); text-align: center;"><span
-                                    style="color: rgb(255, 0, 0);"><span style="color: rgb(255, 255, 255);">로렌 로렌라탄 로렌라탄가구 천연라탄가구&nbsp; louren 라탄의자 라탄체어 등나무의자 rattan&nbsp;</span></span></span>
-                    </p>
-                    <div><span
-                                style="font-size: 8pt; color: rgb(235, 235, 235); text-align: center;"><br></span>
-                    </div>
-                </font><font face="helvetica"><p><br></p>
-                    <p><br></p>
-                    <p><br></p>
-                    <p><br></p>
-                    <p><br></p>
-                    <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
-                    <p align="center"><strong><span style="font-family: helvetica;"><span
-                                        style="font-size: 12pt;"><span style="color: red;"><span
-                                                style="font-size: 12pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;">▼추가 구매 상품</span></span></span></span></span></span></span></span></span></strong><br>
-                    </p>
-                    <p><span style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                        style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                style="font-size: 9pt;">&nbsp;</span></span></span></span></span></p>
-                    <p><br></p>
-                    <p><br></p>
-                    <p><br></p></font><br
-                        style="font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><font
-                        face="helvetica"><p align="center" style="font-family: helvetica;"><span
-                                style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                    style="background-color: inherit;"><span><span style="font-family: helvetica;"><span
-                                                style="font-weight: bold; font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                        style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                                style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                        style="font-size: 9pt;">&nbsp; &nbsp; </span></span></span></span></span></span></span><span
-                                                style="font-size: 12pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                style="font-size: 9pt;"><b><span style="font-size: 9pt;"><span
-                                                                            style="font-family: sans-serif;"><span
-                                                                                style="font-size: 9pt;">&nbsp;</span></span></span></b><span
-                                                                    style="background-color: rgb(235, 235, 235);"><b><span style="font-size: 9pt;"><span
-                                                                                style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;">[verde</span></span></span></b></span></span></span></span></span></span><span
-                                                style="font-size: 12pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                style="font-size: 9pt;"><span style="background-color: rgb(235, 235, 235);"><b><span
-                                                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;">&nbsp;쿠션/방석</span></span></span></b></span></span></span></span></span></span><span
-                                                style="font-size: 12pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                style="font-size: 9pt;"><span style="background-color: rgb(235, 235, 235);"><b><span
-                                                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                    style="font-size: 9pt;">]</span></span></span></b></span><b><span
-                                                                        style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                style="font-size: 9pt;">&nbsp;&nbsp;</span></span></span></b></span></span></span></span></span></span></span><strong><font
-                                            face="Malgun Gothic"><span style="font-size: 12pt;"><span
-                                                    style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;">&nbsp;</span></span></span></span></span></span></font><span
-                                            style="background-color: inherit;"><span style="font-family: helvetica;"><span
-                                                    style="font-size: 12pt;"><span style="font-family: sans-serif;"><span
-                                                            style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                    style="font-family: sans-serif;"><span
-                                                                        style="font-size: 9pt;">&nbsp;</span></span></span></span></span></span></span></span></strong></span><br></span>
-                    </p><span
-                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><p
-                                align="center" style="font-family: helvetica;"><br></p><p
-                                align="center"></p></span><span
-                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                style="font-weight: 600; background-color: inherit;"><span
-                                    style="font-family: helvetica;"><p align="center"
-                                                                       style="font-family: helvetica;"><br></p></span></span></span>
-                    <p align="center" style="font-family: helvetica;"><span
-                                style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                    style="font-weight: 600; background-color: inherit;"><span
-                                        style="font-family: helvetica;"><span
-                                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 9pt;"><span
-                                                style="font-size: 10pt; background-color: inherit;"><span
-                                                    style="font-family: helvetica; font-size: 12pt;"><span class="se_fs_T4"
-                                                                                                           style="color: rgb(0, 0, 0); font-family: helvetica;"><span
-                                                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                                                style="background-color: inherit;"><span style="font-family: helvetica;"><span
-                                                                        style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                                                            style="background-color: inherit;"><span style="font-family: helvetica;"><span
-                                                                                    style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                                    style="font-size: 9pt;">/</span></span></span></span></span><br></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                    </p>
-                    <p align="center" style="font-family: helvetica;"><br></p><span
-                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><p
-                                align="center" style="font-family: helvetica;"><br></p><span
-                                style="background-color: inherit;"><p></p><span class="se_fs_T4"><p align="center"
-                                                                                                    style="font-family: helvetica;"></p><p><span
-                                            style="text-align: center; font-size: 13px; background-color: rgb(247, 247, 247);"><span
-                                                style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                                    class="se_fs_T4" style="font-size: 13px; background-color: inherit;"><span
-                                                        style="font-family: helvetica;"><span
-                                                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                                                class="se_fs_T4" style="font-size: 13px; background-color: inherit;"></span></span></span></span></span></span></p><p
-                                        align="center"
-                                        style="margin: 0cm 0cm 8pt; color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-size: 12px; line-height: 13.8px;"><span
-                                            style="color: black; line-height: 13.8px; font-size: 9pt;"><font face="맑은 고딕"><span
-                                                    style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;">미색의 바탕에 블루 계열의 플라워 패턴이 들어간 패브릭입니다</span></span></span></span></span><span
-                                                    lang="EN-US"><span style="font-family: sans-serif;"><span
-                                                            style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                    style="font-family: sans-serif;"><span
-                                                                        style="font-size: 9pt;">.</span></span></span></span></span></span></font></span></p><p
-                                        align="center"
-                                        style="margin: 0cm 0cm 8pt; color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-size: 12px; line-height: 13.8px;"><span
-                                            style="color: black; line-height: 13.8px; font-size: 9pt;"><font face="맑은 고딕"><span
-                                                    lang="EN-US"></span><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                style="font-family: sans-serif;"><span style="font-size: 9pt;">시원한느낌과 동시에 적당한 빈티지한 무드를 느낄 수 있으며</span></span></span></span></span></font></span></p><p
-                                        align="center"
-                                        style="margin: 0cm 0cm 8pt; color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-size: 12px; line-height: 13.8px;"><span
-                                            style="color: black; line-height: 13.8px; font-size: 9pt;"><font face="맑은 고딕"><span
-                                                    style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;">은은한 미색 바탕색이 기반이 되어 라탄 체어와 잘 어우러집니다</span></span></span></span></span><span
-                                                    lang="EN-US"><span style="font-family: sans-serif;"><span
-                                                            style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                    style="font-family: sans-serif;"><span
-                                                                        style="font-size: 9pt;">.</span></span></span></span></span></span></font></span></p><p
-                                        align="center"
-                                        style="margin: 0cm 0cm 8pt; color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-size: 12px; line-height: 13.8px;"><span
-                                            style="color: black; line-height: 13.8px; font-size: 9pt;"><font face="맑은 고딕"><span
-                                                    lang="EN-US"></span><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                style="font-family: sans-serif;"><span style="font-size: 9pt;">패턴만의 특유의 감성과 감각적인 분위기를 연출하시는 분들께 추천 드립니다</span></span></span></span></span><span
-                                                    lang="EN-US"><span style="font-family: sans-serif;"><span
-                                                            style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                    style="font-family: sans-serif;"><span
-                                                                        style="font-size: 9pt;">.</span></span></span></span></span></span></font></span></p><div><span
-                                            style="color: black; line-height: 13.8px; font-size: 9pt;"><font face="맑은 고딕"><span
-                                                    lang="EN-US"><span style="font-family: sans-serif;"><span
-                                                            style="font-size: 9pt;"><br></span></span></span></font></span></div><span
-                                        style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><p
-                                            align="center"><br></p></span></span></span></span>
-                    <p align="center"><br></p><span
-                            style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><p
-                                align="center"><span style="text-align: left; font-size: 16px;"><span
-                                        class="se_fs_T4"
-                                        style="font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 13px; background-color: inherit;"><span
-                                            style="font-family: helvetica;"><span class="se_fs_T4" style="color: rgb(0, 0, 0);"><span
-                                                    class="se_fs_T4" style="font-size: 13px; background-color: inherit;"><span
-                                                        style="font-family: helvetica;"><span class="se_fs_T4"
-                                                                                              style="font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 13px; background-color: inherit;"><span
-                                                                style="background-color: inherit;"></span></span></span></span></span></span></span></span></p><p
-                                align="center" class="MsoNormal"
-                                style="color: rgb(53, 53, 53); font-family: helvetica; font-size: 12px; text-align: center; line-height: 13.8px;"><strong><span
-                                        style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                style="font-family: sans-serif;"><span
-                                                    style="font-size: 9pt;">[material]</span></span></span></span></strong></p><p
-                                align="center" class="MsoNormal"
-                                style="color: rgb(53, 53, 53); font-family: helvetica; font-size: 12px; text-align: center; line-height: 13.8px;"><strong></strong><br></p><p
-                                align="center" class="MsoNormal"
-                                style="color: rgb(53, 53, 53); font-family: helvetica; font-size: 12px; text-align: center; line-height: 13.8px;"><font
-                                    face="Arial"><span style="font-family: sans-serif;"><span
-                                            style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                    style="font-size: 9pt;">린넨 100%</span></span></span></span></font></p></span>
-                    <p style="font-weight: bold;"><font face="Helvetica"><strong><span
-                                        style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><strong><strong><span
-                                                    class="se_fs_T4"
-                                                    style="font-size: 13px; background-color: inherit;"><strong><strong><strong><span
-                                                                    style="text-align: left; font-family: 나눔고딕, nanumgothic, se_NanumGothic, AppleSDGothicNeo, sans-serif, simhei; font-size: 16px;"><span
-                                                                        class="se_fs_T4" style="font-size: 13px; background-color: inherit;"><span
-                                                                            style="font-family: helvetica;"><strong><span
-                                                                                    style="text-align: left; font-size: 16px;"><span class="se_fs_T4"
-                                                                                                                                     style="font-size: 13px; background-color: inherit;"><font
-                                                                                            face="helvetica"><strong><strong><span
-                                                                                                        style="text-align: left; font-size: 16px;"><span class="se_fs_T4"
-                                                                                                                                                         style="font-size: 13px; background-color: inherit;"><font
-                                                                                                                face="helvetica"><strong><strong><span
-                                                                                                                            style="text-align: left; font-size: 16px;"><span class="se_fs_T4"
-                                                                                                                                                                             style="font-size: 13px; background-color: inherit;"><font
-                                                                                                                                    face="helvetica"><span style="text-align: left; font-size: 16px;"><span
-                                                                                                                                            class="se_fs_T4" style="font-size: 13px; background-color: inherit;"><font
-                                                                                                                                                face="helvetica"><span style="text-align: left; font-size: 16px;"><span
-                                                                                                                                                        class="se_fs_T4" style="font-size: 13px; background-color: inherit;"><font
-                                                                                                                                                            face="helvetica"><strong><strong><strong><strong><strong><strong><strong><br></strong></strong></strong></strong></strong></strong></strong></font></span></span></font></span></span></font></span></span></strong></strong></font></span></span></strong></strong></font></span></span></strong></span></span></span></strong></strong></strong></span></strong></strong></span></strong></font>
-                    </p>
-                    <p style="font-weight: bold;"></p>
-                    <p style="font-weight: bold;">
-                        <strong><strong><br><strong><strong><br></strong></strong></strong></strong></p>
-                    <p></p>
-                    <p></p>
-                    <p></p><strong><p align="center" style="text-align: left; font-family: helvetica;"></p>
-                        <p align="center" class="MsoNormal"
-                           style="color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-weight: 400; text-align: center; line-height: 13.8px;">
-                                    <span lang="EN-US" style="line-height: 13.8px; font-size: 9pt;"><span
-                                                style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                        style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                        style="font-family: sans-serif;"><span
-                                                                                            style="font-size: 9pt;">*&nbsp;</span></span></span></span></span></span></span></span></span></span></span></span></span><span
-                                    style="line-height: 13.8px; font-size: 9pt;"><span
-                                        style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                style="font-family: sans-serif;"><span style="font-size: 9pt;">린넨 재질의 패브릭으로서 쉽게 해지거나 틀어지지 않습니다</span></span></span></span></span></span></span></span></span></span></span></span><span
-                                        lang="EN-US"><span style="font-family: helvetica;"><span
-                                                style="font-size: 10pt;"><span style="font-size: 10pt;"><span
-                                                        style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                        style="font-size: 9pt;">.</span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                        </p>
-                        <p align="center" class="MsoNormal"
-                           style="color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-weight: 400; text-align: center; line-height: 13.8px;">
-                                    <span style="line-height: 13.8px; font-size: 9pt;"><span lang="EN-US"><span
-                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                            style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                    style="font-size: 9pt;"></span></span></span></span></span></span></span></span></span></span><span
-                                                style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                        style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                        style="font-family: sans-serif;"><span style="font-size: 9pt;">또한 린넨 특유의 질감과 부드럽고 편안한 분위기를 느끼실 수 있습니다</span></span></span></span></span></span></span></span></span></span></span></span><span
-                                                lang="EN-US"><span style="font-family: helvetica;"><span
-                                                        style="font-size: 10pt;"><span style="font-size: 10pt;"><span
-                                                                style="font-family: sans-serif;"><span style="font-size: 9pt;"><span
-                                                                        style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                        style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                                                                style="font-size: 9pt;">.</span></span></span></span></span></span></span></span></span></span></span></span></span></span>
-                        </p>
-                        <p align="center" class="MsoNormal" style="text-align: center; line-height: 13.8px;">
-                            <br></p>
-                        <p align="center" class="MsoNormal"
-                           style="color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-weight: 400; text-align: center; line-height: 13.8px;">
-                                    <span style="line-height: 13.8px; font-size: 9pt;"><span lang="EN-US"><span
-                                                    style="font-family: helvetica;"><span style="font-size: 10pt;"><span
-                                                            style="font-size: 10pt;"><span style="font-family: sans-serif;"><span
-                                                                    style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                            style="font-size: 9pt;"><span style="font-size: 9pt;"><span
-                                                                                    style="font-size: 9pt;"><br></span></span></span></span></span></span></span></span></span></span></span>
-                        </p>
-                        <p align="center"><span
-                                    style="color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-size: 9pt; font-weight: 400; text-align: start; line-height: 13.8px;"><span
-                                        lang="EN-US"><span style="font-family: helvetica;"></span></span></span></p>
-                        <p align="center" class="MsoNormal"
-                           style="color: rgb(53, 53, 53); font-family: 나눔고딕, &quot;Nanum Gothic&quot;, &quot;malgun gothic&quot;, arial, dotum, sans-serif; font-weight: 400; text-align: center; line-height: 13.8px;">
-                                    <span style="font-family: sans-serif; font-size: 9pt; text-align: left; background-color: rgb(255, 255, 255);"><span
-                                                style="font-size: 9pt;"><span style="font-family: sans-serif;"><span
-                                                        style="font-size: 9pt;">*본 상품은 솜 포함상품이며, 분리 가능한 디자인으로 세탁하실 수 있습니다.</span></span></span></span>
-                        </p></strong>
-                    <p>
-                        <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>
-                    </p>
-                    <p><img style="width: 2000px; height: 2000px;"
-                            src="/public/client/images/NNEditor/copy-1524473153-aska_01.png" vspace="0"
-                            hspace="5"></p>
-                    <p></p>
-                    <div style="text-align: center;"><strong><strong><strong><img style="font-size: 9pt;" alt=""
-                                                                                  src="/public/client/images/NNEditor/1.aska_story_04-600_shop1_123148.png"></strong></strong></strong>
-                    </div>
-                    <p><strong><strong><strong>&nbsp;</strong></strong></strong></p><br>
-                    <p style="font-weight: bold;"></p>
-                    <p style="font-weight: bold;"><br></p>
-                    <p style="font-weight: bold;"><br></p>
-                    <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                    style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                            style="font-size: 9pt;">로렌의 모든 제품은 로렌 자체 디자인이며,</span></span></span></span></p>
-                    <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                    style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                            style="font-size: 9pt;">저작권은 로렌에게 있습니다.&nbsp;</span></span></span></span></p>
-                    <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                    style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                            style="font-size: 9pt;">무단도용 및 카피를 금하며 이를 위법할 시&nbsp;</span></span></span></span>
-                    </p>
-                    <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                    style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                            style="font-size: 9pt;">저작권법에 의거 처벌 받을 수 있습니다.</span></span></span></span></p>
-                    <p style="text-align: center;"><br></p>
-                    <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                    style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                            style="font-size: 9pt;">&lt;로렌 제품 디자인 및 이미지 무단도용/컨텐츠의 무단복제를 금합니다.&gt;</span></span></span></span>
-                    </p><br>
-                    <div style="font-weight: bold; text-align: right;"><strong
-                                style="font-size: 9pt;"><strong><strong></strong></strong></strong></div>
-                    <div style="font-weight: bold; text-align: justify;"><strong
-                                style="font-size: 9pt;"><strong><strong></strong></strong></strong></div>
-                    <div style="font-weight: bold; text-align: right;"><strong
-                                style="font-size: 9pt;"><strong><strong></strong></strong></strong></div>
-                    <p style="font-weight: bold;"></p>
-                    <p></p></font><strong></strong>
-                <p align="center" style="text-align: left; font-family: helvetica;"><br></p>
-                <p align="center" style="text-align: left; font-family: helvetica;"><br></p>
-                <p></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 10pt;"><span style="font-size: 9pt;"><span
-                                                style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                                        style="font-size: 9pt;">made in indonesia</span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 10pt;"><span style="font-size: 9pt;"><span
-                                                style="font-family: sans-serif;"><span style="font-size: 8pt;"><span
-                                                        style="font-size: 9pt;">by louren</span></span></span></span></span></span></span></span>
-                </p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><br></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <p style="text-align: center;"><span style="font-size: 9pt;"><span
-                                style="font-family: helvetica;"><br></span></span></p>
-                <hr id="false">
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);"><br></span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);"><br></span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);"><br></span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);"><br></span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);"><br></span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);">※제주/도서산간 지역 추가 배송비 안내</span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><br></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><b><span
-                                style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                        style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                style="font-size: 12pt;"><span style="font-size: 9pt;"><span
-                                                        style="color: rgb(255, 108, 0);">추가배송료=11,000원</span></span></span></span></span></span></span></b>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><u><b><span
-                                    style="color: rgb(255, 0, 0);"><span style="font-family: sans-serif;"><span
-                                            style="font-size: 9pt;"><span style="font-size: 10pt;"><span
-                                                    style="font-size: 12pt;"><br></span></span></span></span></span></b></u></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-size: 9pt;"><br></span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-size: 9pt;"><span style="font-family: sans-serif;">추가요금(1개마다 추가 부과)&nbsp;</span></span>
-                </div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;">ex)1개=11,000원 / 2개=22,000원</span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><br></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><br></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;">기업은행 143-135350-01-013</span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;">&nbsp;이용현(로렌)</span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><br></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;">*주문자 성함으로 입금 확인 후 상품 출고 됩니다.</span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;"><br></span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;"><br></span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;"><br></span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;"><br></span></div>
-                <div style="text-align: center; background-color: rgb(247, 247, 247);"><span
-                            style="font-family: sans-serif;"><br></span></div>
-                <div style="font-family: helvetica; font-size: 13px; text-align: center;">
-                    <hr id="false">
-                </div>
-                <p style="text-align: center;"></p>
-                <p style="text-align: center;"><img hspace="5" vspace="0"
-                                                    src="/public/client/images/NNEditor/copy-1534404363-ED9598EB8BA8_EAB5ACEBA7A4ECA084-ECB2B4ED81ACEC82ACED95AD.png"
-                                                    style="width: 800px; height: 2176px;"></p>
-                <p style="text-align: center;"><br></p>
-                <p style="text-align: center;"><br></p></div>
-        </div>
-        <!-- //상품상세정보 -->
-        <!-- 상품구매안내 -->
-        <div id="prdInfo" class="custom_detail_tabs ">
-            <ul class="menu">
-                <li><a href="#prdDetail"><span class="lang_ko">상품상세정보</span><span
-                                class="lang_en">DETAIL</span></a></li>
-                <li class="selected"><a href="#prdInfo"><span class="lang_ko">상품구매안내</span><span
-                                class="lang_en">PRODUCT INFO</span></a></li>
-                <li><a href="#prdReview"><span class="lang_ko">상품사용후기</span><span
-                                class="lang_en">REVIEW</span><em class="count">3</em></a></li>
-                <li><a href="#prdQnA"><span class="lang_ko">상품Q&amp;A</span><span
-                                class="lang_en">Q&amp;A</span><em class="count">0</em></a></li>
-            </ul>
-            <div class="cont">
-                <h3>상품결제정보</h3>
-                고액결제의 경우 안전을 위해 카드사에서 확인전화를 드릴 수도 있습니다. 확인과정에서 도난 카드의 사용이나 타인 명의의 주문등
-                정상적인 주문이 아니라고 판단될 경우 임의로 주문을 보류 또는 취소할 수 있습니다. &nbsp; <br>
-                <br>
-                무통장 입금은 상품 구매 대금은 PC뱅킹, 인터넷뱅킹, 텔레뱅킹 혹은 가까운 은행에서 직접 입금하시면 됩니다. &nbsp;<br>
-                주문시 입력한&nbsp;입금자명과 실제입금자의 성명이 반드시 일치하여야 하며, 7일 이내로 입금을 하셔야 하며&nbsp;입금되지
-                않은 주문은 자동취소 됩니다.&nbsp;
-            </div>
-            <div class="cont">
-                <h3>배송정보</h3>
-                <ul class="delivery">
-                    <li>배송 방법 : 택배</li>
-                    <li>배송 지역 : 전국지역</li>
-                    <li>배송 비용 : 11,000원</strong></li>
-                    <li>배송 기간 : 1일 ~ 3일</li>
-                    <li>배송 안내 :
-                        <div><span style="font-size: 9pt;">- 제품은 평일 오후 2시 이전 결제건에 한하여 당일 출고 됩니다.</span>
-                        </div>
-                        <div>- 제주/도서산간 지역 : 추가 요금 부과됩니다. (1개당 부과) / 추가요금 계좌이체(주문자명으로 입금)</div>
-                        <div>- 무료배송 상품도 산간벽지나 도서지방은 상품별 별도의 추가금액 있음(1개당 배송비 추가부과)<span
-                                    style="font-size: 9pt;">&nbsp;&nbsp;</span></div>
-                        <div>- 상품의 재고가 있는 경우 당일 발송되나 하루나 이틀 지연될 수 있습니다.</div>
-                        <div>- 핸드메이드/해외 바잉 상품 특성 상 프리오더 상품/예약 상품으로(배송공지) 배송 지연될 수 있습니다.</div>
-                        <div>- 추가 옵션을 제외한 모든 제품이&nbsp;건당 배송비가 부과됩니다.</div>
-                        <div>- 고객님께서 주문하신 상품은 입금 확인후 배송해 드립니다.&nbsp;&nbsp;</div>
-                        <div><span style="font-size: 9pt;">- 로렌은 경동화물 택배와 CJ대한통운 택배를 이용합니다.</span></div>
-                        <div>- 주문 폭주 및 입고 지연되는 상품의 경우 3-5일 정도 상품발송이 늦어지는 경우가 있습니다.</div>
-                        <div>&nbsp; (장기 지연되는 경우 개별 연락)</div>
-                        <div><br></div>
-                    </li>
-                </ul>
-            </div>
-            <div class="cont">
-                <h3>교환 및 반품정보</h3>
-                <b>▶교환 및 반품이 가능한 경우:</b><br>
-                - 상품불량/고객변심 등 상품박스(포장) 훼손 없을시, 공급 받으신 날로부터 7일이내 로렌으로 연락 후 교환/반품이 가능합니다.
-                <div>
-                    - 공급받으신 상품 및 용역의 내용이 표시.광고 내용과 다르거나 다르게 이행된 경우에는 공급받은 날로부터 3월이내, 그사실을 알게 된 날로부터
-                    30일이내<br>
-                    <br>
-
-                    <b>▶교환 및 반품이 불가능한 경우:</b></div>
-                <div>- 가구 특성 상 박스포장이 훼손, 제품의 상품가치가 상실된 경우/상품 받은 날로부터 7일 이후 에는 교환/반품이 불가능합니다.&nbsp;<br>
-                    - 고객님의 사용 또는 일부 소비에 의하여 상품 가치가 현저히 감소한 경우에는 교환/반품이 불가능합니다.<br></div>
-                <div>- 반드시 수령하신 택배사를 이용해 주셔야하며, 타 택배이용으로 인한 추가 비용은 고객님 부담입니다.</div>
-                <div>- 반품 후 소비자의 책임(포장 부주의/박스 없음)으로 훼손 또는 변형된 상품으로 판명 될 경우 전자거래에 의한 소비자 보호에 관한 법률에 의해 손해배상을
-                    청구할 수 있습니다.
-                </div>
-                <div>-&nbsp;모든 라탄 제품은 천연 라탄으로 제작되어 인조 라탄에서는 볼 수 없는 나무 줄기의 고유의 텍스쳐가 그대로 나타납니다.(마무리 거침/줄기 색상의
-                    얼룩덜룩함 등)
-                </div>
-                <div>
-                    <div>&nbsp; 이는 오염이나 제품의 하자가 아니며 교환이나 반품의 사유가 될 수 없습니다.</div>
-                    <div>&nbsp;</div>
-                    &nbsp;※ 고객변심 교환, 반품을 하실 경우 상품반송 비용은 고객님께서 부담하셔야 합니다.<br>
-                </div>
-                <div><br></div>
-                <div><br></div>
-                <div><br></div>
-                <div>
-                    <div>▶A/S안내:</div>
-                    <div>- louren은 핸드메이드, 해외 바잉 상품으로 천연라탄 특성상 A/S가 불가합니다.</div>
-                    <div>- 상세페이지 하단 천연라탄 check사항 확인 후 상품 불량일 경우,</div>
-                    <div>- 상품 받은 날로 부터 7일 이내 보내드린 박스 그대로 파손되지 않게 포장해서 반품/교환 신청해주세요.</div>
-                    <div>- (박스, 상품1개당 박스1개를 사이즈별 맞춤 제작하기 때문에 박스 없을 시, 반품/환불 불가 합니다.)</div>
-                    <div>- ※박스 없을 시/파손되지않게 포장해주셔야 하며,</div>
-                    <div>- 박스 비용10,000원(상품별로 박스비용 상이) 발생됩니다. 참고하시고 신중한 구매 부탁드립니다.</div>
-                    <div>- 배송비는 쇼핑몰 정책에 따라 책정됩니다.</div>
-                </div>
-            </div>
-            <div class="cont">
-                <h3>서비스문의</h3>
-            </div>
-        </div>
-        <!-- //상품구매안내 -->
-        <!-- 상품사용후기 -->
-        <div id="prdReview" class="custom_detail_tabs ">
-            <ul class="menu">
-                <li><a href="#prdDetail"><span class="lang_ko">상품상세정보</span><span
-                                class="lang_en">DETAIL</span></a></li>
-                <li><a href="#prdInfo"><span class="lang_ko">상품구매안내</span><span
-                                class="lang_en">PRODUCT INFO</span></a></li>
-                <li class="selected"><a href="#prdReview"><span class="lang_ko">상품사용후기</span><span
-                                class="lang_en">REVIEW</span><em class="count">3</em></a></li>
-                <li><a href="#prdQnA"><span class="lang_ko">상품Q&amp;A</span><span
-                                class="lang_en">Q&amp;A</span><em class="count">0</em></a></li>
-            </ul>
-            <div class="board">
-                <h3>상품사용후기</h3>
-                <p class="desc">상품의 사용후기를 적어주세요.</p>
-
-                <div class="xans-element- xans-product xans-product-review"><a name="use_review"></a>
-                    <p class="noAccess displaynone">글읽기 권한이 없습니다.</p>
-                    <div class="minor displaynone">
-                        <p><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/ico_under19.gif"
-                                alt=""/> <strong>"19세 미만의 미성년자"</strong>는 출입을 금합니다!</p>
-                        <p class="button"><a href="/intro/board.html"><img
-                                        src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_adult_certification.gif"
-                                        alt="성인인증 하기"/></a></p>
-                    </div>
-                    <div class="ec-base-table typeList">
-                        <table border="1" summary="" class="">
-                            <caption>상품사용후기</caption>
-                            <colgroup>
-                                <col style="width:70px;"/>
-                                <col style="width:auto"/>
-                                <col style="width:100px;"/>
-                                <col style="width:100px;"/>
-                                <col style="width:80px;"/>
-                                <col style="width:80px;" class="displaynone"/>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th scope="col">번호</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">작성자</th>
-                                <th scope="col">작성일</th>
-                                <th scope="col">조회</th>
-                                <th scope="col" class="displaynone">평점</th>
-                            </tr>
-                            </thead>
-                            <tbody class="center">
-                            <tr class="xans-record-">
-                                <td>3</td>
-                                <td class="subject left txtBreak"><a
-                                            href="/article/review/4/256/?no=256&board_no=4&spread_flag=T">만족</a>
-                                    <span class="txtWarn"></span>
-                                </td>
-                                <td> 네****</td>
-                                <td class="txtInfo txt11">2018-08-07</td>
-                                <td class="txtInfo txt11">10</td>
-                                <td class="displaynone"><img
-                                            src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif"
-                                            alt="5점"/></td>
-                            </tr>
-                            <tr class="xans-record-">
-                                <td>2</td>
-                                <td class="subject left txtBreak"><a
-                                            href="/article/review/4/213/?no=213&board_no=4&spread_flag=T">만족</a>
-                                    <span class="txtWarn"></span>
-                                </td>
-                                <td> 네****</td>
-                                <td class="txtInfo txt11">2018-07-21</td>
-                                <td class="txtInfo txt11">17</td>
-                                <td class="displaynone"><img
-                                            src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif"
-                                            alt="5점"/></td>
-                            </tr>
-                            <tr class="xans-record-">
-                                <td>1</td>
-                                <td class="subject left txtBreak"><a
-                                            href="/article/review/4/180/?no=180&board_no=4&spread_flag=T">만족</a>
-                                    <span class="txtWarn"></span>
-                                </td>
-                                <td> 네****</td>
-                                <td class="txtInfo txt11">2018-07-10</td>
-                                <td class="txtInfo txt11">27</td>
-                                <td class="displaynone"><img
-                                            src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif"
-                                            alt="5점"/></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <p class="ec-base-button typeBorder">
-                <span class="gRight">
-                    <a href="/board/product/write.html?board_no=4&product_no=11&cate_no=24&display_group=1"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_board_write1.gif" alt="상품문의하기"/></a>
-                    <a href="/board/product/list.html?board_no=4"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_board_more.gif"
-                                alt="모두 보기"/></a>
-                </span>
-                </p>
-
-                <div class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate typeSub">
-                    <a href="#none" class="first"><img
-                                src="//img.echosting.cafe24.com/skin/base/common/btn_page_first2.gif"
-                                alt="첫 페이지"/></a>
-                    <a href="#none"><img
-                                src="//img.echosting.cafe24.com/skin/base/common/btn_page_prev2.gif"
-                                alt="이전 페이지"/></a>
-                    <ol>
-                        <li class="xans-record-"><a href="?page_4=1#use_review" class="this">1</a></li>
-                    </ol>
-                    <a href="#none"><img
-                                src="//img.echosting.cafe24.com/skin/base/common/btn_page_next2.gif"
-                                alt="다음 페이지"/></a>
-                    <a href="#none" class="last"><img
-                                src="//img.echosting.cafe24.com/skin/base/common/btn_page_last2.gif"
-                                alt="마지막 페이지"/></a>
-                </div>
-            </div>
-        </div>
-        <!-- //상품사용후기 -->
-        <!-- 상품 Q&A -->
-        <div id="prdQnA" class="custom_detail_tabs ">
-            <ul class="menu">
-                <li><a href="#prdDetail"><span class="lang_ko">상품상세정보</span><span
-                                class="lang_en">DETAIL</span></a></li>
-                <li><a href="#prdInfo"><span class="lang_ko">상품구매안내</span><span
-                                class="lang_en">PRODUCT INFO</span></a></li>
-                <li><a href="#prdReview"><span class="lang_ko">상품사용후기</span><span
-                                class="lang_en">REVIEW</span><em class="count">3</em></a></li>
-                <li class="selected"><a href="#prdQnA"><span class="lang_ko">상품Q&amp;A</span><span
-                                class="lang_en">Q&amp;A</span><em class="count">0</em></a></li>
-            </ul>
-            <div class="board">
-                <h3>상품 Q&amp;A</h3>
-                <p class="desc">상품에 대해 궁금한 점을 해결해 드립니다.</p>
-
-                <p class="nodata">게시물이 없습니다</p>
-                <p class="ec-base-button typeBorder">
-                <span class="gRight">
-                    <a href="/board/product/write.html?board_no=6&product_no=11&cate_no=24&display_group=1"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_board_write2.gif" alt="상품문의하기"/></a>
-                    <a href="/board/product/list.html?board_no=6"><img
-                                src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_board_more.gif"
-                                alt="모두 보기"/></a>
-                </span>
-                </p>
-
-            </div>
-        </div>
-        <!-- //상품Q&A -->
-    </div>
-
-
-</div>
+     </div>

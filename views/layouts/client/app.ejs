@@ -85,7 +85,6 @@
 </div>
 
 
-<!-- 참고: 결제를 위한 필수 영역 -->
 <div id="progressPaybar" style="display:none;">
     <div id="progressPaybarBackground" class="layerProgress"></div>
     <div id="progressPaybarView">
@@ -102,15 +101,18 @@
         </div>
     </div>
 </div>
-<!-- //참고 -->
 
 <script type="text/javascript" src="/public/client/js/i18n1.js"
         charset="utf-8"></script>
 <script type="text/javascript" src="/public/client/js/i18n2.js"
         charset="utf-8"></script>
-
 <script type="text/javascript" src="/public/client/js/vendor.js"></script>
 <script type="text/javascript" src="/public/client/js/test3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<%- scripts %>
+<script src="/public/client/js/custom.js"></script>
+<%- block('script') %>
 <script>
     var mobileWeb = false;
 </script>

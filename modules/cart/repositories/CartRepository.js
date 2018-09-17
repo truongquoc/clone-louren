@@ -1,5 +1,5 @@
 const getSlug = require('speakingurl');
-const Product = require('../models/Product');
+const Product = require('../models/Cart');
 const ArticleRepository = require('../../../infrastructure/repositories/ArticleRepository');
 const commonConstant = require('../../../constants/commonConstant');
 const paginationHelper = require('../../../helpers/paginationHelper');

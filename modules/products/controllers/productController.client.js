@@ -34,6 +34,8 @@ const list = async (req, res, next) => {
             query,
         });
     } catch (e) {
+        console.log(e);
+
         next(responseHelper.error(e.message));
     }
 };
@@ -56,8 +58,30 @@ const search = async (req, res, next) => {
     }
 };
 
+const detail = async (req, res, next) => {
+    const { slug } = req.params;
+
+    try {
+        const product = await ProductRepository.getDetail(slug);
+        console.log(product.type);
+        const productsRelated = await ProductRepository.getProductsByType(product.type);
+
+        res.render('modules/client/detail', {
+            product,
+            productsRelated,
+        });
+      console.log(product);
+      console.log('@@@@@BY TYPE', productsRelated);
+    } catch (e) {
+        console.log('@ERROR', e);
+
+       next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     index,
     list,
     search,
+    detail,
 };

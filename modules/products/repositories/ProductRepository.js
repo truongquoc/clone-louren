@@ -211,6 +211,38 @@ class ProductRepository extends ArticleRepository {
         };
         return this.baseUpdate(product, { _id: id });
     }
+
+    getDetail(slug) {
+        return this.model.findOne({ slug, deletedAt: null })
+               .populate({
+                    path: 'author',
+                    select: '-_id name',
+                    match: { deletedAt: null },
+               })
+               .populate({
+                    path: 'type',
+                    select: '_id name slug',
+                    match: { deletedAt: null },
+               })
+               .select('-isApproved -updatedAt');
+    }
+
+    getProductsByType(typeId) {
+        return this.model.find({ type: typeId, deletedAt: null })
+                .sort({ createdAt: -1 })
+                .limit(8)
+                .populate({
+                    path: 'author',
+                    select: '-_id name',
+                    match: { deletedAt: null },
+               })
+               .populate({
+                    path: 'type',
+                    select: '-_id name slug',
+                    match: { deletedAt: null },
+               })
+               .select('-isApproved -updatedAt');
+    }
 }
 
 module.exports = ProductRepository;
