@@ -310,3 +310,7 @@ button.badge {
 .bills__table__search-status {
     margin: 0 5px;
 }
+
+.text-green {
+    color: #3bb93b;
+}

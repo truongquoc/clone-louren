@@ -67,8 +67,8 @@ class BlogArticleRepository extends ArticleRepository {
                 })
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
-                .sort({ createdAt: -1 })
-                .select('title isApproved slug createdAt'),
+                .sort({ isDraft: -1, createdAt: -1 })
+                .select('title isApproved isDraft slug createdAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -134,7 +134,7 @@ class BlogArticleRepository extends ArticleRepository {
     }
 
     update(data, id) {
-        if (data.image) {
+        if (data.image && data.imageUrl) {
             storageHelper.storage('s3').destroy(data.imageUrl);
         }
         const article = {

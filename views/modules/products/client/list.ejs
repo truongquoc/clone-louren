@@ -1,0 +1,110 @@
+<% layout('../../../layouts/client/app') %>
+
+<% stylesheet('/public/client/css/styleList.css') %>
+
+<% block('title', 'Trang chủ') %>
+
+<div id="contents">
+    <div class="xans-element- xans-product xans-product-menupackage ">
+        <div class="xans-element- xans-product xans-product-headcategory path"><span>현재 위치</span>
+            <ol>
+                <li><a href="/">홈</a></li>
+                <li class=""><a href="/category/chair/24/">chair</a></li>
+            </ol>
+        </div>
+        <div class="xans-element- xans-product xans-product-headcategory title">
+            <h2>Danh sách sản phẩm</h2>
+        </div>
+        <div class="xans-element- xans-product xans-product-headcategory title "><p class="banner"></p>
+        </div>
+    </div>
+
+    <div class="xans-element- xans-product xans-product-normalpackage ">
+        <div class="xans-element- xans-product xans-product-normalmenu ">
+            <div class="title hide" id="Product_ListMenu">
+                <h3><span>HIT PRODUCT</span></h3>
+            </div>
+            <div class="function">
+                <p class="prdCount">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
+                <ul id="type" class="xans-element- xans-product xans-product-orderby">
+                    <li class="xans-record-">
+                        <a href="?sort=productName" class="<%= query.sort === 'productName' ? 'sort' : '' %>">Tên sản phẩm</a>
+                    </li>
+                    <li class="xans-record-">
+                        <a href="?sort=priceLowToHigh" class="<%= query.sort === 'priceLowToHigh' ? 'sort' : '' %>">Giá thấp - cao</a>
+                    </li>
+                    <li class="xans-record-">
+                        <a href="?sort=priceHighToLow" class="<%= query.sort === 'priceHighToLow' ? 'sort' : '' %>">Giá cao - thấp</a>
+                    </li>
+                    <li class="xans-record-">
+                        <a href="?sort=newest" class="<%= !['productName', 'priceLowToHigh' , 'priceHighToLow'].includes(query.sort) ? 'sort' : '' %>">Mới nhất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="xans-element- xans-search xans-search-form">
+            <div class="noData <%= products.total !== 0 ? 'displaynone' : '' %>">
+                <strong class="warning">Không có sản phẩm nào được tìm thấy. </strong>
+                <strong>Hãy kiểm tra giá trị tìm kiếm của bạn và thử lại.</strong>
+                <ul>
+                    <li>Nếu bạn tìm kiếm hơn một từ, hãy kiểm tra lại khoảng trống.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
+            <ul class="prdList hover_zoom grid5">
+                <% products.docs.forEach((product) => { %>
+                    <li class="item xans-record-">
+                        <div class="box">
+                            <div class="thumbnail">
+                                <a href="/san-pham/<%= product.slug %>" class="thumb_link">
+                                    <img src="<%= product.image.cover %>"
+                                         alt="<%= product.name %>" class="thumb"/>
+                                </a>
+                                <div class="custom_layer_btn">
+                                    <ul>
+                                        <li class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </li>
+                                        <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
+                                            <i class="fa fa-heart-o"></i>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.custom_layer_btn -->
+                                <div class="like_button">
+                                    <div class="likeButton">
+                                        <button type="button" title="좋아요" class="rate">
+                                            <i class="fa fa-star-o"></i>
+                                            <strong><span>0</span></strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <strong class="name">
+                                    <a href="/san-pham/<%= product.slug %>">
+                                        <span class="product__name"><%= product.name %><br></span>
+                                    </a>
+                                </strong>
+                                <ul class="xans-element- xans-product xans-product-listitem spec">
+                                    <li class="xans-record-">
+                                        <span class="product__price"><%= formatPrice(product.price.number) %> ₫</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+
+    <% if (!products.total) { %>
+        <div class="xans-element- xans-product xans-product-normalpaging ec-base-paginate">
+            <%- products.renderPagination(products, query.page) %>
+        </div>
+    <% } %>
+</div>

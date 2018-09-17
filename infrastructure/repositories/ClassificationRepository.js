@@ -10,7 +10,7 @@ class ClassificationRepository extends BaseRepository {
     }
 
     getDetailBySlug(slug) {
-        return this.model.findOne({ slug }).select('_id name slug');
+        return this.model.findOne({ slug }).select('-createdAt -updatedAt -deletedAt -__v');
     }
 
     checkExistBySlug(slug) {

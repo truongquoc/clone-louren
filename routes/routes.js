@@ -2,12 +2,16 @@ const router = require('express').Router();
 const adminUploadRouter = require('../modules/uploads/routes.admin');
 const adminAuthRoutes = require('../modules/users/authRoutes.admin');
 const adminUserRouter = require('../modules/users/routes.admin');
+const adminProductRouter = require('../modules/products/routes.admin');
 const adminProductTypeRouter = require('../modules/productTypes/routes.admin');
 const adminBillRouter = require('../modules/bills/routes.admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes.admin');
 const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin');
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
+const clientProductTypeRouter = require('../modules/productTypes/routes.client');
+const clientCartRouter = require('../modules/carts/routes.client');
+const clientProductRoutes = require('../modules/products/routes.client');
 const clientBlogCategoryRouter = require('../modules/blogCategories/routes.client');
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes.client');
@@ -25,6 +29,7 @@ router.use((req, res, next) => {
 router.use('/admin', adminAuthRoutes);
 router.use('/admin/images', adminUploadRouter);
 router.use('/admin/users', adminUserRouter);
+router.use('/admin/products', adminProductRouter);
 router.use('/admin/product/types', adminProductTypeRouter);
 router.use('/admin/bills', adminBillRouter);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
@@ -36,7 +41,14 @@ router.use('/', clientAuthRoutes);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
+<<<<<<< HEAD
 router.use('/nguoi-dung', clientUserRouter, clientBillRouter);
+=======
+router.use('/nguoi-dung', clientUserRouter);
+router.use('/mat-hang', clientProductTypeRouter);
+router.use('/gio-hang', clientCartRouter);
+router.use('/', clientProductRoutes);
+>>>>>>> 14a75d0a44b5e7f71918cb94f744056b61b7b28c
 router.use('/', (req, res) => res.sendStatus(404));
 
 router.use(handleExceptionHelper.handleException);

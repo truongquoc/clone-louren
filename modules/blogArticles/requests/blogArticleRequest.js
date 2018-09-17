@@ -29,7 +29,7 @@ const createArticleRequest = [
         }),
     check('category')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
-        .not().isIn([0]).withMessage('Thể loại không được bỏ trống'),
+        .not().isIn(['0']).withMessage('Thể loại không được bỏ trống'),
     check('description').trim().not().isEmpty().withMessage('Mô tả không được bỏ trống'),
     check('image').custom((value, { req }) => {
         try {
@@ -109,7 +109,7 @@ const editArticleRequest = [
         }),
     check('category')
         .not().isEmpty().withMessage('Thể loại không được bỏ trống')
-        .not().isIn([0]).withMessage('Thể loại không được bỏ trống'),
+        .not().isIn(['0']).withMessage('Thể loại không được bỏ trống'),
     check('description').trim()
         .not().isEmpty().withMessage('Mô tả không được bỏ trống'),
     check('image').custom((value, { req }) => {

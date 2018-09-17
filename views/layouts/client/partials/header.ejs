@@ -1,3 +1,14 @@
+<%
+    productTypes.forEach((type) => {
+        if (type.childs && type.childs.length > 0) {
+            return false;
+        }
+        type.childs = productTypes.filter(childType => {
+            return childType.parentType ? childType.parentType.toString() === type._id.toString() : false;
+        });
+    });
+    productTypes = productTypes.filter((type) => !type.parentType)
+%>
 <div class="header_area">
     <h1 class="xans-element- xans-layout xans-layout-logotop "><a href="/index.html"><img
                     src="/public/client/images/icons/category/logo/2ddbf5cd7762b49575776e690a58df39_3_top.jpg"
@@ -28,31 +39,31 @@
                                 class="EC-Layout-Basket-count">0</em></span></a>
             </li>
         </ul>
-    </div><!-- /.widget_gnb_right -->
-
+    </div>
 
     <div class="widget_lnb_menu">
         <ul class="header_lnb_menu">
             <li class="lnb1"><a href="/shopinfo/company.html">BRAND STORY</a></li>
             <li class="lnb2">
-                <a href="/product/list.html?cate_no=24">ONLINE SHOP <i class="fa fa-angle-down"
-                                                                       aria-hidden="true"></i></a>
+                <a href="/mat-hang">ONLINE SHOP <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                 <div class="xans-element- xans-layout xans-layout-category lnb_sub_menu">
-                    <ul ajax_category category_fade_hover1 category_fade_hover2 category_fade_hover3
-                        category_fade_hover4 data-category_info_target="#category_info">
-                        <li class="depth1 xans-record-"><a href="/category/chair/24/" data-cate_no="24">chair</a>
-                        </li>
-                        <li class="depth1 xans-record-"><a href="/category/furniture/25/" data-cate_no="25">furniture</a>
-                        </li>
-                        <li class="depth1 xans-record-"><a href="/category/living/26/" data-cate_no="26">living</a>
-                        </li>
-                        <li class="depth1 xans-record-"><a href="/category/lighting/27/"
-                                                           data-cate_no="27">lighting</a></li>
-                        <li class="depth1 xans-record-"><a href="/category/fabric/47/" data-cate_no="47">fabric</a>
-                        </li>
-                        <li class="depth1 xans-record-"><a href="/category/kids/56/" data-cate_no="56">kids</a></li>
-                        <li class="depth1 xans-record-"><a href="/category/etc/28/" data-cate_no="28">etc.</a></li>
-                        <li class="depth1 xans-record-"><a href="/category/sale/60/" data-cate_no="60">sale</a></li>
+                    <ul>
+                        <% productTypes.forEach((type) => { %>
+                            <li class="depth1 xans-record-">
+                                <a href="/mat-hang/<%= type.slug %>"><%= type.name %></a>
+                                <% if (type.childs.length > 0) { %>
+                                    <div class="sub-category" style="display: none;">
+                                        <ul>
+                                            <% type.childs.forEach((childType) => { %>
+                                                <li class="depth2">
+                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.name %></a>
+                                                </li>
+                                            <% }) %>
+                                        </ul>
+                                    </div>
+                                <% } %>
+                            </li>
+                        <% }) %>
                     </ul>
                 </div>
                 <!--/.lnb_sub_menu -->

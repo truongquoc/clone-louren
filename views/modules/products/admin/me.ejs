@@ -1,0 +1,101 @@
+<% layout('../../../layouts/admin/app') %>
+
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+
+<% block('title', 'Sản phẩm') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Sản phẩm</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Simple Tables</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title pull-left">Sản phẩm</h3>
+                <div class="pull-right">
+                    <form action="" class="form-inline" method="get">
+                        <div class="form-group">
+                            <input type="text" class="form-control search-form__input" placeholder="Tìm kiếm"
+                                   name="search" value="<%= query.search || '' %>">
+                            <button class="btn btn-primary search-form__btn"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered module__table"
+                       data-approve-url="/admin/products/approve" data-delete-url="/admin/products/delete">
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Thể loại</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th class="text-center">Bài nháp</th>
+                        <th style="width: 120px">Tùy chọn</th>
+                    </tr>
+                    <% pageIndex = getPageIndex(query.page) %>
+                    <% products.docs.forEach(function (product, index) { %>
+                        <tr data-key="<%= product._id %>">
+                            <td><%= pageIndex + index + 1 %></td>
+                            <td><%= product.sku %></td>
+                            <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
+                            <td><%= product.type.name %></td>
+                            <td><%= formatPrice(product.price.number) %></td>
+                            <td><%= product.quantity %></td>
+                            <td>
+                                <% if (product.isDraft) { %>
+                                    <div class="text-center">
+                                        <i class="fa fa-check text-green"></i>
+                                    </div>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a href="/admin/products/<%= product.slug %>/images" class="badge bg-success-gradient">
+                                    <i class="fa fa-picture-o"></i>
+                                </a>
+                                <% if (!product.isApproved) { %>
+                                    <button class="badge bg-success-gradient module__approve-btn" disabled>
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                <% } else { %>
+                                    <button class="badge bg-warning-gradient module__approve-btn" disabled>
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                <% } %>
+                                <a href="/admin/products/edit/<%= product.slug %>"
+                                   class="badge bg-warning-gradient"><i class="fa fa-pencil"></i>
+                                </a>
+                                <button class="badge bg-danger-gradient module__delete-btn">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </table>
+            </div>
+            <div class="card-footer clearfix">
+                <div class=" pagination-sm m-0 float-right">
+                    <%- products.renderPagination(products, query.page) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

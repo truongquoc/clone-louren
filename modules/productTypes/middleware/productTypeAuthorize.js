@@ -15,10 +15,10 @@ const indexAuthorize = (req, res, next) => {
 const showArticlesAuthorize = async (req, res, next) => {
     try {
         const check = await ProductTypeRepository.checkExistBySlug(req.params.slug);
-        if (check) {
-            return next();
+        if (!check) {
+            return next(responseHelper.notFound());
         }
-        next(responseHelper.notFound());
+        next();
     } catch (e) {
         next(responseHelper.error(e.message));
     }

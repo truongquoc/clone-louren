@@ -19,6 +19,7 @@ const productSchema = new Schema({
     },
     sku: {
         type: String,
+        required: true,
         unique: true,
     },
     price: {
@@ -38,7 +39,7 @@ const productSchema = new Schema({
         cover: {
             type: String,
             required: true,
-            default: '',
+            default: 'dsdss',
         },
         array: {
             type: Array,

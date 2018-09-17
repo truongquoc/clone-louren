@@ -30,6 +30,15 @@ class ProductTypeRepository extends ClassificationRepository {
         return data;
     }
 
+    get() {
+        return this.model
+            .find({
+                deletedAt: null,
+            })
+            .select('_id parentType name slug')
+            .sort({ createdAt: -1 });
+    }
+
     async create(data) {
         let type = await this.getDetailOnlyTrashed({
             $or: [{ name: data.name }, { slug: getSlug(data.slug) }],

@@ -557,6 +557,117 @@ function init_revertModule() {
     });
 }
 
+function splitCurrency(input, event) {
+    let value = $(input).val();
+
+    if ($.inArray(event.keyCode, [37, 38, 39, 40]) !== -1) {
+        return;
+    }
+    
+    value = value.replace(/[\D\s\._\-]+/g, '');
+    value = value ? parseInt(value, 10) : 0;
+    
+    $(input).val(() => ((value === 0) ? '' : value.toLocaleString()));
+
+    return value.toLocaleString();
+}
+
+function calcCurrency(value) {
+    let quotient;
+    let remainder;
+
+    if (value >= 1e6) {
+        quotient = value / 1e6;
+        remainder = value % 1e6;
+
+       return (remainder === 0) ? `${quotient.toLocaleString()} tỷ đồng` : `${Math.floor(quotient).toLocaleString()} tỷ ${remainder.toLocaleString()} ngàn đồng`;
+    }
+
+    if (value >= 1e3) {
+        quotient = value / 1e3;
+        remainder = value % 1e3;
+
+       return (remainder === 0) ? `${quotient.toLocaleString()} triệu đồng` : `${Math.floor(quotient).toLocaleString()} triệu ${remainder.toLocaleString()} ngàn đồng`;
+    }
+
+    if (value > 0) {
+        quotient = value;
+
+       return `${quotient.toLocaleString()} ngàn đồng`;
+    }
+    return '';
+}
+
+function getTextCurrency(input) {
+    const value = $(input).val();
+    const originalValue = value.replace(/[($)\s\._\-]+/g, '');
+    $(input).attr('data-original', originalValue);
+    
+    const result = calcCurrency(originalValue);
+
+    $('#priceText').text(result);
+    $('[name="priceText"]').val(result);
+    $('[name="priceValue"]').val(originalValue*1000 === 0 ? '' : originalValue*1000);
+}
+
+function getCurrency() {
+    const value = $('[name="priceValue"]').val();
+    if (value) {
+        $('#price').val(parseInt(value/1000, 10).toLocaleString());
+    } else {
+        $('#price').val('');
+    }
+
+    getTextCurrency('#price');
+
+    $(document).on('change', '#priceUnit', function unit() {
+       const getUnit = $(this).val();
+
+       $('#priceUnitSelected').text(getUnit);
+    });
+    $('#price').keyup(function parseCurrency(event) {
+        splitCurrency(this, event);
+        getTextCurrency(this);
+        discountedPrice();
+    });
+}
+
+function convertPercent () {
+    const discountValue = $('#discount').val();
+    let value = (discountValue && 0<= discountValue && discountValue <= 1 ) ? discountValue*100 : '';
+    console.log('ssss', value);
+    $('#discountInput').val(value);
+
+    $('#discountInput').keyup(function a(event) {
+        const valueInput = $(this).val();
+        
+        if (valueInput && valueInput <= 100 && valueInput >=0) {
+             $('#discount').val($(this).val() / 100) 
+         } else {
+            $('#discount').val(null);
+         } 
+    });
+}
+
+function discountedPrice () {
+    let originalPrice = $('[name="priceValue"]').val();
+    let discount = $('#discount').val();
+    let discountedPrice =  (discount && originalPrice && 0<= discount && discount <= 1 ) ? 
+        `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : '';
+        console.log(discountedPrice);
+    $('#discountedPrice').text(discountedPrice);
+
+    $('#discountInput').keyup(function a(event) {
+        originalPrice = $('[name="priceValue"]').val();
+        discount = $('#discount').val();
+        console.log(typeof originalPrice, typeof discount, typeof parseFloat(originalPrice*(1-discount)));
+        
+        discountedPrice =  (discount && originalPrice && 0< discount && discount <= 1 ) ? 
+            `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
+        $('#discountedPrice').text(discountedPrice);
+    })
+}
+
 function init_changeSearchType() {
     if ($.fn.datepicker) {
         $('.input-daterange input').each(function() {
