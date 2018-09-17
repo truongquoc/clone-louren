@@ -2,7 +2,7 @@
 
 <% stylesheet('/public/client/css/styleList.css') %>
 
-<% block('title', 'Trang chủ') %>
+<% block('title', productType.name) %>
 
 <% productTypes.forEach((type) => {
     type.childs = productTypes.filter(childType => {
@@ -82,8 +82,8 @@
                         <div class="box">
                             <div class="thumbnail">
                                 <a href="/san-pham/<%= product.slug %>" class="thumb_link">
-                                    <img src="<%= product.image.cover %>"
-                                         alt="<%= product.name %>" class="thumb"/>
+                                    <img data-src="<%= product.image.cover %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                         alt="<%= product.name %>" class="thumb lazyLoad"/>
                                 </a>
                                 <div class="custom_layer_btn">
                                     <ul>
@@ -113,7 +113,19 @@
                                 </strong>
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
-                                        <span class="product__price"><%= formatPrice(product.price.number) %> ₫</span>
+                                        <span style="font-size:12px;color:#000000;font-weight:bold;" >
+                                            <span class="priceDisplay"></span>
+                                            <input class="priceValue"
+                                            value="<%= product.price.number %>"
+                                            type="hidden"/>
+                                            <span class="price dc_price priceDiscountText">
+                                                    <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                    <span class="priceDiscountPercent"></span>
+                                            </span> 
+                                            <input class="priceDiscount"
+                                            value="<%= product.discount %>"
+                                            type="hidden"/>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>

@@ -51,7 +51,7 @@ class ProductRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .select('name image.cover price.number slug')
+                .select('name image.cover price.number discount slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),

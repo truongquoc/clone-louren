@@ -70,10 +70,7 @@ const detail = async (req, res, next) => {
             productsRelated,
         });
       console.log(product);
-      console.log('@@@@@BY TYPE', productsRelated);
     } catch (e) {
-        console.log('@ERROR', e);
-
        next(responseHelper.error(e.message));
     }
 };

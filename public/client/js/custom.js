@@ -4,7 +4,7 @@ function splitCurruncy() {
         const price = Number($(this).val());
         let discount = Number($(this).siblings('.priceDiscount').val());
         const priceDiscounted = price*(1-discount);  
-        console.log(priceDiscounted, priceDiscounted%1000, discount);
+        console.log(typeof priceDiscounted, typeof priceDiscounted%1000, typeof discount);
         
         const result = (discount) ? 
                 Number(priceDiscounted - priceDiscounted%1000).toLocaleString() :
@@ -12,7 +12,7 @@ function splitCurruncy() {
     
         const display = (discount) ?
                 `<del>${price.toLocaleString()} ₫</del><br>${result} ₫` : 
-                `${result}`;
+                `${result} ₫`;
     
         if (discount) {
             discount = discount*100;
