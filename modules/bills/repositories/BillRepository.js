@@ -61,30 +61,31 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
-    async listBills(id, options) {
+    async clientBills(id, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
-            deletedAt: null,
+          user: id, deletedAt: null,
         };
-        if (id) {
-            conditions.user = id;
-        }
-        const total = await this.model.countDocuments(conditions);
-        const docs = await this.model
-            .find(conditions)
-            .populate({
-                path: 'productBill',
-                select: '-_id product',
-                match: { deletedAt: null },
-                populate: {
-                    path: 'product',
-                    select: '-_id name',
-                },
-            })
-            .skip((options.query.page - 1) * options.limit)
-            .limit(options.limit)
-            .sort({ createdAt: -1 });
+
+        const [total, docs] = await Promise.all([
+            this.model.countDocuments(conditions),
+            this.model
+                    .find(conditions)
+                    .populate({
+                        path: 'productBill',
+                        select: '-_id product quantity price',
+                        match: { deletedAt: null },
+                        populate: {
+                            path: 'product',
+                            select: '-_id name',
+                        },
+                    })
+                    .skip((options.query.page - 1) * options.limit)
+                    .limit(options.limit)
+                    .sort({ createdAt: -1 }),
+
+        ]);
 
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -98,23 +99,24 @@ class BillRepository extends BaseRepository {
         const conditions = {
             code, deletedAt: null,
         };
-        const total = await this.model.countDocuments(conditions);
-        const docs = await this.model
-            .findOne(conditions)
-            .populate({
-                path: 'productBill',
-                select: '-_id product quantity price',
-                match: { deletedAt: null },
-                populate: {
-                    path: 'product',
-                    select: '-_id name',
-                },
-            })
-            .skip((options.query.page - 1) * options.limit)
-            .limit(options.limit)
-            .sort({ createdAt: -1 });
+        const [total, docs] = await Promise.all([
+            this.model.countDocuments(conditions),
+            this.model
+                    .findOne(conditions)
+                    .populate({
+                        path: 'productBill',
+                        select: '-_id product quantity price',
+                        match: { deletedAt: null },
+                        populate: {
+                            path: 'product',
+                            select: '-_id name',
+                        },
+                    })
+                    .skip((options.query.page - 1) * options.limit)
+                    .limit(options.limit)
+                    .sort({ createdAt: -1 }),
 
-
+        ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
 
