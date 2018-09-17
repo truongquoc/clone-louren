@@ -61,30 +61,39 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
-    async listBills(id, options) {
+    async clientBills(id, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
-            deletedAt: null,
+          user: id, deletedAt: null,
         };
-        if (id) {
-            conditions.user = id;
-        }
+
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
-                .find(conditions)
-                .skip((options.query.page - 1) * options.limit)
-                .limit(options.limit)
-                .sort({ isApproved: 1, createdAt: -1 }),
+                    .find(conditions)
+                    .populate({
+                        path: 'productBill',
+                        select: '-_id product quantity price',
+                        match: { deletedAt: null },
+                        populate: {
+                            path: 'product',
+                            select: '-_id name',
+                        },
+                    })
+                    .skip((options.query.page - 1) * options.limit)
+                    .limit(options.limit)
+                    .sort({ createdAt: -1 }),
+
         ]);
+
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
 
         return data;
     }
 
-    show(condition) {
+    async show(condition) {
         const conditions = {
             deletedAt: null,
         };
@@ -107,6 +116,25 @@ class BillRepository extends BaseRepository {
                     match: { deletedAt: null },
                 },
             });
+    }
+
+    async showDetail(code) {
+        const conditions = {
+            code, deletedAt: null,
+        };
+
+         return this.model
+                    .findOne(conditions)
+                    .populate({
+                        path: 'productBill',
+                        select: '-_id product price quantity',
+                        match: { deletedAt: null },
+                        populate: {
+                            path: 'product',
+                            select: '-_id name sku price.number image.cover',
+                        },
+                    })
+                    .sort({ createdAt: -1 });
     }
 
     async sendApprovedEmail(id) {
