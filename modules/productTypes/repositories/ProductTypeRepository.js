@@ -10,7 +10,7 @@ class ProductTypeRepository extends ClassificationRepository {
     }
 
     async list(options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const conditions = { name: search };

@@ -1,16 +1,7 @@
 <% layout('../../../layouts/client/blog') %>
 
-<% block('title', 'Hello world') %>
-<div id="fb-root"></div>
-<script>
-  (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1';
-      fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
+<% block('title', `Blog - ${blogArticle.title}`) %>
+
 <article
    class="cth-single content-single single-article post-15 post type-post status-publish format-video has-post-thumbnail hentry category-films category-trip tag-adventure tag-camping tag-happy post_format-post-format-video">
    <h1 class="single-article-title fl-wrap"><span><%= blogArticle.title %></span></h1>
@@ -23,7 +14,7 @@
    <div class="separator img-separator"><img
       src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt="">
    </div>
-   <% if(blogArticle.display.useVideo === 'underfined') { %> 
+   <% if(blogArticle.display.useVideo === 'underfined') { %>
    <div class="blog-media">
       <div class="resp-video">
         <video width="616" height="347" controls>

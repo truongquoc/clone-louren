@@ -4,6 +4,6 @@ const blogArticleRight = require('../../infrastructure/controllers/blogArticleCo
 const blogCategoryMiddleware = require('./middleware/blogTagAuthorize');
 const blogTagController = require('./controllers/blogTagController.client');
 
-router.get('/the-:slug', blogArticleRight.blogAticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogTagController.index);
+router.get('/the-:slug', blogArticleRight.blogArticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogTagController.index);
 
 module.exports = router;
