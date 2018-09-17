@@ -90,15 +90,15 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
-    async showBillDetail(id, options) {
+    async showBillDetail(code, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
-            _id: id, deletedAt: null,
+            code, deletedAt: null,
         };
         const total = await this.model.countDocuments(conditions);
         const docs = await this.model
-            .findById(conditions)
+            .findOne(conditions)
             .populate({
                 path: 'productBill',
                 select: '-_id product quantity price',
@@ -111,6 +111,7 @@ class BillRepository extends BaseRepository {
             .skip((options.query.page - 1) * options.limit)
             .limit(options.limit)
             .sort({ createdAt: -1 });
+
 
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);

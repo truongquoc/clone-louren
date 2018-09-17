@@ -84,7 +84,7 @@
         $login_url = /member/login.html
     -->
         <div class="title">
-            <h3>Đơn hàng <%= id %></h3>
+            <h3>Đơn hàng <%= code %></h3>
         </div>
         <table border="1" summary="">
             <caption>취소/반품/교환</caption>
@@ -120,7 +120,7 @@
                         </td>
                     
                         <td class="name">
-                            <%= p.product.name %>
+                            <a href=""><%= p.product.name %></a>
                         </td>
                         <td class="quantity"> <%= p.quantity %> </td>
                         <td class="right price">
