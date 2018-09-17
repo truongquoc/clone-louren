@@ -65,8 +65,8 @@ class ProductRepository extends ArticleRepository {
     async adminList(userId, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.limit;
-        const search = new RegExp(options.query.search, 'i');
-        const conditions = { name: search, deletedAt: null, isDraft: options.isDraft };
+        const conditions = { deletedAt: null };
+        conditions.$or = [{ name: new RegExp(options.query.search, 'i') }, { sku: options.query.search }];
         if (!userId) {
             conditions.isDraft = false;
         } else {
@@ -88,8 +88,8 @@ class ProductRepository extends ArticleRepository {
                 })
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
-                .sort({ createdAt: -1 })
-                .select('name price image slug type quantity isApproved sku updateddAt'),
+                .sort({ isDraft: -1, createdAt: -1 })
+                .select('name price image slug type quantity isApproved isDraft sku updatedAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -181,6 +181,7 @@ class ProductRepository extends ArticleRepository {
                 number: data.priceValue,
                 string: data.priceText,
             },
+            'image.cover': data.image,
             discount: data.discount,
             info: data.info,
             detail: data.detail,
@@ -191,7 +192,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     update(data, id) {
-        if (data.image) {
+        if (data.image && data.imageUrl) {
             storageHelper.storage('s3').destroy(data.imageUrl);
         }
         const product = {
@@ -203,6 +204,7 @@ class ProductRepository extends ArticleRepository {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
                 string: data.priceText,
             },
+            'image.cover': data.image,
             discount: data.discount,
             info: data.info,
             detail: data.detail,
@@ -242,6 +244,17 @@ class ProductRepository extends ArticleRepository {
                     match: { deletedAt: null },
                })
                .select('-isApproved -updatedAt');
+    }
+
+    async storeImages(images, id, type) {
+        const article = await this.getDetail({ _id: id }, { select: '_id image.array' });
+        if (type === '2' || !article.image.array) {
+            article.image.array = images;
+        } else if (type === '1' && article.image.array) {
+            article.image.array = article.image.array.concat(images);
+        }
+
+        return article.save();
     }
 }
 

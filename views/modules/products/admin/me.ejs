@@ -40,29 +40,49 @@
             </div>
             <div class="card-body">
                 <table class="table table-bordered module__table"
-                       data-approve-url="/admin/product/approve" data-revert-url="/admin/product/revert" data-delete-url="/admin/product/delete">
+                       data-approve-url="/admin/products/approve" data-delete-url="/admin/products/delete">
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th>Tên sản phẩm</th>
                         <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
                         <th>Thể loại</th>
-                        <th>Giá</th>
+                        <th>Đơn giá</th>
                         <th>Số lượng</th>
-                        <th>Ngày tạo</th>
+                        <th class="text-center">Bài nháp</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
                     <% pageIndex = getPageIndex(query.page) %>
                     <% products.docs.forEach(function (product, index) { %>
                         <tr data-key="<%= product._id %>">
                             <td><%= pageIndex + index + 1 %></td>
-                            <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
                             <td><%= product.sku %></td>
+                            <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
                             <td><%= product.type.name %></td>
-                            <td><%= product.price.string %></td>
+                            <td><%= formatPrice(product.price.number) %></td>
                             <td><%= product.quantity %></td>
-                            <td><%= moment(product.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
-                                <a href="/admin/product/edit/<%= product.slug %>" class="badge bg-warning-gradient"><i class="fa fa-pencil"></i></a>
+                                <% if (product.isDraft) { %>
+                                    <div class="text-center">
+                                        <i class="fa fa-check text-green"></i>
+                                    </div>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a href="/admin/products/<%= product.slug %>/images" class="badge bg-success-gradient">
+                                    <i class="fa fa-picture-o"></i>
+                                </a>
+                                <% if (!product.isApproved) { %>
+                                    <button class="badge bg-success-gradient module__approve-btn" disabled>
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                <% } else { %>
+                                    <button class="badge bg-warning-gradient module__approve-btn" disabled>
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                <% } %>
+                                <a href="/admin/products/edit/<%= product.slug %>"
+                                   class="badge bg-warning-gradient"><i class="fa fa-pencil"></i>
+                                </a>
                                 <button class="badge bg-danger-gradient module__delete-btn">
                                     <i class="fa fa-times"></i>
                                 </button>

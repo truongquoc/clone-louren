@@ -40,6 +40,14 @@ class UploadRepository extends BaseRepository {
         return data;
     }
 
+    listByArticles(id, options) {
+        const condition = { type: 1 };
+        if (id) {
+            condition.user = id;
+        }
+        return this.paginate(condition, options);
+    }
+
     create(locations, id, isOriginal = false) {
         locations = locations.map(location => ({
             user: id,

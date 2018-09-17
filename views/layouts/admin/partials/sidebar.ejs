@@ -68,7 +68,7 @@
                         </ul>
                     </li>
                 <% } %>
-                <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
+                <% if (hasRole(cUser, ['Admin', 'Manager', 'Product Creator'])) { %>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-shopping-cart"></i>
@@ -82,25 +82,33 @@
                                         <p>Quản lý thể loại</p>
                                     </a>
                                 </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/bills" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quản lý đơn hàng</p>
+                                </a>
+                            </li>
+                            <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
                                 <li class="nav-item">
-                                    <a href="/admin/product" class="nav-link">
+                                    <a href="/admin/products" class="nav-link">
                                         <i class="fa fa-circle-o nav-icon"></i>
                                         <p>Quản lý sản phẩm</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="/admin/product/me" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>Sản phẩm chưa public</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/admin/product/create" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>Tạo sản phẩm mới</p>
-                                    </a>
-                                </li>
                             <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/products/me" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Sản phẩm của tôi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/products/create" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Tạo sản phẩm mới</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <% } %>

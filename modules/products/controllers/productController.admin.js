@@ -1,16 +1,19 @@
 const { validationResult } = require('express-validator/check');
 const url = require('url');
 const getSlug = require('speakingurl');
-const ProductRepositoryClass = require('../repositories/ProductRepository');
-const ProductTypeRepositoryClass = require('../../productTypes/repositories/ProductTypeRepository');
+const roleHelper = require('../../../helpers/roleHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
+const ProductRepositoryClass = require('../repositories/ProductRepository');
+const ProductTypeRepositoryClass = require('../../productTypes/repositories/ProductTypeRepository');
+const UploadRepositoryClass = require('../../uploads/repositories/UploadRepository');
 
 const ProductRepository = new ProductRepositoryClass();
 const ProductTypeRepository = new ProductTypeRepositoryClass();
+const UploadRepository = new UploadRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
@@ -18,7 +21,6 @@ const index = async (req, res, next) => {
         const products = await ProductRepository.adminList(undefined, {
             query,
             pageUrl: req.baseUrl,
-            isDraft: false,
         });
         products.renderPagination = paginationHelper.renderPagination;
 
@@ -36,7 +38,6 @@ const showMyProducts = async (req, res, next) => {
         const products = await ProductRepository.adminList(req.session.cUser._id, {
             query,
             pageUrl: url.parse(req.originalUrl).pathname,
-            isDraft: true,
         });
         products.renderPagination = paginationHelper.renderPagination;
 
@@ -50,9 +51,7 @@ const showMyProducts = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const [productTypes] = await Promise.all([
-            ProductTypeRepository.baseGet(),
-        ]);
+        const productTypes = await ProductTypeRepository.baseGet();
 
         return res.render('modules/products/admin/create', {
             productTypes,
@@ -75,13 +74,15 @@ const store = async (req, res, next) => {
     try {
         if (req.file) {
             const image = await imageHelper.optimizeImage(req.file, {
-                width: 750,
+                width: 500,
                 quality: 75,
             });
-            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+            data.image = await storageHelper.storage('s3').upload(`products/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await ProductRepository.create(data, req.session.cUser);
-        return res.redirect('/admin/product');
+        req.flash('success', 'Tạo sản phẩm thành công');
+
+        return res.redirect('/admin/products');
     } catch (e) {
         next(responseHelper.error(e.message));
     }
@@ -114,13 +115,15 @@ const update = async (req, res, next) => {
     try {
         if (req.file) {
             const image = await imageHelper.optimizeImage(req.file, {
-                width: 750,
+                width: 500,
                 quality: 75,
             });
-            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+            data.image = await storageHelper.storage('s3').upload(`products/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await ProductRepository.update(data, req.params.id);
-        return res.redirect(`/admin/product/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
+        req.flash('success', 'Chỉnh sửa sản phẩm thành công');
+
+        return res.redirect(`/admin/products/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
         return next(responseHelper.error(e.message));
     }
@@ -147,6 +150,59 @@ const destroy = async (req, res) => {
     }
 };
 
+const listImages = async (req, res, next) => {
+    try {
+        const { query } = req;
+        let id;
+        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
+            id = req.session.cUser._id;
+        }
+        const [product, images] = await Promise.all([
+            ProductRepository.getEditArticle(req.params.slug),
+            UploadRepository.listByArticles(id, {
+                query,
+                pageUrl: url.parse(req.originalUrl).pathname,
+            }),
+        ]);
+        images.renderPagination = paginationHelper.renderPagination;
+
+        return res.render('modules/products/admin/listImages', {
+            product,
+            images,
+            query,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
+/**
+ * Type = 1: Add more images to array
+ * Type = 2: Set new images array
+ */
+const storeImages = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.json(responseHelper.error(errors.mapped(), 400));
+    }
+    try {
+        const { images, type } = req.body;
+        await ProductRepository.storeImages(images, req.params.id, type || '1');
+        return res.json(responseHelper.success());
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
-    index, showMyProducts, create, store, edit, update, approve, destroy,
+    index,
+    showMyProducts,
+    create,
+    store,
+    edit,
+    update,
+    approve,
+    destroy,
+    listImages,
+    storeImages,
 };

@@ -1,4 +1,4 @@
-<% layout('../../../layouts/admin/app') %>
+<% layout('/layouts/admin/app') %>
 
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/flat/green.css') %>
@@ -7,7 +7,7 @@
 <% script('https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js') %>
 <% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
 
-<% block('title', 'Quản lý ảnh') %>
+<% block('title', `Ảnh`) %>
 
 <section class="content-header">
     <div class="container-fluid">
@@ -30,39 +30,43 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title images__table__title pull-left">Quản lý ảnh</h3>
+                <h3 class="card-title images__table__title pull-left">Chọn ảnh</h3>
                 <div class="pull-right">
-                    <button class="btn btn-danger images__table__delete-btn">Xóa <i class="fa fa-trash"></i></button>
-                    <form action="" class="form-inline" method="get">
-                        <div class="form-group">
-                            <input type="text" class="form-control search-form__input" placeholder="Tìm kiếm"
-                                   name="search" value="<%= query.search || '' %>">
-                            <button class="btn btn-primary search-form__btn"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
+                    <div class="form-inline">
+                        <select class="form-control images__table__pick-type">
+                            <option value="1">Thêm</option>
+                            <option value="2">Thay thế</option>
+                        </select>
+                        <button class="btn btn-success images__table__pick-btn">Chọn <i class="fa fa-check"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered images__table" data-delete-url="/admin/images/delete">
+                <table class="table table-bordered images__table images-picker__table"
+                       data-pick-url="/admin/products/<%= product._id %>/images">
                     <tr>
                         <th style="width: 10px"></th>
                         <th>Ảnh</th>
-                        <th>Người đăng</th>
                         <th>Đường dẫn</th>
                         <th>Ngày tạo</th>
                     </tr>
                     <% images.docs.forEach(function (image) { %>
-                        <tr data-key="<%= image._id %>">
-                            <td style="width: 10px">
-                                <label>
-                                    <input type="checkbox" class="flat-red images__table__delete-checkbox">
-                                </label>
-                            </td>
-                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
-                            <td><%= image.user ? image.user.name : '' %></td>
-                            <td><a href="<%= image.url %>" target="_blank">Đường dẫn</a></td>
-                            <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
-                        </tr>
+                    <tr data-key="<%= image.url %>">
+                        <td style="width: 10px">
+                            <label>
+                                <% let check = false; %>
+                                <% product.image.array.some(function (oldImage) { %>
+                                    <% check = image.url === oldImage %>
+                                    <% if (check) return true %>
+                                <% }) %>
+                                <input type="checkbox" <%= check ? 'checked': '' %>
+                                       class="flat-red images__table__pick-checkbox <%= check ? 'images__table__used-image': '' %>">
+                            </label>
+                        </td>
+                        <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
+                        <td><a href="<%= image.url %>">Link</a></td>
+                        <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
+                    </tr>
                     <% }) %>
                 </table>
             </div>

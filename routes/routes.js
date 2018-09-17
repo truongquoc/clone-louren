@@ -10,6 +10,7 @@ const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin'
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
 const clientProductTypeRouter = require('../modules/productTypes/routes.client');
+const clientCartRouter = require('../modules/carts/routes.client');
 const clientProductRoutes = require('../modules/products/routes.client');
 const clientBlogCategoryRouter = require('../modules/blogCategories/routes.client');
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
@@ -27,7 +28,7 @@ router.use((req, res, next) => {
 router.use('/admin', adminAuthRoutes);
 router.use('/admin/images', adminUploadRouter);
 router.use('/admin/users', adminUserRouter);
-router.use('/admin/product', adminProductRouter);
+router.use('/admin/products', adminProductRouter);
 router.use('/admin/product/types', adminProductTypeRouter);
 router.use('/admin/bills', adminBillRouter);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
@@ -41,6 +42,7 @@ router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
 router.use('/nguoi-dung', clientUserRouter);
 router.use('/mat-hang', clientProductTypeRouter);
+router.use('/gio-hang', clientCartRouter);
 router.use('/', clientProductRoutes);
 router.use('/', (req, res) => res.sendStatus(404));
 
