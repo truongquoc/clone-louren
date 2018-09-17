@@ -33,8 +33,6 @@ const list = async (req, res, next) => {
             query,
         });
     } catch (e) {
-        console.log(e);
-
         next(responseHelper.error(e.message));
     }
 };
@@ -61,15 +59,13 @@ const detail = async (req, res, next) => {
     const { slug } = req.params;
 
     try {
-        const product = await ProductRepository.getDetail(slug);
-        console.log(product.type);
+        const product = await ProductRepository.clientShow(slug);
         const productsRelated = await ProductRepository.getProductsByType(product.type);
 
-        res.render('modules/client/detail', {
+        return res.render('modules/products/client/detail', {
             product,
             productsRelated,
         });
-      console.log(product);
     } catch (e) {
        next(responseHelper.error(e.message));
     }

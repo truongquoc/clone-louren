@@ -22,7 +22,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     async clientList(type, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
         const search = new RegExp(options.query.search, 'i');
         const conditions = {
@@ -63,7 +63,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     async adminList(userId, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const conditions = { deletedAt: null };
         conditions.$or = [{ name: new RegExp(options.query.search, 'i') }, { sku: options.query.search }];
@@ -98,7 +98,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     async clientSearch(options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
         const conditions = {
             isDraft: false,
@@ -214,36 +214,48 @@ class ProductRepository extends ArticleRepository {
         return this.baseUpdate(product, { _id: id });
     }
 
-    getDetail(slug) {
-        return this.model.findOne({ slug, deletedAt: null })
-               .populate({
-                    path: 'author',
-                    select: '-_id name',
-                    match: { deletedAt: null },
-               })
-               .populate({
-                    path: 'type',
-                    select: '_id name slug',
-                    match: { deletedAt: null },
-               })
-               .select('-isApproved -updatedAt');
+    clientShow(slug) {
+        return this.model
+            .findOne({
+                slug,
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            })
+           .populate({
+                path: 'author',
+                select: '-_id name',
+                match: { deletedAt: null },
+           })
+           .populate({
+                path: 'type',
+                select: '_id name slug',
+                match: { deletedAt: null },
+           })
+           .select('-isApproved -updatedAt');
     }
 
     getProductsByType(typeId) {
-        return this.model.find({ type: typeId, deletedAt: null })
-                .sort({ createdAt: -1 })
-                .limit(8)
-                .populate({
-                    path: 'author',
-                    select: '-_id name',
-                    match: { deletedAt: null },
-               })
-               .populate({
-                    path: 'type',
-                    select: '-_id name slug',
-                    match: { deletedAt: null },
-               })
-               .select('-isApproved -updatedAt');
+        return this.model
+            .find({
+                type: typeId,
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            })
+            .sort({ createdAt: -1 })
+            .limit(8)
+            .populate({
+                path: 'author',
+                select: '-_id name',
+                match: { deletedAt: null },
+           })
+           .populate({
+                path: 'type',
+                select: '-_id name slug',
+                match: { deletedAt: null },
+           })
+           .select('-isApproved -updatedAt');
     }
 
     async storeImages(images, id, type) {

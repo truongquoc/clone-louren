@@ -114,9 +114,7 @@
         </div>
     </div>
 
-    <% if (!products.total) { %>
-        <div class="xans-element- xans-product xans-product-normalpaging ec-base-paginate">
-            <%- products.renderPagination(products, query.page) %>
-        </div>
-    <% } %>
+    <div class="xans-element- xans-product xans-product-normalpaging ec-base-paginate <%= products.total === 0 ? 'displaynone' : '' %>">
+        <%- products.renderPagination(products, query.page) %>
+    </div>
 </div>

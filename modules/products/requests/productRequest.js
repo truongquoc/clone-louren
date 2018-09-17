@@ -111,6 +111,7 @@ const editProductRequest = [
                     throw new Error('Tên sản phẩm đã được sử dụng');
                 }
                 req.attributes = { createdTime };
+                return true;
             } catch (e) {
                 return Promise.reject(e.message);
             }
@@ -179,6 +180,7 @@ const editProductRequest = [
                     throw new Error('Tên sản phẩm đã được sử dụng');
                 }
                 req.attributes = { createdTime };
+                return true;
             } catch (e) {
                 return Promise.reject(e.message);
             }

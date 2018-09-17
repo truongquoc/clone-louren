@@ -18,6 +18,14 @@ const confirmCartAuthorize = async (req, res, next) => {
     }
 };
 
+const showUserInformationRequest = (req, res, next) => {
+    if (!req.session.products || !req.session.products.length) {
+        return res.redirect('/gio-hang');
+    }
+    next();
+};
+
 module.exports = {
     confirmCartAuthorize,
+    showUserInformationRequest,
 };
