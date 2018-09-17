@@ -16,6 +16,7 @@ const clientBlogCategoryRouter = require('../modules/blogCategories/routes.clien
 const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes.client');
 const clientUserRouter = require('../modules/users/routes.client');
+const clientBillRouter = require('../modules/bills/routers.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -40,6 +41,7 @@ router.use('/', clientAuthRoutes);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
+router.use('/nguoi-dung', clientBillRouter);
 router.use('/nguoi-dung', clientUserRouter);
 router.use('/mat-hang', clientProductTypeRouter);
 router.use('/gio-hang', clientCartRouter);
