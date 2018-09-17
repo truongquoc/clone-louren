@@ -82,6 +82,8 @@ const store = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await BlogArticleRepository.create(data, req.session.cUser);
+        req.flash('success', 'Tạo bài viết thành công');
+
         return res.redirect('/admin/blog/articles/me');
     } catch (e) {
         return next(responseHelper.error(e.message));
@@ -122,6 +124,8 @@ const update = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await BlogArticleRepository.update(data, req.params.id);
+        req.flash('success', 'Chỉnh sửa bài viết thành công');
+
         return res.redirect(`/admin/blog/articles/edit/${getSlug(`${data.title || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
         return next(responseHelper.error(e.message));

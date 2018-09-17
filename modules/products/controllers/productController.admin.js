@@ -80,6 +80,8 @@ const store = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`products/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await ProductRepository.create(data, req.session.cUser);
+        req.flash('success', 'Tạo sản phẩm thành công');
+
         return res.redirect('/admin/products');
     } catch (e) {
         next(responseHelper.error(e.message));
@@ -119,6 +121,8 @@ const update = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`products/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await ProductRepository.update(data, req.params.id);
+        req.flash('success', 'Chỉnh sửa sản phẩm thành công');
+
         return res.redirect(`/admin/products/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
         return next(responseHelper.error(e.message));

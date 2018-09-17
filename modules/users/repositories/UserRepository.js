@@ -58,6 +58,7 @@ class UserRepository extends BaseRepository {
             name: data.name,
             email: data.email,
             password: bcrypt.hashSync(data.password, salt),
+            avatar: '/public/admin/img/default-150x150.png',
             telephone: data.telephone,
             gender: data.gender,
             address: data.address,
