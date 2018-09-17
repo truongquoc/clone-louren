@@ -93,7 +93,32 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
-    async showBillDetail(code, options) {
+    async show(condition) {
+        const conditions = {
+            deletedAt: null,
+        };
+        if (condition.name === 'code') {
+            conditions.code = condition.value;
+        } else {
+            conditions._id = condition.value;
+        }
+
+        return this.model
+            .findOne(conditions)
+            .populate('user', '-_id name email telephone')
+            .populate({
+                path: 'productBill',
+                select: '-_id product price quantity',
+                match: { deletedAt: null },
+                populate: {
+                    path: 'product',
+                    select: '-_id name sku price.number image.cover',
+                    match: { deletedAt: null },
+                },
+            });
+    }
+
+    async showDetail(code, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {

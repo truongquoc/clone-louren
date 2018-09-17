@@ -30,7 +30,7 @@ const showBill = async (req, res, next) => {
     const { query } = req;
 
     try {
-        const billDetail = await billRepository.showBillDetail(code, {
+        const billDetail = await BillRepository.showDetail(code, {
                 query,
                 pageUrl: url.parse(req.originalUrl).pathname,
         });

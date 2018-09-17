@@ -88,7 +88,7 @@
                     <% bills.docs.forEach((bill) => { %> 
                         <tr class="">
                             <td  class="number ">
-                                <a href="/nguoi-dung/don-hang/chi-tiet/<%= bill.code %>"><%= bill.code %> </a>
+                                <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.code %> </a>
                                     
                             </td>
                             <td class="time">
@@ -97,10 +97,10 @@
                         
                             <td class="name">
                                 <% if(bill.productBill.length > 3) {%>
-                                    <a href="/nguoi-dung/don-hang/chi-tiet/<%= bill.code %>"><%= bill.productBill[0].product.name %> và <%= bill.productBill.length -1 %> sản phẩm khác</a>
+                                    <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.productBill[0].product.name %> và <%= bill.productBill.length -1 %> sản phẩm khác</a>
                                 <% } else { %> 
                                     <% bill.productBill.forEach((p) => { %>
-                                        <a href="/nguoi-dung/don-hang/chi-tiet/<%= bill.code %>"><%= p.product.name %>, </a>
+                                        <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= p.product.name %>, </a>
                                     <% }) %>
                                 <% } %>
                                 

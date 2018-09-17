@@ -25,6 +25,18 @@ const showAuthorize = async (req, res, next) => {
         next(responseHelper.error(e.message));
     }
 };
+const clientShowAuthorize = async (req, res, next) => {
+    try {
+        const bill = await BillRepository.checkExist({ code: req.params.code });
+        if (!bill) {
+            return next(responseHelper.notFound());
+        }
+        next();
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 
 const approveAuthorize = async (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager', 'Product Creator'])) {
@@ -61,4 +73,5 @@ module.exports = {
     showAuthorize,
     approveAuthorize,
     revertAuthorize,
+    clientShowAuthorize,
 };
