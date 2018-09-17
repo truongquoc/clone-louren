@@ -3,9 +3,11 @@ const passport = require('../../../config/passport');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 const UserRepositoryClass = require('../repositories/UserRepository');
+const CartRepositoryClass = require('../repositories/CartRepository');
 
 const AuthRepository = new AuthRepositoryClass();
 const UserRepository = new UserRepositoryClass();
+const CartRepository = new CartRepositoryClass();
 
 const showLoginForm = (req, res) => res.render('modules/users/client/auth/login');
 
@@ -96,6 +98,7 @@ const register = async (req, res, next) => {
     }
     try {
         const user = await UserRepository.create(data);
+        await CartRepository.create(user._id);
 
         return res.redirect(307, `/dang-ky/${user._id}/thanh-cong`);
     } catch (e) {

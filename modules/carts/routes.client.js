@@ -4,4 +4,6 @@ const cartController = require('./controllers/cartController.client');
 
 router.get('/', getPropertyTypes, cartController.index);
 
+router.post('/them-gio-hang', cartController.addToCart);
+
 module.exports = router;
