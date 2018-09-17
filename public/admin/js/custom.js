@@ -1,15 +1,15 @@
 if (typeof toastr !== 'undefined') {
     toastr.options = {
-        "closeButton": false,
+        "closeButton": true,
         "debug": false,
         "newestOnTop": false,
-        "progressBar": false,
+        "progressBar": true,
         "positionClass": "toast-bottom-right",
         "preventDuplicates": false,
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "2000",
-        "timeOut": "10000",
+        "timeOut": "5000",
         "extendedTimeOut": "2000",
         "showEasing": "linear",
         "hideEasing": "swing",
@@ -214,6 +214,7 @@ function init_createSubModule() {
                         </td>
                     </tr>`,
                 );
+                toastr.success('Thêm thành công');
                 $form.find('.form__error-message').html('');
                 $form.trigger('reset');
             },
@@ -271,6 +272,8 @@ function init_editSubModule() {
                 $row.find('.module__table__slug').text(result.slug).html();
                 $row.find('.module__table__update-time').text(moment(result.updatedAt).format('HH:mm MM/DD/YYYY')).html();
                 $form.find('.form__error-message').html('');
+                toastr.success('Chỉnh sửa thành công');
+                $('#myModal2').modal('hide');
             },
         });
     }
@@ -563,10 +566,10 @@ function splitCurrency(input, event) {
     if ($.inArray(event.keyCode, [37, 38, 39, 40]) !== -1) {
         return;
     }
-    
+
     value = value.replace(/[\D\s\._\-]+/g, '');
     value = value ? parseInt(value, 10) : 0;
-    
+
     $(input).val(() => ((value === 0) ? '' : value.toLocaleString()));
 
     return value.toLocaleString();
@@ -602,7 +605,7 @@ function getTextCurrency(input) {
     const value = $(input).val();
     const originalValue = value.replace(/[($)\s\._\-]+/g, '');
     $(input).attr('data-original', originalValue);
-    
+
     const result = calcCurrency(originalValue);
 
     $('#priceText').text(result);
@@ -640,19 +643,19 @@ function convertPercent () {
 
     $('#discountInput').keyup(function a(event) {
         const valueInput = $(this).val();
-        
+
         if (valueInput && valueInput <= 100 && valueInput >=0) {
-             $('#discount').val($(this).val() / 100) 
+             $('#discount').val($(this).val() / 100)
          } else {
             $('#discount').val(null);
-         } 
+         }
     });
 }
 
 function discountedPrice () {
     let originalPrice = $('[name="priceValue"]').val();
     let discount = $('#discount').val();
-    let discountedPrice =  (discount && originalPrice && 0<= discount && discount <= 1 ) ? 
+    let discountedPrice =  (discount && originalPrice && 0<= discount && discount <= 1 ) ?
         `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : '';
         console.log(discountedPrice);
     $('#discountedPrice').text(discountedPrice);
@@ -661,8 +664,8 @@ function discountedPrice () {
         originalPrice = $('[name="priceValue"]').val();
         discount = $('#discount').val();
         console.log(typeof originalPrice, typeof discount, typeof parseFloat(originalPrice*(1-discount)));
-        
-        discountedPrice =  (discount && originalPrice && 0< discount && discount <= 1 ) ? 
+
+        discountedPrice =  (discount && originalPrice && 0< discount && discount <= 1 ) ?
             `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
         $('#discountedPrice').text(discountedPrice);
     })

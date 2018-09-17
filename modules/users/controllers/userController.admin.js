@@ -27,6 +27,7 @@ const register = async (req, res, next) => {
     try {
         await UserRepository.create(data);
         req.flash('success', 'Tạo tài khoản thành công');
+
         return res.redirect('/admin/register');
     } catch (e) {
         return next(responseHelper.error(e.message));
@@ -71,8 +72,12 @@ const updateProfile = async (req, res, next) => {
     }
     try {
         await UserRepository.updateProfile(data, req.session.cUser._id, !!req.session.cUser.email);
-        const user = await UserRepository.getById(req.session.cUser._id);
+        const user = await UserRepository.getUserWithRoles({
+            name: 'id',
+            value: req.session.cUser._id,
+        });
         req.session.cUser = AuthRepository.getCurrentUserData(user);
+        req.flash('success', 'Chỉnh sửa thành công');
 
         return res.redirectBack();
     } catch (e) {
@@ -158,6 +163,8 @@ const update = async (req, res, next) => {
             });
             req.session.cUser = AuthRepository.getCurrentUserData(user);
         }
+        req.flash('success', 'Chỉnh sửa thành công');
+
         return res.redirectBack();
     } catch (e) {
         next(responseHelper.error(e.message));
