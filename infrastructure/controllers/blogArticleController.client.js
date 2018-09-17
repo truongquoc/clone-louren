@@ -7,7 +7,7 @@ const BlogArticleRepository = new BlogArticleRepositoryClass();
 const BlogCategoriesRepository = new BlogCategoryRepositoryClass();
 const BlogTagRepository = new BlogTagRepositoryClass();
 
-const blogAticleRight = async (req, res, next) => {
+const blogArticleRight = async (req, res, next) => {
     try {
         const [postRecent, categories, newTags] = await Promise.all([
             BlogArticleRepository.homeGetNewest(),
@@ -26,5 +26,5 @@ const blogAticleRight = async (req, res, next) => {
 };
 
 module.exports = {
-    blogAticleRight,
+    blogArticleRight,
 };

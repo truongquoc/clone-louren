@@ -12,7 +12,7 @@ class UploadRepository extends BaseRepository {
     }
 
     async list(id, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = options.limit || commonConstant.limit;
         const conditions = { deletedAt: null };
         if (options.query.search) {

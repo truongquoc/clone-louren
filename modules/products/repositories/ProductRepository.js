@@ -22,7 +22,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     async clientList(type, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
         const search = new RegExp(options.query.search, 'i');
         const conditions = {
@@ -63,7 +63,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     async adminList(userId, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const conditions = { deletedAt: null };
         conditions.$or = [{ name: new RegExp(options.query.search, 'i') }, { sku: options.query.search }];
@@ -98,7 +98,7 @@ class ProductRepository extends ArticleRepository {
     }
 
     async clientSearch(options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
         const conditions = {
             isDraft: false,

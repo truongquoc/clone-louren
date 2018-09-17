@@ -1,6 +1,6 @@
 <% layout('../../../layouts/client/blog') %>
 
-<% block('title', 'Hello world') %>
+<% block('title', 'Blog - Danh sách bài viết') %>
 
 <h2 class="single-article-title fl-wrap"><span>Tin tức</span></h2>
 <div class="clearfix"></div>
@@ -19,7 +19,7 @@
                         <li><%= moment(article.updatedAt).format('L') %></li>
                     <li>
                         <ul class="post-categories">
-                                <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.name %></a></li>  
+                                <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.name %></a></li>
                         </ul>
                     </li>
                 </ul>
