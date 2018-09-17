@@ -14,7 +14,7 @@ const index = async (req, res, next) => {
         });
 
         bills.renderPagination = paginationHelper.renderPagination;
-        res.render('modules/client/orderHistory', {
+        res.render('modules/bills/client/list', {
             bills, query,
         });
     } catch (e) {
@@ -27,7 +27,7 @@ const showBill = async (req, res, next) => {
     try {
         const billDetail = await BillRepository.showDetail(code);
 
-        res.render('modules/client/returnedOrderHistory', {
+        res.render('modules/bills/client/detail', {
             billDetail, code,
         });
     } catch (e) {
