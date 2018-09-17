@@ -1,3 +1,4 @@
+const url = require('url');
 const BlogArticleRepositoryClass = require('../repositories/BlogArticleRepository');
 const CategoryArticleRepository = require('../../blogCategories/repositories/BlogCategoryRepository');
 const paginationHelper = require('../../../helpers/paginationHelper');
@@ -11,7 +12,7 @@ const index = async (req, res, next) => {
         const [blogArticles] = await Promise.all([
             BlogArticleRepository.clientList(undefined, {
                 query,
-                pageUrl: req.baseUrl,
+                pageUrl: url.parse(req.originalUrl).pathname,
             }),
         ]);
 

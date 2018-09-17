@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { getPropertyTypes } = require('../../infrastructure/controllers/productController.client');
 const passport = require('../../config/passport');
 const authAuthorize = require('./middleware/authAuthorize');
 const authRequest = require('./requests/authRequest');
@@ -17,11 +18,11 @@ router.use([
     '/quen-mat-khau/khoi-phuc/:token',
 ], authAuthorize.clientRedirectIfAuthenticated);
 
-router.get('/dang-nhap', authController.showLoginForm);
+router.get('/dang-nhap', getPropertyTypes, authController.showLoginForm);
 
 router.post('/dang-nhap', authRequest.loginRequest, authController.login);
 
-router.get('/dang-ky', authController.showRegisterForm);
+router.get('/dang-ky', getPropertyTypes, authController.showRegisterForm);
 
 router.post('/dang-ky', authRequest.clientRegisterRequest, authController.register);
 

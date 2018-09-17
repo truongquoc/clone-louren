@@ -3,6 +3,6 @@ const blogArticleRight = require('../../infrastructure/controllers/blogArticleCo
 const blogCategoryMiddleware = require('./middleware/blogCategoryAuthorize');
 const blogCategoryController = require('./controllers/blogCategoryController.client');
 
-router.get('/chuyen-muc-:slug', blogArticleRight.blogAticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogCategoryController.index);
+router.get('/chuyen-muc-:slug', blogArticleRight.blogArticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogCategoryController.index);
 
 module.exports = router;

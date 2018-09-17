@@ -1321,7 +1321,7 @@ function secondZipcodeHidden () {
 
 $(document).ready(function(){
     sAttribute = 'ec-data-src';
-    if ($('img['+sAttribute+']').size() > 0) {
+    if ($('img['+sAttribute+']').length > 0) {
         EC_lazyload();
     }
 });

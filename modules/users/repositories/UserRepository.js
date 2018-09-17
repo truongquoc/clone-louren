@@ -15,7 +15,7 @@ class UserRepository extends BaseRepository {
     }
 
     async list(options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const [total, docs] = await Promise.all([
@@ -58,6 +58,7 @@ class UserRepository extends BaseRepository {
             name: data.name,
             email: data.email,
             password: bcrypt.hashSync(data.password, salt),
+            avatar: '/public/admin/img/default-150x150.png',
             telephone: data.telephone,
             gender: data.gender,
             address: data.address,

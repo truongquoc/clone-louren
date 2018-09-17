@@ -19,7 +19,7 @@ class BillRepository extends BaseRepository {
     }
 
     async adminList(options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const conditions = {};
         if (options.query.method !== 'date' && options.query.type === 'user') {
@@ -61,30 +61,39 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
-    async listBills(id, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+    async clientBills(id, options) {
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
-            deletedAt: null,
+          user: id, deletedAt: null,
         };
-        if (id) {
-            conditions.user = id;
-        }
+
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
-                .find(conditions)
-                .skip((options.query.page - 1) * options.limit)
-                .limit(options.limit)
-                .sort({ createdAt: -1 }),
+                    .find(conditions)
+                    .populate({
+                        path: 'productBill',
+                        select: '-_id product quantity price',
+                        match: { deletedAt: null },
+                        populate: {
+                            path: 'product',
+                            select: '-_id name',
+                        },
+                    })
+                    .skip((options.query.page - 1) * options.limit)
+                    .limit(options.limit)
+                    .sort({ createdAt: -1 }),
+
         ]);
+
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
 
         return data;
     }
 
-    show(condition) {
+    async show(condition) {
         const conditions = {
             deletedAt: null,
         };
@@ -109,6 +118,53 @@ class BillRepository extends BaseRepository {
             });
     }
 
+    async showDetail(code) {
+        const conditions = {
+            code, deletedAt: null,
+        };
+
+        return this.model
+            .findOne(conditions)
+            .populate({
+                path: 'productBill',
+                select: '-_id product price quantity',
+                match: {deletedAt: null},
+                populate: {
+                    path: 'product',
+                    select: '-_id name sku price.number image.cover',
+                },
+            })
+            .sort({createdAt: -1});
+    }
+
+    async sendApprovedEmail(id) {
+        const bill = await this.show({
+            name: 'id',
+            value: id,
+        });
+        const smtpTransport = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: config.emailAddress,
+                pass: config.emailPassword,
+            },
+        });
+        const file = fs.readFileSync('views/modules/mail/client/approvedMail.ejs', {
+            encoding: 'utf8',
+        });
+        const template = ejs.compile(file);
+        const mailOptions = {
+            to: bill.user.email,
+            from: config.emailAddress,
+            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            html: template({
+                bill,
+            }),
+        };
+
+        return smtpTransport.sendMail(mailOptions);
+    }
+
     async sendConfirmEmail(id) {
         const bill = await this.show({
             name: 'id',
@@ -121,14 +177,14 @@ class BillRepository extends BaseRepository {
                 pass: config.emailPassword,
             },
         });
-        const file = fs.readFileSync('views/modules/mail/client/template.ejs', {
+        const file = fs.readFileSync('views/modules/mail/client/confirmMail.ejs', {
             encoding: 'utf8',
         });
         const template = ejs.compile(file);
         const mailOptions = {
-            to: 'ltquoctaidn98@gmail.com',
+            to: bill.user ? bill.user.email : bill.userInformation.email,
             from: config.emailAddress,
-            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            subject: `Xác nhận đơn hàng ${bill.code}`,
             html: template({
                 bill,
             }),

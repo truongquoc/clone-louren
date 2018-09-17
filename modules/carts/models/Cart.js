@@ -21,6 +21,9 @@ const Cart = new Schema({
             // required: true,
         },
     }],
+    deletedAt: {
+        type: Date,
+    },
 }, {
     timestamps: true,
 });

@@ -7,7 +7,28 @@ const Bill = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'users',
-        required: true,
+    },
+    userInformation: {
+        name: {
+            type: String,
+            trim: true,
+        },
+        email: {
+            type: String,
+            trim: true,
+        },
+        telephone: {
+            type: String,
+            trim: true,
+        },
+        address: {
+            type: String,
+            trim: true,
+        },
+        note: {
+            type: String,
+            trim: true,
+        },
     },
     productBill: [{
         type: Schema.Types.ObjectId,

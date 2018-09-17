@@ -55,8 +55,25 @@ const search = async (req, res, next) => {
     }
 };
 
+const detail = async (req, res, next) => {
+    const { slug } = req.params;
+
+    try {
+        const product = await ProductRepository.clientShow(slug);
+        const productsRelated = await ProductRepository.getProductsByType(product.type);
+
+        return res.render('modules/products/client/detail', {
+            product,
+            productsRelated,
+        });
+    } catch (e) {
+       next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     index,
     list,
     search,
+    detail,
 };

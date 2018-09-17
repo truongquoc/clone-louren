@@ -1,3 +1,4 @@
+const url = require('url');
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
 const BlogTagRepositoryClass = require('../repositories/BlogTagRepository');
 const paginationHelper = require('../../../helpers/paginationHelper');
@@ -16,7 +17,7 @@ const index = async (req, res, next) => {
                 value: blogTag._id,
             }, {
                 query,
-                pageUrl: req.baseUrl,
+                pageUrl: url.parse(req.originalUrl).pathname,
             }),
         ]);
         blogArticles.renderPagination = paginationHelper.renderPagination;
