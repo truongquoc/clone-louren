@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link href="//fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet"/>
+    <!-- DMOON : Font awesome -->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <!-- DMOON : INIT SCRIPT -->
+    <style type="text/css">
+        .init {
+            visibility: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
+    <title>로렌 louren | <%= block('title') %></title>
+    <meta name="author" content="Louren"/>
+    <meta name="description" content="핸드메이드를 기반으로 하는 가구, 리빙 브랜드 로렌"/>
+    <meta name="keywords" content="라탄가구, 라탄소품, 라탄의자, 핸드메이드가구"/>
+</head>
+<body>
+
+<div class="xans-element- xans-estimate xans-estimate-userform ec-base-layer" style="width: 99.9%;">
+    <div class="header">
+        <h1>Thêm thông tin người mua</h1>
+    </div>
+    <div class="content">
+        <h2>Thông tin người mua</h2>
+        <div class="ec-base-table">
+            <form action="" method="POST">
+                <table border="1">
+                    <colgroup>
+                        <col style="width:150px">
+                        <col style="width:auto">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Tên người mua</th>
+                        <td>
+                            <input name="name" value="<% old('name') %>" type="text">
+                            <p><%= errors('name') %></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Điện thoại di động</th>
+                        <td>
+                            <input name="telephone" value="<%= old('telephone') %>" type="text">
+                            <p><%= errors('telephone') %></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td>
+                            <input name="email" value="<%= old('email') %>" type="text">
+                            <p class="gBlank5"><%= errors('email') %></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Privacy policy</th>
+                        <td>
+                            <div class="agree">
+                                <p>&nbsp;** Biểu mẫu này là định dạng mẫu để giúp bạn điều hành trung tâm mua sắm. Trước khi đăng ký vào trung tâm mua sắm, hãy kiểm tra chi tiết hoạt động của trung tâm mua sắm, v.v. và sử dụng nội dung phù hợp. **</p>
+                                <p>1. Purpose and purpose of collecting personal information</p>
+                                <p>end. Fulfillment of contracts related
+                                        to the provision of services and settlement of fees due to the provision of
+                                        services</p>
+                                <p>Content delivery, purchasing and payment, shipping or billing, financial transaction
+                                    authentication and financial services</p>
+                                <p>I. Membership Management</p>
+                                <p>It is also possible to check the identity of the legal representative when collecting
+                                    personal information of children under the age of 14, to handle complaints such as
+                                    complaints, Forward notices</p>
+                                <p>2. Personal information to collect: Name, date of birth, gender, login ID, password,
+                                    home phone number, mobile phone number, email,</p>
+                                <p>3. Retention period and duration of personal information</p>
+                                <p>In principle, after the purpose of collecting and using personal information is
+                                    achieved, we will destroy the information without delay. However, the following information will be
+                                        retained for the period specified below for the following reasons.</p>
+                                <p>end. Reason for holding information by internal policy</p>
+                                <p>o Prevention of illegal transactions and keeping in accordance with shopping mall
+                                    management policy: OO year</p>
+                                <p>I. Reason for holding information by
+                                        relevant laws</p>
+                                <p>o Records on contract or withdrawal</p>
+                                <p>- Reason for preservation: Act on Consumer Protection in Electronic Commerce etc.</p>
+                                <p>- Retention period: 5 years</p>
+                                <p>o Record of payment and goods supply</p>
+                                <p>- Reason for preservation: Act on Consumer Protection in Electronic Commerce etc.</p>
+                                <p>- Retention period: 5 years&nbsp;</p>
+                                <p>o Records of consumer complaints or dispute resolution</p>
+                                <p>- Reason for preservation: Act on Consumer Protection in Electronic Commerce etc.</p>
+                                <p>- Retention period: 3 years&nbsp;</p>
+                                <p>o Logging&nbsp;</p>
+                                <p>- Reason for Preservation: Communication Confidentiality Protection Act</p>
+                                <p>- Shelf life: 3 months</p>
+                                <p>※ You can refuse to accept, but you can not join if you refuse.</p></div>
+                            <p class="gBlank5">
+                                <span class="gSpace20">Do you agree with the privacy policy?</span>
+                                <input id="agreement_check_T" name="agreement_check" value="T" type="radio"><label for="agreement_check_T">Agree</label> <input id="agreement_check_F" name="agreement_check" value="F" type="radio" checked="checked"><label for="agreement_check_F">Do not agree</label>
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </form>        </div>
+    </div>
+    <div class="ec-base-button">
+        <button class="custom_btn custom_btn_login custom_btn_submit">Gửi</button>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/public/client/js/i18n1.js"
+        charset="utf-8"></script>
+<script type="text/javascript" src="/public/client/js/i18n2.js"
+        charset="utf-8"></script>
+
+<script type="text/javascript" src="/public/client/js/vendor.js"></script>
+<script type="text/javascript" src="/public/client/js/test3.js"></script>
+<script>
+    var mobileWeb = false;
+</script>
+</body>
+</html>

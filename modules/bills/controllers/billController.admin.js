@@ -41,7 +41,7 @@ const show = async (req, res, next) => {
 
 const approve = async (req, res) => {
     try {
-        await BillRepository.sendConfirmEmail(req.params.id);
+        await BillRepository.sendApprovedEmail(req.params.id);
         const bill = await BillRepository.approve(req.params.id);
 
         return res.json(responseHelper.success(bill));
