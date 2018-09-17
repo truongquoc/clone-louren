@@ -41,14 +41,11 @@ router.use('/', clientAuthRoutes);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);
 router.use('/blog', clientBlogArticleRouter);
-<<<<<<< HEAD
-router.use('/nguoi-dung', clientUserRouter, clientBillRouter);
-=======
+router.use('/nguoi-dung', clientBillRouter);
 router.use('/nguoi-dung', clientUserRouter);
 router.use('/mat-hang', clientProductTypeRouter);
 router.use('/gio-hang', clientCartRouter);
 router.use('/', clientProductRoutes);
->>>>>>> 14a75d0a44b5e7f71918cb94f744056b61b7b28c
 router.use('/', (req, res) => res.sendStatus(404));
 
 router.use(handleExceptionHelper.handleException);

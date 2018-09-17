@@ -26,7 +26,7 @@ const showBill = async (req, res, next) => {
     const { query } = req;
 
     try {
-        const billDetail = await billRepository.show(id, {
+        const billDetail = await billRepository.showBillDetail(id, {
                 query,
                 pageUrl: url.parse(req.originalUrl).pathname,
         });

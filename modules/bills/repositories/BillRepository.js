@@ -90,7 +90,7 @@ class BillRepository extends BaseRepository {
         return data;
     }
 
-    async show(id, options) {
+    async showBillDetail(id, options) {
         options.query.page = parseInt(options.query.page, 10) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
