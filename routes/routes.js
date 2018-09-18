@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const adminUploadRouter = require('../modules/uploads/routes.admin');
 const adminAuthRoutes = require('../modules/users/authRoutes.admin');
+const adminUploadRouter = require('../modules/uploads/routes.admin');
 const adminUserRouter = require('../modules/users/routes.admin');
 const adminProductRouter = require('../modules/products/routes.admin');
 const adminProductTypeRouter = require('../modules/productTypes/routes.admin');
@@ -46,7 +46,7 @@ router.use('/nguoi-dung', clientUserRouter);
 router.use('/mat-hang', clientProductTypeRouter);
 router.use('/gio-hang', clientCartRouter);
 router.use('/', clientProductRoutes);
-router.use('/', (req, res) => res.sendStatus(404));
+router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);
 
