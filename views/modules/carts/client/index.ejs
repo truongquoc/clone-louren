@@ -53,7 +53,7 @@
                     </tr>
                 </tfoot>
                 <tbody class="xans-element- xans-order xans-order-list center">
-                    <% cart.forEach((product) => { %>
+                    <% cart.products.forEach((product) => { %>
                         <tr class="xans-record-">
                             <td class="thumb gClearLine">
                                 <a href="/san-pham/<%= product.item.slug %>">
@@ -76,7 +76,7 @@
                             <td>
                                 <span class="">
                                     <span class="ec-base-qty">
-                                        <input class="cartProductQuantity" name="quantity_name_0"
+                                        <input class="cartProductQuantity" data-id="<%= product.item._id %>"
                                                size="2" value="<%= product.quantity %>" type="text"
                                         />
 
@@ -100,9 +100,10 @@
 
         <div class="xans-element- xans-order xans-order-totalorder ec-base-button justify">
             <span class="gRight">
-                <button class="btn btn-primary" id="cartBtnSubmit"
-                        style="padding: 10px 15px; background: #444; color: #fff; font-size: 16px;"
-                >Xác nhận</button>
+                <form <%= cart._id ? `action=/gio-hang/${cart._id}/xac-nhan method=POST` : 'action=/gio-hang/xac-nhan method=GET'%>>
+                    <button class="btn btn-primary" id="cartBtnSubmit"
+                            style="padding: 10px 15px; background: #444; color: #fff; font-size: 16px;">Xác nhận</button>
+                </form>
             </span>
         </div>
     </div>

@@ -1,18 +1,11 @@
-<% layout('/layouts/client/error') %>
+<% layout('../../layouts/client/error') %>
 
 <% block('title', 'Không tìm thấy trang') %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <!-- Error404 content start -->
-            <div class="error404-content">
-                <h1>404</h1>
-                <h2>Đã có lỗi xảy ra</h2>
-                <p>Trang không tồn tại</p>
-                <a href="/" class="button-sm out-line-btn">Về trang chủ</a>
-            </div>
-            <!-- Error404 content end -->
-        </div>
+<div class="inner">
+    <h1>404</h1>
+    <p class="txtDesc center">Không tìm thấy trang</p>
+    <div class="mButton">
+        <a href="/" class="btnSubmit" target="_blank"><span>Về trang chủ</span></a>
     </div>
 </div>

@@ -1,0 +1,320 @@
+@charset "utf-8";
+
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,img { margin:0; padding:0; }
+html { width:100%; height:100%; }
+body {-webkit-text-size-adjust:none; }
+body,code { color:#555; background:#fff; }
+body,code { font:12px Helvetica, Arial, 'Malgun Gothic', Dotum, sans-serif; }
+li { list-style:none; }
+img,fieldset { border:0; vertical-align:top; }
+table { table-layout:fixed; width:100%; border:0; border-spacing:0; border-collapse:collapse; }
+table img { vertical-align:middle; }
+caption { visibility:hidden; overflow:hidden; width:0; height:0; font-size:0; line-height:0; }
+th,td { border:0; word-wrap:break-word; }
+input,select,textarea { font-size:100%; color:#555; vertical-align:middle; }
+input,select,textarea { font-family:Helvetica, Arial, 'Malgun Gothic', Dotum, sans-serif; }
+html:lang(ja) input, html:lang(ja) select, html:lang(ja) textarea { font-family:Helvetica, Meiryo,"メイリオ","Hiragino Kaku Gothic Pro",sans-serif; }
+html:lang(en) input, html:lang(en) select, html:lang(en) textarea { font:12px Helvetica, Arial, sans-serif; }
+legend { visibility:hidden; position:absolute; left:-9999px; top:-9999px; width:0; height:0; line-height:0; }
+button { overflow:visible; padding:0; margin:0; border:0; cursor:pointer; }
+hr.layout { display:none; }
+a { text-decoration:none; color:#555; }
+a:hover { text-decoration:underline; }
+.blind { overflow:hidden; position:absolute; width:0; height:0; white-space:nowrap; text-indent:100%; font-size:0; line-height:0; }
+br.RWB { display:none; }
+
+/* Skip Navigation */
+#skipNavigation { position:absolute; top:0; left:0; z-index:100; width:100%; }
+#skipNavigation a { position:absolute; top:0; left:-99999px; display:block; width:100%; height:30px; background:#c4122f; color:#fff; line-height:30px; text-align:center; }
+#skipNavigation a:first-child { background:#ff5e26; }
+#skipNavigation a:focus, #skipNavigation a:active { left:0; }
+
+/* form */
+.fText { padding:1px 5px; height:18px; line-height:18px; border:1px solid #a7a7a7; border-right-color:#cfcfcf; border-bottom-color:#cfcfcf; }
+
+/* table align */
+table .left { text-align:left; }
+table .center { text-align:center; }
+table .right { text-align:right; }
+table .top { vertical-align:top; }
+table .middle { vertical-align:middle; }
+
+#warn {background-color:#edeef2;}
+#warn.gSmall { background-color:#fff; }
+#warn.mobile { min-width:320px; background-color:#fff; }
+
+#header {overflow:hidden; height:36px; background:#fff;}
+#header h1 {margin:9px 0 0 30px;}
+#content {width:794px; margin:0 auto; zoom:1;}
+html:lang(ja) #content { width:1000px; }
+#content:after {content:""; display:block; clear:both;}
+
+.gSmall #content { width:100%; }
+
+.txtEm { color:#0072bc; }
+.txtblue { color:#0072bc; }
+.txtgray { color:#d3d3d3; }
+.txtLight { color:#888; }
+
+.btnLink { color: #479aed; text-decoration: underline; }
+
+.icoWarn {float:left; width:306px;}
+.icoWarn span { display:inline-block; width:286px; height:170px; background:url('//img.cafe24.com/images/common/warn/sfix_ico.png') no-repeat 0 0; }
+.icoWarn.icoExpired span { background-position:0 0;} /* 기간만료 (1,1) */
+.icoWarn.icoTraffic span { background-position:-336px 0;} /* 트래픽초과 (1,2) */
+.icoWarn.icoMove span { background-position:-672px 0;} /* 서버이전 (1,3) */
+.icoWarn.icoInaccessible span { background-position:-1008px 0;} /* 접근권한없음 (1,4) */
+.icoWarn.icoInoperative span { background-position:0 -270px;} /* 이용할수없음 (2,1) */
+.icoWarn.icoNone span { background-position:-336px -270px;} /* 존재하지않음 (2,2) */
+.icoWarn.icoDelay span { background-position:-672px -270px;} /* 지연 (2,3) */
+.icoWarn.icoRestrict span { background-position:-1008px -270px;} /* 제한 (2,4) */
+.icoWarn.icoMake span { background-position:0 -540px;} /* 생성중 (3,1) */
+.icoWarn.icoBlock span { background-position:-336px -540px;} /* 차단 (3,2) */
+.icoWarn.icoError span { background-position:-672px -540px;} /* 접속문제 (3,3) */
+.icoWarn.icoCheck span { background-position:-1008px -540px;} /* 점검 (3,4) */
+.icoWarn.icoUnsettled span { background-position:0 -810px;} /* 미결제 (4,1) */
+.icoWarn.icoSession span { background-position:-336px -810px;} /* 세션만료 (4,2) */
+.icoWarn.icoConfirm span { background-position:-672px -810px;} /* 본인인증, 대표자인증 (4,3) */
+.icoWarn.icoDocument span { background-position:-1008px -810px;} /* 인증서류 (4,4) */
+.icoWarn.icoReady span { background-position:0px -1080px;} /* 사이트 준비중 (5,1) */
+.icoWarn.icoPage span { background-position:-336px -1080px;} /* 페이지 오류 (5,2) */
+.icoWarn.icoClose span { background-position:-1008px -1080px;} /* 휴면해제 */
+.icoWarn.icoWait span { background-position:0 -1350px;} /* 세팅대기(6,1) */
+.icoWarn.icoMobileSuccess span { background-position:-336px -1350px; } /* 보안인증 성공 (6,2) */
+.icoWarn.icoMobileFail span { background-position:-672px -1350px; } /* 보안인증 실패 (6,3) */
+
+/* 작은 템플릿 아이콘 */
+.icoWarn.gSmall { float:none; width:52px; margin:0 auto; text-align:center; }
+.icoWarn.gSmall.icoNone span { background-position:-672px -1080px;} /* 존재하지않음 (5,3) */
+.icoWarn.gSmall span { display:inline-block; width:52px; height:52px; background:url('//img.cafe24.com/images/common/warn/sfix_ico.png') no-repeat 0 0; }
+
+/* 모바일 템플릿 아이콘 */
+.mobile .icoWarn { float:none; width:38px; margin:0 auto 10px; text-align:center;}
+.mobile .icoWarn span { display:inline-block; width:38px; height:38px; background:url('//img.cafe24.com/images/common/warn/sfix_ico_mobile.png') no-repeat 0 0; background-size:223px 385px;}
+.mobile .icoWarn.icoNone span { background-position:0 0; } /* 휴면안내 (1,1) */
+
+.mWarn h2 { margin:0 0 36px; font-size:32px; color:#333; word-spacing:-1px; letter-spacing:-1px; }
+.mWarn h2 em { color:#0072bc; font-style:normal; }
+.mWarn h2.txtEng { margin-top:-20px; font-size:20px; color:#8f8f8f; letter-spacing:0; font-weight:normal; font-family:'Times New Roman', batang, Georgia, Palatino, serif; }
+.mWarn h3 { margin:27px 0 7px; font-size:12px; color:#222; }
+.mWarn .txtDesc {padding:0 0 10px; color:#555; margin-top: 30px; font-size: 18px; }
+.mWarn .txtDesc a {color:#0072bc; text-decoration:underline;}
+.mWarn .subDesc { padding:0 0 3px; color:#555; line-height:18px; }
+.mWarn .subDesc a { color:#0072bc; text-decoration:underline; }
+
+.mWarn .mList {margin:0 0 10px;}
+.mWarn .mList li {margin:10px 0 0; line-height:20px;}
+html:lang(ja) .mWarn .mList li { line-height:23px; }
+.mWarn .mList li.first {margin:0;}
+.mWarn .mList li p {padding:0 0 10px; word-break:break-all;}
+.mWarn .mList li a {color:#0072bc; text-decoration:underline; letter-spacing:0;}
+
+.mWarn .mList.typeUnorder li {padding:0 0 0 24px; background:url('//img.cafe24.com/images/common/warn/bul_001.gif') no-repeat left 1px;}
+.mWarn .mList ul {margin:0 0 20px;}
+.mWarn .mList ul li,
+.mWarn .mList.typeUnorder ul li,
+.mWarn .mList.typeDotted li,
+.mWarn .mList.typeBorder li {margin:0; padding:0 0 0 8px; background:url('//img.cafe24.com/images/common/warn/bul_002.gif') no-repeat left 6px; font-size:11px;}
+html:lang(ja) .mWarn .mList ul li,
+html:lang(ja) .mWarn .mList.typeUnorder ul li,
+html:lang(ja) .mWarn .mList.typeDotted li { font-size:12px; background-position:left 8px; }
+html:lang(ja) .mWarn .mList.typeBorder li { font-size:12px; }
+.mWarn .mList.typeUnorder ol li.first {margin:10px 0 0;}
+
+.mWarn .mList ol {margin:0 0 10px;}
+.mWarn .mList ol li, .mWarn .mList.typeOrder li {margin:10px 0 0; padding:0 0 0 24px;}
+.mWarn .mList ol li.first {margin:0;}
+
+.mWarn .mList.typeUnorder ol li,
+.mWarn .mList.typeOrder li { padding-left:24px; background:url('//img.cafe24.com/images/common/warn/sfix_number.gif') no-repeat 0 0;}
+.mWarn li.num1 { background-position:-150px 0 !important; }
+.mWarn li.num2 { background-position:-100px -50px !important ; }
+.mWarn li.num3 { background-position:-50px -100px !important; }
+.mWarn li.num4 { background-position:0 -150px !important; }
+
+.mWarn .mList.typeDotted { }
+
+.mWarn .mList.typeBorder { margin:20px 0 30px; border-bottom:medium none; border-top:1px solid #c8c9cb; }
+.mWarn .mList.typeBorder li { height:40px; margin-top:0; line-height:40px; padding:0 0 0 90px; border-bottom:1px solid #c8c9cb; background-position:10px 50%; }
+html:lang(ja) .mWarn .mList.typeBorder li { line-height:40px; }
+.mWarn .mList.typeBorder li span { display:inline-block; position:relative; width:70px; margin:0 0 0 -70px; }
+
+.mWarn .listArea {margin:0 0 20px; padding:20px 0 0; background:url('//img.cafe24.com/images/common/warn/bg_dot.gif') repeat-x left top;}
+.mWarn .listArea .mList {margin:0; padding:0 0 15px; background:url('//img.cafe24.com/images/common/warn/bg_dot.gif') repeat-x left bottom;}
+.mWarn .listArea .mList li {margin:0; font-size:11px;}
+html:lang(ja) .mWarn .listArea .mList li { font-size:12px; }
+
+.mWarn .box {margin:0 0 20px; padding:3px; border:1px solid #d7dae5; border-radius:3px; background-color:#fff;}
+.mWarn .box .board { border:1px solid #d7dae5; border-radius:3px; }
+.mWarn .box .board th { padding:11px 0 8px 10px; border-top:1px solid #d7dae5; border-right:1px solid #d7dae5; background-color:#f2f3f4; color:#555; text-align:left; font-weight:normal;}
+.mWarn .box .board td { padding:11px 9px 8px 20px; border-top:1px solid #d7dae5; border-left:1px solid #fff; background-color:#f9fafb; color:#555;}
+.mWarn .box .board td .fText { width:100% !important; max-width:160px; padding:1px 0; text-indent:5px; }
+.mWarn .box .board tr:first-child th,
+.mWarn .box .board tr:first-child td { border-top:0; }
+.mWarn .mButton {margin:20px 0 35px;}
+.mWarn .mCustomer {margin:30px 0 20px;}
+.mWarn .mFax {margin:20px 0 15px;}
+.mWarn .mMail {margin:15px 0 35px;}
+
+.mPromotion {width:788px; margin:0 auto -1px;}
+
+a.btnSubmit, a.btnEm, a.btnSubmit:hover, a.btnEm:hover, a.btnStrong , a.btnStrong:hover {text-decoration:none;}
+.btnSubmit, .btnSubmit span, .btnEm, .btnEm span, .btnStrong, .btnStrong span {display:inline-block; position:relative; overflow:visible; margin:0; padding:0; border:0; background-image:url('//img.cafe24.com/images/common/warn/sflex_btn_bg.png'); text-decoration:none; vertical-align:top; word-spacing:-1px; white-space:nowrap; height:41px; line-height:41px; line-height:43px \0/;}
+.btnSubmit {margin-right:10px; background-position:0 0; color:#fff; font-size:12px; font-weight:bold;}
+.btnSubmit span {left:4px; cursor:pointer; padding:0 18px 0 14px; background-position:100% 0; }
+.btnEm {margin-right:10px; background-position:0 -51px; color:#666; font-size:12px; font-weight:bold;}
+.btnEm span {left:4px; cursor:pointer; padding:0 18px 0 14px; background-position:100% -51px; letter-spacing:-1px;}
+.btnStrong {margin-right:10px; background-position:0 -101px; color:#fff; font-size:12px; font-weight:bold;}
+.btnStrong span {left:4px; cursor:pointer; padding:0 34px 0 30px; background-position:100% -101px; }
+.btnEm span em { font-style:normal; font-weight:normal; color:#888; letter-spacing:0; }
+
+.mWarn .divLine {margin-bottom:20px; padding-bottom:20px; background:url('//img.cafe24.com/images/common/warn/bg_dot.gif') repeat-x left bottom;}
+
+.mList .boardList { font-size:11px; }
+html:lang(ja) .mList .boardList { font-size:12px; }
+.mList .boardList th { text-align:left; padding-left:8px; font-weight:normal; vertical-align:top; background:url('//img.cafe24.com/images/common/warn/bul_002.gif') no-repeat left 6px;}
+html:lang(ja) .mList .boardList th { background-position:left 8px; }
+.mList .boardList td { vertical-align:top; }
+
+/* 작은 템플릿 사이즈 : only 호스팅센터 */
+.mWarn.typeSmall { float:none; width:410px; margin:0 auto; padding:0 0 60px; text-align:center; }
+.mWarn.typeSmall h2 { margin:30px auto; }
+.mWarn.typeSmall p.txtDesc { margin:10px 0 0; text-align:left; padding:0; color:#555; line-height:21px; }
+.mWarn.typeSmall .mButton { margin:30px 0 0; padding:50px 0 0; border-top:1px dashed #c8c9cb; }
+
+/* 모바일 */
+.mobile #content {width:100%;}
+.mobile #footer {width:100%; margin:0 auto; padding:6px 0 12px; border-top:1px solid #ddd; text-align:center; color:#777; font-size:0.75em; background-color:#eee;}
+
+.mobile .mWarn.typeMobile { float:none; width:100%; margin:0 auto; padding:0 0 28px; text-align:center;  }
+.mobile .mWarn.typeMobile h2 {margin:0 auto;}
+.mobile .mWarn.typeMobile p.txtDesc { margin:7px 0 0; text-align:center; padding:0; color:#353535; line-height:18px; }
+
+.mobile .mWarn .mCustomer { margin:28px 0 0; color:#757575; font-size:0.9em;}
+.mobile .mWarn .mMail {margin:3px 0 0; color:#757575; font-size:0.9em;}
+
+.mobile .mWarn .mCustomer.mobile { margin-top:20px; }
+.mobile .btnSubmit { min-width:292px; height:33px; line-height:30px; background-image: url('//img.cafe24.com/images/common/warn/sflex_btn_bg_mobile.png'); border-radius:3px; }
+.mobile .btnSubmit span { width:100%; height:33px; line-height:30px; padding:0; background-image: url('//img.cafe24.com/images/common/warn/sflex_btn_bg_mobile.png'); border-radius:3px; }
+
+
+/* mLoading */
+.mLoading { display:none; position:absolute; top:50%; left:50%; width:338px; margin:-77px 0 0 -166px; padding:0 0 27px; text-align:center; border:1px solid #adadad; border-radius:2px; box-shadow: 0 0 0 1px #f6f7f8 inset; z-index: 110; background: #e3e5e8; }
+.mLoading.typeStatic { position:fixed; top:50%; left:50%; margin:-77px 0 0 -166px; }
+.mLoading p { margin:39px 0 21px; color:#4c5255; }
+.dimmed { position:fixed; top:0; right:0; bottom:0; left:0; opacity:0.7; z-index:100; background-color:#fff; }
+.dimmed.hide { background:#000; }
+
+/* For Print */
+@media print {
+    #header,
+    #sidebar,
+    #aside,
+    #footer { display:none; }
+    #content { float:none; width:auto; }
+}
+
+/********************** Mobile & Tablet ***********************/
+@media screen and (max-width:800px){
+    #header { height:42px; }
+    #header h1 { margin:14px 0 0 14px; }
+    #header h1 img { width:85px; }
+    #warn { min-width:320px; }
+    #content { width:auto; }
+    .icoWarn { float:none; margin:0 auto; }
+    .mWarn h2 { letter-spacing:-1px; text-align:center; }
+    .mWarn h3 { text-align:center; }
+    .txtDesc.center { text-align:center; }
+    .mWarn .subDesc { text-align:center; }
+    .mWarn .mButton { text-align:center; }
+    .mWarn .mButton .btnSubmit, .mWarn .mButton .btnEm { margin-right:4px; }
+    .mPromotion { width:100%; margin:0 0 10px; }
+    .mPromotion img { display:block; width:100%; }
+}
+
+/********************** Mobile ***********************/
+@media screen and (max-width:640px) {
+    .RW { display:none; }
+    br.RWB { display:block; }
+    .mWarn { margin-top:30px; }
+    .mWarn h2 { margin:0 0 20px; text-align:center; font-size:18px; line-height:1.5em; }
+    .mWarn .subDesc { padding:0 0 10px; text-align:center; font-size:11px; line-height:1.3em; }
+    .mWarn .mButton a { display:block; width:100%; max-width:300px; margin:5px auto !important; }
+    .mWarn .mButton a span { display:block; width:100%; max-width:298px; padding:0; }
+
+    /* 아이콘 */
+    .icoWarn { width:153px; }
+    .icoWarn span { width:143px; height:75px; background-size:647px auto; }
+    .icoWarn.icoExpired span { background-position:0 0;} /* 기간만료 (1,1) */
+    .icoWarn.icoTraffic span { background-position:-168px 0;} /* 트래픽초과 (1,2) */
+    .icoWarn.icoMove span { background-position:-336px 0;} /* 서버이전 (1,3) */
+    .icoWarn.icoInaccessible span { background-position:-504px 0;} /* 접근권한없음 (1,4) */
+    .icoWarn.icoInoperative span { background-position:0 -135px;} /* 이용할수없음 (2,1) */
+    .icoWarn.icoNone span { background-position:-168px -135px;} /* 존재하지않음 (2,2) */
+    .icoWarn.icoDelay span { background-position:-336px -135px;} /* 지연 (2,3) */
+    .icoWarn.icoRestrict span { background-position:-504px -135px;} /* 제한 (2,4) */
+    .icoWarn.icoMake span { background-position:0 -270px;} /* 생성중 (3,1) */
+    .icoWarn.icoBlock span { background-position:-168px -270px;} /* 차단 (3,2) */
+    .icoWarn.icoError span { background-position:-336px -270px;} /* 접속문제 (3,3) */
+    .icoWarn.icoCheck span { background-position:-504px -270px;} /* 점검 (3,4) */
+    .icoWarn.icoUnsettled span { background-position:0 -405px;} /* 미결제 (4,1) */
+    .icoWarn.icoSession span { background-position:-168px -405px;} /* 세션만료 (4,2) */
+    .icoWarn.icoConfirm span { background-position:-336px -405px;} /* 본인인증, 대표자인증 (4,3) */
+    .icoWarn.icoDocument span { background-position:-504px -405px;} /* 인증서류 (4,4) */
+    .icoWarn.icoReady span { background-position:0px -540px;} /* 사이트 준비중 (5,1) */
+    .icoWarn.icoPage span { background-position:-168px -540px;} /* 페이지 오류 (5,2) */
+    .icoWarn.icoClose span { background-position:-504px -540px;} /* 휴면해제 */
+    .icoWarn.icoWait span { background-position:0 -675px;} /* 세팅대기(6,1) */
+    .icoWarn.icoMobileSuccess span { background-position:-168px -675px; } /* 보안인증 성공 (6,2) */
+    .icoWarn.icoMobileFail span { background-position:-336px -675px; } /* 보안인증 실패 (6,3) */
+
+    /* 버튼 */
+    .btnSubmit { height:32px; line-height:34px; border-radius:3px; background-position:0 0; border:1px solid #e1e7ef;
+        background-image: -ms-linear-gradient(top, #358CD7 0%, #3780c8 100%);
+        background-image: -moz-linear-gradient(top, #358CD7 0%, #3780c8 100%);
+        background-image: -o-linear-gradient(top, #358CD7 0%, #3780c8 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #358CD7), color-stop(100, #3780c8));
+        background-image: -webkit-linear-gradient(top, #358CD7 0%, #3780c8 100%);
+        background-image: linear-gradient(to bottom, #358CD7 0%, #3780c8 100%);
+    }
+    .btnEm { height:32px; line-height:34px; border-radius:3px; background-position:0 0; border:1px solid #c4c4c4;
+        background-image:-ms-linear-gradient(top, #FFFFFF 0%, #f4f4f4 100%);
+        background-image:-moz-linear-gradient(top, #FFFFFF 0%, #f4f4f4 100%);
+        background-image:-o-linear-gradient(top, #FFFFFF 0%, #f4f4f4 100%);
+        background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(100, #f4f4f4));
+        background-image:-webkit-linear-gradient(top, #FFFFFF 0%, #f4f4f4 100%);
+        background-image:linear-gradient(to bottom, #FFFFFF 0%, #f4f4f4 100%);
+    }
+    .btnStrong { height:32px; line-height:34px; border-radius:3px; background-position:0 0; border:1px solid #41454e;
+        background-image: -ms-linear-gradient(top, #767980 0%, #75797f 100%);
+        background-image: -moz-linear-gradient(top, #767980 0%, #75797f 100%);
+        background-image: -o-linear-gradient(top, #767980 0%, #75797f 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #767980), color-stop(100, #75797f));
+        background-image: -webkit-linear-gradient(top, #767980 0%, #75797f 100%);
+        background-image: linear-gradient(to bottom, #767980 0%, #75797f 100%);
+    }
+    .btnSubmit span, .btnEm span, .btnStrong span { left:1px; font-size:13px; background:none; }
+    .btnEm span { height:34px; line-height:34px; }
+    .btnSubmit span { height:31px; line-height:30px; top:2px; box-shadow:0px -1px 0px #549fde; }
+    .btnStrong span { height:31px; line-height:30px; top:1px; box-shadow:-1px -1px 0px #acadb2; }
+}
+
+.inner {
+    text-align: center;
+}
+
+.inner h1 {
+    font-size: 60px;
+}
+
+#container {
+    position: relative;
+    height: 100vh;
+}
+
+#container #content {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

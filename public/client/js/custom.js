@@ -30,7 +30,6 @@ function splitCurruncy() {
 
 function checkSoldOut() {
     const quantity = Number($('#soldOut').data('quantity'));
-    console.log(typeof quantity);
     if (quantity === 0) {
         console.log('Hello');
 
@@ -51,23 +50,59 @@ function addToCart() {
     $('.add-to-cart-btn').click(function () {
         const id = $(this).data('id');
 
-        $.post('/gio-hang/them-gio-hang', { id }, function (data) {
-            if (data.status === 200) {
-                alert('Đã thêm sản phẩm vào giỏ hàng');
+        $.post('/gio-hang/them-gio-hang', { id }, function (res) {
+            if (!res.status) {
+                alert('Có lỗi xảy ra, hãy thử lại');
                 return;
             }
-
-            alert('Có lỗi xảy ra, hãy thử lại');
+            alert('Đã thêm sản phẩm vào giỏ hàng');
+            $('.count.EC-Layout-Basket-count em').html(res.data[0]);
         });
     });
 }
 
 function handleCart() {
-    $('#cartBtnSubmit').click(function () {
-        const cartTotalPrice = $('#cartTotalPrice').data('price');
-
+    $('.cartBtnUp').on('click', function () {
+        const $element = $(this).prev('.cartProductQuantity');
+        const id = $element.data('id');
+        const value = parseInt($element.val());
+        $element.val(value + 1);
+        changeProductQuantity(id, value + 1, $element);
+        $element.attr('disabled', true);
     });
 
+    $('.cartBtnDown').on('click', function () {
+        const $element = $(this).prev().prev('.cartProductQuantity');
+        const id = $element.data('id');
+        const value = parseInt($element.val());
+        $element.val(value > 1 ? value - 1 : 1);
+        if (value >= 2) {
+            changeProductQuantity(id, value - 1, $element);
+        }
+        $element.attr('disabled', true);
+    });
+
+    function changeProductQuantity(id, quantity, $element) {
+        $.ajax({
+            url: `/gio-hang/${id}/doi-so-luong`,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+                _method: 'PUT',
+                quantity,
+            },
+            success: function (res) {
+                $element.attr('disabled', false);
+                if (!res.status) {
+                    alert('Đã có lỗi xảy ra, xin vui lòng thử lại');
+                    return;
+                }
+                const $quantityElement = $('.count.EC-Layout-Basket-count em');
+                const value = parseInt($quantityElement.text()) - res.data[0];
+                $quantityElement.text(value);
+            }
+        });
+    }
 }
 
 $(document).ready(function () {

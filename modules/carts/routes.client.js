@@ -9,9 +9,11 @@ router.get('/', getPropertyTypes, cartController.index);
 
 router.post('/them-gio-hang', cartController.addToCart);
 
-router.get('/xac-nhan', cartAuthorize.showUserInformationRequest, cartController.showUserInformationForm);
+router.put('/:product/doi-so-luong', cartAuthorize.changeQuantityAuthorize, cartController.changeQuantity);
 
-router.post('/xac-nhan', cartAuthorize.showUserInformationRequest, cartRequest.buyProductWithoutLoginRequest, cartController.buyProductWithoutLogin);
+router.get('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartController.showUserInformationForm);
+
+router.post('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartRequest.buyProductWithoutLoginRequest, cartController.buyProductWithoutLogin);
 
 router.use(authAuthorize.clientRedirectIfNotAuthenticated);
 

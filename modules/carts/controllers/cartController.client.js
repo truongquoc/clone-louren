@@ -12,11 +12,13 @@ const BillRepository = new BillRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
-        let cart = [];
+        let cart = {
+            products: [],
+        };
 
         if (req.session.cUser) {
             cart = await Cart
-                .findOne({ user: req.session.user._id })
+                .findOne({ user: req.session.cUser._id })
                 .select('products')
                 .populate('products.item', 'name price slug image.cover');
         } else if (req.session.cart) {
@@ -28,7 +30,7 @@ const index = async (req, res, next) => {
                 .find({ _id: arrIdProducts })
                 .select('name price slug image.cover');
 
-            cart = sessionCart.map(s => {
+            cart.products = sessionCart.map((s) => {
                 const id = s.item;
                 const item = products.find(p => p._id.toString() === id.toString());
 
@@ -36,7 +38,7 @@ const index = async (req, res, next) => {
             });
         }
 
-        const totalPrice = cart.reduce((total, product) => (
+        const totalPrice = cart.products.reduce((total, product) => (
             total + (product.item.price.number * product.quantity)
         ), 0);
 
@@ -49,15 +51,24 @@ const index = async (req, res, next) => {
 const addToCart = async (req, res, next) => {
     try {
         const { id } = req.body;
-        const product = await Product.findById(id);
+        let total = 0;
+        const product = await Product.findOne({
+            _id: id,
+            isApproved: true,
+            isDraft: false,
+            deletedAt: null,
+        });
 
         if (!product) {
-            return res.json({ status: 404, message: 'NOT FOUND', payload: {} });
+            return res.json(responseHelper.notFound());
         }
 
         if (req.session.cUser) {
             const cart = await Cart
-                .findOne({ user: req.session.cUser._id })
+                .findOne({
+                    user: req.session.cUser._id,
+                    deletedAt: null,
+                })
                 .select('products');
 
             const existItem = cart.products.find(e => e.item.toString() === id);
@@ -65,14 +76,16 @@ const addToCart = async (req, res, next) => {
             if (existItem) {
                 existItem.quantity += 1;
             } else {
-                cart.products = [existItem, ...cart];
+                cart.products = [{
+                    item: id,
+                    quantity: 1,
+                }, ...cart.products];
             }
 
             await cart.save();
+            total = cart.products.map(element => element.quantity).reduce((a, b) => a + b, 0);
         } else {
-            req.session.cart = req.session.cart || [];
-
-            const shopCart = req.session.cart;
+            const shopCart = req.session.cart || [];
 
             const existItem = shopCart.find(e => e.item === id);
 
@@ -83,19 +96,48 @@ const addToCart = async (req, res, next) => {
             }
 
             req.session.cart = shopCart;
+            total = shopCart.map(element => element.quantity).reduce((a, b) => a + b, 0);
         }
 
-        res.json({ status: 200, message: 'OK', payload: product });
+        return res.json(responseHelper.success(total));
     } catch (e) {
         next(responseHelper.error(e.message));
     }
 };
 
-const showUserInformationForm = (req, res, next) => {
-    return res.render('modules/carts/client/userInformation', {
-        products: req.session.cart,
-    });
+const changeQuantity = async (req, res) => {
+    try {
+        const { product } = req.params;
+        const { quantity } = req.body;
+        const { cUser } = req.session;
+        let returnQuantity;
+        if (cUser) {
+            const cart = await CartRepository.getCartByUser(req.session.cUser._id);
+
+            const existItem = cart.products.find(e => e.item.toString() === product);
+            if (existItem) {
+                returnQuantity = existItem.quantity;
+                existItem.quantity = quantity;
+            }
+            await CartRepository.updateProducts(cart._id, cart.products);
+        } else {
+            const shopCart = req.session.cart || [];
+            const existItem = shopCart.find(e => e.item === product);
+            if (existItem) {
+                returnQuantity = existItem.quantity;
+                existItem.quantity = quantity;
+            }
+        }
+
+        return res.json(responseHelper.success(returnQuantity - quantity));
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
 };
+
+const showUserInformationForm = (req, res) => res.render('modules/carts/client/userInformation', {
+    products: req.session.cart,
+});
 
 const buyProductWithoutLogin = async (req, res, next) => {
     const errors = validationResult(req);
@@ -108,6 +150,7 @@ const buyProductWithoutLogin = async (req, res, next) => {
     try {
         const bill = await CartRepository.createBillWithoutLogin(data, req.session.cart);
         await BillRepository.sendConfirmEmail(bill._id);
+        delete req.session.cart;
         req.flash('success', 'Gửi yêu cầu mua thành công, hãy kiểm tra lại email của bạn.');
 
         return res.redirect('/gio-hang');
@@ -119,8 +162,10 @@ const buyProductWithoutLogin = async (req, res, next) => {
 const buyProduct = async (req, res, next) => {
     try {
         const bill = await CartRepository.createBill(req.params.id, req.session.cUser._id);
-        await BillRepository.sendConfirmEmail(bill._id);
-        await CartRepository.deleteById(req.params.id);
+        await Promise.all([
+            BillRepository.sendConfirmEmail(bill._id),
+            CartRepository.emptyCart(req.params.id),
+        ]);
         req.flash('success', 'Gửi yêu cầu mua thành công, hãy kiểm tra lại email của bạn.');
 
         return res.redirect('/nguoi-dung/don-hang');
@@ -135,4 +180,5 @@ module.exports = {
     showUserInformationForm,
     buyProduct,
     addToCart,
+    changeQuantity,
 };

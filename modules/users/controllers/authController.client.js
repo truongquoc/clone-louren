@@ -3,7 +3,7 @@ const passport = require('../../../config/passport');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 const UserRepositoryClass = require('../repositories/UserRepository');
-const CartRepositoryClass = require('../repositories/CartRepository');
+const CartRepositoryClass = require('../../carts/repositories/CartRepository');
 
 const AuthRepository = new AuthRepositoryClass();
 const UserRepository = new UserRepositoryClass();
@@ -28,6 +28,10 @@ const login = async (req, res, next) => {
             return res.redirectBack();
         }
         req.session.cUser = AuthRepository.getCurrentUserData(user);
+        if (req.session.cart && req.session.cart.length) {
+            await CartRepository.syncCart(user._id, req.session.cart);
+            delete req.session.cart;
+        }
 
         return res.redirect('/nguoi-dung');
     } catch (e) {
