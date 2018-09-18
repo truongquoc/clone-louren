@@ -41,11 +41,11 @@ router.get('/login/google', passport.authenticate('google', {
 
 router.get('/login/google/callback', authController.googleLogin);
 
-router.get('/quen-mat-khau', authController.showForgotPasswordForm);
+router.get('/quen-mat-khau', getPropertyTypes, authController.showForgotPasswordForm);
 
 router.post('/quen-mat-khau', authRequest.clientForgotPasswordRequest, authController.sendMessage);
 
-router.get('/quen-mat-khau/khoi-phuc/:token', authAuthorize.clientResetPasswordAuthorize, authController.showResetPasswordForm);
+router.get('/quen-mat-khau/khoi-phuc/:token', getPropertyTypes, authAuthorize.clientResetPasswordAuthorize, authController.showResetPasswordForm);
 
 router.put('/quen-mat-khau/khoi-phuc/:token', authAuthorize.clientResetPasswordAuthorize, authRequest.resetPasswordRequest, authController.resetPassword);
 
