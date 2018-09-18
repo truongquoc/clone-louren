@@ -10,8 +10,40 @@ const BillRepositoryClass = require('../../bills/repositories/BillRepository');
 const CartRepository = new CartRepositoryClass();
 const BillRepository = new BillRepositoryClass();
 
-const index = (req, res, next) => {
-    return res.render('modules/carts/client/index');
+const index = async (req, res, next) => {
+    try {
+        let cart = [];
+
+        if (req.session.cUser) {
+            cart = await Cart
+                .findOne({ user: req.session.user._id })
+                .select('products')
+                .populate('products.item', 'name price slug image.cover');
+        } else if (req.session.cart) {
+            const sessionCart = [...req.session.cart];
+
+            const arrIdProducts = sessionCart.map(e => e.item);
+
+            const products = await Product
+                .find({ _id: arrIdProducts })
+                .select('name price slug image.cover');
+
+            cart = sessionCart.map(s => {
+                const id = s.item;
+                const item = products.find(p => p._id.toString() === id.toString());
+
+                return { ...s, item };
+            });
+        }
+
+        const totalPrice = cart.reduce((total, product) => (
+            total + (product.item.price.number * product.quantity)
+        ), 0);
+
+        return res.render('modules/carts/client/index', { cart, totalPrice });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
 };
 
 const addToCart = async (req, res, next) => {
@@ -27,6 +59,16 @@ const addToCart = async (req, res, next) => {
             const cart = await Cart
                 .findOne({ user: req.session.cUser._id })
                 .select('products');
+
+            const existItem = cart.products.find(e => e.item.toString() === id);
+
+            if (existItem) {
+                existItem.quantity += 1;
+            } else {
+                cart.products = [existItem, ...cart];
+            }
+
+            await cart.save();
         } else {
             req.session.cart = req.session.cart || [];
 
@@ -51,7 +93,7 @@ const addToCart = async (req, res, next) => {
 
 const showUserInformationForm = (req, res, next) => {
     return res.render('modules/carts/client/userInformation', {
-        products: req.session.products,
+        products: req.session.cart,
     });
 };
 
@@ -64,7 +106,7 @@ const buyProductWithoutLogin = async (req, res, next) => {
         return res.redirectBack();
     }
     try {
-        const bill = await CartRepository.createBillWithoutLogin(data, req.session.products);
+        const bill = await CartRepository.createBillWithoutLogin(data, req.session.cart);
         await BillRepository.sendConfirmEmail(bill._id);
         req.flash('success', 'Gửi yêu cầu mua thành công, hãy kiểm tra lại email của bạn.');
 

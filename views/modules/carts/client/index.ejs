@@ -25,9 +25,7 @@
                 <h3>Tất cả sản phẩm (2)</h3>
             </div>
 
-            <table border="1" summary=""
-                   class="xans-element- xans-order xans-order-normindividual xans-record-">
-                <caption>Giỏ hàng<caption>
+            <table border="1" summary="" class="xans-element- xans-order xans-order-normindividual xans-record-">
                 <colgroup>
                     <col style="width:92px"/>
                     <col style="width:auto"/>
@@ -42,187 +40,72 @@
                         <th scope="col">Thông tin sản phẩm</th>
                         <th scope="col">Giá</th>
                         <th scope="col">Số lượng</th>
-                        <th scope="col">Tổng cộng</th>
                     </tr>
                 </thead>
                 <tfoot class="right">
                     <tr>
                         <td colspan="10">
                             <span>Tổng hóa đơn:</span><strong class="txtEm gIndent10">
-                                <span class="txt18">88,500</span>원
+                                <span class="txt18" id="cartTotalPrice" data-price="<%= totalPrice %>"><%= formatPrice(totalPrice) %></span> đ
                             </strong>
                             <span lass="displaynone"></span>
                         </td>
                     </tr>
                 </tfoot>
                 <tbody class="xans-element- xans-order xans-order-list center">
-                    <tr class="xans-record-">
-                        <td class="thumb gClearLine"><a href="/product/detail.html?product_no=55&cate_no=1"><img
-                                        src="//louren.co.kr/web/product/tiny/201805/55_shop1_15276572530746.jpg"
-                                        onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
-                                        alt="poi [A-type] 포이A(먼지털이개)"/></a></td>
-                        <td class="left gClearLine">
-                            <strong class="name"><a href="/product/poi-a-type-포이a먼지털이개/55/category/1/"
-                                                    class="ec-product-name">poi [A-type]<br> 포이A(먼지털이개)</br></a></strong>
-                            <span class="displaynone engName">(영문명 : )</span>
-                        </td>
-                        <td class="right">
-                            <div class="">
-                                <strong>20,500원</strong>
-                                <p class="displaynone"></p>
-                            </div>
-                            <div class="displaynone">
-                                <strong>20,500원</strong>
-                                <p class="displaynone"></p>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="">
-                                <span class="ec-base-qty">
-                                    <input id="quantity_id_0" name="quantity_name_0" size="2" value="1" type="text"/>
-                                    <a href="javascript:;"  onclick="">
-                                        <img src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_up.gif"
-                                             alt="Up" class="up"/></a>
-                                    <a href="javascript:;" onclick="">
-                                        <img src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_down.gif"
-                                             alt="Down" class="down"/></a>
-                                </span>
-
-                                <a href="javascript:;" class="gBlank5" onclick="">
-                                    <img src="//img.echosting.cafe24.com/skin/base_ko_KR/order/btn_quantity_modify.gif"
-                                            alt="변경"/>
+                    <% cart.forEach((product) => { %>
+                        <tr class="xans-record-">
+                            <td class="thumb gClearLine">
+                                <a href="/san-pham/<%= product.item.slug %>">
+                                    <img src="<%= product.item.image.cover %>" alt="<%= product.item.name %>" />
                                 </a>
-                            </span>
+                            </td>
+                            <td class="left gClearLine">
+                                <strong class="name">
+                                    <a href="/san-pham/<%= product.item.slug %>" class="ec-product-name">
+                                        <%= product.item.name %>
+                                    </a>
+                                </strong>
+                            </td>
+                            <td class="right">
+                                <div class="">
+                                    <strong><%= formatPrice(product.item.price.number) %> đ</strong>
+                                    <p class="displaynone"></p>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="">
+                                    <span class="ec-base-qty">
+                                        <input class="cartProductQuantity" name="quantity_name_0"
+                                               size="2" value="<%= product.quantity %>" type="text"
+                                        />
 
-                            <span class="displaynone">1</span>
-                        </td>
-                        <td class="right">
-                            <strong>20,500원</strong>
-                            <div class="displaynone"></div>
-                        </td>
-                    </tr>
+                                        <button class="cartBtnUp">
+                                            <img src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_up.gif"
+                                                 alt="Up" class="up"/>
+                                        </button>
+
+                                        <button class="cartBtnDown">
+                                            <img src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_down.gif"
+                                                 alt="Down" class="down"/>
+                                        </button>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    <% }) %>
                 </tbody>
             </table>
-
-            <!-- 일반상품 (해외배송) -->
-        </div>
-        <!-- 무이자상품 -->
-        <div class="orderListArea ec-base-table typeList gBorder">
-
-        </div>
-        <!-- 무이자할부 정보 (카드이미지 등) -->
-        <div class="xans-element- xans-order xans-order-basketpriceinfoguide  "><p class="info displaynone">
-                할인 적용 금액은 주문서작성의 결제예정금액에서 확인 가능합니다.</p>
-            <p class="info displaynone">결제예정금액은 배송비가 포함된 금액이므로 주문서작성에서 확인 가능합니다.</p>
-            <p class="info displaynone">추가증정 이벤트 상품의 옵션 및 수량 변경은 상품상세에서 가능합니다.</p>
         </div>
 
-        <div class="xans-element- xans-order xans-order-totaloversea ec-base-table typeList gBorder total displaynone ">
-            <table border="1" summary="">
-                <caption>총 주문금액</caption>
-                <colgroup>
-                    <col style="width:23%;"/>
-                    <col style="width:21%;" class="displaynone"/>
-                    <col style="width:21%;" class="displaynone"/>
-                    <col style="width:auto"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="col"><span>총 상품금액</span></th>
-                    <th scope="col" class="displaynone"><strong>총 부가세</strong></th>
-                    <th scope="col" class="displaynone">총 할인금액 <a href="#none"
-                                                                  onclick="OrderLayer.onDiv('order_layer_benefit', event);"><img
-                                    src="//img.echosting.cafe24.com/skin/base_ko_KR/order/btn_list.gif" alt="내역보기"/></a>
-                    </th>
-                    <th scope="col">총 합계</th>
-                </tr>
-                </thead>
-                <tbody class="center">
-                <tr>
-                    <td>
-                        <div class="box txt16">
-                            <strong><span class="txt23">85,500</span>원</strong> <span
-                                    class="txt14 displaynone"></span>
-                        </div>
-                    </td>
-                    <td class="displaynone">
-                        <div class="box txt16">
-                            <strong><span class="txt23">0</span>원</strong> <span
-                                    class="txt14 displaynone"></span>
-                        </div>
-                    </td>
-                    <td class="displaynone">
-                        <div class="box txt16">
-                            <strong>- <span class="txt23">0</span>원</strong> <span
-                                    class="txt14 displaynone"></span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="box txtEm txt16">
-                            <strong class="txt23">= </strong><strong><span
-                                        class="txt23">88,500</span>원</strong> <span
-                                    class="txt14 displaynone"></span>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 총 할인금액 상세내역 레이어 -->
-            <div id="" class="totalDetail ec-base-layer">
-                <div class="header">
-                    <h3>총 할인금액 상세내역</h3>
-                </div>
-                <div class="content">
-                    <p id="mTotalBenefitPrice" class="txtEm txt16"><strong>0원</strong></p>
-                    <ul class="ec-base-desc typeDot gLarge rightDD">
-                        <li class="displaynone">
-                            <strong class="term">기간할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">회원할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">재구매할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">대량구매할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">바로가기(링콘)할인</strong><span id="" class="desc">원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">어바웃pbp할인</strong><span id="" class="desc">원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">신규상품할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">세트할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">결제수단할인</strong><span id="" class="desc">원</span>
-                        </li>
-                        <li class="displaynone">
-                            <strong class="term">회원등급할인</strong><span id="" class="desc">0원</span>
-                        </li>
-                    </ul>
-                </div>
-                <a href="#none" class="close" onclick="OrderLayer.offDiv('order_layer_benefit');"><img
-                            src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기"/></a>
-            </div>
-        </div>
-        <!-- 주문 버튼 -->
         <div class="xans-element- xans-order xans-order-totalorder ec-base-button justify">
             <span class="gRight">
-                <a href="/">
-                    <img src="//img.echosting.cafe24.com/skin/base_ko_KR/order/btn_order_ing.gif" alt="쇼핑계속하기"/>
-                </a>
+                <button class="btn btn-primary" id="cartBtnSubmit"
+                        style="padding: 10px 15px; background: #444; color: #fff; font-size: 16px;"
+                >Xác nhận</button>
             </span>
-            <!-- 네이버 체크아웃 구매 버튼  -->
-            <div id="NaverChk_Button"></div>
         </div>
     </div>
-    <!-- //장바구니 모듈 Package -->
 
     <div class="xans-element- xans-order xans-order-basketguide ec-base-help ">
         <h3>Hướng dẫn sử dụng</h3>
@@ -235,6 +118,4 @@
             </ol>
         </div>
     </div>
-
-
 </div>
