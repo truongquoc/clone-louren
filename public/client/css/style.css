@@ -7318,15 +7318,7 @@ table.manage-table .title-container .title span {
     background: #808f66;
 }
 
-.widget_gnb_right {
-    float: right;
-    display: table-cell !important;
-    height: 60px;
-    margin: 0;
-    padding: 0 0 0 10px;
-    vertical-align: middle;
-    text-align: right;
-}
+
 
 
 
@@ -7337,19 +7329,7 @@ table.manage-table .title-container .title span {
     color: #262626;
     text-decoration: none;
 }
-.widget_gnb_right .sub_menu_layer .sub_menu {
-    display: none;
-    position: absolute;
-    top: 53px;
-    left: -35px;
-    z-index: 11;
-    width: 100px;
-    padding: 10px 5px;
-    border: 0px solid #000;
-    background: rgba(255,255,255,1.0) !important;
-    text-align: left;
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
+
 .logo {
     padding: 7px 0 !important;
 }

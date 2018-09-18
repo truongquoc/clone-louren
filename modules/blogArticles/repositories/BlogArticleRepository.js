@@ -11,7 +11,7 @@ class BlogArticleRepository extends ArticleRepository {
     }
 
     async clientList(slug, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.clientLimit;
         const search = new RegExp(options.query.search, 'i');
         const conditions = {
@@ -42,7 +42,7 @@ class BlogArticleRepository extends ArticleRepository {
     }
 
     async adminList(userId, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const search = new RegExp(options.query.search, 'i');
         const conditions = { title: search, deletedAt: null };

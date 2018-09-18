@@ -46,21 +46,22 @@
                                         <td>Số điện thoại</td>
                                         <td>Bla bla</td>
                                     </tr>
+                                    <% const user = bill.user || bill.userInformation %>
                                     <tr>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td class="user__information__title">Người nhận:</td>
-                                        <td><%= bill.user.name %></td>
+                                        <td><%= user.name %></td>
                                     </tr>
                                     <tr>
                                         <td class="user__information__title">Email:</td>
-                                        <td><a href="mailto:<%= bill.user.email %>"><%= bill.user.email %></a></td>
+                                        <td><a href="mailto:<%= user.email %>"><%= user.email %></a></td>
                                     </tr>
                                     <tr>
                                         <td class="user__information__title">Số điện thoại:</td>
-                                        <td><%= bill.user.telephone %></td>
+                                        <td><%= user.telephone %></td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -1,8 +1,10 @@
 const Cart = require('../models/Cart');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
+const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
 const ProductBillRepositoryClass = require('../../bills/repositories/ProductBillRepository');
 const BillRepositoryClass = require('../../bills/repositories/BillRepository');
 
+const ProductRepository = new ProductRepositoryClass();
 const ProductBillRepository = new ProductBillRepositoryClass();
 const BillRepository = new BillRepositoryClass();
 
@@ -46,6 +48,51 @@ class CartRepository extends BaseRepository {
 
         return BillRepository.baseCreate({
             user: userId,
+            productBill,
+            code,
+            price: totalPrice,
+        });
+    }
+
+    async createBillWithoutLogin(data, savedProducts) {
+        let productBill = [];
+        let check;
+        const productIds = savedProducts.map(savedProduct => savedProduct._id);
+        const products = await ProductRepository.getManyByIds(productIds);
+        savedProducts.forEach((savedProduct) => {
+            const findElement = products.find(element => (
+                savedProduct._id === element._id.toString()
+            ));
+            const product = {
+                product: savedProduct._id,
+                quantity: savedProduct.quantity,
+                price: findElement.price.number,
+            };
+            productBill.push(product);
+        });
+        let code = Math.floor(Math.random() * 1000000);
+        [productBill, check] = await Promise.all([
+            ProductBillRepository.baseCreate(productBill),
+            BillRepository.checkExist({ code }),
+        ]);
+        while (check) {
+            code = Math.floor(Math.random() * 1000000);
+            check = await BillRepository.checkExist({ code });
+        }
+        let totalPrice = 0;
+        productBill.forEach((element) => {
+            totalPrice += element.price * element.quantity;
+        });
+        productBill = productBill.map(element => element._id);
+
+        return BillRepository.baseCreate({
+            userInformation: {
+                name: data.name,
+                email: data.email,
+                telephone: data.telephone,
+                address: data.address,
+                note: data.note,
+            },
             productBill,
             code,
             price: totalPrice,

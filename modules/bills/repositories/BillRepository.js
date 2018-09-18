@@ -19,7 +19,7 @@ class BillRepository extends BaseRepository {
     }
 
     async adminList(options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
         const conditions = {};
         if (options.query.method !== 'date' && options.query.type === 'user') {
@@ -62,7 +62,7 @@ class BillRepository extends BaseRepository {
     }
 
     async clientBills(id, options) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
           user: id, deletedAt: null,
@@ -123,18 +123,18 @@ class BillRepository extends BaseRepository {
             code, deletedAt: null,
         };
 
-         return this.model
-                    .findOne(conditions)
-                    .populate({
-                        path: 'productBill',
-                        select: '-_id product price quantity',
-                        match: { deletedAt: null },
-                        populate: {
-                            path: 'product',
-                            select: '-_id name sku price.number image.cover',
-                        },
-                    })
-                    .sort({ createdAt: -1 });
+        return this.model
+            .findOne(conditions)
+            .populate({
+                path: 'productBill',
+                select: '-_id product price quantity',
+                match: {deletedAt: null},
+                populate: {
+                    path: 'product',
+                    select: '-_id name sku price.number image.cover',
+                },
+            })
+            .sort({createdAt: -1});
     }
 
     async sendApprovedEmail(id) {
@@ -182,7 +182,7 @@ class BillRepository extends BaseRepository {
         });
         const template = ejs.compile(file);
         const mailOptions = {
-            to: bill.user.email,
+            to: bill.user ? bill.user.email : bill.userInformation.email,
             from: config.emailAddress,
             subject: `Xác nhận đơn hàng ${bill.code}`,
             html: template({

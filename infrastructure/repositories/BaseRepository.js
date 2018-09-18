@@ -18,7 +18,7 @@ class BaseRepository {
     }
 
     async paginate(conditions = {}, options = {}) {
-        options.query.page = parseInt(options.query.page, 10) || 1;
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = options.limit || commonConstant.limit;
         conditions.deletedAt = null;
         const [total, docs] = await Promise.all([

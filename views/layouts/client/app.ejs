@@ -24,21 +24,17 @@
     </style>
     <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
     <%- block('beforeCommon') %>
+    <link rel="stylesheet" href="/public/client/css/style.css">
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/public/client/css/custom.css"/>
     <%- stylesheets %>
-    <title>로렌 louren | <%= block('title') %></title>
+    <title> Sản phẩm | <%= block('title') %></title>
     <meta name="path_role" content="MAIN"/>
     <meta name="author" content="로렌 louren"/>
-    <meta name="description" content="핸드메이드를 기반으로 하는 가구, 리빙 브랜드 로렌"/>
-    <meta name="keywords" content="라탄가구, 라탄소품, 라탄의자, 핸드메이드가구"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
 </head>
 <body>
-<div id="skipNavigation">
-    <p><a href="#category">전체상품목록 바로가기</a></p>
-    <p><a href="#contents">본문 바로가기</a></p>
-</div>
-
 <div id="header">
     <%- include partials/header.ejs %>
 </div>
@@ -48,22 +44,10 @@
     <div id="container">
         <div class="fixed_row">
             <%- body %>
-        </div><!-- /.fixed_row -->
-        <hr class="layout"/>
-    </div><!-- /#container -->
-    <hr class="layout"/>
-    <div id="banner" class="hide"></div>
-
-    <div id="quick" class="hide">
-        <div class="xans-element- xans-layout xans-layout-orderbasketcount "><strong>장바구니</strong>
-            <span><a href="/order/basket.html">0</a>개</span>
         </div>
-        <p class="pageTop"><a href="#header" title="화면 최상단으로 이동하기"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/layout/btn_top1.gif" alt="맨위로"/></a></p>
-        <p class="banner"><a href="#none"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/layout/img_banner2.jpg"
-                                               alt=""/></a></p>
+        <hr class="layout"/>
     </div>
-
+    <hr class="layout"/>
 
     <div class="fixed_copyright">
         <p class="xans-element- xans-layout xans-layout-footer copyright ">COPYRIGHT ©
@@ -76,7 +60,7 @@
 <hr class="layout"/>
 <div id="footer">
     <%- include partials/footer.ejs %>
-</div><!-- /#footer -->
+</div>
 
 
 <div id="scroll_up_down">
@@ -84,33 +68,17 @@
     <a href="#up" class="down"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
 </div>
 
-
-<!-- 참고: 결제를 위한 필수 영역 -->
-<div id="progressPaybar" style="display:none;">
-    <div id="progressPaybarBackground" class="layerProgress"></div>
-    <div id="progressPaybarView">
-        <div class="box">
-            <p class="graph">
-                <span><img src="//img.echosting.cafe24.com/skin/base_ko_KR/layout/txt_progress.gif"
-                           alt="현재 결제가 진행중입니다."/></span>
-                <span><img src="//img.echosting.cafe24.com/skin/base/layout/img_loading.gif" alt=""/></span>
-            </p>
-            <p class="txt">
-                본 결제 창은 결제완료 후 자동으로 닫히며,결제 진행 중에 본 결제 창을 닫으시면<br/>
-                주문이 되지 않으니 결제 완료 될 때 까지 닫지 마시기 바랍니다.
-            </p>
-        </div>
-    </div>
-</div>
-<!-- //참고 -->
-
 <script type="text/javascript" src="/public/client/js/i18n1.js"
         charset="utf-8"></script>
 <script type="text/javascript" src="/public/client/js/i18n2.js"
         charset="utf-8"></script>
-
 <script type="text/javascript" src="/public/client/js/vendor.js"></script>
 <script type="text/javascript" src="/public/client/js/test3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<%- scripts %>
+<script src="/public/client/js/custom.js"></script>
+<%- block('script') %>
 <script>
     var mobileWeb = false;
 </script>

@@ -1,5 +1,5 @@
-<% layout('../../layouts/client/app') %>
-<% stylesheet('../../../public/client/css/style.css') %>
+<% layout('../../../layouts/client/app') %>
+
 <% stylesheet('/public/client/css/styleOrderHistory.css') %>
 
 <% block('title', 'Trang chủ') %>
@@ -71,7 +71,7 @@
                 <col style="width:111px;"/>
                 <col style="width:111px;"/>
             </colgroup>
-            <thead> 
+            <thead>
                 <tr>
                     <th scope="col">Mã đơn hàng</th>
                     <th scope="col">Hình ảnh</th>
@@ -83,45 +83,45 @@
                 </tr>
             </thead>
             <tbody class="center ">
-             
+
                 <% if(bills.docs.length !== 0) { %>
-                    <% bills.docs.forEach((bill) => { %> 
+                    <% bills.docs.forEach((bill) => { %>
                         <tr class="">
                             <td  class="number ">
                                 <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.code %> </a>
-                                    
+
                             </td>
                             <td class="time">
                                 <%= moment(bill.createAt).format('L') %>
                             </td>
-                        
+
                             <td class="name">
                                 <% if(bill.productBill.length > 3) {%>
                                     <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.productBill[0].product.name %> và <%= bill.productBill.length -1 %> sản phẩm khác</a>
-                                <% } else { %> 
+                                <% } else { %>
                                     <% bill.productBill.forEach((p) => { %>
                                         <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= p.product.name %>, </a>
                                     <% }) %>
                                 <% } %>
-                                
+
                             </td>
                             <td class="quantity"> <%= bill.productBill.length %></td>
                             <td class="right price">
                                 <strong><%= bill.price %></strong>
                             </td>
                             <td class="status">
-                                <%= bill.isApproved === 'false' ? 'Chưa xác nhận' : 'Đã xác nhận'  %>   
+                                <%= bill.isApproved === 'false' ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
                             </td>
                             <td>
                                 <a href="#">Hủy/ đổi/ trả</a>
                             </td>
-                        </tr>  
+                        </tr>
                     <% }) %>
                 <% } %>
-    
+
             </tbody>
         </table>
-        
+
         <% if(bills.docs.length === 0 ) { %>
         <p class="message ">Chưa có đơn đặt hàng nào.</p>
         <% } %>
@@ -133,6 +133,6 @@
             </div>
         </div>
     <% } %>
-   
+
 
 </div>
