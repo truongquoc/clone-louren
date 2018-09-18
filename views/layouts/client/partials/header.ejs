@@ -10,40 +10,36 @@
     productTypes = productTypes.filter((type) => !type.parentType)
 %>
 <div class="header_area">
-    <h1 class="xans-element- xans-layout xans-layout-logotop "><a href="/index.html"><img
+    <h1 class="xans-element- xans-layout xans-layout-logotop "><a href="/"><img
                     src="/public/client/images/icons/category/logo/2ddbf5cd7762b49575776e690a58df39_3_top.jpg"
                     alt="로렌 louren"/></a>
     </h1>
     <div class="widget_gnb_right">
         <ul>
             <li class="sub_menu_layer icon_member">
-                <!-- <a href="/member/login.html" module="Layout_statelogoff"><span class="hide">MEMBER</span></a>
-                <a href="{$action_logout}" module="Layout_stateLogon"><span class="hide">MEMBER</span></a>-->
                 <a href="#"><span class="hide">MEMBER</span></a>
                 <div class="sub_menu">
                     <ul class="xans-element- xans-layout xans-layout-statelogoff ">
-                        <li><a href="/member/login.html" class="log">LOGIN</a></li>
-                        <li><a href="/member/join.html">JOIN US</a></li>
-                        <li><a href="/myshop/order/list.html">ORDER</a></li>
-                        <li><a href="/member/modify.html">MYPAGE</a></li>
-                        <!-- <li><a href="/dmoon/html/user/product_timesale.html">TIME SALE</a></li> -->
+                        <li><a href="/dang-nhap" class="log">ĐĂNG NHẬP</a></li>
+                        <li><a href="/dang-ky">ĐĂNG KÝ</a></li>
                         <li></li>
                         <li></li>
                     </ul>
-                </div><!--/.xans-layout-boardinfo -->
+                </div>
             </li>
-            <li class="xans-element- xans-layout xans-layout-orderbasketcount sub_menu_layer icon_cart "><a
-                        href="/order/basket.html" class="btnBasket" ajax_data data-url="basket.html"
-                        data-name="basket" data-width="400px" data-animate="top" data-animate-value=""><span
-                            class="count displaynone EC-Layout-Basket-count"><em
-                                class="EC-Layout-Basket-count">0</em></span></a>
+            <li class="xans-element- xans-layout xans-layout-orderbasketcount sub_menu_layer icon_cart ">
+                <a href="/gio-hang" class="btnBasket">
+                    <span class="count EC-Layout-Basket-count">
+                        <em class="EC-Layout-Basket-count"><%= productQuantity %></em>
+                    </span>
+                </a>
             </li>
         </ul>
     </div>
 
     <div class="widget_lnb_menu">
         <ul class="header_lnb_menu">
-            <li class="lnb1"><a href="/shopinfo/company.html">BRAND STORY</a></li>
+            <li class="lnb1"><a href="/">TRANG CHỦ</a></li>
             <li class="lnb2">
                 <a href="/mat-hang">ONLINE SHOP <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                 <div class="xans-element- xans-layout xans-layout-category lnb_sub_menu">
@@ -68,32 +64,7 @@
                 </div>
                 <!--/.lnb_sub_menu -->
             </li>
-            <li class="lnb3">
-                <a href="/product/lookbook_list.html?cate_no=42">CATALOG <i class="fa fa-angle-down"
-                                                                            aria-hidden="true"></i> </a>
-                <div class="lnb_sub_menu">
-                    <ul>
-                        <li><a href="/product/lookbook_list.html?cate_no=43">rattan</a></li>
-                    </ul>
-                </div><!--/.lnb_sub_menu -->
-            </li>
-            <li class="lnb4">
-                <a href="/board/free/list.html?board_no=1">COMMUNITY <i class="fa fa-angle-down"
-                                                                        aria-hidden="true"></i></a>
-                <div class="xans-element- xans-layout xans-layout-boardinfo lnb_sub_menu"><!-- 참고: 이미지메뉴를 사용하고 싶은 경우
-						<ul>
-							<li><a href=""></a> </li>
-							<li><a href=""></a> </li>
-						</ul>
-						// 참고 -->
-                    <ul>
-                        <li class="xans-record-"><a href="/board/notice/1/">NOTICE</a></li>
-                        <li class="xans-record-"><a href="/board/event/2/">EVENT</a></li>
-                        <li class="xans-record-"><a href="/board/review/4/">REVIEW</a></li>
-                        <li class="xans-record-"><a href="/board/qa/6/">Q&A</a></li>
-                    </ul>
-                </div>
-            </li>
+            <li class="lnb1"><a href="/blog">BLOG</a></li>
         </ul>
     </div>
 </div>

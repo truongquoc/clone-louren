@@ -2,8 +2,10 @@ const { validationResult } = require('express-validator/check');
 const roleHelper = require('../../../helpers/roleHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
+const CartRepositoryClass = require('../../carts/repositories/CartRepository');
 
 const AuthRepository = new AuthRepositoryClass();
+const CartRepository = new CartRepositoryClass();
 
 const index = (req, res) => res.render('modules/users/admin/index');
 
@@ -26,6 +28,10 @@ const login = async (req, res, next) => {
             return res.redirectBack();
         }
         req.session.cUser = AuthRepository.getCurrentUserData(user);
+        if (req.session.cart && req.session.cart.length) {
+            await CartRepository.syncCart(user._id, req.session.cart);
+            delete req.session.cart;
+        }
         if (req.session.prevUrl) {
             res.redirect(req.session.prevUrl);
             delete req.session.prevUrl;

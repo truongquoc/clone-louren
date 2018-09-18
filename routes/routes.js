@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { countCartProduct } = require('../infrastructure/controllers/productController.client');
 const adminAuthRoutes = require('../modules/users/authRoutes.admin');
 const adminUploadRouter = require('../modules/uploads/routes.admin');
 const adminUserRouter = require('../modules/users/routes.admin');
@@ -37,6 +38,7 @@ router.use('/admin/blog/categories', adminBlogCategoryRouter);
 router.use('/admin/blog/tags', adminBlogTagRouter);
 router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
+router.use(countCartProduct);
 router.use('/', clientAuthRoutes);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);

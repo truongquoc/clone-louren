@@ -1,7 +1,9 @@
 const responseHelper = require('../../../helpers/responseHelper');
 const CartRepositoryClass = require('../repositories/CartRepository');
+const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
 
 const CartRepository = new CartRepositoryClass();
+const ProductRepository = new ProductRepositoryClass();
 
 const confirmCartAuthorize = async (req, res, next) => {
     try {
@@ -18,14 +20,31 @@ const confirmCartAuthorize = async (req, res, next) => {
     }
 };
 
-const showUserInformationRequest = (req, res, next) => {
-    if (!req.session.products || !req.session.products.length) {
+const showUserInformationAuthorize = (req, res, next) => {
+    if (!req.session.cart || !req.session.cart.length) {
         return res.redirect('/gio-hang');
     }
     next();
 };
 
+const changeQuantityAuthorize = async (req, res, next) => {
+    try {
+        const product = await ProductRepository.checkExist({
+            _id: req.params.product,
+            isDraft: false,
+            isApproved: true,
+        });
+        if (!product) {
+            return res.json(responseHelper.notFound());
+        }
+        next();
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     confirmCartAuthorize,
-    showUserInformationRequest,
+    showUserInformationAuthorize,
+    changeQuantityAuthorize,
 };
