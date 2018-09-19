@@ -6,9 +6,11 @@ const Product = require('../../products/models/Product');
 const responseHelper = require('../../../helpers/responseHelper');
 const CartRepositoryClass = require('../repositories/CartRepository');
 const BillRepositoryClass = require('../../bills/repositories/BillRepository');
+const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
 
 const CartRepository = new CartRepositoryClass();
 const BillRepository = new BillRepositoryClass();
+const ProductRepository = new ProductRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
@@ -83,20 +85,24 @@ const addToCart = async (req, res, next) => {
             }
 
             await cart.save();
-            total = cart.products.map(element => element.quantity).reduce((a, b) => a + b, 0);
+            total = cart.products
+                .map(element => element.quantity)
+                .reduce((a, b) => a + parseInt(b, 10), 0);
         } else {
             const shopCart = req.session.cart || [];
 
             const existItem = shopCart.find(e => e.item === id);
 
             if (existItem) {
-                existItem.quantity += 1;
+                existItem.quantity = parseInt(existItem.quantity, 10) + 1;
             } else {
                 shopCart.push({ item: id, quantity: 1 });
             }
 
             req.session.cart = shopCart;
-            total = shopCart.map(element => element.quantity).reduce((a, b) => a + b, 0);
+            total = shopCart
+                .map(element => element.quantity)
+                .reduce((a, b) => a + parseInt(b, 10), 0);
         }
 
         return res.json(responseHelper.success(total));
@@ -130,6 +136,40 @@ const changeQuantity = async (req, res) => {
         }
 
         return res.json(responseHelper.success(returnQuantity - quantity));
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
+const removeProduct = async (req, res) => {
+    try {
+        const { cUser } = req.session;
+        const id = req.params.product;
+        let product;
+        if (cUser) {
+            const cart = await CartRepository.getCartByUser(cUser._id);
+            product = cart.products.find(element => (
+                element.item.toString() === id
+            ));
+            cart.products = cart.products.filter(element => (
+                element.item.toString() !== id
+            ));
+            await cart.save();
+        } else {
+            const products = req.session.cart || [];
+            product = products.find(element => (
+                element.item.toString() === id
+            ));
+            req.session.cart = products.filter(element => (
+                element.item !== id
+            ));
+        }
+        const { quantity } = product;
+        product = await ProductRepository.getById(product.item, { select: 'price.number discount' });
+
+        return res.json(responseHelper.success({
+            product, quantity,
+        }));
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
@@ -181,4 +221,5 @@ module.exports = {
     buyProduct,
     addToCart,
     changeQuantity,
+    removeProduct,
 };

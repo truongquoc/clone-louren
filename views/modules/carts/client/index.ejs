@@ -22,7 +22,7 @@
                     src="//img.echosting.cafe24.com/skin/base_ko_KR/order/img_order_step1.gif" alt="01 장바구니"/></p>
         <div class="orderListArea ec-base-table typeList gBorder">
             <div class="xans-element- xans-order xans-order-normtitle title ">
-                <h3>Tất cả sản phẩm (2)</h3>
+                <h3>Tất cả sản phẩm (<span class="cart__total-products"><%= productQuantity %></span>)</h3>
             </div>
 
             <table border="1" summary="" class="xans-element- xans-order xans-order-normindividual xans-record-">
@@ -32,14 +32,15 @@
                     <col style="width:98px"/>
                     <col style="width:75px"/>
                     <col style="width:98px"/>
+                    <col style="width:98px"/>
                 </colgroup>
-
                 <thead>
                     <tr>
                         <th scope="col">Hình ảnh</th>
-                        <th scope="col">Thông tin sản phẩm</th>
+                        <th scope="col" class="left" style="padding-left: 10px">Thông tin sản phẩm</th>
                         <th scope="col">Giá</th>
                         <th scope="col">Số lượng</th>
+                        <th scope="col">Tùy chọn</th>
                     </tr>
                 </thead>
                 <tfoot class="right">
@@ -69,8 +70,10 @@
                                 </strong>
                             </td>
                             <td class="right">
-                                <div class="">
-                                    <strong><%= formatPrice(product.item.price.number) %> đ</strong>
+                                <div class="cart__product__price">
+                                    <strong data-price="<%= product.item.price.number %>">
+                                        <%= formatPrice(product.item.price.number) %> đ
+                                    </strong>
                                     <p class="displaynone"></p>
                                 </div>
                             </td>
@@ -92,6 +95,9 @@
                                         </button>
                                     </span>
                                 </span>
+                            </td>
+                            <td>
+                                <button class="remove-product-from-cart"><i class="fa fa-times"></i></button>
                             </td>
                         </tr>
                     <% }) %>
