@@ -42,7 +42,6 @@ class BlogCategoryRepository extends ClassificationRepository {
                         'countArticle.0.count': -1,
                     },
                 },
-
             ]);
     }
 

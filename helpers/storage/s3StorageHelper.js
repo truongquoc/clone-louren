@@ -1,16 +1,15 @@
 require('dotenv/config');
 const AWS = require('aws-sdk');
 const url = require('url');
-const s3Config = require('../../config/s3');
 const commonConstant = require('../../constants/commonConstant');
 
 AWS.config.update({
-    accessKeyId: s3Config[process.env.APP_ENV].key,
-    secretAccessKey: s3Config[process.env.APP_ENV].secret,
+    accessKeyId: process.env.AWS_KEY,
+    secretAccessKey: process.env.AWS_SECRET,
 });
 const s3 = new AWS.S3();
 const mainParams = {
-    Bucket: s3Config[process.env.APP_ENV].bucket,
+    Bucket: process.env.AWS_BUCKET,
 };
 
 function list(startAfter = null) {

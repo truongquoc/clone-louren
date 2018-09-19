@@ -12,7 +12,7 @@
 <div class="header_area">
     <h1 class="xans-element- xans-layout xans-layout-logotop logo "><a href="/"><img
                     src="/public/client/images/icons/category/logo/2ddbf5cd7762b49575776e690a58df39_3_top.jpg"
-                    alt="로렌 louren"/></a>
+                    alt="abc"/></a>
     </h1>
     <div class="widget_gnb_right">
         <ul>
@@ -21,11 +21,15 @@
                 <a href="{$action_logout}" module="Layout_stateLogon"><span class="hide">MEMBER</span></a>-->
                 <a href="#" class="item"><span class="hide">MEMBER</span></a>
                 <div class="sub_menu">
-                    <ul class="xans-element- xans-layout xans-layout-statelogoff ">
-                        <li><a href="/dang-nhap" class="log">ĐĂNG NHẬP</a></li>
-                        <li><a href="/dang-ky">ĐĂNG KÝ</a></li>
-                        <li></li>
-                        <li></li>
+                    <ul class="xans-element- xans-layout xans-layout-statelogoff text-upper">
+                        <% if (!cUser) { %>
+                            <li><a href="/dang-nhap" class="log">Đăng nhập</a></li>
+                            <li><a href="/dang-ky">Đăng ký</a></li>
+                        <% } else { %>
+                            <li><a href="/nguoi-dung">Tài khoản</a></li>
+                            <li><a href="/nguoi-dung/don-hang">Đơn hàng</a></li>
+                            <li><a href="/dang-xuat">Thoát</a></li>
+                        <% } %>
                     </ul>
                 </div>
             </li>
@@ -43,7 +47,7 @@
         <ul class="header_lnb_menu">
             <li class="lnb1"><a href="/">TRANG CHỦ</a></li>
             <li class="lnb2">
-                <a href="/mat-hang">ONLINE SHOP <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                <a href="/mat-hang" class="text-upper">Mặt Hàng <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                 <div class="xans-element- xans-layout xans-layout-category lnb_sub_menu">
                     <ul>
                         <% productTypes.forEach((type) => { %>
@@ -66,7 +70,8 @@
                 </div>
                 <!--/.lnb_sub_menu -->
             </li>
-            <li class="lnb1"><a href="/blog">BLOG</a></li>
+            <li class="lnb1"><a href="/tim-kiem" class="text-upper">Tìm kiếm</a></li>
+            <li class="lnb1"><a href="/blog" class="text-upper">Blog</a></li>
         </ul>
     </div>
 </div>

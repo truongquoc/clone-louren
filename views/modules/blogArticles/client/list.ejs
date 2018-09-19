@@ -7,7 +7,7 @@
 <div class="separator img-separator"><img src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt=""></div>
 <div class="post-grid-wrap">
     <div class="post-grid-holder grid-sb-holder blog-grid-one-col row" style="position: relative; height: 1688px;">
-        <% if(blogArticles.length === 0 ) { %>
+        <% if (blogArticles.docs.length === 0 ) { %>
             <p>Không có bài viết nào</p>
         <% } else { %>
             <% blogArticles.docs.forEach((article) => { %>
@@ -36,7 +36,8 @@
     <div class="clearfix"></div>
     <div class="vertical-separator"></div>
 </div>
-<% if(blogArticles.total !== 0 ) { %>
+
+<% if (blogArticles.total !== 0) { %>
     <div class="card-footer clearfix">
         <div class="pagination-list">
             <%- blogArticles.renderPagination(blogArticles, query.page) %>

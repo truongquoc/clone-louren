@@ -1,5 +1,5 @@
 <div class="main-sidebar-widgets">
-    <div class="search-form-holder">    
+    <div class="search-form-holder">
         <div class="search-form-wrap">
             <form class="searchform" method="GET" action="">
                 <input type="text" autocomplete="off" name="search" placeholder="Type and Enter to Search">
@@ -10,18 +10,17 @@
         <h3>Bài viết gần đây</h3>
         <div class="recent-post-widget">
             <ul>
-               <% if(postRecent.length === 0) { %>
+               <% if (recentArticles.length === 0) { %>
                     <p>Không có bài viết nào</p>
-                <% } else { %>
-                    <% postRecent.forEach((post) => { %>
-                      
+               <% } else { %>
+                    <% recentArticles.forEach((article) => { %>
                         <li>
                             <div class="recent-post-img">
-                                <a href="/blog/<%= post.slug %>" class="widget-posts-img"><img width="50" height="50" src="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/2-50x50.jpg" class="respimg wp-post-image" alt="2" srcset="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/2-50x50.jpg 50w, http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/2-150x150.jpg 150w" sizes="(max-width: 50px) 100vw, 50px" /></a>
+                                <a href="/blog/<%= article.slug %>" class="widget-posts-img"><img width="50" height="50" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<%= article.display.image %>" class="respimg wp-post-image lazyload" alt="2"/></a>
                             </div>
                             <div class="recent-post-content">
-                                <h4><a href="/blog/<%= post.slug %>" title="<%= post.title %>"><%= post.title %></a></h4>
-                                <div class="recent-post-opt"> <span class="post-date"><%= moment(post.createdAt).format('L') %></span> </div>
+                                <h4><a href="/blog/<%= article.slug %>" title="<%= article.title %>"><%= article.title %></a></h4>
+                                <div class="recent-post-opt"> <span class="post-date"><%= moment(article.createdAt).format('L') %></span> </div>
                             </div>
                         </li>
                     <% }) %>
@@ -34,7 +33,11 @@
         <div class="tagcloud">
             <ul class='wp-tag-cloud'>
                 <% newTags.forEach((tag) => { %>
-                <li><a href='/blog/the-<%= tag.slug%>' class='tag-link-4 tag-link-position-1' title='4 topics' style='font-size: 10px;'><%= tag.name %></a></li>
+                    <li>
+                        <a href='/blog/the-<%= tag.slug%>' class='tag-link-4 tag-link-position-1' title='4 topics' style='font-size: 10px;'>
+                        <%= tag.name %>
+                        </a>
+                    </li>
                 <% }) %>
             </ul>
         </div>
@@ -44,10 +47,13 @@
         <h3>Thể loại</h3>
         <ul>
             <% for(let i = 0; i< categories.length; i++ ) { %>
-            <li class="cat-item cat-item-13"><a href="/blog/chuyen-muc-<%= categories[i].slug %> "><%= categories[i].name %></a> ( <%= categories[i].countArticle[0].count %> ) </li>
-                
+                <li class="cat-item cat-item-13">
+                    <a href="/blog/chuyen-muc-<%= categories[i].slug %> ">
+                        <%= categories[i].name %>
+                    </a>
+                    (<%= categories[i].countArticle[0] ? categories[i].countArticle[0].count : 0 %>
+                </li>
             <% } %>
         </ul>
     </div>
-    
 </div>

@@ -7,33 +7,24 @@
 <div id="contents">
 
     <div class="titleArea">
-        <h2>Chi tiết đơn hàng</h2>
+        <h2>Đơn hàng <%= code %></h2>
     </div>
 
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
         <ul class="menu">
-           
+            <li class="">
+                <a href="/nguoi-dung/don-hang">Đơn hàng</a>
+            </li>
+            <li class="selected">
+                <a href="">Đơn hàng <%= code %></a>
+            </li>
         </ul>
     </div>
-
-    <form method="GET" id="OrderHistoryForm" name="OrderHistoryForm">
-        <div class="xans-element- xans-myshop xans-myshop-orderhistoryhead ">
-            <ul>
-                <li>Bạn có thể xem lịch sử đơn hàng cuối cùng khi tìm kiếm</li>
-                <li>Nhấp vào số đơn đặt hàng để xem chi tiết đơn đặt hàng.</li>
-            </ul>
-        </div>
-        <input id="mode" name="mode" value="cs" type="hidden"/>
-        <input id="term" name="term" value="" type="hidden"/>
-    </form>
-    <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList"><!--
-        $login_url = /member/login.html
-    -->
+    <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
         <div class="title">
             <h3>Đơn hàng <%= code %></h3>
         </div>
         <table border="1" summary="">
-            <caption>취소/반품/교환</caption>
             <colgroup>
                 <col style="width:135px;"/>
                 <col style="width:93px;"/>
@@ -48,42 +39,34 @@
                 <th scope="col">Ngày đặt hàng</th>
                 <th scope="col">Hình ảnh</th>
                 <th scope="col">Sản phẩm</th>
+                <th scope="col">Đơn giá</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
-                <th scope="col">Trạng thái</th>
-                <th scope="col">Hủy/đổi/trả</th>
             </tr>
             </thead>
             <tbody class="center">
+                <% let totalMoney = 0; %>
                 <% billDetail.productBill.forEach((p)=> { %>
-                <tr class="">
-                        <td  class="time">
-                            <a href="/nguoi-dung/don-hang/chi-tiet/<%= code %>"> <%= moment(billDetail.createdAt).format('L') %> </a>
-
-                        </td>
-                        <td class="image thumb gClearLine">
-                            <img src="<%= p.product.image.cover %>" alt="">
-                        </td>
-
-                        <td class="name">
-                            <a href=""><%= p.product.name %></a>
-                        </td>
-                        <td class="quantity"> <%= p.quantity %> </td>
-                        <td class="right price">
-                            <strong><%= p.price %></strong>
-                        </td>
-                        <td class="status">
-                             <%= billDetail.isApproved === 'underfined' ? 'Chưa xác nhận' : 'Đã xác nhận' %>
-                        </td>
-                        <td>
-                                <a href="">Hủy/ đổi/ trả</a>
-                        </td>
+                <tr>
+                    <td  class="time">
+                        <a href="/nguoi-dung/don-hang/chi-tiet/<%= code %>"> <%= moment(billDetail.createdAt).format('L') %> </a>
+                    </td>
+                    <td class="image bill__product">
+                        <img src="<%= p.product.image.cover %>" alt="">
+                    </td>
+                    <td class="name"><%= p.product.name %></td>
+                    <td class="name">
+                        <strong><%= formatPrice(p.price) %> ₫</strong>
+                    </td>
+                    <td class="quantity"><%= p.quantity %></td>
+                    <td class="price">
+                        <% totalMoney += p.price * p.quantity; %>
+                        <strong><%= formatPrice(p.price * p.quantity) %> ₫</strong>
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>
         </table>
-
+        <p class="right" style="margin-top: 15px"><strong>Tổng: <%= totalMoney %> ₫</strong></p>
     </div>
-
-
 </div>

@@ -1,3 +1,4 @@
+const moment = require('moment');
 const responseHelper = require('../../../helpers/responseHelper');
 const roleHelper = require('../../../helpers/roleHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
@@ -78,8 +79,8 @@ const clientResetPasswordAuthorize = async (req, res, next) => {
 
 const successRegisterAuthorize = async (req, res, next) => {
     try {
-        const user = await AuthRepository.checkExist({ _id: req.params.id });
-        if (!user) {
+        const user = await AuthRepository.checkExist({ _id: req.params.id }, { select: 'createdAt' });
+        if (!user || moment().diff(user.createdAt, 'minutes') > 30) {
             return next(responseHelper.notFound());
         }
         next();

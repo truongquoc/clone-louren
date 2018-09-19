@@ -58,7 +58,8 @@
                                     <input type="checkbox" class="flat-red images__table__delete-checkbox">
                                 </label>
                             </td>
-                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
+                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
+                                     data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
                             <td><%= image.user ? image.user.name : '' %></td>
                             <td><a href="<%= image.url %>" target="_blank">Đường dẫn</a></td>
                             <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
