@@ -39,11 +39,11 @@ function checkSoldOut() {
 }
 
 function lazyLoad() {
-    $('.lazyLoad').lazy({
+    $('.lazyload').lazy({
         effect: 'fadeIn',
         effectTime: 1000,
         threshold: 0,
-  });
+    });
 }
 
 function addToCart() {

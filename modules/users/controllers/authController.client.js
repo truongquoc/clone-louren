@@ -104,7 +104,7 @@ const register = async (req, res, next) => {
         const user = await UserRepository.create(data);
         await CartRepository.create(user._id);
 
-        return res.redirect(307, `/dang-ky/${user._id}/thanh-cong`);
+        return res.redirect(`/dang-ky/${user._id}/thanh-cong`);
     } catch (e) {
         next(responseHelper.error(e.message));
     }
