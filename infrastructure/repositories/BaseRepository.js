@@ -48,7 +48,7 @@ class BaseRepository {
             _id: { $in: id },
         };
 
-        return this.model.find(conditions).sort({ createdAt: -1 }).select('-createdAt -updatedAt -__v');
+        return this.model.find(conditions).sort({ createdAt: -1 }).select(options.select || '-createdAt -updatedAt -__v');
     }
 
     checkExist(conditions, options = {}) {

@@ -13,6 +13,15 @@ class CartRepository extends BaseRepository {
         return Cart;
     }
 
+    getCartByUser(id) {
+        const conditions = {
+            user: id,
+            deletedAt: null,
+        };
+
+        return this.model.findOne(conditions);
+    }
+
     getCart(conditions) {
         conditions.deletedAt = null;
 
@@ -57,14 +66,14 @@ class CartRepository extends BaseRepository {
     async createBillWithoutLogin(data, savedProducts) {
         let productBill = [];
         let check;
-        const productIds = savedProducts.map(savedProduct => savedProduct._id);
-        const products = await ProductRepository.getManyByIds(productIds);
+        const productIds = savedProducts.map(savedProduct => savedProduct.item);
+        const products = await ProductRepository.getManyByIds(productIds, { select: '_id' });
         savedProducts.forEach((savedProduct) => {
             const findElement = products.find(element => (
-                savedProduct._id === element._id.toString()
+                savedProduct.item === element._id.toString()
             ));
             const product = {
-                product: savedProduct._id,
+                product: savedProduct.item,
                 quantity: savedProduct.quantity,
                 price: findElement.price.number,
             };
@@ -97,6 +106,32 @@ class CartRepository extends BaseRepository {
             code,
             price: totalPrice,
         });
+    }
+
+    emptyCart(id) {
+        return this.baseUpdate({ products: [] }, { _id: id });
+    }
+
+    create(user) {
+        return this.model.create({ user });
+    }
+
+    async syncCart(user, tempProducts) {
+        const cart = await this.getDetail({ user });
+        tempProducts.forEach((element) => {
+            const item = cart.products.find(e => e.item._id.toString() === element.item);
+            if (item) {
+                item.quantity += element.quantity;
+            } else {
+                cart.products.push(element);
+            }
+        });
+
+        return cart.save();
+    }
+
+    updateProducts(id, products) {
+        return this.baseUpdate({ products }, { _id: id });
     }
 }
 

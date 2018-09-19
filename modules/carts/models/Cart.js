@@ -12,12 +12,13 @@ const Cart = new Schema({
         item: {
             type: Schema.Types.ObjectId,
             ref: 'products',
-            required: true,
+            // required: true,
         },
         quantity: {
             type: Number,
             min: 1,
-            required: true,
+            default: 1,
+            // required: true,
         },
     }],
     deletedAt: {

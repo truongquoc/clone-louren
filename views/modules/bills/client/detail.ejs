@@ -18,46 +18,9 @@
 
     <form method="GET" id="OrderHistoryForm" name="OrderHistoryForm">
         <div class="xans-element- xans-myshop xans-myshop-orderhistoryhead ">
-            <fieldset class="ec-base-box">
-                <legend>Tìm kiếm</legend>
-                <div class="stateSelect displaynone">
-                </div>
-                <span class="period">
-            <a href="#none" class="btnNormal" days="00"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1_on.gif" alt="오늘"/></a>
-            <a href="#none" class="btnNormal" days="07"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2_on.gif" alt="1주일"/></a>
-            <a href="#none" class="btnNormal" days="30"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3_on.gif" alt="1개월"/></a>
-            <a href="#none" class="btnNormal" days="90"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4_on.gif" alt="3개월"/></a>
-            <a href="#none" class="btnNormal" days="180"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5_on.gif" alt="6개월"/></a>
-        </span>
-                <input id="history_start_date" name="history_start_date" class="fText" readonly="readonly"
-                       size="10" value="2018-06-13" type="text"/> ~ <input id="history_end_date"
-                                                                           name="history_end_date"
-                                                                           class="fText" readonly="readonly"
-                                                                           size="10" value="2018-09-11"
-                                                                           type="text"/> <input alt="조회"
-                                                                                                id="order_search_btn"
-                                                                                                type="image"
-                                                                                                src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/btn_search.gif"/>
-            </fieldset>
             <ul>
                 <li>Bạn có thể xem lịch sử đơn hàng cuối cùng khi tìm kiếm</li>
                 <li>Nhấp vào số đơn đặt hàng để xem chi tiết đơn đặt hàng.</li>
-                
             </ul>
         </div>
         <input id="mode" name="mode" value="cs" type="hidden"/>
@@ -98,8 +61,8 @@
                             <a href="/nguoi-dung/don-hang/chi-tiet/<%= code %>"> <%= moment(billDetail.createdAt).format('L') %> </a>
 
                         </td>
-                        <td class="image">
-                            <img src="" alt="">
+                        <td class="image thumb gClearLine">
+                            <img src="<%= p.product.image.cover %>" alt="">
                         </td>
 
                         <td class="name">

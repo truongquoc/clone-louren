@@ -1,4 +1,5 @@
 const responseHelper = require('../../../helpers/responseHelper');
+const roleHelper = require('../../../helpers/roleHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 
 const AuthRepository = new AuthRepositoryClass();
@@ -13,10 +14,14 @@ const adminRedirectIfAuthenticated = (req, res, next) => {
 };
 
 const adminRedirectIfNotAuthenticated = (req, res, next) => {
+    const { cUser } = req.session;
     if (!req.session.cUser) {
         req.session.prevUrl = req.originalUrl;
 
         return res.redirect('/admin/login');
+    }
+    if (roleHelper.hasRoleOnly(cUser, 'User')) {
+        return next(responseHelper.notAuthorized());
     }
     // Check if user has user role, next() to render error page
     return next();

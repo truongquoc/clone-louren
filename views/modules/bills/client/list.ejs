@@ -15,33 +15,7 @@
           <li class=""><a href="">Đơn hàng chi tiết</a></li>
        </ul>
     </div>
-    <form method="GET" id="OrderHistoryForm" name="OrderHistoryForm" >
-       <div class="xans-element- xans-myshop xans-myshop-orderhistoryhead ">
-          <fieldset class="ec-base-box">
-             <legend>Tìm kiếm</legend>
-             <div class="stateSelect ">
-                <select id="order_status" name="order_status" class="fSelect" >
-                   <option value="all">Tất cả</option>
-                   <option value="shipped_before">Chưa giao hàng</option>
-                   <option value="shipped_standby">Chờ giao hàng</option>
-                   <option value="shipped_begin">Đang giao hàng</option>
-                   <option value="shipped_complate">Đã giao hàng</option>
-                   <option value="order_cancel">Hủy đơn hàng</option>
-                   <option value="order_exchange">Đổi sản phẩm</option>
-                   <option value="order_return">Trả sản phẩm</option>
-                </select>
-             </div>
-             
-             <input id="history_start_date" name="history_start_date" class="fText" readonly="readonly" size="10" value="2018-06-13" type="text"  /> ~ <input id="history_end_date" name="history_end_date" class="fText" readonly="readonly" size="10" value="2018-09-11" type="text"  />        <input alt="조회" id="order_search_btn" type="image" src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/btn_search.gif"  />    
-          </fieldset>
-          <ul>
-             <li>Nhấp vào số đơn đặt hàng để xem chi tiết đơn đặt hàng.</li>
-             <li>Đơn hủy / đổi / trả lại có thể được thực hiện tối đa 30 ngày kể từ ngày hoàn thành đơn đặt hàng.</li>
-          </ul>
-       </div>
-       <input id="mode" name="mode" value="" type="hidden"  />
-       <input id="term" name="term" value="" type="hidden"  />
-    </form>
+    
     <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
        <!--
           $login_url = /member/login.html
@@ -63,7 +37,7 @@
           <thead>
              <tr>
                 <th scope="col">Mã đơn hàng</th>
-                <th scope="col">Hình ảnh</th>
+                <th scope="col">Ngày đặt hàng</th>
                 <th scope="col">Sản phẩm</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
