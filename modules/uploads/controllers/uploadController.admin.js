@@ -1,6 +1,5 @@
 const url = require('url');
 const { validationResult } = require('express-validator/check');
-const s3Config = require('../../../config/s3');
 const imageHelper = require('../../../helpers/imageHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 const dateHelper = require('../../../helpers/dateHelper');
@@ -19,7 +18,7 @@ const index = async (req, res, next) => {
 
         return res.render('modules/uploads/admin/index', {
             images,
-            endPoint: s3Config[process.env.APP_ENV].end_point,
+            endPoint: process.env.AWS_END_POINT,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
