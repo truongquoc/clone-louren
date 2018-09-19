@@ -21,6 +21,9 @@ const countCartProduct = async (req, res, next) => {
         let { cart } = req.session;
         if (cUser) {
             cart = await CartRepository.getCartByUser(cUser._id);
+            if (!cart) {
+                cart = await CartRepository.create(cUser._id);
+            }
             cart.products.forEach((element) => {
                 if (element) {
                     productQuantity += parseInt(element.quantity, 10);

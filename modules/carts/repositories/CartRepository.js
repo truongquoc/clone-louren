@@ -34,9 +34,10 @@ class CartRepository extends BaseRepository {
         const cart = await this.getCart({ _id: id });
         const products = [];
         cart.products.forEach((product) => {
+            const { item } = product;
             products.push({
-                product: product.item._id,
-                price: product.item.price.number,
+                product: item._id,
+                price: item.price.number - (item.price.number * (parseInt(item.discount, 10) || 0)),
                 quantity: product.quantity,
             });
         });
@@ -67,15 +68,16 @@ class CartRepository extends BaseRepository {
         let productBill = [];
         let check;
         const productIds = savedProducts.map(savedProduct => savedProduct.item);
-        const products = await ProductRepository.getManyByIds(productIds, { select: '_id' });
+        const products = await ProductRepository.getManyByIds(productIds, { select: '_id price.number discount' });
         savedProducts.forEach((savedProduct) => {
             const findElement = products.find(element => (
                 savedProduct.item === element._id.toString()
             ));
+            const price = findElement.price.number;
             const product = {
                 product: savedProduct.item,
                 quantity: savedProduct.quantity,
-                price: findElement.price.number,
+                price: price - (price * (parseInt(findElement.discount, 10) || 0)),
             };
             productBill.push(product);
         });

@@ -9,13 +9,13 @@ const BlogTagRepository = new BlogTagRepositoryClass();
 
 const blogArticleRight = async (req, res, next) => {
     try {
-        const [postRecent, categories, newTags] = await Promise.all([
+        const [recentArticles, categories, newTags] = await Promise.all([
             BlogArticleRepository.homeGetNewest(),
             BlogCategoriesRepository.getCategories(),
             BlogTagRepository.getNewTags(),
         ]);
 
-        res.locals.postRecent = postRecent;
+        res.locals.recentArticles = recentArticles;
         res.locals.categories = categories;
         res.locals.newTags = newTags;
 

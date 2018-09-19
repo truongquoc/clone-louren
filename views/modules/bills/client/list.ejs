@@ -2,25 +2,15 @@
 
 <% stylesheet('/public/client/css/styleOrderHistory.css') %>
 
-<% block('title', 'Trang chủ') %>
+<% block('title', 'Đơn hàng') %>
 
 <div id="contents">
-
-    <div class="path">
-        <span>현재 위치</span>
-        <ol><li><a href="/">홈</a></li>
-            <li><a href="/myshop/index.html">마이쇼핑</a></li>
-            <li title="현재 위치"><strong>주문조회</strong></li>
-        </ol></div>
-
     <div class="titleArea">
-        <h2>주문조회</h2>
+        <h2>Đơn hàng</h2>
     </div>
 
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab "><ul class="menu">
-            <li class="selected"><a href="#">주문내역조회 </a></li>
-            <li class=""><a href="#">취소/반품/교환 내역</a></li>
-            <li class=" displaynone"><a href="#">이전 주문내역 (0)</a></li>
+            <li class="selected"><a href="#">Đơn hàng</a></li>
         </ul>
     </div>
 
@@ -78,8 +68,7 @@
                     <th scope="col">Sản phẩm</th>
                     <th scope="col">Số lượng</th>
                     <th scope="col">Thành tiền</th>
-                    <th scope="col">Trạng thái đơn hàng</th>
-                    <th scope="col">Hủy/ đổi</th>
+                    <th scope="col">Trạng thái</th>
                 </tr>
             </thead>
             <tbody class="center ">
@@ -106,14 +95,11 @@
 
                             </td>
                             <td class="quantity"> <%= bill.productBill.length %></td>
-                            <td class="right price">
-                                <strong><%= bill.price %></strong>
+                            <td class="price">
+                                <strong><%= formatPrice(bill.price) %> ₫</strong>
                             </td>
                             <td class="status">
-                                <%= bill.isApproved === 'false' ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
-                            </td>
-                            <td>
-                                <a href="#">Hủy/ đổi/ trả</a>
+                                <%= !bill.isApproved ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
                             </td>
                         </tr>
                     <% }) %>

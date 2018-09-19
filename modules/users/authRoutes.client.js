@@ -26,7 +26,7 @@ router.get('/dang-ky', getPropertyTypes, authController.showRegisterForm);
 
 router.post('/dang-ky', authRequest.clientRegisterRequest, authController.register);
 
-router.post('/dang-ky/:id/thanh-cong', authAuthorize.successRegisterAuthorize, authController.showSuccessRegisterPage);
+router.get('/dang-ky/:id/thanh-cong', authAuthorize.successRegisterAuthorize, getPropertyTypes, authController.showSuccessRegisterPage);
 
 router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
@@ -49,6 +49,6 @@ router.get('/quen-mat-khau/khoi-phuc/:token', getPropertyTypes, authAuthorize.cl
 
 router.put('/quen-mat-khau/khoi-phuc/:token', authAuthorize.clientResetPasswordAuthorize, authRequest.resetPasswordRequest, authController.resetPassword);
 
-router.get('/nguoi-dung/dang-xuat', authAuthorize.clientRedirectIfNotAuthenticated, adminAuthController.logout);
+router.get('/dang-xuat', authAuthorize.clientRedirectIfNotAuthenticated, adminAuthController.logout);
 
 module.exports = router;
