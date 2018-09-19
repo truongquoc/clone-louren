@@ -188,7 +188,9 @@ function init_createSubModule() {
                         <i class="fa fa-check"></i>
                     </button>`;
                 }
-                const checkIsProductType = $('.module__table').hasClass('product-types__table');
+                const $moduleTableElement = $('.module__table');
+                const checkHasRevertUrl = $moduleTableElement.data('revert-url');
+                const checkIsProductType = $moduleTableElement.hasClass('product-types__table');
                 if (checkIsProductType) {
                     const $selectElement = $('.module__form__parentType');
                     $($selectElement[0]).find('option:first').after(`<option value="${result._id}">${result.name}</option>`);

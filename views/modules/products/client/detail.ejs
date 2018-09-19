@@ -90,13 +90,13 @@
                     <div>
                         <img data-src="<%= product.image.cover %>"
                              src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                             class="ThumbImage lazyLoad">
+                             class="ThumbImage lazyload">
                     </div>
                     <% product.image.array.forEach((img) => { %>
                     <div>
                         <img data-src="<%= img %>"
                              src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                             class="ThumbImage lazyLoad">
+                             class="ThumbImage lazyload">
                     </div>
                     <% }) %>
                 </div>
@@ -105,7 +105,7 @@
                         <div class="item-box">
                             <img data-src="<%= product.image.cover %>"
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                 class="image-item ThumbImage lazyLoad">
+                                 class="image-item ThumbImage lazyload">
                         </div>
                     </div>
                     <% product.image.array.forEach((img) => { %>
@@ -113,13 +113,11 @@
                         <div class="item-box">
                             <img data-src="<%= img %>"
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                 class="image-item lazyLoad ThumbImage">
+                                 class="image-item lazyload ThumbImage">
                         </div>
                     </div>
                     <% }) %>
                 </div>
-
-
             </div>
             <div class="infoArea">
                 <div class="headingArea ">
@@ -239,7 +237,7 @@
                                 <a href="/san-pham/<%= productItem.slug %>" class="thumb_link">
                                     <img data-src="<%= productItem.image.cover %>"
                                          src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                         alt="<%= productItem.name %>" class="thumb img-class lazyLoad">
+                                         alt="<%= productItem.name %>" class="thumb img-class lazyload">
                                 </a>
                                 <div class="custom_layer_btn">
                                     <ul>
@@ -300,11 +298,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <script>
 $(document).ready(function() {
-     $('.lazyLoad').lazy({
-        effect: 'fadeIn',
-        effectTime: 1000,
-        threshold: 0,
-    });
     $('.slider-single').slick({
         slidesToShow: 1,
         slidesToScroll: 1,

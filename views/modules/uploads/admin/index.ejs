@@ -50,7 +50,8 @@
                                     <input type="checkbox" class="flat-red images__table__delete-checkbox">
                                 </label>
                             </td>
-                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= endPoint + image.Key %>" class="lazyload images__table__image-detail"></td>
+                            <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
+                                     data-src="<%= endPoint + image.Key %>" class="lazyload images__table__image-detail"></td>
                             <td><a href="<%= endPoint + image.Key %>" target="_blank">Đường dẫn</a></td>
                             <td><%= moment(image.LastModified).format('HH:mm DD/MM/YYYY') %></td>
                         </tr>

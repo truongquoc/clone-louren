@@ -7,13 +7,14 @@
 <div class="separator img-separator"><img src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt=""></div>
 <div class="post-grid-wrap">
     <div class="post-grid-holder grid-sb-holder blog-grid-one-col row" style="position: relative; height: 1688px;">
-        <% if(blogArticles.length === 0 ) { %>
+        <% if (blogArticles.docs.length === 0 ) { %>
             <p>Không có bài viết nào</p>
         <% } else { %>
             <% blogArticles.docs.forEach((article) => { %>
             <div class="grid-sb-wrap col-12 col-sm-6">
                 <article class="grid-sb">
-                    <div class="blog-media"> <img width="328" height="217" src="<%= article.display.image %>" class="respimg wp-post-image" alt="23" sizes="(max-width: 328px) 100vw, 328px">
+                    <div class="blog-media"> <img width="328" height="217" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                                  src="<%= article.display.image %>" class="respimg wp-post-image" alt="23" sizes="(max-width: 328px) 100vw, 328px">
                         <div class="overlay"></div> <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a></div>
                     <ul class="cat-list">
                         <li><%= moment(article.updatedAt).format('L') %></li>

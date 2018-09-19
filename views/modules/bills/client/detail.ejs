@@ -16,73 +16,23 @@
     </div>
 
     <div class="titleArea">
-        <h2>주문조회</h2>
+        <h2>Đơn hàng <%= code %></h2>
     </div>
 
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
         <ul class="menu">
-            <li class=""><a
-                        href="">주문내역조회
-                    (0)</a></li>
-            <li class="selected"><a
-                        href="">취소/반품/교환
-                    내역</a></li>
+            <li class="">
+                <a href="/nguoi-dung/don-hang">Đơn hàng</a>
+            </li>
+            <li class="selected">
+                <a href="">Đơn hàng <%= code %></a>
+            </li>
             <li class=" displaynone"><a
                         href="/myshop/order/list_old.html?mode=old&history_start_date=2018-06-13&history_end_date=2018-09-11">이전
                     주문내역 (0)</a></li>
         </ul>
     </div>
-
-    <form method="GET" id="OrderHistoryForm" name="OrderHistoryForm">
-        <div class="xans-element- xans-myshop xans-myshop-orderhistoryhead ">
-            <fieldset class="ec-base-box">
-                <legend>검색기간설정</legend>
-                <div class="stateSelect displaynone">
-                </div>
-                <span class="period">
-            <a href="#none" class="btnNormal" days="00"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1_on.gif" alt="오늘"/></a>
-            <a href="#none" class="btnNormal" days="07"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2_on.gif" alt="1주일"/></a>
-            <a href="#none" class="btnNormal" days="30"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3_on.gif" alt="1개월"/></a>
-            <a href="#none" class="btnNormal" days="90"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4_on.gif" alt="3개월"/></a>
-            <a href="#none" class="btnNormal" days="180"><img
-                        src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5.gif"
-                        offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5.gif"
-                        onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5_on.gif" alt="6개월"/></a>
-        </span>
-                <input id="history_start_date" name="history_start_date" class="fText" readonly="readonly"
-                       size="10" value="2018-06-13" type="text"/> ~ <input id="history_end_date"
-                                                                           name="history_end_date"
-                                                                           class="fText" readonly="readonly"
-                                                                           size="10" value="2018-09-11"
-                                                                           type="text"/> <input alt="조회"
-                                                                                                id="order_search_btn"
-                                                                                                type="image"
-                                                                                                src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/btn_search.gif"/>
-            </fieldset>
-            <ul>
-                <li>기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
-                <li>주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
-                <li class="displaynone">취소/교환/반품 신청은 주문완료일 기준 일까지 가능합니다.</li>
-            </ul>
-        </div>
-        <input id="mode" name="mode" value="cs" type="hidden"/>
-        <input id="term" name="term" value="" type="hidden"/>
-    </form>
-    <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList"><!--
-        $login_url = /member/login.html
-    -->
+    <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
         <div class="title">
             <h3>Đơn hàng <%= code %></h3>
         </div>
@@ -102,42 +52,34 @@
                 <th scope="col">Ngày đặt hàng</th>
                 <th scope="col">Hình ảnh</th>
                 <th scope="col">Sản phẩm</th>
+                <th scope="col">Đơn giá</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
-                <th scope="col">Trạng thái</th>
-                <th scope="col">Hủy/đổi/trả</th>
             </tr>
             </thead>
             <tbody class="center">
+                <% let totalMoney = 0; %>
                 <% billDetail.productBill.forEach((p)=> { %>
-                <tr class="">
-                        <td  class="time">
-                            <a href="/nguoi-dung/don-hang/chi-tiet/<%= code %>"> <%= moment(billDetail.createdAt).format('L') %> </a>
-
-                        </td>
-                        <td class="image">
-                            <img src="" alt="">
-                        </td>
-
-                        <td class="name">
-                            <a href=""><%= p.product.name %></a>
-                        </td>
-                        <td class="quantity"> <%= p.quantity %> </td>
-                        <td class="right price">
-                            <strong><%= p.price %></strong>
-                        </td>
-                        <td class="status">
-                             <%= billDetail.isApproved === 'underfined' ? 'Chưa xác nhận' : 'Đã xác nhận' %>
-                        </td>
-                        <td>
-                                <a href="">Hủy/ đổi/ trả</a>
-                        </td>
+                <tr>
+                    <td  class="time">
+                        <a href="/nguoi-dung/don-hang/chi-tiet/<%= code %>"> <%= moment(billDetail.createdAt).format('L') %> </a>
+                    </td>
+                    <td class="image bill__product">
+                        <img src="<%= p.product.image.cover %>" alt="">
+                    </td>
+                    <td class="name"><%= p.product.name %></td>
+                    <td class="name">
+                        <strong><%= formatPrice(p.price) %> ₫</strong>
+                    </td>
+                    <td class="quantity"><%= p.quantity %></td>
+                    <td class="price">
+                        <% totalMoney += p.price * p.quantity; %>
+                        <strong><%= formatPrice(p.price * p.quantity) %> ₫</strong>
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>
         </table>
-
+        <p class="right" style="margin-top: 15px"><strong>Tổng: <%= totalMoney %> ₫</strong></p>
     </div>
-
-
 </div>
