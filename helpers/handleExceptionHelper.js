@@ -2,6 +2,7 @@ const handleException = (err, req, res, next) => {
     if (!err.error) {
         throw err;
     }
+
     const url = req.originalUrl.split('/');
     switch (err.error.code) {
         case 500:
