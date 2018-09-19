@@ -63,7 +63,8 @@
                                        class="flat-red images__table__pick-checkbox <%= check ? 'images__table__used-image': '' %>">
                             </label>
                         </td>
-                        <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
+                        <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
+                                 data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
                         <td><a href="<%= image.url %>">Link</a></td>
                         <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                     </tr>

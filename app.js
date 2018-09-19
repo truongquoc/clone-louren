@@ -16,23 +16,11 @@ main.engine('ejs', require('ejs-locals'));
 main.set('view engine', 'ejs');
 main.set('views', 'views');
 main.use(morgan('dev'));
-if (process.env.APP_ENV === 'local') {
-    const app = express();
-    app.use(vhost(process.env.APP_URL, main));
-    app.listen(port, (error) => {
-    // https.createServer(certOptions, app).listen(port, (error) => {
-        if (error) {
-            console.log('> Error: ', error);
-            return;
-        }
-        console.log('Server is running on port', port);
-    });
-} else {
-    main.listen(port, (error) => {
-        if (error) {
-            console.log('> Error: ', error);
-            return;
-        }
-        console.log('Server is running on port', port);
-    });
-}
+
+main.listen(port, (error) => {
+    if (error) {
+        console.log('> Error: ', error);
+        return;
+    }
+    console.log('Server is running on port', port);
+});

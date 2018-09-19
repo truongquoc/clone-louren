@@ -11,7 +11,7 @@ router.post('/them-gio-hang', cartController.addToCart);
 
 router.put('/:product/doi-so-luong', cartAuthorize.changeQuantityAuthorize, cartController.changeQuantity);
 
-router.get('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartController.showUserInformationForm);
+router.get('/xac-nhan', cartAuthorize.showUserInformationAuthorize, getPropertyTypes, cartController.showUserInformationForm);
 
 router.post('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartRequest.buyProductWithoutLoginRequest, cartController.buyProductWithoutLogin);
 
