@@ -4,7 +4,6 @@ function splitCurruncy() {
         const price = Number($(this).val());
         let discount = Number($(this).siblings('.priceDiscount').val());
         const priceDiscounted = price*(1-discount);
-        console.log(typeof priceDiscounted, typeof priceDiscounted%1000, typeof discount);
 
         const result = (discount) ?
                 Number(priceDiscounted - priceDiscounted%1000).toLocaleString() :
@@ -58,7 +57,6 @@ function addToCart() {
                 return;
             }
             alert('Đã thêm sản phẩm vào giỏ hàng');
-            console.log(res.data[0]);
             $('.count.EC-Layout-Basket-count em').html(res.data[0]);
         });
     });
@@ -147,7 +145,6 @@ function removeFromCart() {
         }
         const $tr = $(this).closest('tr');
         const id = $tr.find('.cartProductQuantity').data('id');
-        console.log(id);
         $.ajax({
             url: `/gio-hang/${id}/xoa-san-pham`,
             type: 'DELETE',
@@ -167,12 +164,11 @@ function removeFromCart() {
                 }
                 const { product, quantity } = res.data;
                 $tr.fadeOut();
-                const $totalProducts = $('.cart__total-products');
+                const $quantity = $('.count.EC-Layout-Basket-count em');
                 const $totalPrice = $('#cartTotalPrice');
 
-                const currentQuantity = (parseInt($totalProducts.text(), 10) || 0) - quantity;
-                $totalProducts.html(currentQuantity);
-                $('.count.EC-Layout-Basket-count em').html(currentQuantity);
+                const currentQuantity = (parseInt($quantity.text(), 10) || 0) - quantity;
+                $quantity.html(currentQuantity);
 
                 let price = parseInt($totalPrice.data('price'), 10);
                 price = price - product.price.number * quantity;
