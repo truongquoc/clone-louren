@@ -14,19 +14,15 @@
    <div class="separator img-separator"><img
       src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt="">
    </div>
-   <% if(blogArticle.display.useVideo === 'underfined') { %>
-   <div class="blog-media">
-      <div class="resp-video">
-        <video width="616" height="347" controls>
-            <source src="<%= blogArticle.display.useVideo %>" type="video/mp4">
-            <source src="<%= blogArticle.display.useVideo %>" type="video/ogg">
-        </video>
-      </div>
-   </div>
-   <% } %>
+    <% if (blogArticle.display.useVideo) { %>
+        <iframe class="blog-article__iframe" src="<%= blogArticle.display.video %>"></iframe>
+    <% } else { %>
+        <img src="<%= blogArticle.display.image %>" alt="<%= blogArticle.title %>" class="img-responsive">
+    <% } %>
+
    <div class="single-article-inner d-flex flex-column">
       <div class="single-article-content">
-         <p><%= blogArticle.content %></p>
+         <p><%- blogArticle.content %></p>
          <div class="fl-wrap share-buts-wrap">
             <div class="single-post-tags fl-left"><i class="fa fa-tags"></i>
                 <%  blogArticle.tags.forEach((tag) => { %>

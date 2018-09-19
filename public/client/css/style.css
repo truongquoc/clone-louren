@@ -7310,9 +7310,13 @@ table.manage-table .title-container .title span {
 .pagination-list .pagination li {
     display: inline-block;
 }
-.pagination-list .pagination li.page-item.active a.page-link.active {
+.pagination-list .pagination li.page-item a.page-link:hover {
     color: #fff;
     background: #808f66;
+}
+.pagination-list .pagination li.page-item.active a.page-link.active {
+    color: #fff !important;
+    background: #808f66 !important;
 }
 .order .pagination li.page-item a.page-link:hover {
     background: #808f66;

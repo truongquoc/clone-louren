@@ -14,7 +14,9 @@
         <div class="grid-sb-wrap col-12 col-sm-6">
             <article class="grid-sb">
                     <div class="blog-media"> <img width="328" height="217" src="<%= article.display.image %>" class="respimg wp-post-image" alt="23" sizes="(max-width: 328px) 100vw, 328px">
-                        <div class="overlay"></div> <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a></div>
+                        <div class="overlay"></div> 
+                        <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a>
+                    </div>
                 <ul class="cat-list">
                         <li><%= moment(article.updatedAt).format('L') %></li>
                     <li>
@@ -23,9 +25,9 @@
                         </ul>
                     </li>
                 </ul>
-                    <h2><a href="/blog/<%= article.slug %>"><%= article.title %></a></h2>
-                    <p><%= article.description %></p>
-                    <div class="clearfix"></div><a href="/blog/<%= article.slug %>" class="post-link">Xem thêm</a>
+                <h2><a href="/blog/<%= article.slug %>"><%= article.title %></a></h2>
+                <p><%= article.description %></p>
+                <a href="/blog/<%= article.slug %>" class="post-link">Xem thêm</a>
             </article>
         </div>
             <% }) %>
