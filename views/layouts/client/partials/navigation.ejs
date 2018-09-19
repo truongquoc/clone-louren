@@ -36,17 +36,10 @@
         <form id="searchBarForm" name="" action="/product/search.html" method="get" enctype="multipart/form-data">
             <input id="banner_action" name="banner_action" value="" type="hidden"/>
             <div class="xans-element- xans-layout xans-layout-searchheader ">
-                <!---@css(/css/module/layout/searchHeader.css)-->
-                <!--
-                                    $product_page=/product/detail.html
-                                    $category_page=/product/list.html
-                                -->
                 <fieldset>
-                    <legend>검색</legend>
-                    <!-- 제외검색어 추가 시작 -->
+                    <legend>Tìm kiếm</legend>
                     <input type="hidden" name="search_type" value="product_name"/>
                     <input type="hidden" name="exceptkeyword" value="[content]"/>
-                    <!-- 제외검색어 추가 끝 -->
                     <input id="keyword" name="keyword" fw-filter="" fw-label="검색어" fw-msg="" class="inputTypeText"
                            placeholder="" onmousedown="SEARCH_BANNER.clickSearchForm(this)" value="" type="text"/><a
                             href="#none" onclick="SEARCH_BANNER.submitSearchBanner(this); return false;"><i
@@ -63,7 +56,6 @@
             </div>
         </form>
         <div class="xans-element- xans-layout xans-layout-productrecent widget_recent_product_wrap">
-            <!---@css(/css/module/layout/productRecent.css)-->
             <h4><a href="/product/recent_view_product.html">TODAY VIEW</a></h4>
             <ul>
                 <li class="displaynone xans-record-">
