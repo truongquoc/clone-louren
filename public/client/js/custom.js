@@ -104,7 +104,7 @@ function handleCart() {
                 change = (res.data[2]) ? change - change%1000 : change;
                 result = +(total) + change;
                 $('#cartTotalPrice').attr('data-price', result);
-                $('#cartTotalPrice').text(result.toLocaleString());
+                $('#cartTotalPrice').text(result.toLocaleString('de-DE'));
             },
         });
     }
