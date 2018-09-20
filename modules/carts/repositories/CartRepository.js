@@ -137,6 +137,17 @@ class CartRepository extends BaseRepository {
     updateProducts(id, products) {
         return this.baseUpdate({ products }, { _id: id });
     }
+
+    getUserCart(user) {
+        return this.model
+            .findOne({ user, deletedAt: null })
+            .populate({
+                path: 'products.item',
+                select: 'quantity',
+                match: { deletedAt: null },
+            })
+            .select('name');
+    }
 }
 
 module.exports = CartRepository;

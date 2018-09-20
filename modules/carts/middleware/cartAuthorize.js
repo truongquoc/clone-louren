@@ -69,9 +69,57 @@ const removeProductAuthorize = async (req, res, next) => {
     }
 };
 
+const verifyProductQuantity = async (req, res, next) => {
+    try {
+        const { cUser } = req.session;
+        if (cUser) {
+            const cart = await CartRepository.getUserCart(cUser._id);
+            if (cart && cart.products.length) {
+                for (let i = 0; i < cart.products.length; i += 1) {
+                    const element = cart.products[i];
+                    if (element.item.quantity <= 0) {
+                        req.flash('errors', {
+                             quantity: { msg: `Sản phẩm "${product.name}" đã hết hàng` },
+                        });
+                        return res.redirectBack();
+                    } else if (element.quantity > element.item.quantity) {
+                        req.flash('errors', {
+                            quantity: { msg: `Số lượng sản phẩm "${product.name}" trong kho không đủ` },
+                        });
+                        return res.redirectBack();
+                    }
+                }
+            }
+        } else {
+            const cart = req.session.cart || [];
+            const cartLength = cart.length;
+            let products = cart.map(element => element.item);
+            products = await ProductRepository.getManyByIds(products, { select: '_id name quantity' });
+            for (let i = 0; i < cartLength; i += 1) {
+                const product = products.find(element => element._id.toString() === cart[i].item);
+                if (product.quantity <= 0) {
+                    req.flash('errors', {
+                        quantity: { msg: `Sản phẩm "${product.name}" đã hết hàng` },
+                    });
+                    return res.redirectBack();
+                } else if (cart[i].quantity > product.quantity) {
+                    req.flash('errors', {
+                        quantity: { msg: `Số lượng sản phẩm "${product.name}" trong kho không đủ` },
+                    });
+                    return res.redirectBack();
+                }
+            }
+        }
+        next();
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     confirmCartAuthorize,
     showUserInformationAuthorize,
     changeQuantityAuthorize,
     removeProductAuthorize,
+    verifyProductQuantity,
 };

@@ -59,9 +59,11 @@
                                         <%= product.item.name %>
                                     </a>
                                 </strong>
-                                <p class="color-red">
+                                <p class="cart__error color-red">
                                     <% if (product.item.quantity <= 0) { %>
                                         Sản phẩm hết hàng
+                                    <% } else if (product.item.quantity < product.quantity) { %>
+                                        Sản phẩm trong kho không đủ
                                     <% } %>
                                 </p>
                             </td>
@@ -88,10 +90,8 @@
                                     <span class="ec-base-qty">
                                         <input class="cartProductQuantity" data-id="<%= product.item._id %>"
                                                 <%= product.item.quantity <= 0 ? 'disabled' : '' %>
-                                               size="2" value="<%= product.quantity %>" type="text"
-                                        />
-
-                                        <button class="cartBtnUp">
+                                               data-quantity="<%= product.item.quantity %>" value="<%= product.quantity %>" type="text"/>
+                                        <button class="cartBtnUp" <%= (product.item.quantity <= 0 || product.item.quantity <= product.quantity) ? 'disabled' : '' %>>
                                             <img src="/public/client/images/icons/btn_quantity_up.gif"
                                                  alt="Up" class="up"/>
                                         </button>
@@ -110,6 +110,7 @@
                     <% }) %>
                 </tbody>
             </table>
+            <p class="color-red"><%= errors('quantity') %></p>
         </div>
 
         <div class="xans-element- xans-order xans-order-totalorder ec-base-button justify">
