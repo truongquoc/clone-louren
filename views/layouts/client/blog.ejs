@@ -2,19 +2,21 @@
 <html lang="en-US">
 
 <head>
-    <link rel="stylesheet" href="../../../public/client/css/style.css">
-    <link rel="stylesheet" href="../../../public/client/css/common.css">
-    <link rel="stylesheet" href="../../../public/client/css/custom.css">
-    <link rel="stylesheet" href="../../../public/client/css/styleOrderHistory.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="http://demowp.cththemes.net/springbook/wp-content/cache/minify/16520.css" media="all" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="shortcut icon" href="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/favicon.ico" type="image/x-icon" />
-    <title>Travel in Oslo Norway &#8211; SpringBook</title>
-    <style id='springbookcustom-css-inline-css' type='text/css'>
-        #wrapper{padding-top:0}#top-bar nav.top-bar-menu,.sticky-nav nav.top-bar-menu{top:4px}.footer-widget .commnet-link a,.footer-widget .recentcomments a{color:#808f66;font-weight:400}.sb-nav-button{width:34px;height:34px;top:3px}.post-counters,.post-counters li{width:auto!important}.sb-nav-button span{margin-bottom:4px}.full-width-instagram li{padding:0}.single-article-inner{padding-left:0}.art-fact{background:#f9f9f9;border:1px solid #eee}.post-counters{list-style:none;max-width:200px}.grid-sb-holder .grid-sb-wrap .respimg{width:100%}@media (max-width:1024px){.new-article .fp-desc{padding:10px 15px}}.grid-sb-holder{margin-left:-15px;margin-right:-15px}.grid-sb-holder .grid-sb-wrap{padding:0 15px}@media only screen and (max-width:767px){#wrapper>.vc_row,.grid-sb-holder{margin-left:0;margin-right:0}.category-nav-inner ul li{text-align:center}.grid-sb-holder .grid-sb-wrap{width:100%!important;padding:0 15px}.grid-sb-holder .grid-sb-wrap .respimg{width:100%}}@media (max-width:576px){.post-counters{width:100%;max-width:100%}}
-    </style>
+
+    <link rel="stylesheet" href="/public/client/css/style.css">
+    <link rel="stylesheet" href="/public/client/css/common.css">
+    <!--<link rel="stylesheet" href="/public/client/css/custom.css">-->
+    <!--<link rel="stylesheet" href="/public/client/css/styleOrderHistory.css">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/client/css/16520.css" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <title><%= block('title') %></title>
 </head>
 
 <body class="">
@@ -25,12 +27,12 @@
     <div id="wrapper" class="main-content-wrap">
         <div class="hero-wrap">
             <div class="hero-bg">
-                <div class="bg" data-bg="http://demowp.cththemes.net/springbook/wp-content/uploads/2016/07/16.jpg"></div>
+                <div class="bg"></div>
                 <div class="overlay"></div>
             </div>
             <div class="hero-inner">
                 <div class="container" style="text-align: center;">
-                    <a href="/blog/" class="title-blog" >Tin tức</a>
+                    <a href="/blog" class="title-blog" >Tin tức</a>
                 </div>
             </div>
         </div>
@@ -49,7 +51,7 @@
 </div>
 <div id="footer">
     <%- include partials/footer.ejs %>
-</div><!-- /#footer -->
+</div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
