@@ -118,8 +118,8 @@ const changeQuantity = async (req, res) => {
             if (existItem) {
                 returnQuantity = existItem.quantity;
                 existItem.quantity = quantity;
+                await CartRepository.updateProducts(cart._id, cart.products);
             }
-            await CartRepository.updateProducts(cart._id, cart.products);
         } else {
             const shopCart = req.session.cart || [];
             const existItem = shopCart.find(e => e.item === product);

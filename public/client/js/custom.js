@@ -31,8 +31,6 @@ function splitCurruncy() {
 function checkSoldOut() {
     const quantity = Number($('#soldOut').data('quantity'));
     if (quantity === 0) {
-        console.log('Hello');
-
         $('#soldOut').removeClass('displaynone');
         $('#buyNow, #addCart').addClass('displaynone');
     }
