@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator/check');
 
+const { roundPrice } = require('../../../helpers/adminHelper');
 const Cart = require('../../carts/models/Cart');
 const Product = require('../../products/models/Product');
-
 const responseHelper = require('../../../helpers/responseHelper');
 const CartRepositoryClass = require('../repositories/CartRepository');
 const BillRepositoryClass = require('../../bills/repositories/BillRepository');
@@ -20,9 +20,9 @@ const index = async (req, res, next) => {
 
         if (req.session.cUser) {
             cart = await Cart
-                .findOne({ user: req.session.cUser._id })
+                .findOne({ user: req.session.cUser._id, deletedAt: null })
                 .select('products')
-                .populate('products.item', 'name price slug discount image.cover');
+                .populate('products.item', 'name price quantity slug discount image.cover');
         } else if (req.session.cart) {
             const sessionCart = [...req.session.cart];
 
@@ -114,7 +114,7 @@ const changeQuantity = async (req, res) => {
         const { product } = req.params;
         const { quantity } = req.body;
         const { cUser } = req.session;
-        const productInfo = await Product.findById(product);
+        const productInfo = await ProductRepository.getById(product, { select: 'price.number discount' });
         let returnQuantity;
         if (cUser) {
             const cart = await CartRepository.getCartByUser(req.session.cUser._id);

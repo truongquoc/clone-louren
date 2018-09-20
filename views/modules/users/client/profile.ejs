@@ -5,7 +5,7 @@
 <% block('title', 'Thông tin người dùng') %>
 
 <div id="contents">
-    
+
     <div class="titleArea">
         <h2>Chỉnh sửa thông tin người dùng</h2>
     </div>
@@ -100,14 +100,15 @@
                     <tr>
                         <th scope="row">Giới tính</th>
                         <td>
+                            <% const gender = user.gender ? user.gender.toString() : ''; %>
                             <input id="is_male" name="gender" type="radio"
-                                   value="1" <%= old('gender', user.gender.toString()) === '1' ? 'checked' : '' %>/>
+                                   value="1" <%= old('gender', gender) === '1' ? 'checked' : '' %>/>
                             <label for="is_male">Nam</label>
                             <input id="is_female" name="gender" type="radio"
-                                   value="2" <%= old('gender', user.gender.toString()) === '2' ? 'checked' : '' %>/>
+                                   value="2" <%= old('gender', gender) === '2' ? 'checked' : '' %>/>
                             <label for="is_female">Nữ</label>
                             <input id="is_another" name="gender" type="radio"
-                                   value="3" <%= old('gender', user.gender.toString()) === '3' ? 'checked' : '' %>/>
+                                   value="3" <%= old('gender', gender) === '3' ? 'checked' : '' %>/>
                             <label for="is_another">Khác</label>
                             <%= errors('gender') %>
                         </td>
