@@ -83,7 +83,7 @@
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Mã đơn hàng</th>
-                        <th>Người viết</th>
+                        <th>Người yêu cầu</th>
                         <th>Ngày tạo</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
@@ -92,16 +92,28 @@
                         <tr data-key="<%= bill._id %>">
                             <td><%= pageIndex + index + 1 %></td>
                             <td><a href="/admin/bills/<%= bill.code %>"><%= bill.code %></a></td>
-                            <td><%= bill.user.name %> </td>
+                            <td>
+                                <% if (bill.user) { %>
+                                    <a href="/admin/users/<%= bill.user.slug %>"><%= bill.user.name %></a>
+                                <% } %>
+                            </td>
                             <td><%= moment(bill.createdAt).format('HH:mm DD/MM/YYYY') %></td>
                             <td>
                                 <span class="module__delete-container <%= bill.deletedAt ? 'hide' : '' %>">
-                                    <a href="/blog/<%= bill.slug %>" class="badge bg-primary-gradient"><i
-                                                class="fa fa-eye"></i></a>
-                                    <button class="badge bg-warning-gradient module__edit-btn"
-                                            type="button" data-toggle="modal" data-target="#myModal2">
-                                        <i class="fa fa-pencil"></i>
-                                    </button>
+                                    <% if (bill.userInformation.name) { %>
+                                        <button class="badge bg-primary-gradient module__show-user-info-btn" data-toggle="modal" data-target="#myModal2">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <div class="hide bill__table__user-info"
+                                             data-user-name="<%= bill.userInformation.name %>"
+                                             data-user-email="<%= bill.userInformation.email %>"
+                                             data-user-telephone="<%= bill.userInformation.telephone %>"
+                                             data-user-address="<%= bill.userInformation.address %>"
+                                             data-note="<%= bill.userInformation.note %>"
+                                        ></div>
+                                    <% } else { %>
+                                        <span style="display: inline-block;width: 21px; height: 12px;"></span>
+                                    <% } %>
                                     <% if (!bill.isApproved) { %>
                                         <button class="badge bg-success-gradient module__approve-btn remove-btn">
                                             <i class="fa fa-check"></i>
@@ -129,6 +141,41 @@
         </div>
     </div>
 </section>
+
+<div class="modal" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin người dùng</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Tên</th>
+                        <td class="user-info__table__name"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td class="user-info__table__email"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Số điện thoại</th>
+                        <td class="user-info__table__telephone"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Lưu ý</th>
+                        <td class="user-info__table__note"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <% block('scripts', `
 <script>

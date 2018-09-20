@@ -30,7 +30,6 @@ function splitCurruncy() {
 function checkSoldOut() {
     const quantity = +($('#soldOut').data('quantity'));
     if (quantity === 0) {
-
         $('#soldOut').removeClass('displaynone');
         $('#buyNow, #addCart').addClass('displaynone');
     }
@@ -102,9 +101,9 @@ function handleCart() {
                 const total = $('#cartTotalPrice').attr('data-price');
                 let change = res.data[1]*(-res.data[0])*(1-res.data[2]);
                 change = (res.data[2]) ? change - change%1000 : change;
-                result = +(total) + change;
+                const result = +(total) + change;
                 $('#cartTotalPrice').attr('data-price', result);
-                $('#cartTotalPrice').text(result.toLocaleString());
+                $('#cartTotalPrice').text(result.toLocaleString('de-DE'));
             },
         });
     }

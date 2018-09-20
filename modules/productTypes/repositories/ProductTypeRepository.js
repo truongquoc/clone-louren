@@ -3,6 +3,9 @@ const commonConstant = require('../../../constants/commonConstant');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const ProductType = require('../models/ProductType');
 const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
+const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
+
+const ProductRepository = new ProductRepositoryClass();
 
 class ProductTypeRepository extends ClassificationRepository {
     model() {
@@ -93,9 +96,11 @@ class ProductTypeRepository extends ClassificationRepository {
         });
     }
 
-    delete(id) {
+    async delete(id) {
+        await ProductRepository.forceDelete({ type: id, deletedAt: { $ne: null } });
         // delete product here
         return Promise.all([
+            ProductRepository.baseDelete({ type: id }),
             this.baseUpdate({ parentType: undefined }, { parentType: id }),
             this.deleteById(id),
         ]);
@@ -104,6 +109,7 @@ class ProductTypeRepository extends ClassificationRepository {
     async revert(id) {
         // revert product here
         return Promise.all([
+            ProductRepository.baseRevert({ type: id }),
             this.revertById(id),
         ]);
     }
