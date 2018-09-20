@@ -19,6 +19,6 @@ router.post('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartRequest
 
 router.use(authAuthorize.clientRedirectIfNotAuthenticated);
 
-router.post('/:id/xac-nhan', cartAuthorize.confirmCartAuthorize, getPropertyTypes, cartController.buyProduct);
+router.post('/:id/xac-nhan', cartAuthorize.confirmCartAuthorize, cartController.buyProduct);
 
 module.exports = router;
