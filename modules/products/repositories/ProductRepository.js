@@ -170,6 +170,17 @@ class ProductRepository extends ArticleRepository {
             .select('-isApproved -updatedAt');
     }
 
+    clientCheckExistById(id, options = {}) {
+        return this.model
+            .findOne({
+                _id: id,
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            })
+            .select(options.select || '-updatedAt deletedAt -__v');
+    }
+
     create(data, user) {
         const product = {
             type: data.type,

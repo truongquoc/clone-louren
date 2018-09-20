@@ -174,14 +174,17 @@
 
                 </div>
                 <div class="xans-element- xans-product xans-product-action ">
-                    <div class="ec-base-button">
-                        <a href="#none" class="first custom_btn_buy " id="buyNow"><span id="btnBuy"
-                                                                                        class="transition_type1">Mua ngay</span></a>
-                        <a href="#none" class="custom_btn_basket " id="addCart"><span
-                                    class="transition_type1">Thêm vào giỏ hàng</span></a>
+                    <div class="ec-base-button" style="text-align: left">
+                        <!--<a href="#none" class="first custom_btn_buy " id="buyNow">-->
+                            <!--<span id="btnBuy" class="transition_type1">Mua ngay</span>-->
+                        <!--</a>-->
+                        <a class="custom_btn_basket first custom_btn_buy add-to-cart-btn" id="addCart"
+                           data-id="<%= product._id %>" style="text-align: center">
+                            <span class="transition_type1">Thêm vào giỏ hàng</span>
+                        </a>
                         <span class="custom_btn_soldout displaynone" id="soldOut"
-                              data-quantity="<%= product.quantity %>" style="line-height: 60px;">Hết hàng</span>
-                        <a href="#none" class="custom_btn_wish "><span
+                              data-quantity="<%= product.quantity %>" style="line-height: 60px;text-align: center">Hết hàng</span>
+                        <a href="#none" class="custom_btn_wish " style="text-align: center"><span
                                     class="transition_type1">Yêu thích</span></a>
                     </div>
                 </div>

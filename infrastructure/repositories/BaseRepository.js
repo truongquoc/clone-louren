@@ -36,7 +36,7 @@ class BaseRepository {
         return data;
     }
 
-    baseGet(conditions = {}, options= {}) {
+    baseGet(conditions = {}, options = {}) {
         conditions.deletedAt = null;
 
         return this.model.find(conditions).sort({ createdAt: -1 }).select(options.select || '-createdAt -updatedAt -__v');
