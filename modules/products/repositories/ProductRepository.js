@@ -106,7 +106,7 @@ class ProductRepository extends ArticleRepository {
             deletedAt: null,
         };
         if (options.query.type === 'productName') {
-            conditions.name = new RegExp(options.query.search, 'i');
+            conditions.name = new RegExp(options.query.search.trim(), 'i');
         }
         if (options.query.productType
             && mongoose.Types.ObjectId.isValid(options.query.productType)) {
@@ -168,6 +168,17 @@ class ProductRepository extends ArticleRepository {
                 match: { deletedAt: null },
             })
             .select('-isApproved -updatedAt');
+    }
+
+    clientCheckExistById(id, options = {}) {
+        return this.model
+            .findOne({
+                _id: id,
+                isApproved: true,
+                isDraft: false,
+                deletedAt: null,
+            })
+            .select(options.select || '-updatedAt deletedAt -__v');
     }
 
     create(data, user) {
