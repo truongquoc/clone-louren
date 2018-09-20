@@ -40,21 +40,8 @@ module.exports = (res) => {
     res.locals.strLimit = (string, limit, end = '...') => `${string.substr(0, limit)}${end}`;
 
     res.locals.formatPrice = (number) => {
-        number = parseFloat(number);
-        let string = '';
-        const number1 = number / 1000000;
-        if (number1 >= 1) {
-            string += `${Math.floor(number1)}.`;
-            number -= Math.floor(number1) * 1000000;
-        }
-        const number2 = number / 1000;
-        if (number2 >= 1) {
-            string += `${Math.floor(number2)}.`;
-            number -= Math.floor(number2) * 1000;
-        }
-        string += number;
-
-        return string;
+        number = parseInt(number, 10).toLocaleString('de-DE');
+        return number;
     };
 
     res.locals.hasRole = RoleHelper.hasRole;

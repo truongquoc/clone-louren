@@ -7,7 +7,6 @@
 <div id="contents">
     <div class="fixed_row">
 
-        <!-- 신상품 -->
         <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product widget_new_product">
             <div class="common_title">
                 <div class="main_title">
@@ -18,7 +17,6 @@
                     <span class="desc"></span>
                 </div>
             </div>
-            <!-- /.common_title -->
             <ul class="prdList grid3 hover_fade">
                 <% newestProducts.forEach((product) => { %>
                     <li class="item xans-record-">
@@ -57,7 +55,18 @@
                                 </strong>
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
-                                        <span class="product__price"><%= formatPrice(product.price.number) %> ₫</span>
+                                        <span class="priceDisplay"></span>
+                                            <input class="priceValue"
+                                                    value="<%= product.price.number %>"
+                                                    type="hidden"/>
+                                            <span class="price dc_price priceDiscountText">
+                                                <i class="fa fa-long-arrow-down"
+                                                    aria-hidden="true"></i>
+                                                <span class="priceDiscountPercent"></span>
+                                            </span>
+                                            <input class="priceDiscount"
+                                                    value="<%= product.discount %>"
+                                                    type="hidden"/>
                                     </li>
                                 </ul>
                             </div>
@@ -80,7 +89,7 @@
                 <a target="_blank" href=""
                    class="widget-id-tag xans-record-"></a>
             </strong>
-            <div class="thumb  fadeOut slide" style=""></div>
+            <div class="thumb  fadeOut slide"></div>
         </div>
     </div>
 </div>

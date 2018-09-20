@@ -27,7 +27,7 @@ class CartRepository extends BaseRepository {
 
         return this.model
             .findOne(conditions)
-            .populate('products.item', 'price');
+            .populate('products.item', 'price.number discount');
     }
 
     async createBill(id, userId) {

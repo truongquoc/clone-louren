@@ -706,6 +706,16 @@ function init_changeSearchType() {
     });
 }
 
+function init_showUserInformation() {
+    $('.module__show-user-info-btn').on('click', function () {
+        const $userInfo = $(this).next('.bill__table__user-info');
+        $('.user-info__table__name').text($userInfo.data('user-name'));
+        $('.user-info__table__email').text($userInfo.data('user-email'));
+        $('.user-info__table__telephone').text($userInfo.data('user-telephone'));
+        $('.user-info__table__note').text($userInfo.data('note'));
+    });
+}
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
@@ -719,4 +729,5 @@ $(document).ready(() => {
     init_viewRequests();
     init_revertModule();
     init_changeSearchType();
+    init_showUserInformation();
 });

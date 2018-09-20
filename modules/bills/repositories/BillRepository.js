@@ -50,7 +50,7 @@ class BillRepository extends BaseRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .populate('user', '-_id name')
+                .populate('user', '-_id name slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 }),

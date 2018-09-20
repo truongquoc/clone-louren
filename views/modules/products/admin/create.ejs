@@ -41,17 +41,27 @@
                         <p class="form__error-message form__title__error-message"><%= errors('name') %></p>
                     </div>
                     <div class="row">
-                        <div class="col-md-6"></div>
                         <div class="col-md-6">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Ảnh</label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="image" id="validatedCustomFile">
-                                        <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
-                                    </div>
-                                    <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
+                            <div class="form-group">
+                                <label>Thể loại</label>
+                                <select class="form-control form__category__input" name="type" style="width: 100%;">
+                                    <option value="0">Chọn thể loại</option>
+                                    <% productTypes.forEach(function (element) { %>
+                                    <option <%= old('type') == element._id ? 'selected' : '' %>
+                                            value="<%= element._id %>"><%= element.name %></option>
+                                    <% }) %>
+                                </select>
+                                <p class="form__error-message form__category__error-message"><%= errors('type') %></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ảnh</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="image" id="validatedCustomFile">
+                                    <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
                                 </div>
+                                <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
                             </div>
                         </div>
                     </div>

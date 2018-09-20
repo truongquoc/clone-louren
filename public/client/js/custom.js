@@ -1,16 +1,16 @@
 function splitCurruncy() {
 
     $('.priceValue').each(function () {
-        const price = Number($(this).val());
-        let discount = Number($(this).siblings('.priceDiscount').val());
+        const price = +($(this).val());
+        let discount = +($(this).siblings('.priceDiscount').val());
         const priceDiscounted = price*(1-discount);
 
         const result = (discount) ?
-                Number(priceDiscounted - priceDiscounted%1000).toLocaleString() :
-                price.toLocaleString();
+                parseInt(priceDiscounted - priceDiscounted%1000).toLocaleString('de-DE') :
+                price.toLocaleString('de-DE');
 
         const display = (discount) ?
-                `<del>${price.toLocaleString()} ₫</del><br>${result} ₫` :
+                `<del>${price.toLocaleString('de-DE')} ₫</del><br>${result} ₫` :
                 `${result} ₫`;
 
         if (discount) {
@@ -28,7 +28,7 @@ function splitCurruncy() {
 }
 
 function checkSoldOut() {
-    const quantity = Number($('#soldOut').data('quantity'));
+    const quantity = +($('#soldOut').data('quantity'));
     if (quantity === 0) {
         $('#soldOut').removeClass('displaynone');
         $('#buyNow, #addCart').addClass('displaynone');
@@ -78,12 +78,12 @@ function handleCart() {
         const value = parseInt($element.val());
         $element.val(value > 1 ? value - 1 : 1);
         if (value >= 2) {
-            changeProductQuantity(id, value - 1, $element, false);
+            changeProductQuantity(id, value - 1, $element);
         }
         $element.attr('disabled', true);
     });
 
-    function changeProductQuantity(id, quantity, $element, increment = true) {
+    function changeProductQuantity(id, quantity, $element) {
         $.ajax({
             url: `/gio-hang/${id}/doi-so-luong`,
             type: 'PUT',
@@ -102,40 +102,20 @@ function handleCart() {
                     }
                     return;
                 }
-                const $quantity = $('.count.EC-Layout-Basket-count em');
-                const value = parseInt($quantity.text()) - res.data[0];
-                $quantity.text(value);
+                const $quantityElement = $('.count.EC-Layout-Basket-count em');
+                const value = parseInt($quantityElement.text()) - res.data[0];
+                $quantityElement.text(value);
 
-                // const price = parseInt($element.closest('tr').find('.cart__product__price strong').data('price'));
-                // const $totalPrice = $('#cartTotalPrice');
-                // let totalPrice = parseInt($totalPrice.data('price'), 10);
-                // totalPrice = totalPrice + (increment ? price : -price);
-                // $('.firstTitleArea h2').text(Math.random())
-                // console.log($totalPrice.data('price'));
-                // $('#cartTotalPrice').attr('data-price', totalPrice);
-                // $totalPrice.html(formatPrice(totalPrice));
-            }
+                const total = $('#cartTotalPrice').attr('data-price');
+                let change = res.data[1]*(-res.data[0])*(1-res.data[2]);
+                change = (res.data[2]) ? change - change%1000 : change;
+                const result = +(total) + change;
+                $('#cartTotalPrice').attr('data-price', result);
+                $('#cartTotalPrice').text(result.toLocaleString('de-DE'));
+            },
         });
     }
 }
-
-function formatPrice(number) {
-    number = parseFloat(number);
-    let string = '';
-    const number1 = number / 1000000;
-    if (number1 >= 1) {
-        string += `${Math.floor(number1)}.`;
-        number -= Math.floor(number1) * 1000000;
-    }
-    const number2 = number / 1000;
-    if (number2 >= 1) {
-        string += `${Math.floor(number2)}.`;
-        number -= Math.floor(number2) * 1000;
-    }
-    string += number;
-
-    return string;
-};
 
 function removeFromCart() {
     $('.remove-product-from-cart').on('click', function () {
@@ -171,9 +151,11 @@ function removeFromCart() {
                 $quantity.html(currentQuantity);
 
                 let price = parseInt($totalPrice.data('price'), 10);
-                price = price - product.price.number * quantity;
-                $totalPrice.attr('data-price', price);
-                $totalPrice.html(formatPrice(price));
+                console.log(product.price.number, (1 - product.discount), quantity);
+                price = price - (product.price.number * (1 - product.discount) * quantity);
+                console.log(price);
+                 $('#cartTotalPrice').attr('data-price', price);
+                 $('#cartTotalPrice').text(price.toLocaleString('de-DE'));
             }
         });
     });
