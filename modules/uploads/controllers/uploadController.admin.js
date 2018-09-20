@@ -43,7 +43,7 @@ const list = async (req, res, next) => {
     }
 };
 
-const showMyUploads = async (req, res) => {
+const showMyUploads = async (req, res, next) => {
     const { query } = req;
     try {
         const images = await UploadRepository.list(req.session.cUser._id, {

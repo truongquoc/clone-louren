@@ -43,8 +43,35 @@ const changeQuantityAuthorize = async (req, res, next) => {
     }
 };
 
+const removeProductAuthorize = async (req, res, next) => {
+    try {
+        let product;
+        if (req.session.cUser) {
+            const cart = await CartRepository.checkExist({
+                user: req.session.cUser._id,
+            }, { select: 'products' });
+            cart.products = cart.products || [];
+            product = cart.products.find(element => (
+                element.item.toString() === req.params.product
+            ));
+        } else {
+            const products = req.session.cart || [];
+            product = products.find(element => (
+                element.item === req.params.product
+            ));
+        }
+        if (!product) {
+            return res.json(responseHelper.notFound());
+        }
+        next();
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     confirmCartAuthorize,
     showUserInformationAuthorize,
     changeQuantityAuthorize,
+    removeProductAuthorize,
 };

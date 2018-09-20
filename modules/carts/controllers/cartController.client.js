@@ -6,9 +6,11 @@ const Product = require('../../products/models/Product');
 const responseHelper = require('../../../helpers/responseHelper');
 const CartRepositoryClass = require('../repositories/CartRepository');
 const BillRepositoryClass = require('../../bills/repositories/BillRepository');
+const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
 
 const CartRepository = new CartRepositoryClass();
 const BillRepository = new BillRepositoryClass();
+const ProductRepository = new ProductRepositoryClass();
 
 const index = async (req, res, next) => {
     try {
@@ -39,7 +41,8 @@ const index = async (req, res, next) => {
         }
 
         const totalPrice = cart.products.reduce((total, product) => {
-            const discounted = product.item.discount ? product.item.price.number * (1 - product.item.discount) : product.item.price.number;
+            const { price, discount } = product.item;
+            const discounted = discount ? price.number * (1 - discount) : price.number;
             const add = product.item.discount ? (discounted - (discounted % 1000)) : discounted;
             return total + (add * product.quantity);
         }, 0);
@@ -85,7 +88,9 @@ const addToCart = async (req, res, next) => {
             }
 
             await cart.save();
-            total = cart.products.map(element => element.quantity).reduce((a, b) => a + b, 0);
+            total = cart.products
+                .map(element => element.quantity)
+                .reduce((a, b) => a + parseInt(b, 10), 0);
         } else {
             const shopCart = req.session.cart || [];
 
@@ -98,7 +103,9 @@ const addToCart = async (req, res, next) => {
             }
 
             req.session.cart = shopCart;
-            total = shopCart.map(element => element.quantity).reduce((a, b) => a + b, 0);
+            total = shopCart
+                .map(element => element.quantity)
+                .reduce((a, b) => a + parseInt(b, 10), 0);
         }
 
         return res.json(responseHelper.success(total));
@@ -122,8 +129,8 @@ const changeQuantity = async (req, res) => {
             if (existItem) {
                 returnQuantity = +(existItem.quantity);
                 existItem.quantity = +quantity;
+                await CartRepository.updateProducts(cart._id, cart.products);
             }
-            await CartRepository.updateProducts(cart._id, cart.products);
         } else {
             const shopCart = req.session.cart || [];
             const existItem = shopCart.find(e => e.item === product);
@@ -134,7 +141,45 @@ const changeQuantity = async (req, res) => {
             }
         }
 
-        return res.json(responseHelper.success([returnQuantity - quantity, productInfo.price.number, productInfo.discount]));
+        return res.json(responseHelper.success([
+            returnQuantity - quantity,
+            productInfo.price.number,
+            productInfo.discount,
+        ]));
+    } catch (e) {
+        return res.json(responseHelper.error(e.message));
+    }
+};
+
+const removeProduct = async (req, res) => {
+    try {
+        const { cUser } = req.session;
+        const id = req.params.product;
+        let product;
+        if (cUser) {
+            const cart = await CartRepository.getCartByUser(cUser._id);
+            product = cart.products.find(element => (
+                element.item.toString() === id
+            ));
+            cart.products = cart.products.filter(element => (
+                element.item.toString() !== id
+            ));
+            await cart.save();
+        } else {
+            const products = req.session.cart || [];
+            product = products.find(element => (
+                element.item.toString() === id
+            ));
+            req.session.cart = products.filter(element => (
+                element.item !== id
+            ));
+        }
+        const { quantity } = product;
+        product = await ProductRepository.getById(product.item, { select: 'price.number discount' });
+
+        return res.json(responseHelper.success({
+            product, quantity,
+        }));
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
@@ -186,4 +231,5 @@ module.exports = {
     buyProduct,
     addToCart,
     changeQuantity,
+    removeProduct,
 };

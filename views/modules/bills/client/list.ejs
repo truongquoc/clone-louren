@@ -5,88 +5,87 @@
 <% block('title', 'Đơn hàng') %>
 
 <div id="contents">
-    
     <div class="titleArea">
        <h2>Tất cả đơn hàng</h2>
     </div>
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
        <ul class="menu">
           <li class="selected"><a href="/nguoi-dung/don-hang">Tất cả đơn hàng</a></li>
-          <li class=""><a href="">Đơn hàng chi tiết</a></li>
-       </ul>
+        </ul>
     </div>
-    
+
     <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
        <!--
-          $login_url = /member/login.html
-          -->
-       <div class="title">
-          <h3>THÔNG TIN ĐƠN ĐẶT HÀNG</h3>
-       </div>
-       <table border="1" summary="">
-          <colgroup>
-             <col style="width:135px;"/>
-             <col style="width:93px;"/>
-             <col style="width:auto;"/>
-             <col style="width:61px;"/>
-             <col style="width:111px;"/>
-             <col style="width:111px;"/>
-             <col style="width:111px;"/>
-          </colgroup>
-          <thead>
-             <tr>
-                <th scope="col">Mã đơn hàng</th>
-                <th scope="col">Ngày đặt hàng</th>
-                <th scope="col">Sản phẩm</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Thành tiền</th>
-                <th scope="col">Trạng thái đơn hàng</th>
-                <th scope="col">Hủy/ đổi</th>
-             </tr>
-          </thead>
-          <tbody class="center ">
-             <% if(bills.docs.length !== 0) { %>
-             <% bills.docs.forEach((bill) => { %>
-             <tr class="">
-                <td  class="number ">
-                   <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.code %> </a>
-                </td>
-                <td class="time">
-                   <%= moment(bill.createAt).format('L') %>
-                </td>
-                <td class="name">
-                   <% if(bill.productBill.length > 3) {%>
-                   <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.productBill[0].product.name %> và <%= bill.productBill.length -1 %> sản phẩm khác</a>
-                   <% } else { %>
-                   <% bill.productBill.forEach((p) => { %>
-                   <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= p.product.name %>, </a>
-                   <% }) %>
-                   <% } %>
-                </td>
-                <td class="quantity"> <%= bill.productBill.length %></td>
-                <td class="right price">
-                   <strong><%= formatPrice(bill.price) %> ₫</strong>
-                </td>
-                <td class="status">
-                   <%= bill.isApproved === 'false' ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
-                </td>
-                <td>
-                   <a href="#">Hủy/ đổi/ trả</a>
-                </td>
-             </tr>
-             <% }) %>
-             <% } %>
-          </tbody>
-       </table>
-       <% if(bills.docs.length === 0 ) { %>
-       <p class="message ">Chưa có đơn đặt hàng nào.</p>
-       <% } %>
+        $login_url = /member/login.html
+    -->
+        <div class="title">
+            <h3>THÔNG TIN ĐƠN ĐẶT HÀNG</h3>
+        </div>
+        <table border="1" summary="">
+            <colgroup>
+                <col style="width:135px;"/>
+                <col style="width:93px;"/>
+                <col style="width:auto;"/>
+                <col style="width:61px;"/>
+                <col style="width:111px;"/>
+                <col style="width:111px;"/>
+                <col style="width:111px;"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col">Mã đơn hàng</th>
+                    <th scope="col">Ngày đặt hàng</th>
+                    <th scope="col">Sản phẩm</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Thành tiền</th>
+                    <th scope="col">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody class="center ">
+
+                <% if (bills.docs.length !== 0) { %>
+                    <% bills.docs.forEach((bill) => { %>
+                        <tr class="">
+                            <td  class="number ">
+                                <a href="/nguoi-dung/don-hang/<%= bill.code %>"><%= bill.code %> </a>
+
+                            </td>
+                            <td class="time">
+                                <%= moment(bill.createAt).format('L') %>
+                            </td>
+
+                            <td class="name">
+                                <% const billLength = bill.productBill.length %>
+                                <% if (billLength > 3) {%>
+                                    <%= bill.productBill[0].product.name %> và <%= billLength - 1 %> sản phẩm khác
+                                <% } else { %>
+                                    <% bill.productBill.forEach((p, index) => { %>
+                                        <%= p.product.name %><%= (index !== billLength - 1) ? ', ' : '' %>
+                                    <% }) %>
+                                <% } %>
+
+                            </td>
+                            <td class="quantity"> <%= bill.productBill.length %></td>
+                            <td class="price">
+                                <strong><%= formatPrice(bill.price) %> ₫</strong>
+                            </td>
+                            <td class="status">
+                                <%= !bill.isApproved ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+        <% if(bills.docs.length === 0 ) { %>
+        <p class="message ">Chưa có đơn đặt hàng nào.</p>
+        <% } %>
     </div>
     <% if(bills.docs.length !== 0 ) { %>
-    <div class="card-footer clearfix order" style="margin-top: 30px;">
-       <div class="pagination-list">
-          <%- bills.renderPagination(bills, query.page) %>
-       </div>
-    </div>
+        <div class="card-footer clearfix order" style="margin-top: 30px;">
+            <div class="pagination-list">
+                <%- bills.renderPagination(bills, query.page) %>
+            </div>
+        </div>
     <% } %>
 </div>

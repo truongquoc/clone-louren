@@ -6,11 +6,11 @@ function splitCurruncy() {
         const priceDiscounted = price*(1-discount);
 
         const result = (discount) ?
-                parseInt(priceDiscounted - priceDiscounted%1000).toLocaleString() :
-                price.toLocaleString();
+                parseInt(priceDiscounted - priceDiscounted%1000).toLocaleString('de-DE') :
+                price.toLocaleString('de-DE');
 
         const display = (discount) ?
-                `<del>${price.toLocaleString()} ₫</del><br>${result} ₫` :
+                `<del>${price.toLocaleString('de-DE')} ₫</del><br>${result} ₫` :
                 `${result} ₫`;
 
         if (discount) {
@@ -30,7 +30,6 @@ function splitCurruncy() {
 function checkSoldOut() {
     const quantity = +($('#soldOut').data('quantity'));
     if (quantity === 0) {
-
         $('#soldOut').removeClass('displaynone');
         $('#buyNow, #addCart').addClass('displaynone');
     }
@@ -50,7 +49,11 @@ function addToCart() {
 
         $.post('/gio-hang/them-gio-hang', { id }, function (res) {
             if (!res.status) {
-                alert('Có lỗi xảy ra, hãy thử lại');
+                if (res.error.code === 404) {
+                    alert('Không tìm thấy sản phẩm');
+                } else {
+                    alert('Có lỗi xảy ra, hãy thử lại');
+                }
                 return;
             }
             alert('Đã thêm sản phẩm vào giỏ hàng');
@@ -92,7 +95,11 @@ function handleCart() {
             success: function (res) {
                 $element.attr('disabled', false);
                 if (!res.status) {
-                    alert('Đã có lỗi xảy ra, xin vui lòng thử lại');
+                    if (res.error.code === 404) {
+                        alert('Không tìm thấy sản phẩm');
+                    } else {
+                        alert('Có lỗi xảy ra, hãy thử lại');
+                    }
                     return;
                 }
                 const $quantityElement = $('.count.EC-Layout-Basket-count em');
@@ -102,12 +109,56 @@ function handleCart() {
                 const total = $('#cartTotalPrice').attr('data-price');
                 let change = res.data[1]*(-res.data[0])*(1-res.data[2]);
                 change = (res.data[2]) ? change - change%1000 : change;
-                result = +(total) + change;
+                const result = +(total) + change;
                 $('#cartTotalPrice').attr('data-price', result);
                 $('#cartTotalPrice').text(result.toLocaleString('de-DE'));
             },
         });
     }
+}
+
+function removeFromCart() {
+    $('.remove-product-from-cart').on('click', function () {
+        const check = confirm('Xóa sản phẩm này?');
+        if (!check) {
+            return false;
+        }
+        const $tr = $(this).closest('tr');
+        const id = $tr.find('.cartProductQuantity').data('id');
+        $.ajax({
+            url: `/gio-hang/${id}/xoa-san-pham`,
+            type: 'DELETE',
+            dataType: 'json',
+            data: {
+                _method: 'DELETE',
+            },
+            success: function (res) {
+                $tr.attr('disabled', false);
+                if (!res.status) {
+                    if (res.error.code === 404) {
+                        alert('Không tìm thấy sản phẩm');
+                    } else {
+                        alert('Có lỗi xảy ra, hãy thử lại');
+                    }
+                    return;
+                }
+                const { product, quantity } = res.data;
+                $tr.fadeOut();
+                const $quantity = $('.count.EC-Layout-Basket-count em');
+                const $totalPrice = $('#cartTotalPrice');
+
+                const currentQuantity = (parseInt($quantity.text(), 10) || 0) - quantity;
+                $quantity.html(currentQuantity);
+
+                let price = parseInt($totalPrice.data('price'), 10);
+                console.log(product.price.number, (1 - product.discount), quantity);
+                price = price - (product.price.number * (1 - product.discount) * quantity);
+                console.log(price);
+                 $('#cartTotalPrice').attr('data-price', price);
+                 $('#cartTotalPrice').text(price.toLocaleString('de-DE'));
+            }
+        });
+    });
 }
 
 $(document).ready(function () {
@@ -116,4 +167,5 @@ $(document).ready(function () {
     lazyLoad();
     addToCart();
     handleCart();
+    removeFromCart();
 });

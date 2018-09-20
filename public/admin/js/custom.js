@@ -42,7 +42,7 @@ function parseSlug(title) {
 function deleteRecord(data) {
     swal({
         title: 'Bạn chắc chứ?',
-        text: 'Bạn không thể khôi phục lại dữ liệu này!',
+        text: 'Bạn có thể sẽ không khôi phục được dữ liệu này!',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -179,8 +179,20 @@ function init_createSubModule() {
                     }
                 });
                 let icons = '';
+                let revertIcons = '';
+                const $moduleTableElement = $('.module__table');
+                const checkHasRevertUrl = $moduleTableElement.data('revert-url');
+                if (checkHasRevertUrl) {
+                    icons += '<span class="module__delete-container">';
+                    revertIcons += `</span>
+                    <span class="module__revert-container hide">
+                        <button class="badge bg-success-gradient module__revert-btn">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                    </span>`;
+                }
                 if (result.icon) {
-                    icons = `
+                    icons += `
                     <button class="badge bg-success-gradient module__approve-btn condition__approve-btn" data-type="search">
                         <i class="fa fa-search"></i>
                     </button>
@@ -188,8 +200,6 @@ function init_createSubModule() {
                         <i class="fa fa-check"></i>
                     </button>`;
                 }
-                const $moduleTableElement = $('.module__table');
-                const checkHasRevertUrl = $moduleTableElement.data('revert-url');
                 const checkIsProductType = $moduleTableElement.hasClass('product-types__table');
                 if (checkIsProductType) {
                     const $selectElement = $('.module__form__parentType');
@@ -212,13 +222,14 @@ function init_createSubModule() {
                             </button>
                             <button class="badge bg-danger-gradient module__delete-btn">
                                 <i class="fa fa-times"></i>
-                            </button>
+                            </button> ` + revertIcons + `
                         </td>
                     </tr>`,
                 );
                 toastr.success('Thêm thành công');
                 $form.find('.form__error-message').html('');
                 $form.trigger('reset');
+                $('#myModal').modal('hide');
             },
         });
     }
@@ -695,6 +706,16 @@ function init_changeSearchType() {
     });
 }
 
+function init_showUserInformation() {
+    $('.module__show-user-info-btn').on('click', function () {
+        const $userInfo = $(this).next('.bill__table__user-info');
+        $('.user-info__table__name').text($userInfo.data('user-name'));
+        $('.user-info__table__email').text($userInfo.data('user-email'));
+        $('.user-info__table__telephone').text($userInfo.data('user-telephone'));
+        $('.user-info__table__note').text($userInfo.data('note'));
+    });
+}
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
@@ -708,4 +729,5 @@ $(document).ready(() => {
     init_viewRequests();
     init_revertModule();
     init_changeSearchType();
+    init_showUserInformation();
 });

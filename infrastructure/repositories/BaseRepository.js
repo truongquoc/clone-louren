@@ -120,6 +120,10 @@ class BaseRepository {
     revertById(id) {
         return this.model.update({ _id: id, deletedAt: { $ne: null } }, { deletedAt: undefined });
     }
+
+    forceDelete(conditions) {
+        return this.model.deleteMany(conditions);
+    }
 }
 
 module.exports = BaseRepository;
