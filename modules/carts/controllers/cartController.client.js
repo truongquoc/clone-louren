@@ -20,7 +20,7 @@ const index = async (req, res, next) => {
             cart = await Cart
                 .findOne({ user: req.session.cUser._id })
                 .select('products')
-                .populate('products.item', 'name price slug image.cover');
+                .populate('products.item', 'name price slug discount image.cover');
         } else if (req.session.cart) {
             const sessionCart = [...req.session.cart];
 
@@ -28,7 +28,7 @@ const index = async (req, res, next) => {
 
             const products = await Product
                 .find({ _id: arrIdProducts })
-                .select('name price slug image.cover');
+                .select('name price slug discount image.cover');
 
             cart.products = sessionCart.map((s) => {
                 const id = s.item;
@@ -38,9 +38,11 @@ const index = async (req, res, next) => {
             });
         }
 
-        const totalPrice = cart.products.reduce((total, product) => (
-            total + (product.item.price.number * product.quantity)
-        ), 0);
+        const totalPrice = cart.products.reduce((total, product) => {
+            const discounted = product.item.discount ? product.item.price.number * (1 - product.item.discount) : product.item.price.number;
+            const add = product.item.discount ? (discounted - (discounted % 1000)) : discounted;
+            return total + (add * product.quantity);
+        }, 0);
 
         return res.render('modules/carts/client/index', { cart, totalPrice });
     } catch (e) {
@@ -74,7 +76,7 @@ const addToCart = async (req, res, next) => {
             const existItem = cart.products.find(e => e.item.toString() === id);
 
             if (existItem) {
-                existItem.quantity += 1;
+                existItem.quantity = +existItem.quantity + 1;
             } else {
                 cart.products = [{
                     item: id,
@@ -90,7 +92,7 @@ const addToCart = async (req, res, next) => {
             const existItem = shopCart.find(e => e.item === id);
 
             if (existItem) {
-                existItem.quantity += 1;
+                existItem.quantity = +existItem.quantity + 1;
             } else {
                 shopCart.push({ item: id, quantity: 1 });
             }
@@ -110,26 +112,29 @@ const changeQuantity = async (req, res) => {
         const { product } = req.params;
         const { quantity } = req.body;
         const { cUser } = req.session;
+        const productInfo = await Product.findById(product);
         let returnQuantity;
         if (cUser) {
             const cart = await CartRepository.getCartByUser(req.session.cUser._id);
 
             const existItem = cart.products.find(e => e.item.toString() === product);
+
             if (existItem) {
-                returnQuantity = existItem.quantity;
-                existItem.quantity = quantity;
+                returnQuantity = +(existItem.quantity);
+                existItem.quantity = +quantity;
             }
             await CartRepository.updateProducts(cart._id, cart.products);
         } else {
             const shopCart = req.session.cart || [];
             const existItem = shopCart.find(e => e.item === product);
+
             if (existItem) {
-                returnQuantity = existItem.quantity;
-                existItem.quantity = quantity;
+                returnQuantity = +existItem.quantity;
+                existItem.quantity = +quantity;
             }
         }
 
-        return res.json(responseHelper.success(returnQuantity - quantity));
+        return res.json(responseHelper.success([returnQuantity - quantity, productInfo.price.number, productInfo.discount]));
     } catch (e) {
         return res.json(responseHelper.error(e.message));
     }
