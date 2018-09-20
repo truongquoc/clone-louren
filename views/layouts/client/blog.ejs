@@ -2,7 +2,10 @@
 <html lang="en-US">
 
 <head>
-    <link rel="stylesheet" href="/public/client/css/style.css">
+    <link rel="stylesheet" href="../../../public/client/css/style.css">
+    <link rel="stylesheet" href="../../../public/client/css/common.css">
+    <link rel="stylesheet" href="../../../public/client/css/custom.css">
+    <link rel="stylesheet" href="../../../public/client/css/styleOrderHistory.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://demowp.cththemes.net/springbook/wp-content/cache/minify/16520.css" media="all" />
     <meta charset="UTF-8" />
@@ -14,7 +17,10 @@
     </style>
 </head>
 
-<body class="single single-post postid-15 single-format-video springbook-body-classes wpb-js-composer js-comp-ver-4.12.1 vc_responsive">
+<body class="">
+<div id="header">
+    <%- include partials/header.ejs %>
+</div>
 <div id="main">
     <div id="wrapper" class="main-content-wrap">
         <div class="hero-wrap">
@@ -24,10 +30,7 @@
             </div>
             <div class="hero-inner">
                 <div class="container" style="text-align: center;">
-                    <a href="/blog" class="title-blog" >Tin tức</a>
-                    <div class="hero-quote fl-wrap">
-                        <p>" A super cool template for bloggers, photographers and travelers "</p>
-                    </div>
+                    <a href="/blog/" class="title-blog" >Tin tức</a>
                 </div>
             </div>
         </div>
@@ -44,6 +47,10 @@
         </div>
     </div>
 </div>
+<div id="footer">
+    <%- include partials/footer.ejs %>
+</div><!-- /#footer -->
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
