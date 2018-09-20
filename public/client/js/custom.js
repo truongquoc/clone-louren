@@ -1,12 +1,12 @@
 function splitCurruncy() {
 
     $('.priceValue').each(function () {
-        const price = Number($(this).val());
-        let discount = Number($(this).siblings('.priceDiscount').val());
+        const price = +($(this).val());
+        let discount = +($(this).siblings('.priceDiscount').val());
         const priceDiscounted = price*(1-discount);
 
         const result = (discount) ?
-                Number(priceDiscounted - priceDiscounted%1000).toLocaleString() :
+                parseInt(priceDiscounted - priceDiscounted%1000).toLocaleString() :
                 price.toLocaleString();
 
         const display = (discount) ?
@@ -28,7 +28,7 @@ function splitCurruncy() {
 }
 
 function checkSoldOut() {
-    const quantity = Number($('#soldOut').data('quantity'));
+    const quantity = +($('#soldOut').data('quantity'));
     if (quantity === 0) {
 
         $('#soldOut').removeClass('displaynone');
@@ -102,7 +102,7 @@ function handleCart() {
                 const total = $('#cartTotalPrice').attr('data-price');
                 let change = res.data[1]*(-res.data[0])*(1-res.data[2]);
                 change = (res.data[2]) ? change - change%1000 : change;
-                result = Number(total) + change;
+                result = +(total) + change;
                 $('#cartTotalPrice').attr('data-price', result);
                 $('#cartTotalPrice').text(result.toLocaleString());
             },

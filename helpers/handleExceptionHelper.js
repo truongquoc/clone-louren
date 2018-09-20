@@ -3,9 +3,6 @@ const handleException = (err, req, res, next) => {
         throw err;
     }
 
-    console.log(err);
-
-
     const url = req.originalUrl.split('/');
     switch (err.error.code) {
         case 500:

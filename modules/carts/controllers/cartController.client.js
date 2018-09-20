@@ -76,7 +76,7 @@ const addToCart = async (req, res, next) => {
             const existItem = cart.products.find(e => e.item.toString() === id);
 
             if (existItem) {
-                existItem.quantity = Number(existItem.quantity) + 1;
+                existItem.quantity = +existItem.quantity + 1;
             } else {
                 cart.products = [{
                     item: id,
@@ -92,7 +92,7 @@ const addToCart = async (req, res, next) => {
             const existItem = shopCart.find(e => e.item === id);
 
             if (existItem) {
-                existItem.quantity = Number(existItem.quantity) + 1;
+                existItem.quantity = +existItem.quantity + 1;
             } else {
                 shopCart.push({ item: id, quantity: 1 });
             }
@@ -120,8 +120,8 @@ const changeQuantity = async (req, res) => {
             const existItem = cart.products.find(e => e.item.toString() === product);
 
             if (existItem) {
-                returnQuantity = Number(existItem.quantity);
-                existItem.quantity = Number(quantity);
+                returnQuantity = +(existItem.quantity);
+                existItem.quantity = +quantity;
             }
             await CartRepository.updateProducts(cart._id, cart.products);
         } else {
@@ -129,8 +129,8 @@ const changeQuantity = async (req, res) => {
             const existItem = shopCart.find(e => e.item === product);
 
             if (existItem) {
-                returnQuantity = Number(existItem.quantity);
-                existItem.quantity = Number(quantity);
+                returnQuantity = +existItem.quantity;
+                existItem.quantity = +quantity;
             }
         }
 

@@ -65,7 +65,7 @@
                 </td>
                 <td class="quantity"> <%= bill.productBill.length %></td>
                 <td class="right price">
-                   <strong><%= bill.price %></strong>
+                   <strong><%= formatPrice(bill.price) %> ₫</strong>
                 </td>
                 <td class="status">
                    <%= bill.isApproved === 'false' ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
