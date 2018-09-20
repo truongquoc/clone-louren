@@ -128,13 +128,13 @@ class BillRepository extends BaseRepository {
             .populate({
                 path: 'productBill',
                 select: '-_id product price quantity',
-                match: {deletedAt: null},
+                match: { deletedAt: null },
                 populate: {
                     path: 'product',
                     select: '-_id name sku price.number image.cover',
                 },
             })
-            .sort({createdAt: -1});
+            .sort({ createdAt: -1 });
     }
 
     async sendApprovedEmail(id) {

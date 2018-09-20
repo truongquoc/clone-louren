@@ -40,7 +40,7 @@ module.exports = (res) => {
     res.locals.strLimit = (string, limit, end = '...') => `${string.substr(0, limit)}${end}`;
 
     res.locals.formatPrice = (number) => {
-        number = parseFloat(number).toLocaleString().replace(/,/g, '.');
+        number = parseInt(number, 10).toLocaleString('de-DE');
         return number;
     };
 

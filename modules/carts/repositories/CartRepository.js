@@ -27,7 +27,7 @@ class CartRepository extends BaseRepository {
 
         return this.model
             .findOne(conditions)
-            .populate('products.item', 'price');
+            .populate('products.item', 'price.number discount');
     }
 
     async createBill(id, userId) {
@@ -37,7 +37,7 @@ class CartRepository extends BaseRepository {
             const { item } = product;
             products.push({
                 product: item._id,
-                price: item.price.number - (item.price.number * (parseInt(item.discount, 10) || 0)),
+                price: item.price.number - (item.price.number * (parseFloat(item.discount) || 0)),
                 quantity: product.quantity,
             });
         });
@@ -77,7 +77,7 @@ class CartRepository extends BaseRepository {
             const product = {
                 product: savedProduct.item,
                 quantity: savedProduct.quantity,
-                price: price - (price * (parseInt(findElement.discount, 10) || 0)),
+                price: price - (price * (parseFloat(findElement.discount) || 0)),
             };
             productBill.push(product);
         });

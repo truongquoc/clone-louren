@@ -12,9 +12,7 @@
 
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
         <ul class="menu">
-            <li class="">
-                <a href="/nguoi-dung/don-hang">Đơn hàng</a>
-            </li>
+            <li><a href="/nguoi-dung/don-hang">Tất cả đơn hàng</a></li>
             <li class="selected">
                 <a href="">Đơn hàng <%= code %></a>
             </li>
@@ -49,7 +47,7 @@
                 <% billDetail.productBill.forEach((p)=> { %>
                 <tr>
                     <td  class="time">
-                        <a href="/nguoi-dung/don-hang/chi-tiet/<%= code %>"> <%= moment(billDetail.createdAt).format('L') %> </a>
+                       <%= moment(billDetail.createdAt).format('L') %>
                     </td>
                     <td class="image bill__product">
                         <img src="<%= p.product.image.cover %>" alt="">
