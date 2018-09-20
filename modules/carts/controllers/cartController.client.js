@@ -43,7 +43,7 @@ const index = async (req, res, next) => {
         const totalPrice = cart.products.reduce((total, product) => {
             const { price, discount } = product.item;
             const discounted = discount ? price.number * (1 - discount) : price.number;
-            const add = product.item.discount ? (discounted - (discounted % 1000)) : discounted;
+            const add = product.item.discount ? Math.round(discounted / 1000) * 1000 : discounted;
             return total + (add * product.quantity);
         }, 0);
 
