@@ -9,9 +9,11 @@ const Bill = require('../models/Bill');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const UserRepositoryClass = require('../../users/repositories/UserRepository');
 const ProductBillRepositoryClass = require('../repositories/ProductBillRepository');
+const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
 
 const UserRepository = new UserRepositoryClass();
 const ProductBillRepository = new ProductBillRepositoryClass();
+const ProductRepository = new ProductRepositoryClass();
 
 class BillRepository extends BaseRepository {
     model() {
@@ -53,7 +55,7 @@ class BillRepository extends BaseRepository {
                 .populate('user', '-_id name slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
-                .sort({ createdAt: -1 }),
+                .sort({ isApproved: 1, createdAt: 1 }),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);
@@ -217,6 +219,27 @@ class BillRepository extends BaseRepository {
             ProductBillRepository.baseRevert({ _id: { $in: bill.productBill } }),
             this.revertById(id),
         ]);
+    }
+
+    async decreaseProductQuantity(billId) {
+        const bill = await this.model
+            .findOne({ _id: billId, deletedAt: null })
+            .populate({
+                path: 'productBill',
+                select: 'product quantity',
+                match: { deletedAt: null },
+                populate: {
+                    path: 'product',
+                    select: '_id quantity',
+                },
+            });
+        const commands = bill.productBill.map(item => (
+            ProductRepository.baseUpdate({
+                $inc: { quantity: -item.quantity },
+            }, item)
+        ));
+
+        return Promise.all(commands);
     }
 }
 

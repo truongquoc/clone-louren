@@ -55,14 +55,9 @@ const index = async (req, res, next) => {
 
 const addToCart = async (req, res, next) => {
     try {
-        const { id } = req.body;
+        const { id, quantity } = req.body;
         let total = 0;
-        const product = await Product.findOne({
-            _id: id,
-            isApproved: true,
-            isDraft: false,
-            deletedAt: null,
-        });
+        const product = await ProductRepository.clientCheckExistById(id, { select: '_id' });
 
         if (!product) {
             return res.json(responseHelper.notFound());
@@ -79,11 +74,11 @@ const addToCart = async (req, res, next) => {
             const existItem = cart.products.find(e => e.item.toString() === id);
 
             if (existItem) {
-                existItem.quantity = +existItem.quantity + 1;
+                existItem.quantity = +existItem.quantity + (+quantity || 1);
             } else {
                 cart.products = [{
                     item: id,
-                    quantity: 1,
+                    quantity: (+quantity || 1),
                 }, ...cart.products];
             }
 
@@ -97,9 +92,9 @@ const addToCart = async (req, res, next) => {
             const existItem = shopCart.find(e => e.item === id);
 
             if (existItem) {
-                existItem.quantity = +existItem.quantity + 1;
+                existItem.quantity = +existItem.quantity + (+quantity || 1);
             } else {
-                shopCart.push({ item: id, quantity: 1 });
+                shopCart.push({ item: id, quantity: (+quantity || 1) });
             }
 
             req.session.cart = shopCart;
