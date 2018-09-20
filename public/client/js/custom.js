@@ -6,7 +6,7 @@ function splitCurruncy() {
         const priceDiscounted = price*(1-discount);
 
         const result = (discount) ?
-                parseInt(priceDiscounted - priceDiscounted%1000).toLocaleString('de-DE') :
+                (Math.round((parseInt(priceDiscounted, 10)/1000))*1000).toLocaleString('de-DE') :
                 price.toLocaleString('de-DE');
 
         const display = (discount) ?
@@ -108,7 +108,7 @@ function handleCart() {
 
                 const total = $('#cartTotalPrice').attr('data-price');
                 let change = res.data[1]*(-res.data[0])*(1-res.data[2]);
-                change = (res.data[2]) ? change - change%1000 : change;
+                change = (res.data[2]) ? Math.round((change/1000))*1000 : change;
                 const result = +(total) + change;
                 $('#cartTotalPrice').attr('data-price', result);
                 $('#cartTotalPrice').text(result.toLocaleString('de-DE'));
@@ -150,12 +150,16 @@ function removeFromCart() {
                 const currentQuantity = (parseInt($quantity.text(), 10) || 0) - quantity;
                 $quantity.html(currentQuantity);
 
-                let price = parseInt($totalPrice.data('price'), 10);
-                console.log(product.price.number, (1 - product.discount), quantity);
-                price = price - (product.price.number * (1 - product.discount) * quantity);
-                console.log(price);
-                 $('#cartTotalPrice').attr('data-price', price);
-                 $('#cartTotalPrice').text(price.toLocaleString('de-DE'));
+                let price = parseInt($totalPrice.attr('data-price'), 10);
+                
+                let calc = (+product.discount) ? product.price.number * (1 - product.discount) : product.price.number;
+                
+                calc = (+product.discount) ? Math.round(calc/1000) * 1000 * quantity : calc;
+
+                price = price - (calc);
+
+                $('#cartTotalPrice').attr('data-price', price);
+                $('#cartTotalPrice').text(price.toLocaleString('de-DE'));
             }
         });
     });
