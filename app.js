@@ -1,26 +1,17 @@
 require('dotenv/config');
 const express = require('express');
-const morgan = require('morgan');
-const vhost = require('vhost');
-const https = require('https');
-const fs = require('fs');
 const mongoose = require('mongoose');
+
 require('./config/database')(mongoose);
-const { port } = require('./config/config'); // import from manually created file
 
-const main = express();
-const { session } = require('./config/app')(main, express);
+const app = express();
+require('./config/app')(app, express);
 
-main.engine('ejs', require('ejs-locals'));
+app.engine('ejs', require('ejs-locals'));
 
-main.set('view engine', 'ejs');
-main.set('views', 'views');
-main.use(morgan('dev'));
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-main.listen(port, (error) => {
-    if (error) {
-        console.log('> Error: ', error);
-        return;
-    }
-    console.log('Server is running on port', port);
+app.listen(process.env.APP_PORT || 3000, (error) => {
+    if (error) return;
 });

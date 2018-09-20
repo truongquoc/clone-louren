@@ -5,7 +5,7 @@ function splitCurruncy() {
         const priceDiscounted = price*(1-discount);
 
         const result = (discount) ?
-                parseInt(priceDiscounted - priceDiscounted%1000).toLocaleString('de-DE') :
+                (Math.round((parseInt(priceDiscounted, 10)/1000))*1000).toLocaleString('de-DE') :
                 price.toLocaleString('de-DE');
 
         const display = (discount) ?
@@ -50,7 +50,7 @@ function addToCart() {
         $.post('/gio-hang/them-gio-hang', { id, quantity }, function (res) {
             if (!res.status) {
                 if (res.error.code === 400) {
-                    alert('Sản phẩm hết hàng');
+                    alert(res.error.message[0]);
                 } else if (res.error.code === 404) {
                     alert('Không tìm thấy sản phẩm');
                 } else {
@@ -73,8 +73,7 @@ function handleCart() {
         if (productQuantity <= 0) {
             $(this).closest('tr').find('.cart__error').html('Sản phẩm hết hàng');
             return false;
-        } else if (productQuantity <= value) {
-            console.log($(this).closest('tr').find('.cart__error'));
+        } else if (productQuantity < value) {
             $(this).closest('tr').find('.cart__error').html('Sản phẩm trong kho không đủ');
             return false;
         }
@@ -126,7 +125,7 @@ function handleCart() {
 
                 const total = $('#cartTotalPrice').attr('data-price');
                 let change = res.data[1]*(-res.data[0])*(1-res.data[2]);
-                change = (res.data[2]) ? change - change%1000 : change;
+                change = (res.data[2]) ? Math.round((change/1000))*1000 : change;
                 const result = +(total) + change;
                 $('#cartTotalPrice').attr('data-price', result);
                 $('#cartTotalPrice').text(result.toLocaleString('de-DE'));
@@ -168,11 +167,16 @@ function removeFromCart() {
                 const currentQuantity = (parseInt($quantity.text(), 10) || 0) - quantity;
                 $quantity.html(currentQuantity);
 
-                let price = parseInt($totalPrice.data('price'), 10);
-                console.log(product.price.number, (1 - product.discount), quantity);
-                price = price - (product.price.number * (1 - product.discount) * quantity);
-                 $('#cartTotalPrice').attr('data-price', price);
-                 $('#cartTotalPrice').text(price.toLocaleString('de-DE'));
+                let price = parseInt($totalPrice.attr('data-price'), 10);
+
+                let calc = (+product.discount) ? product.price.number * (1 - product.discount) : product.price.number;
+
+                calc = (+product.discount) ? Math.round(calc/1000) * 1000 * quantity : calc;
+
+                price = price - (calc);
+
+                $('#cartTotalPrice').attr('data-price', price);
+                $('#cartTotalPrice').text(price.toLocaleString('de-DE'));
             }
         });
     });
@@ -182,9 +186,10 @@ function preventSubmit() {
     $('#cartBtnSubmit').on('click', function (e) {
         const $elements = $('.cartProductQuantity');
         for (let i = 0; i < $elements.length; i++) {
-            const quantity = $($elements[i]).data('quantity');
-            if (parseInt(quantity, 10) <= 0) {
-                // return false;
+            const totalQuantity = parseInt($($elements[i]).data('quantity'));
+            const productQuantity = parseInt($($elements[i]).val());
+            if (totalQuantity <= 0 || totalQuantity < productQuantity) {
+                return false;
             }
         }
     });

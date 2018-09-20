@@ -13,12 +13,12 @@ router.put('/:product/doi-so-luong', cartAuthorize.changeQuantityAuthorize, cart
 
 router.delete('/:product/xoa-san-pham', cartAuthorize.removeProductAuthorize, cartController.removeProduct);
 
-router.get('/xac-nhan', cartAuthorize.verifyProductQuantity, cartAuthorize.showUserInformationAuthorize, getPropertyTypes, cartController.showUserInformationForm);
+router.get('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartAuthorize.verifyProductQuantity, getPropertyTypes, cartController.showUserInformationForm);
 
-router.post('/xac-nhan', cartAuthorize.verifyProductQuantity, cartAuthorize.showUserInformationAuthorize, cartRequest.buyProductWithoutLoginRequest, cartController.buyProductWithoutLogin);
+router.post('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartAuthorize.verifyProductQuantity, cartRequest.buyProductWithoutLoginRequest, cartController.buyProductWithoutLogin);
 
 router.use(authAuthorize.clientRedirectIfNotAuthenticated);
 
-router.post('/:id/xac-nhan', cartAuthorize.verifyProductQuantity, cartAuthorize.confirmCartAuthorize, cartController.buyProduct);
+router.post('/:id/xac-nhan', cartAuthorize.confirmCartAuthorize, cartAuthorize.verifyProductQuantity, cartController.buyProduct);
 
 module.exports = router;

@@ -43,7 +43,7 @@ const index = async (req, res, next) => {
         const totalPrice = cart.products.reduce((total, product) => {
             const { price, discount } = product.item;
             const discounted = discount ? price.number * (1 - discount) : price.number;
-            const add = product.item.discount ? (discounted - (discounted % 1000)) : discounted;
+            const add = product.item.discount ? Math.round(discounted / 1000) * 1000 : discounted;
             return total + (add * product.quantity);
         }, 0);
 
@@ -62,8 +62,11 @@ const addToCart = async (req, res, next) => {
         if (!product) {
             return res.json(responseHelper.notFound());
         }
-        if (product.quantity < (+quantity || 1)) {
+        if (product.quantity <= 0) {
             return res.json(responseHelper.error('Sản phẩm đã hết hàng', 400));
+        }
+        if (product.quantity < (+quantity || 1)) {
+            return res.json(responseHelper.error('Sản phẩm trong kho không đủ', 400));
         }
 
         if (req.session.cUser) {
