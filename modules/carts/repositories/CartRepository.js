@@ -1,3 +1,4 @@
+const { roundPrice } = require('../../../helpers/adminHelper');
 const Cart = require('../models/Cart');
 const BaseRepository = require('../../../infrastructure/repositories/BaseRepository');
 const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
@@ -35,9 +36,10 @@ class CartRepository extends BaseRepository {
         const products = [];
         cart.products.forEach((product) => {
             const { item } = product;
+            const price = item.price.number;
             products.push({
                 product: item._id,
-                price: item.price.number - (item.price.number * (parseFloat(item.discount) || 0)),
+                price: roundPrice(price - (price * (parseFloat(item.discount) || 0))),
                 quantity: product.quantity,
             });
         });
@@ -77,7 +79,7 @@ class CartRepository extends BaseRepository {
             const product = {
                 product: savedProduct.item,
                 quantity: savedProduct.quantity,
-                price: price - (price * (parseFloat(findElement.discount) || 0)),
+                price: roundPrice(price - (price * (parseFloat(findElement.discount) || 0))),
             };
             productBill.push(product);
         });

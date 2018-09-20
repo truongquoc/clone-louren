@@ -4,4 +4,8 @@ function validateYouTubeUrl(url) {
     return match && match[2].length === 11;
 }
 
-module.exports = { validateYouTubeUrl };
+function roundPrice(price) {
+    return Math.round(parseInt(price, 10) / 1000) * 1000;
+}
+
+module.exports = { validateYouTubeUrl, roundPrice };

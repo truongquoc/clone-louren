@@ -1,5 +1,4 @@
 function splitCurruncy() {
-
     $('.priceValue').each(function () {
         const price = +($(this).val());
         let discount = +($(this).siblings('.priceDiscount').val());
@@ -46,8 +45,9 @@ function lazyLoad() {
 function addToCart() {
     $('.add-to-cart-btn').click(function () {
         const id = $(this).data('id');
+        const quantity = $('#quantityBuy').val();
 
-        $.post('/gio-hang/them-gio-hang', { id }, function (res) {
+        $.post('/gio-hang/them-gio-hang', { id, quantity }, function (res) {
             if (!res.status) {
                 if (res.error.code === 404) {
                     alert('Không tìm thấy sản phẩm');
