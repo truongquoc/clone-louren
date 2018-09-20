@@ -1,10 +1,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="/admin" class="brand-link">
         <img src="/public/admin/img/AdminLTELogo.png"
-             alt="AdminLTE Logo"
+             alt="mayhienhome Logo"
              class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">MayHienHome</span>
     </a>
 
     <div class="sidebar">
@@ -13,7 +13,7 @@
                 <img src="<%= cUser.avatar %>" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block"><%= cUser.name %></a>
+                <a href="/admin/users/<%= cUser.slug %>" class="d-block"><%= cUser.name %></a>
             </div>
         </div>
 
@@ -167,7 +167,7 @@
                             <li class="nav-item">
                                 <a href="/admin/register" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Đăng ký</p>
+                                    <p>Tạo tài khoản thành viên</p>
                                 </a>
                             </li>
                         <% } %>
