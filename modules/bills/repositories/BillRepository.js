@@ -156,7 +156,7 @@ class BillRepository extends BaseRepository {
         });
         const template = ejs.compile(file);
         const mailOptions = {
-            to: bill.user.email,
+            to: bill.user.email || bill.userInformation.email,
             from: config.emailAddress,
             subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
             html: template({

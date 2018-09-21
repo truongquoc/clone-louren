@@ -44,15 +44,15 @@
                                     <tbody>
                                     <tr>
                                         <td class="user__information__title">Người nhận:</td>
-                                        <td><%= bill.user.name %></td>
+                                        <td><%= bill.user.name || bill.userInformation.name %></td>
                                     </tr>
                                     <tr>
                                         <td class="user__information__title">Email:</td>
-                                        <td><a href="mailto:<%= bill.user.email %>"><%= bill.user.email %></a></td>
+                                        <td><a href="mailto:<%= bill.user.email %>"><%= bill.user.email || bill.userInformation.email %></a></td>
                                     </tr>
                                     <tr>
                                         <td class="user__information__title">Số điện thoại:</td>
-                                        <td><%= bill.user.telephone %></td>
+                                        <td><%= bill.user.telephone || bill.userInformation.telephone %></td>
                                     </tr>
                                     </tbody>
                                 </table>

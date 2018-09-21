@@ -351,9 +351,11 @@ function init_approveModule() {
                     if (!res.status) {
                         if (res.error.code === 404) {
                             swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                            console.log('400', res.error);
                             return false;
                         }
                         if (res.error.code === 500) {
+                            console.log('500', res.error);
                             swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
                             return false;
                         }
@@ -616,18 +618,20 @@ function calcCurrency(value) {
 
 function getTextCurrency(input) {
     const value = $(input).val();
-    const originalValue = value.replace(/[($)\s\._\-]+/g, '');
+    const originalValue = +(value.replace(/[($)\s\._\-]+/g, ''));
     $(input).attr('data-original', originalValue);
 
-    const result = calcCurrency(originalValue);
-
+    console.log('Value', typeof value, value);
+    
+    let result = (originalValue*1000).toLocaleString('de-DE');
+    result = (result != 0) ? `${result} ₫` : '';
+    
     $('#priceText').text(result);
-    $('[name="priceText"]').val(result);
     $('[name="priceValue"]').val(originalValue*1000 === 0 ? '' : originalValue*1000);
 }
 
 function getCurrency() {
-    const value = $('[name="priceValue"]').val();
+    const value = +($('[name="priceValue"]').val());
     if (value) {
         $('#price').val(parseInt(value/1000, 10).toLocaleString());
     } else {
@@ -636,11 +640,6 @@ function getCurrency() {
 
     getTextCurrency('#price');
 
-    $(document).on('change', '#priceUnit', function unit() {
-       const getUnit = $(this).val();
-
-       $('#priceUnitSelected').text(getUnit);
-    });
     $('#price').keyup(function parseCurrency(event) {
         splitCurrency(this, event);
         getTextCurrency(this);
@@ -668,18 +667,16 @@ function convertPercent () {
 function discountedPrice () {
     let originalPrice = $('[name="priceValue"]').val();
     let discount = $('#discount').val();
-    let discountedPrice =  (discount && originalPrice && 0<= discount && discount <= 1 ) ?
-        `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : '';
-        console.log(discountedPrice);
+    let discountedPrice =  (discount != 0 && originalPrice && 0<= discount && discount <= 1 ) ?
+        `${parseFloat(Math.round(originalPrice*(1-discount)/1000)*1000).toLocaleString()} ₫` : '';
     $('#discountedPrice').text(discountedPrice);
 
     $('#discountInput').keyup(function a(event) {
         originalPrice = $('[name="priceValue"]').val();
         discount = $('#discount').val();
-        console.log(typeof originalPrice, typeof discount, typeof parseFloat(originalPrice*(1-discount)));
 
-        discountedPrice =  (discount && originalPrice && 0< discount && discount <= 1 ) ?
-            `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
+        discountedPrice =  (discount != 0 && originalPrice && 0< discount && discount <= 1 ) ?
+            `${parseFloat(Math.round(originalPrice*(1-discount)/1000)*1000).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
         $('#discountedPrice').text(discountedPrice);
     })
 }

@@ -65,17 +65,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Thể loại</label>
-                        <select class="form-control form__category__input" name="type" style="width: 100%;">
-                            <option value="0">Chọn thể loại</option>
-                            <% productTypes.forEach(function (element) { %>
-                                <option <%= old('type') == element._id ? 'selected' : '' %>
-                                    value="<%= element._id %>"><%= element.name %></option>
-                            <% }) %>
-                        </select>
-                        <p class="form__error-message form__category__error-message"><%= errors('type') %></p>
-                    </div>
 
                     <div class="form-group row">
                         <div class="col-12 col-md">
@@ -94,11 +83,11 @@
                             <div class="col-12 col-md">
                                 <div class="row justify-content-between m-0">
                                     <div class="col p-0">
-                                        <label for="price">Giá tiền (VNĐ)</label>
+                                        <label for="price">Giá tiền</label>
                                     </div>
                                     <div class="col-auto text-right font-weight-light font-weight-bold">
                                         <span id="priceText">
-                                            <%= old('priceText') %>
+                                            <%= old('priceValue') %> ₫
                                         </span>
                                         <input type="hidden" name="priceText" value="<%= old('priceText') %>">
                                         <input type="hidden" name="priceValue" value="<%= old('priceValue') %>">
