@@ -8,13 +8,12 @@ const SlideRepositoryClass = require('../repositories/SlideRepository');
 const SlideRepository = new SlideRepositoryClass();
 
 const index = async (req, res, next) => {
-    const { query } = req;
     try {
-        const slides = await SlideRepository.list(query);
+        const slides = await SlideRepository.list();
 
         return res.render('modules/slides/admin/list', {
             slides,
-            query,
+            query: req.query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
@@ -77,7 +76,7 @@ const update = async (req, res, next) => {
             data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await SlideRepository.update(data, req.params.id);
-        req.flash('success', 'Đăng ảnh slide thành công');
+        req.flash('success', 'Chỉnh sửa slide thành công');
 
         return res.redirect('/admin/slides');
     } catch (e) {

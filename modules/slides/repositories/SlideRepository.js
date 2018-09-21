@@ -16,10 +16,9 @@ class SlideRepository extends BaseRepository {
             .select('-deletedAt -createdAt -updatedAt -__v');
     }
 
-    async list(query = {}) {
+    async list() {
         const conditions = {
             deletedAt: null,
-            title: new RegExp(query.search, 'i'),
         };
         return this.model
             .find(conditions)

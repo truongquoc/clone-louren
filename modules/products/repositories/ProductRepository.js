@@ -89,7 +89,7 @@ class ProductRepository extends ArticleRepository {
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ isDraft: -1, createdAt: -1 })
-                .select('name price image slug type quantity isApproved isDraft sku updatedAt'),
+                .select('name price image slug discount type quantity isApproved isDraft sku updatedAt'),
         ]);
         const data = { docs, total };
         paginationHelper.setUpUrl(data, options);

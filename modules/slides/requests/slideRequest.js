@@ -36,7 +36,7 @@ const editSlideRequest = [
         } catch (e) {
             return Promise.reject(e.message);
         }
-    }).withMessage('Ảnh hoặc video không được bỏ trống'),
+    }),
 ];
 
 module.exports = {

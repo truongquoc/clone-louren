@@ -10,6 +10,8 @@ const adminBlogArticleRouter = require('../modules/blogArticles/routes.admin');
 const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin');
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const adminSlideRouter = require('../modules/slides/routes.admin');
+const adminInfoRouter = require('../modules/infos/router.admin');
+const adminRobotRouter = require('../modules/robots/router.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
 const clientProductTypeRouter = require('../modules/productTypes/routes.client');
 const clientCartRouter = require('../modules/carts/routes.client');
@@ -20,6 +22,7 @@ const clientBlogArticleRouter = require('../modules/blogArticles/routes.client')
 const clientUserRouter = require('../modules/users/routes.client');
 const clientBillRouter = require('../modules/bills/routers.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
+const redisHelper = require('../helpers/redisHelper');
 
 router.use((req, res, next) => {
     res.locals.flashMessages = req.session.flash;
@@ -38,7 +41,11 @@ router.use('/admin/blog/articles', adminBlogArticleRouter);
 router.use('/admin/blog/categories', adminBlogCategoryRouter);
 router.use('/admin/blog/tags', adminBlogTagRouter);
 router.use('/admin/slides', adminSlideRouter);
+router.use('/admin/infos', adminInfoRouter);
+router.use('/admin/robots', adminRobotRouter);
 router.use('/admin', (req, res) => res.render('errors/admin/404'));
+
+router.use(redisHelper.getRedis);
 
 router.use(countCartProduct);
 router.use('/', clientAuthRoutes);

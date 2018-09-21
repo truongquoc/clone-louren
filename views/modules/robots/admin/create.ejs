@@ -1,0 +1,37 @@
+<% layout('../../../layouts/admin/app') %>
+
+<% block('title', 'Thông tin Website') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Robots.txt</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Robots.txt</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Robots.txt</h3>
+            </div>
+            <div class="card-body row" style="display: flex; justify-content: center;">
+                <form class="blog-articles__form col-12 col-md-8" action="" method="POST">
+                    <div class="form-group">
+                        <textarea class="form-control form__title__input" autocomplete="off" placeholder="Robots.txt" rows="10" name="robots"><%= content %></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

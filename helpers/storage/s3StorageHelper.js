@@ -35,13 +35,11 @@ function upload(path, body, readType) {
         ContentType: 'binary',
     });
 
-
     return new Promise((resolve, reject) => {
         s3.upload(params, (err, data) => {
             if (err) {
                 reject(err);
             }
-
 
             resolve(data.Location);
         });

@@ -139,6 +139,7 @@ const editProductRequest = [
                     throw new Error('Kích thước ảnh quá lớn');
                 }
             }
+            return true;
         } catch (e) {
             return Promise.reject(e.message);
         }

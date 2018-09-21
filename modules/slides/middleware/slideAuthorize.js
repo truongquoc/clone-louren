@@ -19,11 +19,12 @@ const editAuthorize = async (req, res, next) => {
     try {
         const check = await SlideRepository.checkExist({ _id: id });
         if (!check) {
-            return next(responseHelper.notFound());
+            return req.xhr ? res.json(responseHelper.notFound()) : next(responseHelper.notFound());
         }
         next();
     } catch (e) {
-        next(responseHelper.error(e.message));
+        return req.xhr ? res.json(responseHelper.notFound())
+            : next(responseHelper.error(e.message));
     }
 };
 
