@@ -650,7 +650,7 @@ function getCurrency() {
 function convertPercent () {
     const discountValue = $('#discount').val();
     let value = (discountValue && 0<= discountValue && discountValue <= 1 ) ? discountValue*100 : '';
-    console.log('ssss', value);
+
     $('#discountInput').val(value);
 
     $('#discountInput').keyup(function a(event) {
@@ -676,7 +676,7 @@ function discountedPrice () {
         discount = $('#discount').val();
 
         discountedPrice =  (discount != 0 && originalPrice && 0< discount && discount <= 1 ) ?
-            `${parseFloat(Math.round(originalPrice*(1-discount)/1000)*1000).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
+            `${parseFloat(Math.round(originalPrice*(1-discount)/1000)*1000).toLocaleString()} ₫` : 'Giảm giá phải từ 1% - 100%';
         $('#discountedPrice').text(discountedPrice);
     })
 }

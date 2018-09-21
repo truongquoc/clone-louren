@@ -49,7 +49,9 @@ function addToCart() {
 
         $.post('/gio-hang/them-gio-hang', { id, quantity }, function (res) {
             if (!res.status) {
-                if (res.error.code === 404) {
+                if (res.error.code === 400) {
+                    alert(res.error.message[0]);
+                } else if (res.error.code === 404) {
                     alert('Không tìm thấy sản phẩm');
                 } else {
                     alert('Có lỗi xảy ra, hãy thử lại');
@@ -67,6 +69,14 @@ function handleCart() {
         const $element = $(this).prev('.cartProductQuantity');
         const id = $element.data('id');
         const value = parseInt($element.val());
+        const productQuantity = parseInt($element.data('quantity'), 10);
+        if (productQuantity <= 0) {
+            $(this).closest('tr').find('.cart__error').html('Sản phẩm hết hàng');
+            return false;
+        } else if (productQuantity < value) {
+            $(this).closest('tr').find('.cart__error').html('Sản phẩm trong kho không đủ');
+            return false;
+        }
         $element.val(value + 1);
         changeProductQuantity(id, value + 1, $element);
         $element.attr('disabled', true);
@@ -76,6 +86,13 @@ function handleCart() {
         const $element = $(this).prev().prev('.cartProductQuantity');
         const id = $element.data('id');
         const value = parseInt($element.val());
+        const productQuantity = parseInt($element.data('quantity'), 10);
+        if (productQuantity === 0) {
+            $(this).closest('tr').find('.cart__error').html('Sản phẩm hết hàng');
+            return false;
+        } else if (productQuantity >= value) {
+            $(this).closest('tr').find('.cart__error').html('');
+        }
         $element.val(value > 1 ? value - 1 : 1);
         if (value >= 2) {
             changeProductQuantity(id, value - 1, $element);
@@ -151,9 +168,9 @@ function removeFromCart() {
                 $quantity.html(currentQuantity);
 
                 let price = parseInt($totalPrice.attr('data-price'), 10);
-                
+
                 let calc = (+product.discount) ? product.price.number * (1 - product.discount) : product.price.number;
-                
+
                 calc = (+product.discount) ? Math.round(calc/1000) * 1000 * quantity : calc;
 
                 price = price - (calc);
@@ -165,6 +182,19 @@ function removeFromCart() {
     });
 }
 
+function preventSubmit() {
+    $('#cartBtnSubmit').on('click', function (e) {
+        const $elements = $('.cartProductQuantity');
+        for (let i = 0; i < $elements.length; i++) {
+            const totalQuantity = parseInt($($elements[i]).data('quantity'));
+            const productQuantity = parseInt($($elements[i]).val());
+            if (totalQuantity <= 0 || totalQuantity < productQuantity) {
+                return false;
+            }
+        }
+    });
+}
+
 $(document).ready(function () {
     splitCurruncy();
     checkSoldOut();
@@ -172,4 +202,5 @@ $(document).ready(function () {
     addToCart();
     handleCart();
     removeFromCart();
+    preventSubmit();
 });

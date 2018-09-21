@@ -10,10 +10,11 @@
     productTypes = productTypes.filter((type) => !type.parentType)
 %>
 <div class="header_area">
-    <h1 class="xans-element- xans-layout xans-layout-logotop logo "><a href="/"><img
-                    src="/public/client/images/icons/category/logo/2ddbf5cd7762b49575776e690a58df39_3_top.jpg"
-                    style="vertical-align: unset"
-                    alt="abc"/></a>
+    <h1 class="xans-element- xans-layout xans-layout-logotop logo ">
+        <a href="/">
+            Shop
+            <!--<img src="/public/client/images/icons/category/logo/2ddbf5cd7762b49575776e690a58df39_3_top.jpg" alt="abc"/>-->
+        </a>
     </h1>
     <div class="widget_gnb_right">
         <ul>
@@ -49,7 +50,7 @@
         <ul class="header_lnb_menu">
             <li class="lnb1"><a href="/">TRANG CHỦ</a></li>
             <li class="lnb2">
-                <a href="/mat-hang" class="text-upper">Mặt Hàng <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                <a href="/mat-hang" class="text-upper">MẶT HÀNG <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                 <div class="xans-element- xans-layout xans-layout-category lnb_sub_menu">
                     <ul>
                         <% productTypes.forEach((type) => { %>
@@ -72,8 +73,8 @@
                 </div>
                 <!--/.lnb_sub_menu -->
             </li>
-            <li class="lnb1"><a href="/blog" class="text-upper">Blog</a></li>
-            <li class="lnb1"><a href="/tim-kiem" class="text-upper">Tìm kiếm</a></li>
+            <li class="lnb1"><a href="/tim-kiem" class="text-upper">TÌM KIẾM</a></li>
+            <li class="lnb1"><a href="/blog" class="text-upper">BLOG</a></li>
         </ul>
     </div>
 </div>

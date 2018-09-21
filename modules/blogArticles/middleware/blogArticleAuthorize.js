@@ -21,7 +21,7 @@ const showMyArticlesAuthorize = (req, res, next) => {
 const showAuthorize = async (req, res, next) => {
     try {
         const article = await BlogArticleRepository.checkExist({
-            isApproved: true,
+            // isApproved: true,
             isDraft: false,
             slug: req.params.slug,
         });

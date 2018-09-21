@@ -8,7 +8,7 @@
 
 <div class="register-box">
     <div class="register-logo">
-        <a href="/admin"><b>Admin</b>LTE</a>
+        <a href="/admin"><b>MayHienHome</b></a>
     </div>
     <div class="card">
         <div class="card-body register-card-body">
@@ -17,31 +17,31 @@
             <form action="" method="post">
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="name" placeholder="Họ tên" value="<%= old('name') %>">
-                    <span class="fa fa-user form-control-feedback"></span>
+                    <!--<span class="fa fa-user form-control-feedback"></span>-->
                     <span class="form__error-message"><%= errors('name') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="email" class="form-control"
                            name="email" placeholder="Email" value="<%= old('email') %>">
-                    <span class="fa fa-envelope form-control-feedback"></span>
+                    <!--<span class="fa fa-envelope form-control-feedback"></span>-->
                     <span class="form__error-message"><%= errors('email') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control"
                            name="password" placeholder="Mật khẩu">
-                    <span class="fa fa-lock form-control-feedback"></span>
+                    <!--<span class="fa fa-lock form-control-feedback"></span>-->
                     <span class="form__error-message"><%= errors('password') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control"
                            name="passwordConfirmation" placeholder="Nhập lại mật khẩu">
-                    <span class="fa fa-lock form-control-feedback"></span>
+                    <!--<span class="fa fa-lock form-control-feedback"></span>-->
                     <span class="form__error-message"><%= errors('passwordConfirmation') %></span>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control"
                            name="telephone" placeholder="Số điện thoại" value="<%= old('telephone') %>">
-                    <span class="fa fa-phone form-control-feedback"></span>
+                    <!--<span class="fa fa-phone form-control-feedback"></span>-->
                     <span class="form__error-message"><%= errors('telephone') %></span>
                 </div>
                 <div class="form-group has-feedback user__form__gender">
@@ -62,7 +62,7 @@
                                value="3" <%= old('gender') == 3 ? 'checked' : '' %> id="another">
                     </label>
                     <br>
-                    <span class="fa fa-venus-mars form-control-feedback"></span>
+                    <!--<span class="fa fa-venus-mars form-control-feedback"></span>-->
                     <span class="form__error-message"><%= errors('gender') %></span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-flat">Đăng ký</button>

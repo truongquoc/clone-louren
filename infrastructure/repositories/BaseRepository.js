@@ -42,7 +42,7 @@ class BaseRepository {
         return this.model.find(conditions).sort({ createdAt: -1 }).select(options.select || '-createdAt -updatedAt -__v');
     }
 
-    getManyByIds(id, options) {
+    getManyByIds(id, options = {}) {
         const conditions = {
             deletedAt: null,
             _id: { $in: id },

@@ -38,7 +38,7 @@
   var navbar_all_colors       = navbar_dark_skins.concat(navbar_light_skins)
   var $navbar_variants_colors = createSkinBlock(navbar_all_colors, function (e) {
     var color = $(this).data('color')
-    console.log('Adding ' + color)
+
     var $main_header = $('.main-header')
     $main_header.removeClass('navbar-dark').removeClass('navbar-light')
     navbar_all_colors.map(function (color) {
@@ -47,9 +47,9 @@
 
     if (navbar_dark_skins.indexOf(color) > -1) {
       $main_header.addClass('navbar-dark')
-      console.log('AND navbar-dark')
+     
     } else {
-      console.log('AND navbar-light')
+     
       $main_header.addClass('navbar-light')
     }
 

@@ -2,22 +2,30 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
+const helmet = require('helmet');
+const favicon = require('serve-favicon');
+
 const config = require('./config');
 const helpers = require('../helpers/helpers');
 const routes = require('./routes');
 const { dbUrl } = require('./config');
 const schedule = require('../infrastructure/commands/schedule');
+const minifyHTML = require('./minifyHTML');
 
-// Main connection (session, flash, bodyParser, router after config, helper)
 module.exports = (app, express) => {
+    app.use(helmet());
+    app.use(minifyHTML);
+
     app.use(bodyParser.urlencoded({
         extended: true,
     }));
 
     app.use(express.json());
+    app.use(favicon('./public/client/images/icons/favicon.png'));
 
     const sessionMiddleware = session({
-        secret: 'keyboaasdfasdfrdasdfasdfcat',
+        secret: process.env.SESSION_SECRET,
+        name: 'mayhienhome.cookie',
         resave: false,
         saveUninitialized: true,
         cookie: { maxAge: parseInt(config.sessionLifetime, 10) * 1000 },
@@ -33,7 +41,9 @@ module.exports = (app, express) => {
         next();
     });
 
-    app.use('/public', express.static('./public'));
+    app.use('/public', express.static('./public', {
+        maxAge: '36000000',
+    }));
 
     routes(app);
 
