@@ -28,10 +28,6 @@ const productSchema = new Schema({
             required: true,
             type: Number,
         },
-        string: {
-            type: String,
-            required: true,
-        },
     },
     detail: String,
     info: String,

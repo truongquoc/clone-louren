@@ -104,7 +104,7 @@ function revertRecord(data) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Xóa',
+        confirmButtonText: 'Khôi phục',
         cancelButtonText: 'Hủy',
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger',
@@ -329,51 +329,61 @@ function init_approveModule() {
             text = $(self).hasClass('bg-success-gradient') ? 'Chọn' : 'Bỏ chọn';
             data.type = $(self).data('type');
         }
+
         swal({
             title: `${text} dữ liệu này`,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xóa',
+            confirmButtonText: 'Đồng ý',
             cancelButtonText: 'Hủy',
             confirmButtonClass: 'btn btn-success',
             cancelButtonClass: 'btn btn-danger',
-        }).then(() => {
-            const url = $('.module__table').data('approve-url');
-            const key = $(self).closest('tr').data('key');
-            $.ajax({
-                url: `${url}/${key}`,
-                type: 'PUT',
-                dataType: 'json',
-                data,
-                success(res) {
-                    if (!res.status) {
-                        if (res.error.code === 404) {
-                            swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
-                            return false;
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                const url = $('.module__table').data('approve-url');
+                const key = $(self).closest('tr').data('key');
+                return $.ajax({
+                    url: `${url}/${key}`,
+                    type: 'PUT',
+                    dataType: 'json',
+                    data,
+                    success(res) {
+                        if (!res.status) {
+                            if (res.error.code === 404) {
+                                swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                                return false;
+                            }
+                            if (res.error.code === 500) {
+                                swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                                return false;
+                            }
                         }
-                        if (res.error.code === 500) {
-                            swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
-                            return false;
+                        if ($(self).hasClass('condition__approve-btn')) {
+                            const $element = $(`.temp-condition__total--${$(self).data('type')} span`);
+                            const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
+                            $element.text(total).html();
                         }
-                    }
-                    if ($(self).hasClass('condition__approve-btn')) {
-                        const $element = $(`.temp-condition__total--${$(self).data('type')} span`);
-                        const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
-                        $element.text(total).html();
-                    }
-                    if ($(self).hasClass('remove-btn')) {
-                        $(self).fadeOut();
-                    }
-                    if (res.data.isApproved || res.data.isSelected) {
-                        $(self).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
-                    } else {
-                        $(self).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
-                    }
-                    swal('Thành công!', '', 'success');
-                },
-            });
+                        if ($(self).hasClass('remove-btn')) {
+                            $(self).fadeOut();
+                        }
+                        if (res.data.isApproved || res.data.isSelected) {
+                            $(self).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
+                            $(self).siblings('.btn-preview').removeClass('hide');
+                        } else {
+                            $(self).siblings('.btn-preview').addClass('hide');
+                            $(self).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
+                        }
+                    },
+                });
+            },
+            allowOutsideClick: () => !swal.isLoading()
+
+        }).then((result) => {
+            if(result.status) {
+                swal('Thành công!', '', 'success');
+            }
         });
     });
 }
@@ -452,7 +462,7 @@ function init_pickImages() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xóa',
+            confirmButtonText: 'Đồng ý',
             cancelButtonText: 'Hủy',
             confirmButtonClass: 'btn btn-success',
             cancelButtonClass: 'btn btn-danger',
@@ -616,31 +626,26 @@ function calcCurrency(value) {
 
 function getTextCurrency(input) {
     const value = $(input).val();
-    const originalValue = value.replace(/[($)\s\._\-]+/g, '');
+    const originalValue = +(value.replace(/[($)\s\._\-]+/g, ''));
     $(input).attr('data-original', originalValue);
 
-    const result = calcCurrency(originalValue);
-
+    let result = (originalValue*1000).toLocaleString('de-DE');
+    result = (result != 0) ? `${result} ₫` : '';
+    
     $('#priceText').text(result);
-    $('[name="priceText"]').val(result);
     $('[name="priceValue"]').val(originalValue*1000 === 0 ? '' : originalValue*1000);
 }
 
 function getCurrency() {
-    const value = $('[name="priceValue"]').val();
+    const value = +($('[name="priceValue"]').val());
     if (value) {
-        $('#price').val(parseInt(value/1000, 10).toLocaleString());
+        $('#price').val(parseInt(Math.round(value/1000), 10).toLocaleString());
     } else {
         $('#price').val('');
     }
 
     getTextCurrency('#price');
 
-    $(document).on('change', '#priceUnit', function unit() {
-       const getUnit = $(this).val();
-
-       $('#priceUnitSelected').text(getUnit);
-    });
     $('#price').keyup(function parseCurrency(event) {
         splitCurrency(this, event);
         getTextCurrency(this);
@@ -668,17 +673,16 @@ function convertPercent () {
 function discountedPrice () {
     let originalPrice = $('[name="priceValue"]').val();
     let discount = $('#discount').val();
-    let discountedPrice =  (discount && originalPrice && 0<= discount && discount <= 1 ) ?
-        `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : '';
-  
+    let discountedPrice =  (discount != 0 && originalPrice && 0<= discount && discount <= 1 ) ?
+        `${parseFloat(Math.round(originalPrice*(1-discount)/1000)*1000).toLocaleString()} ₫` : '';
     $('#discountedPrice').text(discountedPrice);
 
     $('#discountInput').keyup(function a(event) {
         originalPrice = $('[name="priceValue"]').val();
         discount = $('#discount').val();
 
-        discountedPrice =  (discount && originalPrice && 0< discount && discount <= 1 ) ?
-            `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
+        discountedPrice =  (discount != 0 && originalPrice && 0< discount && discount <= 1 ) ?
+            `${parseFloat(Math.round(originalPrice*(1-discount)/1000)*1000).toLocaleString()} ₫` : 'Giảm giá phải từ 1% - 100%';
         $('#discountedPrice').text(discountedPrice);
     })
 }
