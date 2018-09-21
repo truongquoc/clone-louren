@@ -9,6 +9,7 @@ const adminBillRouter = require('../modules/bills/routes.admin');
 const adminBlogArticleRouter = require('../modules/blogArticles/routes.admin');
 const adminBlogCategoryRouter = require('../modules/blogCategories/routes.admin');
 const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
+const adminSlideRouter = require('../modules/slides/routes.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
 const clientProductTypeRouter = require('../modules/productTypes/routes.client');
 const clientCartRouter = require('../modules/carts/routes.client');
@@ -36,6 +37,7 @@ router.use('/admin/bills', adminBillRouter);
 router.use('/admin/blog/articles', adminBlogArticleRouter);
 router.use('/admin/blog/categories', adminBlogCategoryRouter);
 router.use('/admin/blog/tags', adminBlogTagRouter);
+router.use('/admin/slides', adminSlideRouter);
 router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use(countCartProduct);

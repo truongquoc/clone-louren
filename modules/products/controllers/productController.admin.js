@@ -125,7 +125,7 @@ const update = async (req, res, next) => {
 
         return res.redirect(`/admin/products/edit/${getSlug(`${data.name || data.slug}-${data.createdTime}`)}`);
     } catch (e) {
-        return next(responseHelper.error(e.message));
+        next(responseHelper.error(e.message));
     }
 };
 

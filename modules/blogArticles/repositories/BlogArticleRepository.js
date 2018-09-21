@@ -26,7 +26,7 @@ class BlogArticleRepository extends ArticleRepository {
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
-                .find({ isDraft: false, deletedAt: null })
+                .find(conditions)
                 .populate('category', '-_id name slug', { deletedAt: null })
                 .populate('author', '-_id name', { deletedAt: null })
                 .populate('tags', '-_id name slug ')

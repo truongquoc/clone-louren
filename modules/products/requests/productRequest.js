@@ -57,15 +57,13 @@ const createProductRequest = [
         }),
     check('image').custom((value, { req }) => {
         try {
-            if (req.file) {
-                if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
-                    throw new Error('Loại ảnh không hợp lệ');
-                } else if (req.file.size > commonConstant.imageMaxsize) {
-                    throw new Error('Kích thước ảnh quá lớn');
-                }
-            }
-            if (!req.file && !(req.body.video && req.body.useVideo)) {
+            if (!req.file) {
                 throw new Error('Ảnh hoặc video không được bỏ trống');
+            }
+            if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
+                throw new Error('Loại ảnh không hợp lệ');
+            } else if (req.file.size > commonConstant.imageMaxsize) {
+                throw new Error('Kích thước ảnh quá lớn');
             }
             return true;
         } catch (e) {
@@ -131,6 +129,9 @@ const editProductRequest = [
         .withMessage('Giá tiền không được bỏ trống'),
     check('image').custom((value, { req }) => {
         try {
+            if (!req.file && !req.body.imageUrl) {
+                throw new Error('Ảnh không được bỏ trống');
+            }
             if (req.file) {
                 if (commonConstant.imageTypes.indexOf(req.file.mimetype) < 0) {
                     throw new Error('Loại ảnh không hợp lệ');
@@ -138,10 +139,6 @@ const editProductRequest = [
                     throw new Error('Kích thước ảnh quá lớn');
                 }
             }
-            if (!req.body.imageUrl && !(req.body.video && req.body.useVideo) && !req.file) {
-                throw new Error('Ảnh hoặc video không được bỏ trống');
-            }
-            return true;
         } catch (e) {
             return Promise.reject(e.message);
         }
