@@ -321,6 +321,8 @@ function init_editSubModule() {
 function init_approveModule() {
     $(document).on('click', '.module__approve-btn', function () {
         const self = this;
+        $(self).css({ 'opacity': 0.5 });
+        $(self).attr('disabled', true);
         let text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
         const data = {
             _method: 'PUT',
@@ -329,14 +331,13 @@ function init_approveModule() {
             text = $(self).hasClass('bg-success-gradient') ? 'Chọn' : 'Bỏ chọn';
             data.type = $(self).data('type');
         }
-
         swal({
             title: `${text} dữ liệu này`,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý',
+            confirmButtonText: text,
             cancelButtonText: 'Hủy',
             confirmButtonClass: 'btn btn-success',
             cancelButtonClass: 'btn btn-danger',
@@ -350,6 +351,8 @@ function init_approveModule() {
                     dataType: 'json',
                     data,
                     success(res) {
+                        $(self).css({ 'opacity': 1 });
+                        $(self).attr('disabled', false);
                         if (!res.status) {
                             if (res.error.code === 404) {
                                 swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
@@ -379,7 +382,6 @@ function init_approveModule() {
                 });
             },
             allowOutsideClick: () => !swal.isLoading()
-
         }).then((result) => {
             if(result.status) {
                 swal('Thành công!', '', 'success');
@@ -420,40 +422,6 @@ function init_changeCity() {
     });
 }
 
-function init_changePrice() {
-    $('[name="price[value]"]').on('keyup', function () {
-        if ($(this).val().length > 6) {
-            $(this).val(Math.pow(10, 6));
-        }
-        const text = alertPrice(this);
-        $('[name="price[display]"]').val(text);
-    });
-
-    $('[name="price[type]"]').on('change', function () {
-        const text = alertPrice('[name="price[value]"]');
-        $('[name="price[display]"]').val(text);
-    });
-}
-
-function alertPrice(obj) {
-    const price = $(obj).val();
-    let text = '';
-    const priceType = $('[name="price[type]"]').find('option:selected').text().trim();
-    const price1 = parseInt(price / 1000);
-    const price2 = parseInt(price % 1000);
-    const price3 = (price - parseInt(price)).toFixed(1) * 1000;
-    if (price1) {
-        text = `${text + price1} Tỷ ${!price2 && !price3 ? priceType : ''}`;
-    }
-    if (price2) {
-        text = `${text + price2} Triệu ${!price3 ? priceType : ''}`;
-    }
-    if (price3) {
-        text = `${text + price3} Nghìn ${priceType}`;
-    }
-    return text;
-}
-
 function init_pickImages() {
     $('.images__table__pick-btn').on('click', function () {
         swal({
@@ -462,7 +430,7 @@ function init_pickImages() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý',
+            confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             confirmButtonClass: 'btn btn-success',
             cancelButtonClass: 'btn btn-danger',
@@ -631,7 +599,7 @@ function getTextCurrency(input) {
 
     let result = (originalValue*1000).toLocaleString('de-DE');
     result = (result != 0) ? `${result} ₫` : '';
-    
+
     $('#priceText').text(result);
     $('[name="priceValue"]').val(originalValue*1000 === 0 ? '' : originalValue*1000);
 }
@@ -687,12 +655,17 @@ function discountedPrice () {
     })
 }
 
-function init_changeSearchType() {
+function init_billChangeSearchType() {
     if ($.fn.datepicker) {
-        $('.input-daterange input').each(function() {
-            $(this).datepicker({
-                format: 'dd/mm/yyyy',
-            });
+        $('.bills__table__search-date__start').datepicker({
+            format: 'dd/mm/yyyy',
+        }).on('changeDate', function () {
+            $('.bills__table__search-date__end').datepicker('setStartDate', $(this).val());
+        });
+        $('.bills__table__search-date__end').datepicker({
+            format: 'dd/mm/yyyy',
+        }).on('changeDate', function () {
+            $('.bills__table__search-date__start').datepicker('setEndDate', $(this).val());
         });
     }
     const $searchMethodElement = $('.bills__table__search__method');
@@ -719,6 +692,45 @@ function init_showUserInformation() {
     });
 }
 
+function init_changeSlideOrder() {
+    $('.change-order__btn').on('click', function () {
+        const self = this;
+        $(self).html('<i class="fa fa-spinner fa-spin"></i>');
+        $(self).attr('disabled', true);
+        const $tr = $('tbody tr');
+        const ids = [];
+        for (let i = 0; i < $tr.length; i++) {
+            ids.push($($tr[i]).data('key'));
+        }
+        $.ajax({
+            url: '/admin/slides/orders/change',
+            type: 'put',
+            dataType: 'json',
+            data: {
+                _method: 'PUT',
+                ids,
+            },
+            success: function (res) {
+                $(self).html('Thay đổi vị trí');
+                $(self).attr('disabled', false);
+                if (!res.status) {
+                    if (res.error.code === 403) {
+                        swal('Lỗi!', 'Không có quyền vào trang này', 'error');
+                    } else if (res.error.code === 404) {
+                        swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
+                    } else if (res.error.code === 500) {
+                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
+                    }
+                    return false;
+                }
+                for (let i = 0; i < $tr.length; i++) {
+                    $($tr[i]).find('td:first-child').text(i + 1);
+                }
+            }
+        });
+    });
+}
+
 $(document).ready(() => {
     init_parseSlug();
     init_createSubModule();
@@ -726,11 +738,11 @@ $(document).ready(() => {
     init_approveModule();
     init_deleteModule();
     init_changeCity();
-    init_changePrice();
     init_pickImages();
     init_deleteImages();
     init_viewRequests();
     init_revertModule();
-    init_changeSearchType();
+    init_billChangeSearchType();
     init_showUserInformation();
+    init_changeSlideOrder();
 });

@@ -45,7 +45,11 @@ class BillRepository extends BaseRepository {
                 conditions.createdAt = { $lte: moment(options.query.end, 'DD/MM/YYYY').add(1, 'days').toDate() };
             }
         }
-        if (Object.prototype.hasOwnProperty.call(options.query, 'status')) {
+        if (typeof options.query.status === 'object') {
+            options.query.status = options.query.status.toString();
+        }
+        if (Object.prototype.hasOwnProperty.call(options.query, 'status')
+            && parseInt(options.query.status, 10).toString() === options.query.status) {
             conditions.isApproved = options.query.status;
         }
         const [total, docs] = await Promise.all([

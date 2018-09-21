@@ -1,17 +1,23 @@
 const url = require('url');
 const responseHelper = require('../../../helpers/responseHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
+const SlideRepositoryClass = require('../../slides/repositories/SlideRepository');
 const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
 
+const SlideRepository = new SlideRepositoryClass();
 const ProductRepository = new ProductRepositoryClass();
 
 const index = async (req, res, next) => {
     const { query } = req;
     try {
-        const newestProducts = await ProductRepository.getNewestProducts();
+        const [slides, newestProducts] = await Promise.all([
+            SlideRepository.homeGetSlides(),
+            ProductRepository.getNewestProducts(),
+        ]);
 
         return res.render('modules/products/client/index', {
             newestProducts,
+            slides,
             query,
         });
     } catch (e) {

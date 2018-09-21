@@ -49,7 +49,13 @@ module.exports = (res) => {
         return (!page || page <= 1) ? 0 : (page - 1) * Constant.limit;
     };
 
-    res.locals.strLimit = (string, limit, end = '...') => `${string.substr(0, limit)}${end}`;
+    res.locals.strLimit = (string, limit, end = '...') => {
+        if (string.length > limit) {
+            return `${string.substr(0, limit)}${end}`;
+        }
+
+        return string;
+    };
 
     res.locals.formatPrice = (number) => {
         number = parseInt(number, 10).toLocaleString('de-DE').replace(/,/g, '.');

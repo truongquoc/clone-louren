@@ -1,12 +1,35 @@
 <% layout('../../../layouts/client/app') %>
 
 <% stylesheet('/public/client/css/style.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js') %>
 
-<% block('title', 'Sản phẩm') %>
+<% block('stylesheets', `
+<style>
+.slick-slide img {
+    width: 100%;
+}
+</style>
+`) %>
 
-<div id="contents">
+<% block('title', 'Trang chủ') %>
+
+<div id="contents" class="homepage">
     <div class="fixed_row">
-
+        <div class="slider slider-single slide-showed">
+            <% slides.forEach((slide) => { %>
+            <div>
+                <% if (slide.url) { %>
+                    <a href="<%= slide.url %>">
+                        <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage lazyload">
+                    </a>
+                <% } else { %>
+                    <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage lazyload">
+                <% } %>
+            </div>
+            <% }) %>
+        </div>
         <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product widget_new_product">
             <div class="common_title">
                 <div class="main_title">
@@ -93,3 +116,20 @@
         </div>
     </div>
 </div>
+
+<% block('scripts', `
+<script>
+$(document).ready(function () {
+    $('.slider-single').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: false,
+        adaptiveHeight: true,
+        infinite: false,
+        useTransform: true,
+        speed: 400,
+        cssEase: 'cubic-bezier(0.77, 0, 0.18, 1)',
+    });
+});
+</script>
+`) %>
