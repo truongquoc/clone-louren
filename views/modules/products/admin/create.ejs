@@ -83,11 +83,11 @@
                             <div class="col-12 col-md">
                                 <div class="row justify-content-between m-0">
                                     <div class="col p-0">
-                                        <label for="price">Giá tiền (VNĐ)</label>
+                                        <label for="price">Giá tiền: (ngàn đồng)</label>
                                     </div>
                                     <div class="col-auto text-right font-weight-light font-weight-bold">
                                         <span id="priceText">
-                                            <%= old('priceText') %>
+                                            <%= old('priceValue') %> ₫
                                         </span>
                                         <input type="hidden" name="priceText" value="<%= old('priceText') %>">
                                         <input type="hidden" name="priceValue" value="<%= old('priceValue') %>">

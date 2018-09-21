@@ -85,20 +85,19 @@
                         <div class="col-12 col-md">
                             <div class="row justify-content-between m-0">
                                 <div class="col p-0">
-                                    <label for="price">Giá tiền (VNĐ)</label>
+                                    <label for="price">Giá tiền: (ngàn đồng)</label>
                                 </div>
                                 <div class="col-auto text-right font-weight-light font-weight-bold">
                                     <span id="priceText">
-                                        <%= old('priceText', product.price.string) %>
+                                        <%= old('priceValue', product.price.number) %>
                                     </span>
-                                    <input type="hidden" name="priceText" value="<%= old('priceText', product.price.string) %>">
                                     <input type="hidden" name="priceValue" value="<%= old('priceValue', product.price.number) %>">
                                 </div>
                             </div>
                             <div class="input-group">
                                 <input type="text" autocomplete="off" maxlength="15" data-original="" class="form-control" id="price" name="priceInput" placeholder="Nhập giá (ngàn đồng)" value="">
-                                <p class="form__error-message form__title__error-message"><%= errors('priceValue') %></p>
                             </div>
+                            <p class="form__error-message form__title__error-message"><%= errors('priceValue') %></p>
                         </div>
                         <div class="col-12 col-md">
                             <div class="row justify-content-between m-0">
@@ -109,7 +108,7 @@
                                     <span id="discountedPrice">
 
                                     </span>
-                                    <input type="hidden" min="0" max="1" value="<%= old('discount', product.discount) %>" id="discount" name="discount">
+                                    <input type="hidden" min="0" max="1" value="<%= old('discount', product.discount) ? old('discount', product.discount) : '' %>" id="discount" name="discount">
                                 </div>
                             </div>
                             <div class="input-group">

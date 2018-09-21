@@ -171,9 +171,9 @@ function removeFromCart() {
 
                 let calc = (+product.discount) ? product.price.number * (1 - product.discount) : product.price.number;
 
-                calc = (+product.discount) ? Math.round(calc/1000) * 1000 * quantity : calc;
+                calc = (+product.discount) ? Math.round(calc/1000) * 1000 : calc;
 
-                price = price - (calc);
+                price = price - (calc * quantity);
 
                 $('#cartTotalPrice').attr('data-price', price);
                 $('#cartTotalPrice').text(price.toLocaleString('de-DE'));

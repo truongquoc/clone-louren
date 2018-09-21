@@ -57,10 +57,11 @@
                             <td><%= product.sku %></td>
                             <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
                             <td><%= product.type ? product.type.name : '' %></td>
-                            <td><%= formatPrice(product.price.number) %> ₫</td>
+                            <% price = Math.round((product.price.number*(1 - product.discount))/1000)*1000 %>
+                            <td><%= formatPrice(price) %> ₫</td>
                             <td><%= product.quantity %></td>
                             <td>
-                                <a href="/products/<%= product.slug %>" class="badge bg-primary-gradient"><i class="fa fa-eye"></i></a>
+                                <a href="/san-pham/<%= product.slug %>" class="badge bg-primary-gradient btn-preview <%= (product.isApproved) ? '' : 'hide' %>"><i class="fa fa-eye"></i></a>
                                 <a href="/admin/products/<%= product.slug %>/images" class="badge bg-success-gradient">
                                     <i class="fa fa-picture-o"></i>
                                 </a>
