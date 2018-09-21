@@ -31,6 +31,18 @@ module.exports = (res) => {
         return '';
     };
 
+    res.locals.infoRedis = (title, data, item) => {
+        if (data[item] !== '') {
+            return `${title}: ${data[item]}`;
+        }
+
+        return '';
+    };
+
+    res.locals.titleRedis = (data) => {
+        return typeof data.title !== 'undefined' ? data.title : 'MayHienHome';
+    };
+
     res.locals.getPageIndex = (page) => {
         page = parseInt(page, 10);
 

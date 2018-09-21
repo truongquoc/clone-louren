@@ -616,7 +616,7 @@ function calcCurrency(value) {
 
 function getTextCurrency(input) {
     const value = $(input).val();
-    const originalValue = value.replace(/[($)\s\._\-]+/g, '');
+    const originalValue = value.replace(/[($)\s\.,_\-]+/g, '');
     $(input).attr('data-original', originalValue);
 
     const result = calcCurrency(originalValue);
