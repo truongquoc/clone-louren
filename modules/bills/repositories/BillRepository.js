@@ -140,7 +140,7 @@ class BillRepository extends BaseRepository {
     }
 
     async sendApprovedEmail(id) {
-        const bill = await this.show({
+        let bill = await this.show({
             name: 'id',
             value: id,
         });
@@ -155,8 +155,10 @@ class BillRepository extends BaseRepository {
             encoding: 'utf8',
         });
         const template = ejs.compile(file);
+        bill = JSON.parse(JSON.stringify(bill));
+        bill.user = bill.user ? bill.user : bill.userInformation;
         const mailOptions = {
-            to: bill.user.email || bill.userInformation.email,
+            to: bill.user.email,
             from: config.emailAddress,
             subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
             html: template({

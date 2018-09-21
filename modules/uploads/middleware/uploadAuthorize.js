@@ -41,8 +41,6 @@ const destroyAuthorize = async (req, res, next) => {
         }
         next();
     } catch (e) {
-        console.log(e);
-
         return res.json(responseHelper.error(e.message));
     }
 };
