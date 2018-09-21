@@ -41,7 +41,9 @@ module.exports = (app, express) => {
         next();
     });
 
-    app.use('/public', express.static('./public'));
+    app.use('/public', express.static('./public', {
+        maxAge: '36000000',
+    }));
 
     routes(app);
 
