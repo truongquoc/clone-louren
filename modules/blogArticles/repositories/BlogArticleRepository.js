@@ -94,17 +94,17 @@ class BlogArticleRepository extends ArticleRepository {
             .populate({
                 path: 'author',
                 select: '-_id name',
-                // match: { deletedAt: null },
+                match: { deletedAt: null },
             })
             .populate({
                 path: 'tags',
                 select: '_id name slug',
-                // match: { deletedAt: null },
+                match: { deletedAt: null },
             })
             .populate({
                 path: 'category',
                 select: '_id name slug',
-                // match: { deletedAt: null },
+                match: { deletedAt: null },
             })
             .select('-isApproved -updatedAt');
     }

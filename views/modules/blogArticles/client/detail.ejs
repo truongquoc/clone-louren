@@ -25,13 +25,13 @@
          <p><%- blogArticle.content %></p>
          <div class="fl-wrap share-buts-wrap">
             <div class="single-post-tags fl-left"><i class="fa fa-tags"></i>
-                <%  blogArticle.tags.forEach((tag) => { %>
+                <%  blogArticle.tags && blogArticle.tags.forEach((tag) => { %>
                 <a href="#" rel="tag"><%= tag.name %></a>
                 <% }) %>
             </div>
 
             <div class="share-button">
-              <div class="fb-share-button" data-href="https://www.facebook.com/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+              <div class="fb-share-button" data-href="https://www.facebook.com/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmayhienhome.com/blog/<%= blogArticle.slug %>%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
             </div>
             <div class="share-inner">
                <div class="share-container"
