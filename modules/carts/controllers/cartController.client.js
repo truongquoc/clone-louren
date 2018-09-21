@@ -57,10 +57,16 @@ const addToCart = async (req, res, next) => {
     try {
         const { id, quantity } = req.body;
         let total = 0;
-        const product = await ProductRepository.clientCheckExistById(id, { select: '_id' });
+        const product = await ProductRepository.clientCheckExistById(id, { select: '_id quantity' });
 
         if (!product) {
             return res.json(responseHelper.notFound());
+        }
+        if (product.quantity <= 0) {
+            return res.json(responseHelper.error('Sản phẩm đã hết hàng', 400));
+        }
+        if (product.quantity < (+quantity || 1)) {
+            return res.json(responseHelper.error('Sản phẩm trong kho không đủ', 400));
         }
 
         if (req.session.cUser) {
