@@ -318,69 +318,6 @@ function init_editSubModule() {
     });
 }
 
-// function init_approveModule() {
-//     $(document).on('click', '.module__approve-btn', function () {
-//         const self = this;
-//         let text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
-//         const data = {
-//             _method: 'PUT',
-//         };
-//         if ($(self).hasClass('condition__approve-btn')) {
-//             text = $(self).hasClass('bg-success-gradient') ? 'Chọn' : 'Bỏ chọn';
-//             data.type = $(self).data('type');
-//         }
-//         swal({
-//             title: `${text} dữ liệu này`,
-//             type: 'warning',
-//             showCancelButton: true,
-//             confirmButtonColor: '#3085d6',
-//             cancelButtonColor: '#d33',
-//             confirmButtonText: 'Đồng ý',
-//             cancelButtonText: 'Hủy',
-//             confirmButtonClass: 'btn btn-success',
-//             cancelButtonClass: 'btn btn-danger',
-//             showLoaderOnConfirm: true,
-//         }).then(() => {
-//             const url = $('.module__table').data('approve-url');
-//             const key = $(self).closest('tr').data('key');
-//             $.ajax({
-//                 url: `${url}/${key}`,
-//                 type: 'PUT',
-//                 dataType: 'json',
-//                 data,
-//                 success(res) {
-//                     if (!res.status) {
-//                         if (res.error.code === 404) {
-//                             swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
-//                             return false;
-//                         }
-//                         if (res.error.code === 500) {
-//                             swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
-//                             return false;
-//                         }
-//                     }
-//                     if ($(self).hasClass('condition__approve-btn')) {
-//                         const $element = $(`.temp-condition__total--${$(self).data('type')} span`);
-//                         const total = parseInt($element.text()) + (res.data.isSelected ? 1 : -1);
-//                         $element.text(total).html();
-//                     }
-//                     if ($(self).hasClass('remove-btn')) {
-//                         $(self).fadeOut();
-//                     }
-//                     if (res.data.isApproved || res.data.isSelected) {
-//                         $(self).removeClass('bg-success-gradient').addClass('bg-warning-gradient');
-//                         $(self).siblings('.btn-preview').removeClass('hide');
-//                     } else {
-//                         $(self).siblings('.btn-preview').addClass('hide');
-//                         $(self).removeClass('bg-warning-gradient').addClass('bg-success-gradient');
-//                     }
-//                     swal('Thành công!', '', 'success');
-//                 },
-//             });
-//         });
-//     });
-// }
-
 function init_approveModule() {
     $(document).on('click', '.module__approve-btn', function () {
         const self = this;
