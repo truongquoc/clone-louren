@@ -21,14 +21,20 @@ const showMyArticlesAuthorize = (req, res, next) => {
 const showAuthorize = async (req, res, next) => {
     try {
         const article = await BlogArticleRepository.checkExist({
-            // isApproved: true,
-            isDraft: false,
             slug: req.params.slug,
-        });
+        }, { select: 'author isDraft isApproved' });
         if (!article) {
             return next(responseHelper.notFound());
         }
-        next();
+        if (article.isApproved && !article.isDraft) {
+            return next();
+        }
+        if ((!article.isApproved || article.isDraft) && req.session.cUser
+            && (roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])
+                || req.session.cUser._id === article.author.toString())) {
+            return next();
+        }
+        next(responseHelper.notFound());
     } catch (e) {
         next(responseHelper.error(e.message));
     }

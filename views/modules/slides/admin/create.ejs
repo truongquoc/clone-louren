@@ -1,0 +1,59 @@
+<% layout('../../../layouts/admin/app') %>
+
+<% block('title', 'Slide - Đăng ảnh slide') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Đăng ảnh slide</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Đăng ảnh slide</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Đăng ảnh slide</h3>
+            </div>
+            <div class="card-body">
+                <form class="blog-articles__form" action="" enctype="multipart/form-data" method="POST">
+                    <div class="form-group">
+                        <label for="title">Tiêu đề</label>
+                        <input type="text" class="form-control" value="<%= old('title') %>" name="title">
+                        <p class="form__error-message form__title__error-message"><%= errors('title') %></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="title">Đường dẫn</label>
+                                <input type="text" class="form-control" value="<%= old('url') %>" name="url">
+                                <p class="form__error-message"><%= errors('url') %></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ảnh</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input form__image__input" name="image" id="validatedCustomFile">
+                                    <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
+                                </div>
+                                <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Đăng ảnh</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

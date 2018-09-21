@@ -215,13 +215,16 @@ class ProductRepository extends ArticleRepository {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
                 string: data.priceText,
             },
-            'image.cover': data.image,
             discount: data.discount,
             info: data.info,
             detail: data.detail,
             isDraft: !!data.isDraft,
             slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
         };
+        if (data.image) {
+            product['image.cover'] = data.image;
+        }
+
         return this.baseUpdate(product, { _id: id });
     }
 
