@@ -651,7 +651,7 @@ function getCurrency() {
 function convertPercent () {
     const discountValue = $('#discount').val();
     let value = (discountValue && 0<= discountValue && discountValue <= 1 ) ? discountValue*100 : '';
-    console.log('ssss', value);
+
     $('#discountInput').val(value);
 
     $('#discountInput').keyup(function a(event) {
@@ -670,13 +670,12 @@ function discountedPrice () {
     let discount = $('#discount').val();
     let discountedPrice =  (discount && originalPrice && 0<= discount && discount <= 1 ) ?
         `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : '';
-        console.log(discountedPrice);
+  
     $('#discountedPrice').text(discountedPrice);
 
     $('#discountInput').keyup(function a(event) {
         originalPrice = $('[name="priceValue"]').val();
         discount = $('#discount').val();
-        console.log(typeof originalPrice, typeof discount, typeof parseFloat(originalPrice*(1-discount)));
 
         discountedPrice =  (discount && originalPrice && 0< discount && discount <= 1 ) ?
             `${parseFloat(originalPrice*(1-discount)).toLocaleString()} đồng` : 'Giảm giá phải từ 1% - 100%';
