@@ -26,7 +26,7 @@ class BlogArticleRepository extends ArticleRepository {
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
-                .find(conditions)
+                .find({ isDraft: false, deletedAt: null })
                 .populate('category', '-_id name slug', { deletedAt: null })
                 .populate('author', '-_id name', { deletedAt: null })
                 .populate('tags', '-_id name slug ')
@@ -90,22 +90,21 @@ class BlogArticleRepository extends ArticleRepository {
     }
 
     show(slug) {
-        return this.model.findOne({ slug, deletedAt: null })
-            .sort({ createdAt: -1 })
+        return this.model.findOne({ slug })
             .populate({
                 path: 'author',
                 select: '-_id name',
-                match: { deletedAt: null },
+                // match: { deletedAt: null },
             })
             .populate({
                 path: 'tags',
                 select: '_id name slug',
-                match: { deletedAt: null },
+                // match: { deletedAt: null },
             })
             .populate({
                 path: 'category',
                 select: '_id name slug',
-                match: { deletedAt: null },
+                // match: { deletedAt: null },
             })
             .select('-isApproved -updatedAt');
     }

@@ -36,7 +36,6 @@ const show = async (req, res, next) => {
             BlogArticleRepository.postNext(req.params.slug),
         ]);
 
-
         return res.render('modules/blogArticles/client/detail', {
             blogArticle,
             postNext,
