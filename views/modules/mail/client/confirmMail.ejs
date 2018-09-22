@@ -66,19 +66,17 @@
                                         <th>Số lượng</th>
                                         <th>Tổng giá</th>
                                     </tr>
-                                    <% let total = 0 %>
                                     <% bill.productBill.forEach((element) => { %>
                                         <tr>
                                             <td><%= element.product.name %></td>
                                             <td><%= element.price.toLocaleString('de-DE') %> ₫</td>
                                             <td><%= element.quantity %></td>
                                             <td><%= (element.quantity * element.price).toLocaleString('de-DE') %> ₫</td>
-                                            <% total += element.quantity * element.price %>
                                         </tr>
                                     <% }) %>
                                     </tbody>
                                 </table>
-                                <p class="text-right">Tổng giá: <%= total.toLocaleString('de-DE') %> ₫</p>
+                                <p class="text-right">Tổng giá: <%= bill.price.toLocaleString('de-DE') %> ₫</p>
                             </div>
                         </div>
                     </td>

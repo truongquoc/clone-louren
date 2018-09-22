@@ -71,9 +71,9 @@ class BillRepository extends BaseRepository {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
-          user: id, deletedAt: null,
+            user: id,
+            deletedAt: null,
         };
-
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model

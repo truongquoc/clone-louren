@@ -2,6 +2,14 @@
 
 <% block('title', `Hóa đơn - Mã đơn hàng ${bill.code}`) %>
 
+<% block('stylesheets', `
+<style>
+.table.module__table td:last-child {
+    display: table-cell;
+}
+</style>
+`) %>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -50,6 +58,7 @@
                     </tr>
                     <% }) %>
                 </table>
+                <p class="float-right mt-3"><b>Tổng giá: <%= formatPrice(bill.price) %> ₫</b></p>
             </div>
         </div>
     </div>
