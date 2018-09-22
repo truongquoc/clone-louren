@@ -90,7 +90,7 @@ class BlogArticleRepository extends ArticleRepository {
     }
 
     show(slug) {
-        return this.model.findOne({ slug })
+        return this.model.findOne({ slug, deletedAt: null })
             .populate({
                 path: 'author',
                 select: '-_id name',
@@ -153,6 +153,5 @@ class BlogArticleRepository extends ArticleRepository {
         return this.baseUpdate(article, { _id: id });
     }
 }
-
 
 module.exports = BlogArticleRepository;

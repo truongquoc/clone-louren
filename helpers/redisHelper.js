@@ -9,18 +9,18 @@ module.exports = {
                 res.locals.info = JSON.parse(reply);
             } else {
                 res.locals.info = {
-                                    title: 'MyHienHome',
-                                    company: '',
-                                    deputy: '',
-                                    tax: '',
-                                    phone: '',
-                                    fax: '',
-                                    location: '',
-                                    email: '',
-                                    security: '',
-                                    google: '',
-                                    facebook: '',
-                                };
+                    title: 'MayHienHome',
+                    company: '',
+                    deputy: '',
+                    tax: '',
+                    phone: '',
+                    fax: '',
+                    location: '',
+                    email: '',
+                    security: '',
+                    google: '',
+                    facebook: '',
+                };
             }
         });
 

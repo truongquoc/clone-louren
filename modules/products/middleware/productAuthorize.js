@@ -21,14 +21,20 @@ const showMyProductsAuthorize = (req, res, next) => {
 const showAuthorize = async (req, res, next) => {
     try {
         const product = await ProductRepository.checkExist({
-            isApproved: true,
-            isDraft: false,
             slug: req.params.slug,
-        });
+        }, { select: 'author isDraft isApproved' });
         if (!product) {
             return next(responseHelper.notFound());
         }
-        next();
+        if (product.isApproved && !product.isDraft) {
+            return next();
+        }
+        if ((!product.isApproved || product.isDraft) && req.session.cUser
+            && (roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])
+                || req.session.cUser._id === product.author.toString())) {
+            return next();
+        }
+        next(responseHelper.notFound());
     } catch (e) {
         next(responseHelper.error(e.message));
     }
