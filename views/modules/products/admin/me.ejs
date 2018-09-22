@@ -48,6 +48,7 @@
                         <th>Thể loại</th>
                         <th>Đơn giá</th>
                         <th>Số lượng</th>
+                        <th class="text-center">Đã duyệt</th>
                         <th class="text-center">Bài nháp</th>
                         <th style="width: 120px">Tùy chọn</th>
                     </tr>
@@ -56,11 +57,20 @@
                         <tr data-key="<%= product._id %>">
                             <td><%= pageIndex + index + 1 %></td>
                             <td><%= product.sku %></td>
-                            <td title="<%= product.name %>"><%= strLimit(product.name, 70) %></td>
+                            <td title="<%= product.name %>">
+                                <a href="/san-pham/<%= product.slug %>"><%= strLimit(product.name, 70) %></a>
+                            </td>
                             <td><%= product.type ? product.type.name : '' %></td>
                             <% price = Math.round((product.price.number*(1 - product.discount))/1000)*1000 %>
                             <td><%= formatPrice(price) %> ₫</td>
                             <td><%= product.quantity %></td>
+                            <td>
+                                <% if (product.isApproved) { %>
+                                    <div class="text-center">
+                                        <i class="fa fa-check text-green"></i>
+                                    </div>
+                                <% } %>
+                            </td>
                             <td>
                                 <% if (product.isDraft) { %>
                                     <div class="text-center">
@@ -69,22 +79,9 @@
                                 <% } %>
                             </td>
                             <td>
-                                <a href="/san-pham/<%= product.slug %>"
-                                   class="badge bg-primary-gradient btn-preview">
-                                    <i class="fa fa-eye"></i>
-                                </a>
                                 <a href="/admin/products/<%= product.slug %>/images" class="badge bg-success-gradient">
                                     <i class="fa fa-picture-o"></i>
                                 </a>
-                                <% if (!product.isApproved) { %>
-                                    <button class="badge bg-success-gradient module__approve-btn" disabled>
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                <% } else { %>
-                                    <button class="badge bg-warning-gradient module__approve-btn" disabled>
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                <% } %>
                                 <a href="/admin/products/edit/<%= product.slug %>"
                                    class="badge bg-warning-gradient"><i class="fa fa-pencil"></i>
                                 </a>
