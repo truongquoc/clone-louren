@@ -49,7 +49,6 @@
         const dropzone = new Dropzone('form.dropzone', {
             url: '/admin/images/upload',
             paramName: function() { return 'images'; },
-            maxFiles: 10,
             uploadMultiple: true,
             resizeMimeType: 'image/jpeg',
             autoProcessQueue: false,

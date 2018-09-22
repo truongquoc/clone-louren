@@ -3,3 +3,4 @@ node_modules/
 public/tmp/
 playground/
 .env
+public/images/

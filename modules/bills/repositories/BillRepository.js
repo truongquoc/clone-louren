@@ -10,10 +10,12 @@ const BaseRepository = require('../../../infrastructure/repositories/BaseReposit
 const UserRepositoryClass = require('../../users/repositories/UserRepository');
 const ProductBillRepositoryClass = require('../repositories/ProductBillRepository');
 const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
+const InfoRepositoryClass = require('../../infos/repositories/infoRepository');
 
 const UserRepository = new UserRepositoryClass();
 const ProductBillRepository = new ProductBillRepositoryClass();
 const ProductRepository = new ProductRepositoryClass();
+const InfoRepository = new InfoRepositoryClass();
 
 class BillRepository extends BaseRepository {
     model() {
@@ -45,7 +47,11 @@ class BillRepository extends BaseRepository {
                 conditions.createdAt = { $lte: moment(options.query.end, 'DD/MM/YYYY').add(1, 'days').toDate() };
             }
         }
-        if (Object.prototype.hasOwnProperty.call(options.query, 'status')) {
+        if (typeof options.query.status === 'object') {
+            options.query.status = options.query.status.toString();
+        }
+        if (Object.prototype.hasOwnProperty.call(options.query, 'status')
+            && parseInt(options.query.status, 10).toString() === options.query.status) {
             conditions.isApproved = options.query.status;
         }
         const [total, docs] = await Promise.all([
@@ -67,9 +73,9 @@ class BillRepository extends BaseRepository {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.clientLimit;
         const conditions = {
-          user: id, deletedAt: null,
+            user: id,
+            deletedAt: null,
         };
-
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
@@ -140,10 +146,13 @@ class BillRepository extends BaseRepository {
     }
 
     async sendApprovedEmail(id) {
-        let bill = await this.show({
-            name: 'id',
-            value: id,
-        });
+        let [bill, info] = await Promise.all([
+            this.show({
+                name: 'id',
+                value: id,
+            }),
+            InfoRepository.show(),
+        ]);
         const smtpTransport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -163,6 +172,7 @@ class BillRepository extends BaseRepository {
             subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
             html: template({
                 bill,
+                info,
             }),
         };
 
@@ -170,10 +180,13 @@ class BillRepository extends BaseRepository {
     }
 
     async sendConfirmEmail(id) {
-        const bill = await this.show({
-            name: 'id',
-            value: id,
-        });
+        const [bill, info] = await Promise.all([
+            this.show({
+                name: 'id',
+                value: id,
+            }),
+            InfoRepository.show(),
+        ]);
         const smtpTransport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -191,6 +204,7 @@ class BillRepository extends BaseRepository {
             subject: `Xác nhận đơn hàng ${bill.code}`,
             html: template({
                 bill,
+                info,
             }),
         };
 

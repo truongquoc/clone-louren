@@ -26,6 +26,50 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <% if (hasRole(cUser, ['Admin', 'Manager', 'Product Creator'])) { %>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-shopping-cart"></i>
+                            <p>Sản phẩm<i class="fa fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
+                            <li class="nav-item">
+                                <a href="/admin/product/types" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quản lý thể loại</p>
+                                </a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/bills" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quản lý đơn hàng</p>
+                                </a>
+                            </li>
+                            <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
+                            <li class="nav-item">
+                                <a href="/admin/products" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Quản lý sản phẩm</p>
+                                </a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a href="/admin/products/me" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Sản phẩm của tôi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/products/create" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>Tạo sản phẩm mới</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
                 <% if (hasRole(cUser, ['Admin', 'Manager', 'Blogger'])) { %>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -68,45 +112,23 @@
                         </ul>
                     </li>
                 <% } %>
-                <% if (hasRole(cUser, ['Admin', 'Manager', 'Product Creator'])) { %>
+                <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-shopping-cart"></i>
-                            <p>Sản phẩm<i class="fa fa-angle-left right"></i></p>
+                            <i class="nav-icon fa fa-sliders"></i>
+                            <p>Slide<i class="fa fa-angle-left right"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
-                                <li class="nav-item">
-                                    <a href="/admin/product/types" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>Quản lý thể loại</p>
-                                    </a>
-                                </li>
-                            <% } %>
                             <li class="nav-item">
-                                <a href="/admin/bills" class="nav-link">
+                                <a href="/admin/slides" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Quản lý đơn hàng</p>
-                                </a>
-                            </li>
-                            <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
-                                <li class="nav-item">
-                                    <a href="/admin/products" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>Quản lý sản phẩm</p>
-                                    </a>
-                                </li>
-                            <% } %>
-                            <li class="nav-item">
-                                <a href="/admin/products/me" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Sản phẩm của tôi</p>
+                                    <p>Quản lý slide</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/products/create" class="nav-link">
+                                <a href="/admin/slides/create" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Tạo sản phẩm mới</p>
+                                    <p>Thêm mới</p>
                                 </a>
                             </li>
                         </ul>
@@ -120,12 +142,12 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <% if (hasRole(cUser, ['Admin', 'Manager'])) { %>
-                                <li class="nav-item">
-                                    <a href="/admin/images/storage" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>Quản lý kho ảnh</p>
-                                    </a>
-                                </li>
+                                <!--<li class="nav-item">-->
+                                    <!--<a href="/admin/images/storage" class="nav-link">-->
+                                        <!--<i class="fa fa-circle-o nav-icon"></i>-->
+                                        <!--<p>Quản lý kho ảnh</p>-->
+                                    <!--</a>-->
+                                <!--</li>-->
                                 <li class="nav-item">
                                     <a href="/admin/images" class="nav-link">
                                         <i class="fa fa-circle-o nav-icon"></i>
@@ -185,6 +207,20 @@
                         </li>
                     </ul>
                 </li>
+                <% if (hasRole(cUser, 'Admin')) { %>
+                    <li class="nav-item">
+                        <a href="/admin/infos" class="nav-link">
+                            <i class="fa fa-info-circle nav-icon"></i>
+                            <p>Thông tin</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/robots" class="nav-link">
+                            <i class="fa fa-link nav-icon"></i>
+                            <p>Robots.txt</p>
+                        </a>
+                    </li>
+                <% } %>
                 <li class="nav-item">
                     <a href="/admin/logout" class="nav-link">
                         <i class="fa fa-sign-out nav-icon"></i>

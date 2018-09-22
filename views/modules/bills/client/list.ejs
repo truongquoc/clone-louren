@@ -53,24 +53,24 @@
                             <td class="time">
                                 <%= moment(bill.createAt).format('L') %>
                             </td>
-
                             <td class="name">
-                                <% const billLength = bill.productBill.length %>
-                                <% if (billLength > 3) {%>
-                                    <%= bill.productBill[0].product.name %> và <%= billLength - 1 %> sản phẩm khác
-                                <% } else { %>
-                                    <% bill.productBill.forEach((p, index) => { %>
-                                        <%= p.product.name %><%= (index !== billLength - 1) ? ', ' : '' %>
-                                    <% }) %>
-                                <% } %>
-
+                                <a href="/nguoi-dung/don-hang/<%= bill.code %>">
+                                    <% const billLength = bill.productBill.length %>
+                                    <% if (billLength > 3) {%>
+                                        <%= bill.productBill[0].product.name %> và <%= billLength - 1 %> sản phẩm khác
+                                    <% } else { %>
+                                        <% bill.productBill.forEach((p, index) => { %>
+                                            <%= p.product.name %><%= (index !== billLength - 1) ? ', ' : '' %>
+                                        <% }) %>
+                                    <% } %>
+                                </a>
                             </td>
-                            <td class="quantity"> <%= bill.productBill.length %></td>
+                            <td class="quantity"><%= bill.productBill.map(element => element.quantity).reduce((a, b) => a + b) %></td>
                             <td class="price">
                                 <strong><%= formatPrice(bill.price) %> ₫</strong>
                             </td>
                             <td class="status">
-                                <%= !bill.isApproved ? 'Chưa xác nhận' : 'Đã xác nhận'  %>
+                                <%= !bill.isApproved ? 'Chưa  duyệt' : 'Đã  duyệt'  %>
                             </td>
                         </tr>
                     <% }) %>
@@ -83,7 +83,7 @@
     </div>
     <% if(bills.docs.length !== 0 ) { %>
         <div class="card-footer clearfix order" style="margin-top: 30px;">
-            <div class="pagination-list">
+            <div class="pagination-list bill-pagination">
                 <%- bills.renderPagination(bills, query.page) %>
             </div>
         </div>

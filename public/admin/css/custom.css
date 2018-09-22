@@ -314,3 +314,15 @@ button.badge {
 .text-green {
     color: #3bb93b;
 }
+
+.module__table td:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    min-height: 49px;
+}
+
+.module__table td:last-child a, .module__table td:last-child button {
+    margin: 0 2.5px;
+}

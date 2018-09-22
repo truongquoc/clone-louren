@@ -2,11 +2,11 @@
     <div class="fixed_row">
        <div class="widget_footer_sns">
           <ul>
-             <li class=""><a href="#" target="_blank" class="transition_type1"><i class="fa fa-facebook-f"></i></a></li>
-             <li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-instagram"></i></a></li>
-             
-             <li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-google"></i></a></li>
-             <li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-twitter"></i></a></li>
+             <li class=""><a href="https://www.facebook.com/noithatmaytrenha/" target="_blank" class="transition_type1"><i class="fa fa-facebook-f"></i></a></li>
+             <li><a href="https://www.instagram.com/mayhienhome/" target="_blank" class="transition_type1"><i class="fa fa-instagram"></i></a></li>
+
+             <!--<li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-google"></i></a></li>-->
+             <!--<li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-twitter"></i></a></li>-->
           </ul>
        </div>
        <ul class="utilMenu">
@@ -17,18 +17,15 @@
        </ul>
        <div class="xans-element- xans-layout xans-layout-footer">
           <p class="address">
-            <span>Tên công ty :  </span>
-            <span>Tên đại diện : </span>
-            <span>Giấy phép kinh doanh : </span>
-            <span>Báo cáo 2018</span>
-            <br> 
+            <span><%= infoRedis('Tên công ty', info, 'company') %></span>
+            <span><%= infoRedis('Tên đại diện', info, 'deputy') %></span>
+            <span><%= infoRedis('Mã số thuế', info, 'tax') %></span>
+            <br>
             <span>
-                  <a href="#none" onclick="window.open('http://www.ftc.go.kr/bizCommPop.do?wrkr_no=3326000255', 'bizCommPop', 'width=750, height=950;');return false;">Điện thoại: 0964515150</a>
+                  <a href="tel:<%= info.phone %>"><%= infoRedis('Điện thoại', info, 'phone') %></a>
             </span>
-            <span>Fax : 0964515150</span> <span>Địa chỉ : 01 Nguyễn Văn Linh</span><br/><span
-                class="">Email : <a href="mailto:demo@gmail.com">demo@gmail.com</a></span> <span
-                class="">Cán bộ bảo mật : <a
-                href="mailto:demo@gmail.com">dem0@gmail.com</a></span><br/>
+            <span><%= infoRedis('Fax', info, 'fax') %></span> <span><%= infoRedis('Địa chỉ', info, 'location') %></span><br/><span><a href="mailto:<%= info.email %>"><%= infoRedis('Email', info, 'email') %></a></span> <span><a
+                href="mailto:<%= info.security %>"><%= infoRedis('Cán bộ bảo mật', info, 'security') %></a></span><br/>
           </p>
           <p class="copyright hide">Copyright © <strong>demmo</strong>. All rights reserved. <a
              href="#" target="_blank">DESIGN MOON</a></p>

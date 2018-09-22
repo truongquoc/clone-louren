@@ -94,7 +94,7 @@ const uploadOriginalAvatar = async (req, res) => {
     }
     try {
         image = imageHelper.getOriginalImage(image, false);
-        const url = await storageHelper.storage('s3').upload(`avatars/original/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        const url = await storageHelper.storage('local').upload(`avatars/original/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         await UploadRepository.create([url], req.session.cUser, true);
 
         return res.json(responseHelper.success(`/${image.path}`));
@@ -116,7 +116,7 @@ const uploadAvatar = async (req, res) => {
             height: 160,
             quality: 80,
         });
-        const url = await storageHelper.storage('s3').upload(`avatars/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        const url = await storageHelper.storage('local').upload(`avatars/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         await Promise.all([
             UploadRepository.create([url], req.session.cUser._id),
             UserRepository.updateAvatar(url, req.session.cUser._id),

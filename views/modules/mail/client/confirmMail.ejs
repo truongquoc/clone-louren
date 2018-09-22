@@ -25,18 +25,14 @@
                     <td class="container-padding content" align="left" style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff">
                         <br>
                         <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:15px;font-weight:600;color:#374550">
-                            abc: Xác nhận đơn hàng mã <%= bill.code %>
+                            <%= info[0] ? `${info[0].title}` : 'MayHienHome' %>: Xác nhận đơn hàng mã <%= bill.code %>
                         </div>
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
-                            <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi. Hãy liên lạc với số điện thoại bên dưới để xác nhận đơn hàng mã <%= bill.code %></p>
+                            <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.<br>Hãy liên lạc với chúng tôi qua số điện thoại <%= info[0] ? info[0].phone : '' %> để xác nhận đơn hàng này</p>
                             <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
                                 <h4 class="subtitle">Thông tin đơn hàng</h4>
                                 <table class="container user__information">
                                     <tbody>
-                                    <tr>
-                                        <td>Số điện thoại</td>
-                                        <td>Bla bla</td>
-                                    </tr>
                                     <% const user = bill.user || bill.userInformation %>
                                     <tr>
                                         <td></td>
@@ -66,19 +62,17 @@
                                         <th>Số lượng</th>
                                         <th>Tổng giá</th>
                                     </tr>
-                                    <% let total = 0 %>
                                     <% bill.productBill.forEach((element) => { %>
                                         <tr>
                                             <td><%= element.product.name %></td>
                                             <td><%= element.price.toLocaleString('de-DE') %> ₫</td>
                                             <td><%= element.quantity %></td>
                                             <td><%= (element.quantity * element.price).toLocaleString('de-DE') %> ₫</td>
-                                            <% total += element.quantity * element.price %>
                                         </tr>
                                     <% }) %>
                                     </tbody>
                                 </table>
-                                <p class="text-right">Tổng giá: <%= total.toLocaleString('de-DE') %> ₫</p>
+                                <p class="text-right">Tổng giá: <%= bill.price.toLocaleString('de-DE') %> ₫</p>
                             </div>
                         </div>
                     </td>

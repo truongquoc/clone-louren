@@ -26,7 +26,7 @@ class BlogArticleRepository extends ArticleRepository {
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
-                .find({ isDraft: false, deletedAt: null })
+                .find(conditions)
                 .populate('category', '-_id name slug', { deletedAt: null })
                 .populate('author', '-_id name', { deletedAt: null })
                 .populate('tags', '-_id name slug ')
@@ -90,7 +90,7 @@ class BlogArticleRepository extends ArticleRepository {
     }
 
     show(slug) {
-        return this.model.findOne({ slug })
+        return this.model.findOne({ slug, deletedAt: null })
             .populate({
                 path: 'author',
                 select: '-_id name',
@@ -134,7 +134,7 @@ class BlogArticleRepository extends ArticleRepository {
 
     update(data, id) {
         if (data.image && data.imageUrl) {
-            storageHelper.storage('s3').destroy(data.imageUrl);
+            storageHelper.storage('local').destroy(data.imageUrl);
         }
         const article = {
             category: data.category,
@@ -153,6 +153,5 @@ class BlogArticleRepository extends ArticleRepository {
         return this.baseUpdate(article, { _id: id });
     }
 }
-
 
 module.exports = BlogArticleRepository;

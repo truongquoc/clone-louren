@@ -6,7 +6,7 @@ const uploadController = require('./controllers/uploadController.admin');
 
 const upload = multer({ dest: 'public/tmp/images' });
 
-router.get('/storage', uploadAuthorize.indexAuthorize, uploadController.index);
+// router.get('/storage', uploadAuthorize.indexAuthorize, uploadController.index);
 
 router.get('/', uploadAuthorize.indexAuthorize, uploadController.list);
 
@@ -14,7 +14,7 @@ router.get('/me', uploadAuthorize.uploadAuthorize, uploadController.showMyUpload
 
 router.get('/upload', uploadAuthorize.uploadAuthorize, uploadController.create);
 
-router.post('/upload', uploadAuthorize.storeAuthorize, upload.array('images', 10), uploadRequest.uploadImageRequest, uploadController.store);
+router.post('/upload', uploadAuthorize.storeAuthorize, upload.array('images', 20), uploadRequest.uploadImageRequest, uploadController.store);
 
 router.delete('/delete', uploadAuthorize.destroyAuthorize, uploadController.destroy);
 

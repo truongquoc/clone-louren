@@ -31,17 +31,43 @@ module.exports = (res) => {
         return '';
     };
 
+    res.locals.infoRedis = (title, data, item) => {
+        if (data[item] !== '') {
+            return `${title}: ${data[item]}`;
+        }
+
+        return '';
+    };
+
+    res.locals.titleRedis = (data) => {
+        return typeof data.title !== 'undefined' ? data.title : 'MayHienHome';
+    };
+
     res.locals.getPageIndex = (page) => {
         page = parseInt(page, 10);
 
         return (!page || page <= 1) ? 0 : (page - 1) * Constant.limit;
     };
 
-    res.locals.strLimit = (string, limit, end = '...') => `${string.substr(0, limit)}${end}`;
+    res.locals.strLimit = (string, limit, end = '...') => {
+        if (string.length > limit) {
+            return `${string.substr(0, limit)}${end}`;
+        }
+
+        return string;
+    };
 
     res.locals.formatPrice = (number) => {
         number = parseInt(number, 10).toLocaleString('de-DE').replace(/,/g, '.');
         return number;
+    };
+
+    res.locals.valInfo = (key, info) => {
+        if (info[key]) {
+            return info[key];
+        }
+
+        return '';
     };
 
     res.locals.hasRole = RoleHelper.hasRole;

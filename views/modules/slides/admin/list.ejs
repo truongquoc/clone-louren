@@ -1,0 +1,100 @@
+<% layout('../../../layouts/admin/app') %>
+
+<% stylesheet('//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+
+<% script('https://code.jquery.com/ui/1.12.1/jquery-ui.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js') %>
+
+<% block('title', 'Slides - Quản lý slide') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Blog</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Quản lý slide</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left">
+                    <h3 class="card-title card-title--float">Slide</h3>
+                </div>
+                <div class="float-right">
+                    <button class="btn btn-success change-order__btn">Thay đổi vị trí</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered module__table" data-delete-url="/admin/slides/delete">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Tiêu đề</th>
+                            <th>Đường dẫn</th>
+                            <th>Ảnh</th>
+                            <th>Ngày đăng</th>
+                            <th style="width: 120px">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% pageIndex = getPageIndex(query.page) %>
+                    <% slides.forEach(function (slide, index) { %>
+                    <tr data-key="<%= slide._id %>">
+                        <td><%= pageIndex + index + 1 %></td>
+                        <td class="module__table__name"><%= slide.title %></td>
+                        <td class="module__table__slug">
+                            <% if (slide.url) { %>
+                                <a href="<%= slide.url %>" target="_blank">Đường dẫn</a>
+                            <% } %>
+                        </td>
+                        <td class="module__table__slug">
+                            <a href="<%= slide.image %>" target="_blank">Link ảnh</a>
+                        </td>
+                        <td class="module__table__update-time">
+                            <%= moment(slide.createdAt).format('HH:mm DD/MM/YYYY') %>
+                        </td>
+                        <td>
+                            <a class="badge bg-warning-gradient"
+                               href="/admin/slides/edit/<%= slide._id %>">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <button class="badge bg-danger-gradient module__delete-btn">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="card-footer clearfix">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts', `
+<script>
+  $( function() {
+    $('tbody').sortable({
+      placeholder: "ui-state-highlight"
+    });
+    $('tbody').disableSelection();
+  } );
+</script>
+`) %>

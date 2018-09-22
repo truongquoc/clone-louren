@@ -27,7 +27,7 @@ class BaseRepository {
                 .find(conditions)
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
-                .sort({ createdAt: -1 })
+                .sort(options.sort || { createdAt: -1 })
                 .select(options.select || '-deletedAt -__v'),
         ]);
         const data = { docs, total };
