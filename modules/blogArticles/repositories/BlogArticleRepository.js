@@ -134,7 +134,7 @@ class BlogArticleRepository extends ArticleRepository {
 
     update(data, id) {
         if (data.image && data.imageUrl) {
-            storageHelper.storage('s3').destroy(data.imageUrl);
+            storageHelper.storage('local').destroy(data.imageUrl);
         }
         const article = {
             category: data.category,
