@@ -84,7 +84,6 @@ const store = async (req, res, next) => {
 
         return res.redirect('/admin/products');
     } catch (e) {
-        console.log(e);
         next(responseHelper.error(e.message));
     }
 };
