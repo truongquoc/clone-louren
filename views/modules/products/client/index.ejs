@@ -1,9 +1,9 @@
 <% layout('../../../layouts/client/app') %>
 
 <% stylesheet('/public/client/css/style.css') %>
-<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css') %>
-<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css') %>
-<% script('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css') %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js') %>
 
 <% block('stylesheets', `
 <style>
@@ -17,15 +17,15 @@
 
 <div id="contents" class="homepage">
     <div class="fixed_row">
-        <div class="slider slider-single slide-showed">
+        <div class="owl-carousel owl-theme">
             <% slides.forEach((slide) => { %>
-            <div>
+            <div class="item">
                 <% if (slide.url) { %>
                     <a href="<%= slide.url %>">
-                        <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage lazyload">
+                        <img src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage">
                     </a>
                 <% } else { %>
-                    <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage lazyload">
+                    <img src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage">
                 <% } %>
             </div>
             <% }) %>
@@ -120,16 +120,21 @@
 <% block('scripts', `
 <script>
 $(document).ready(function () {
-    $('.slider-single').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        fade: false,
-        adaptiveHeight: true,
-        infinite: false,
-        useTransform: true,
-        speed: 400,
-        cssEase: 'cubic-bezier(0.77, 0, 0.18, 1)',
+    var owl = $('.owl-carousel');
+    owl.owlCarousel({
+        items:1,
+        loop:true,
+        margin:10,
+        autoplay:true,
+        autoplayTimeout:5000,
+        autoplayHoverPause:true
     });
+    $('.play').on('click',function(){
+        owl.trigger('play.owl.autoplay',[1000])
+    })
+    $('.stop').on('click',function(){
+        owl.trigger('stop.owl.autoplay')
+    })
 });
 </script>
 `) %>
