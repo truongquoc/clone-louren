@@ -21,7 +21,7 @@ module.exports = (app, express) => {
     }));
 
     app.use(express.json());
-    app.use(favicon('./public/client/images/icons/favicon.png'));
+    app.use(favicon('./public/client/images/logo/favicon.png'));
 
     const sessionMiddleware = session({
         secret: process.env.SESSION_SECRET,
