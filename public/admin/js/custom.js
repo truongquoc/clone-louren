@@ -321,6 +321,8 @@ function init_editSubModule() {
 function init_approveModule() {
     $(document).on('click', '.module__approve-btn', function () {
         const self = this;
+        $(self).css({ 'opacity': 0.5 });
+        $(self).attr('disabled', true);
         let text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
         const data = {
             _method: 'PUT',
@@ -349,6 +351,8 @@ function init_approveModule() {
                     dataType: 'json',
                     data,
                     success(res) {
+                        $(self).css({ 'opacity': 1 });
+                        $(self).attr('disabled', false);
                         if (!res.status) {
                             if (res.error.code === 404) {
                                 swal('Lỗi!', 'Không tìm thấy dữ liệu', 'error');
@@ -378,7 +382,6 @@ function init_approveModule() {
                 });
             },
             allowOutsideClick: () => !swal.isLoading()
-
         }).then((result) => {
             if(result.status) {
                 swal('Thành công!', '', 'success');
@@ -417,40 +420,6 @@ function init_changeCity() {
     $('[name="city"]').on('change', function (e) {
         changeCity(this);
     });
-}
-
-function init_changePrice() {
-    $('[name="price[value]"]').on('keyup', function () {
-        if ($(this).val().length > 6) {
-            $(this).val(Math.pow(10, 6));
-        }
-        const text = alertPrice(this);
-        $('[name="price[display]"]').val(text);
-    });
-
-    $('[name="price[type]"]').on('change', function () {
-        const text = alertPrice('[name="price[value]"]');
-        $('[name="price[display]"]').val(text);
-    });
-}
-
-function alertPrice(obj) {
-    const price = $(obj).val();
-    let text = '';
-    const priceType = $('[name="price[type]"]').find('option:selected').text().trim();
-    const price1 = parseInt(price / 1000);
-    const price2 = parseInt(price % 1000);
-    const price3 = (price - parseInt(price)).toFixed(1) * 1000;
-    if (price1) {
-        text = `${text + price1} Tỷ ${!price2 && !price3 ? priceType : ''}`;
-    }
-    if (price2) {
-        text = `${text + price2} Triệu ${!price3 ? priceType : ''}`;
-    }
-    if (price3) {
-        text = `${text + price3} Nghìn ${priceType}`;
-    }
-    return text;
 }
 
 function init_pickImages() {
@@ -686,12 +655,17 @@ function discountedPrice () {
     })
 }
 
-function init_changeSearchType() {
+function init_billChangeSearchType() {
     if ($.fn.datepicker) {
-        $('.input-daterange input').each(function() {
-            $(this).datepicker({
-                format: 'dd/mm/yyyy',
-            });
+        $('.bills__table__search-date__start').datepicker({
+            format: 'dd/mm/yyyy',
+        }).on('changeDate', function () {
+            $('.bills__table__search-date__end').datepicker('setStartDate', $(this).val());
+        });
+        $('.bills__table__search-date__end').datepicker({
+            format: 'dd/mm/yyyy',
+        }).on('changeDate', function () {
+            $('.bills__table__search-date__start').datepicker('setEndDate', $(this).val());
         });
     }
     const $searchMethodElement = $('.bills__table__search__method');
@@ -764,12 +738,11 @@ $(document).ready(() => {
     init_approveModule();
     init_deleteModule();
     init_changeCity();
-    init_changePrice();
     init_pickImages();
     init_deleteImages();
     init_viewRequests();
     init_revertModule();
-    init_changeSearchType();
+    init_billChangeSearchType();
     init_showUserInformation();
     init_changeSlideOrder();
 });

@@ -37,11 +37,11 @@
                         <div class="form-group">
                             <label class="bills__table__search-status">
                                 <input type="checkbox" class="flat-red"
-                                       name="status" value="0" <%= query.status === '0' ? 'checked' : '' %>> Chưa duyệt
+                                       name="status" value="0" <%= (query.status === '0' || query.status === '0,1') ? 'checked' : '' %>> Chưa duyệt
                             </label>
                             <label class="bills__table__search-status">
                                 <input type="checkbox" class="flat-red"
-                                       name="status" value="1" <%= query.status === '1' ? 'checked' : '' %>> Đã duyệt
+                                       name="status" value="1" <%= (query.status === '1' || query.status === '0,1') ? 'checked' : '' %>> Đã duyệt
                             </label>
                             <select class="form-control search-form__input bills__table__search__method" name="method">
                                 <option value="normal" <%= query.method === 'normal' ? 'selected' : '' %>>
@@ -54,9 +54,11 @@
                             <div class="bills__table__search-date <%= query.method !== 'date' ? 'hide' : '' %>">
                                 <div class="input-group input-daterange">
                                     <input type="text" class="form-control bills__table__search-date__start"
-                                           value="<%= query.start || '' %>" name="start">
+                                           data-date-end-date="<%= query.end || '' %>"
+                                           value="<%= query.start || '' %>" name="start" autocomplete="off">
                                     <input type="text" class="form-control bills__table__search-date__end"
-                                           value="<%= query.end || '' %>" name="end">
+                                           data-date-start-date="<%= query.start || '' %>"
+                                           value="<%= query.end || '' %>" name="end" autocomplete="off">
                                 </div>
                             </div>
                             <div class="bills__table__search-normal <%= query.method === 'date' ? 'hide' : '' %>">
@@ -111,8 +113,6 @@
                                              data-user-address="<%= bill.userInformation.address %>"
                                              data-note="<%= bill.userInformation.note %>"
                                         ></div>
-                                    <% } else { %>
-                                        <span style="display: inline-block;width: 21px; height: 12px;"></span>
                                     <% } %>
                                     <% if (!bill.isApproved) { %>
                                         <button class="badge bg-success-gradient module__approve-btn remove-btn">
