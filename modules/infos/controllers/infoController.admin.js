@@ -8,12 +8,13 @@ const client = redis.createClient();
 
 module.exports = {
     manage: async (req, res) => {
-        const info = await infoRepository.show();
+        const infos = await infoRepository.show();
 
-        if (info.length) {
-            req.flash('oldValue', info[0]);
-        }
-        return res.render('modules/infos/admin/create');
+        const info = infos.length !== 0 ? infos[0] : {};
+
+        return res.render('modules/infos/admin/create', {
+            info,
+        });
     },
 
     store: async (req, res, next) => {

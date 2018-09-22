@@ -28,42 +28,42 @@
                 <form class="blog-articles__form" action="" method="POST">
                     <div class="form-group">
                         <label for="name">Tên Website</label>
-                        <input type="text" class="form-control form__title__input" value="<%= old('title') !== 'undefined' ? old('title') : '' %>" name="title">
+                        <input type="text" class="form-control form__title__input" value="<%= valInfo('title', info) %>" name="title">
                         <p class="form__error-message form__title__error-message"><%= errors('title') %></p>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-12 col-md">
                             <label for="sku">Tên công ty</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('company') !== 'undefined' ? old('company') : '' %>" name="company">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('company', info) %>" name="company">
                         </div>
                         <div class="col-12 col-md">
                             <label for="quantity">Tên đại diện</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('deputy') !== 'undefined' ? old('deputy') : '' %>" name="deputy">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('deputy', info) %>" name="deputy">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-12 col-md">
                             <label for="sku">Mã số thuế</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('tax') !== 'undefined' ? old('tax') : '' %>" name="tax">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('tax', info) %>" name="tax">
                             <p class="form__error-message form__title__error-message"><%= errors('tax') %></p>
                         </div>
                         <div class="col-12 col-md">
                             <label for="quantity">Địa chỉ</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('location') !== 'undefined' ? old('location') : '' %>" name="location">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('location', info) %>" name="location">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-12 col-md">
                             <label for="sku">Điện thoại</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('phone') !== 'undefined' ? old('phone') : '' %>" name="phone">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('phone', info) %>" name="phone">
                             <p class="form__error-message form__title__error-message"><%= errors('phone') %></p>
                         </div>
                         <div class="col-12 col-md">
                             <label for="quantity">Fax</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('fax') !== 'undefined' ? old('fax') : '' %>" name="fax">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('fax', info) %>" name="fax">
                             <p class="form__error-message form__title__error-message"><%= errors('fax') %></p>
                         </div>
                     </div>
@@ -71,12 +71,12 @@
                     <div class="form-group row">
                         <div class="col-12 col-md">
                             <label for="sku">Email</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('email') !== 'undefined' ? old('email') : '' %>" name="email">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('email', info) %>" name="email">
                             <p class="form__error-message form__title__error-message"><%= errors('email') %></p>
                         </div>
                         <div class="col-12 col-md">
                             <label for="quantity">Cán bộ bảo mật</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('security') !== 'undefined' ? old('security') : '' %>" name="security">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('security', info) %>" name="security">
                             <p class="form__error-message form__title__error-message"><%= errors('security') %></p>
                         </div>
                     </div>
@@ -84,11 +84,11 @@
                     <div class="form-group row">
                         <div class="col-12 col-md">
                             <label for="sku">Google Analytics</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('google') !== 'undefined' ? old('google') : '' %>" name="google">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('google', info) %>" name="google">
                         </div>
                         <div class="col-12 col-md">
                             <label for="quantity">Facebook Pixel</label>
-                            <input type="text" class="form-control form__title__input" value="<%= old('facebook') !== 'undefined' ? old('facebook') : '' %>" name="facebook">
+                            <input type="text" class="form-control form__title__input" value="<%= valInfo('facebook', info) %>" name="facebook">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Cập nhật</button>
