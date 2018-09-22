@@ -79,7 +79,7 @@ const store = async (req, res, next) => {
                 width: 750,
                 quality: 75,
             });
-            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+            data.image = await storageHelper.storage('local').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await BlogArticleRepository.create(data, req.session.cUser);
         req.flash('success', 'Tạo bài viết thành công');
@@ -121,7 +121,7 @@ const update = async (req, res, next) => {
                 width: 750,
                 quality: 75,
             });
-            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+            data.image = await storageHelper.storage('local').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await BlogArticleRepository.update(data, req.params.id);
         req.flash('success', 'Chỉnh sửa bài viết thành công');

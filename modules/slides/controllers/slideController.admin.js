@@ -36,7 +36,7 @@ const store = async (req, res, next) => {
             width: 1920,
             quality: 65,
         });
-        data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+        data.image = await storageHelper.storage('local').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         await SlideRepository.create(data, req.session.cUser);
         req.flash('success', 'Đăng ảnh slide thành công');
 
@@ -73,7 +73,7 @@ const update = async (req, res, next) => {
                 width: 1920,
                 quality: 65,
             });
-            data.image = await storageHelper.storage('s3').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
+            data.image = await storageHelper.storage('local').upload(`articles/${dateHelper.getSlugCurrentTime()}.jpg`, image, 'public-read');
         }
         await SlideRepository.update(data, req.params.id);
         req.flash('success', 'Chỉnh sửa slide thành công');

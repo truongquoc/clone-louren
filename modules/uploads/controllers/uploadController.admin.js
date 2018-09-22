@@ -78,7 +78,7 @@ const store = async (req, res) => {
         images = await Promise.all(images);
         let locations = [];
         images.forEach((image, i) => {
-            locations.push(storageHelper.storage('s3').upload(`articles/details/${i}-${dateHelper.getSlugCurrentTime()}`, image, 'public-read'));
+            locations.push(storageHelper.storage('local').upload(`details/${dateHelper.getSlugCurrentTime()}-${i}.jpg`, image, 'public-read'));
         });
         locations = await Promise.all(locations);
         await UploadRepository.create(locations, userId);
@@ -95,7 +95,7 @@ const destroy = async (req, res) => {
         const data = await UploadRepository.getManyByIds(images);
         const imagesData = data.map(image => image.url);
         await Promise.all([
-            storageHelper.storage('s3').destroy(imagesData),
+            storageHelper.storage('local').destroy(imagesData),
             UploadRepository.delete(images),
         ]);
 
@@ -108,7 +108,7 @@ const destroyByUrl = async (req, res) => {
     const { images } = req.body;
     try {
         await Promise.all([
-            storageHelper.storage('s3').destroy(images),
+            storageHelper.storage('local').destroy(images),
             UploadRepository.deleteByUrl(images),
         ]);
 
