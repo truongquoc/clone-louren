@@ -321,8 +321,6 @@ function init_editSubModule() {
 function init_approveModule() {
     $(document).on('click', '.module__approve-btn', function () {
         const self = this;
-        $(self).css({ 'opacity': 0.5 });
-        $(self).attr('disabled', true);
         let text = $(self).hasClass('bg-success-gradient') ? 'Duyệt' : 'Bỏ duyệt';
         const data = {
             _method: 'PUT',
@@ -343,6 +341,8 @@ function init_approveModule() {
             cancelButtonClass: 'btn btn-danger',
             showLoaderOnConfirm: true,
             preConfirm: () => {
+                $(self).attr('disabled', true);
+                $(self).css({ 'opacity': 0.5 });
                 const url = $('.module__table').data('approve-url');
                 const key = $(self).closest('tr').data('key');
                 return $.ajax({
