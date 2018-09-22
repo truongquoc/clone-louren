@@ -20,14 +20,14 @@ module.exports = {
         }),
         check('phone', 'Số điện thoại không hợp lệ').custom((value) => {
             if (value) {
-                return /^[^0-9. ]{10,12}$/.test(value);
+                return /^[0-9. +]{10,16}$/.test(value);
             }
 
             return true;
         }),
         check('fax', 'Số điện thoại không hợp lệ').custom((value) => {
             if (value) {
-                return /^[^0-9. ]{10,12}$/.test(value);
+                return /^[0-9. +]{10,16}$/.test(value);
             }
 
             return true;

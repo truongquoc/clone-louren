@@ -62,6 +62,14 @@ module.exports = (res) => {
         return number;
     };
 
+    res.locals.valInfo = (key, info) => {
+        if (info[key]) {
+            return info[key];
+        }
+
+        return '';
+    };
+
     res.locals.hasRole = RoleHelper.hasRole;
 
     res.locals.hasRoleOnly = RoleHelper.hasRoleOnly;
