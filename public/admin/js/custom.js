@@ -560,10 +560,11 @@ function splitCurrency(input, event) {
 
     value = value.replace(/[\D\s\._\-]+/g, '');
     value = value ? parseInt(value, 10) : 0;
+    value = value.toLocaleString('de-DE').replace(/,/g, '.');
 
-    $(input).val(() => ((value === 0) ? '' : value.toLocaleString()));
+    $(input).val(() => ((value === '0') ? '' : value));
 
-    return value.toLocaleString();
+    return value;
 }
 
 function calcCurrency(value) {
@@ -607,7 +608,7 @@ function getTextCurrency(input) {
 function getCurrency() {
     const value = +($('[name="priceValue"]').val());
     if (value) {
-        $('#price').val(parseInt(Math.round(value/1000), 10).toLocaleString());
+        $('#price').val(parseInt(Math.round(+value/1000), 10).toLocaleString('de-DE').replace(/,/g, '.'));
     } else {
         $('#price').val('');
     }
