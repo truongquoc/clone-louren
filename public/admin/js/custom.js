@@ -595,7 +595,7 @@ function splitCurrency(input, event) {
 
     $(input).val(() => ((value === 0) ? '' : value.toLocaleString()));
 
-    return value.toLocaleString();
+    return value.toLocaleString('de-DE');
 }
 
 function calcCurrency(value) {
@@ -626,7 +626,7 @@ function calcCurrency(value) {
 
 function getTextCurrency(input) {
     const value = $(input).val();
-    const originalValue = +(value.replace(/[($)\s\._\-]+/g, ''));
+    const originalValue = +(value.replace(/[($)\s\.,_\-]+/g, ''));
     $(input).attr('data-original', originalValue);
 
     let result = (originalValue*1000).toLocaleString('de-DE');
