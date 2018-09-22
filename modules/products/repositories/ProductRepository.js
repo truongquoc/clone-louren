@@ -197,7 +197,7 @@ class ProductRepository extends ArticleRepository {
                 string: data.priceText,
             },
             'image.cover': data.image,
-            discount: data.discount,
+            discount: data.discount || 0,
             info: data.info,
             detail: data.detail,
             isDraft: !!data.isDraft,
@@ -208,7 +208,7 @@ class ProductRepository extends ArticleRepository {
 
     update(data, id) {
         if (data.image && data.imageUrl) {
-            storageHelper.storage('s3').destroy(data.imageUrl);
+            storageHelper.storage('local').destroy(data.imageUrl);
         }
         const product = {
             type: data.type,
@@ -219,7 +219,7 @@ class ProductRepository extends ArticleRepository {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
                 string: data.priceText,
             },
-            discount: data.discount,
+            discount: data.discount || 0,
             info: data.info,
             detail: data.detail,
             isDraft: !!data.isDraft,
