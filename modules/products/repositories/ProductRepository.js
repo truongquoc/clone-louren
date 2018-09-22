@@ -14,8 +14,10 @@ class ProductRepository extends ArticleRepository {
     getNewestProducts() {
         return this.model
             .find({
+                quantity: { $gt: 0 },
                 isDraft: false,
                 isApproved: true,
+                deletedAt: null,
             })
             .sort({ createdAt: -1 })
             .limit(9);
@@ -27,6 +29,7 @@ class ProductRepository extends ArticleRepository {
         const search = new RegExp(options.query.search, 'i');
         const conditions = {
             name: search,
+            quantity: { $gt: 0 },
             isDraft: false,
             isApproved: true,
             deletedAt: null,
@@ -101,6 +104,7 @@ class ProductRepository extends ArticleRepository {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
         const conditions = {
+            quantity: { $gt: 0 },
             isDraft: false,
             isApproved: true,
             deletedAt: null,
@@ -232,8 +236,6 @@ class ProductRepository extends ArticleRepository {
         return this.model
             .findOne({
                 slug,
-                isApproved: true,
-                isDraft: false,
                 deletedAt: null,
             })
            .populate({
@@ -246,7 +248,7 @@ class ProductRepository extends ArticleRepository {
                 select: '_id name slug',
                 match: { deletedAt: null },
            })
-           .select('-isApproved -updatedAt');
+           .select('-updatedAt');
     }
 
     getProductsByType(typeId) {

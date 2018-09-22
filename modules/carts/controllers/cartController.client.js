@@ -30,7 +30,7 @@ const index = async (req, res, next) => {
 
             const products = await Product
                 .find({ _id: arrIdProducts })
-                .select('name price slug discount image.cover');
+                .select('name price discount quantity image.cover slug');
 
             cart.products = sessionCart.map((s) => {
                 const id = s.item;
