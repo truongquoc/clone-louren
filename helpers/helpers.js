@@ -9,9 +9,9 @@ module.exports = (res) => {
         if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.oldValue) {
             const name = key.split('.');
             if (name.length > 1) {
-                return res.locals.flashMessages.oldValue[0][name[0]][name[1]];
+                return res.locals.flashMessages.oldValue[0][name[0]][name[1]] || value;
             }
-            return res.locals.flashMessages.oldValue[0][key];
+            return res.locals.flashMessages.oldValue[0][key] || value;
         }
         return value;
     };

@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="title">Tiêu đề</label>
                         <input type="text" class="form-control" value="<%= old('title', slide.title) %>" name="title">
-                        <p class="form__error-message form__title__error-message"><%= errors('title') %></p>
+                        <p class="form__error-message"><%= errors('title') %></p>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -47,7 +47,7 @@
                                     <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
                                 </div>
                                 <input type="hidden" name="imageUrl" value="<%= slide.image %>">
-                                <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
+                                <p class="form__error-message"><%= errors('image') %></p>
                             </div>
                         </div>
                     </div>

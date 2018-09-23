@@ -364,3 +364,7 @@ button.badge {
 .swal2-container {
     z-index: 100001;
 }
+
+.image__form__representation span, .image__form__representation b {
+    margin-right: 10px;
+}

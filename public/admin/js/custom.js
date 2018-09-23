@@ -853,6 +853,7 @@ function init_imagePicker(images, $tinymce) {
         images.tempUrl.forEach((image) => {
             $images.append(`<input type="hidden" name="images" value="${image}">`);
         });
+        $('.image__form__representation b').text(`Đã có ${images.tempUrl.length} bức ảnh được chọn`);
         images.url = images.tempUrl;
     });
 
@@ -872,6 +873,9 @@ function init_imagePicker(images, $tinymce) {
 }
 
 function init_tinymce() {
+    if (typeof tinymce === 'undefined') {
+        return false;
+    }
     tinymce.init({
         selector: 'textarea.tinymce',
         height: 500,
@@ -920,4 +924,5 @@ $(document).ready(() => {
     init_deleteLink();
     init_updateStt();
     init_lazyload();
+    init_tinymce();
 });
