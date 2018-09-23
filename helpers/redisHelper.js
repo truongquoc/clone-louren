@@ -24,6 +24,14 @@ module.exports = {
             }
         });
 
+        client.get('links', (err, reply) => {
+            if (reply) {
+                res.locals.links = JSON.parse(reply);
+            } else {
+                res.locals.links = [];
+            }
+        });
+
         next();
     },
 };

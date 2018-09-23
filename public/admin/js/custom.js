@@ -96,6 +96,79 @@ function deleteRecord(data) {
     });
 }
 
+function init_updateStt () {
+    $('#sttLinks').click(function() {
+        const lists = $('.todo-list li');
+        const ids = [];
+        for (let i = 0; i < lists.length; i++) {
+            const id = $(lists[i]).data('id');
+            ids.push(id);
+        }
+
+        fetch('/admin/links/update', {
+            method: 'POST',
+            body: JSON.stringify({ ids }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((value) => {
+                if (value.status === 200) {
+                    window.location.href = '/admin/links';
+                } else {
+                    swal({
+                        title: 'Lỗi',
+                        text: 'Không thể cập nhật, vui lòng thử lại',
+                        icon: 'error',
+                        dangerMode: true,
+                    });
+                }
+            });
+    })
+}
+
+function init_deleteLink() {
+    $('.deleteLink').click(function() {
+        const id = $(this).data('id');
+
+        swal({
+            title: 'Bạn chắc chứ?',
+            text: 'Bạn có thể sẽ không khôi phục được dữ liệu này!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+        })
+            .then((result) => {
+                if (result) {
+                    fetch('/admin/links/delete', {
+                        method: 'DELETE',
+                        body: JSON.stringify({ id }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                        .then((value) => {
+                            if (value.status === 200) {
+                                window.location.href = '/admin/links';
+                            } else {
+                                swal({
+                                    title: 'Lỗi',
+                                    text: 'Không xóa được liên kết, vui lòng thử lại',
+                                    icon: 'error',
+                                    dangerMode: true,
+                                });
+                            }
+                        });
+                }
+            });
+    });
+};
+
 function revertRecord(data) {
     swal({
         title: 'Bạn chắc chứ?',
@@ -746,4 +819,6 @@ $(document).ready(() => {
     init_billChangeSearchType();
     init_showUserInformation();
     init_changeSlideOrder();
+    init_deleteLink();
+    init_updateStt();
 });
