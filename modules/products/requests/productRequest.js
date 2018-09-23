@@ -46,7 +46,7 @@ const createProductRequest = [
         .withMessage('Mã SKU không được bỏ trống')
         .custom(async (value) => {
             try {
-                const product = await ProductRepository.checkExistWithTrashed({ code: value });
+                const product = await ProductRepository.checkExistWithTrashed({ sku: value });
                 if (product) {
                     throw new Error('Mã sản phẩm đã được sử dụng');
                 }
@@ -70,6 +70,23 @@ const createProductRequest = [
             return Promise.reject(e.message);
         }
     }),
+    check('images')
+        .not()
+        .isEmpty()
+        .withMessage('Ảnh không được bỏ trống')
+        .custom((value) => {
+            if (!value) {
+                value = [];
+            } else if (typeof value === 'string') {
+                value = [value];
+            }
+            const imagesLength = value.length;
+            if (imagesLength < 1 || imagesLength > 5) {
+                return false;
+            }
+            return true;
+        })
+        .withMessage('Số lượng ảnh không hợp lệ'),
     check('slug').trim()
         .custom(async (value, { req }) => {
         if (!value) {
@@ -144,6 +161,23 @@ const editProductRequest = [
             return Promise.reject(e.message);
         }
     }),
+    check('images')
+        .not()
+        .isEmpty()
+        .withMessage('Ảnh không được bỏ trống')
+        .custom((value) => {
+            if (!value) {
+                value = [];
+            } else if (typeof value === 'string') {
+                value = [value];
+            }
+            const imagesLength = value.length;
+            if (imagesLength < 1 || imagesLength > 5) {
+                return false;
+            }
+            return true;
+        })
+        .withMessage('Số lượng ảnh không hợp lệ'),
     check('sku')
         .not()
         .isEmpty()
@@ -152,7 +186,7 @@ const editProductRequest = [
             try {
                 const product = await ProductRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
-                    code: value,
+                    sku: value,
                 });
                 if (product) {
                     throw new Error('Mã sản phẩm đã được sử dụng');
