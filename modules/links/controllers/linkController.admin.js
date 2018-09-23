@@ -72,6 +72,17 @@ module.exports = {
             const findExist = await linkRepository.findByTitle(data.title);
 
             if (findExist) {
+                if (findExist._id.toString() === id) {
+                    await linkRepository.update(id, data);
+                    const links = await linkRepository.find();
+                    const linksJson = JSON.stringify(links);
+
+                    client.set('links', linksJson);
+                    req.flash('success', 'Cập nhật liên kết thành công');
+
+                    return res.redirect('/admin/links');
+                }
+
                 const errors = [{
                     title: { msg: 'Tiêu đề đã tồn tại' },
                 }];
