@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const infoSchema = new Schema({
     title: {
         type: String,
-        default: 'MayHienHome',
+        default: 'Mây Hiên Home',
     },
     company: String,
     deputy: String,

@@ -22,26 +22,28 @@
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/public/client/css/custom.css"/>
     <%- stylesheets %>
+
     <title><%= titleRedis(info) %> | <%= block('title') %></title>
-    <!--<meta name="path_role" content="MAIN"/>-->
-    <!--<meta name="author" content="demo"/>-->
-    <!--<meta name="description" content=""/>-->
-    <!--<meta name="keywords" content=""/>-->
-    <meta property="og:url" content="https://mayhienhome.com" />
+
+    <meta name="author" content="<%= titleRedis(info) %>"/>
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="https://mayhienhome.com" id="fbUrl" />
     <!-- <meta property="og:type" content="article" /> -->
-    <meta property="og:title" content="MayHienHome" />
-    <meta property="og:description" content="MayHienHome" />
-    <!-- <meta property="og:image" content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" -->
-    <!-- /> -->
+    <meta property="og:title" content="<%= titleRedis(info) %>" />
+    <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
+
     <% if(infoRedis('', info, 'google') !== '') { %>
         <script async src="https://www.googletagmanager.com/gtag/js?id=<%= info.google %>"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-    
+
             gtag('config', '<%= info.google %>');
-        </script>    
+        </script>
     <% }%>
 
     <% if(infoRedis('', info, 'facebook') !== '') { %>
@@ -58,9 +60,9 @@
             fbq('track', 'PageView');
         </script>
         <noscript>
-            <img height="1" width="1" style="display:none" 
+            <img height="1" width="1" style="display:none"
                 src="https://www.facebook.com/tr?id=<%= info.facebook %>&ev=PageView&noscript=1"/>
-        </noscript> 
+        </noscript>
     <% }%>
 </head>
 <body>
@@ -80,7 +82,7 @@
 
     <div class="fixed_copyright">
         <p class="xans-element- xans-layout xans-layout-footer copyright ">COPYRIGHT ©
-            <strong>demo</strong>
+            <strong><%= titleRedis(info) %></strong>
             . ALL RIGHTS RESERVED.
             <a href="#" target="_blank"></a>
         </p>
@@ -109,6 +111,7 @@
 <script src="/public/client/js/custom.js"></script>
 <%- block('script') %>
 <script>
+    $('#fbUrl').attr('content', location.href);
     var mobileWeb = false;
     <% if (flashMessages && flashMessages.success) { %>
         alert('<%= flashMessages.success %>');
@@ -117,5 +120,21 @@
         alert('<%= flashMessages.error %>');
     <% } %>
 </script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="148677635307246"
+     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
+     logged_out_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?">
+</div>
 </body>
 </html>

@@ -1,16 +1,16 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="/admin" class="brand-link">
-        <img src="/public/admin/img/AdminLTELogo.png"
-             alt="mayhienhome Logo"
+        <img src="/public/admin/img/logoMayHien.png"
+             alt="Mây Hiên Home"
              class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">MayHienHome</span>
+        <span class="brand-text font-weight-light">Mây Hiên Home</span>
     </a>
 
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<%= cUser.avatar %>" class="img-circle elevation-2" alt="User Image">
+                <img src="<%= cUser.avatar %>" class="img-circle elevation-2" alt="<%= cUser.name %>">
             </div>
             <div class="info">
                 <a href="/admin/users/<%= cUser.slug %>" class="d-block"><%= cUser.name %></a>
