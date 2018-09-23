@@ -10,9 +10,11 @@ const upload = multer({ dest: 'public/tmp/images' });
 
 router.get('/', uploadAuthorize.indexAuthorize, uploadController.list);
 
+router.get('/iframe', uploadAuthorize.showIframeAuthorize, uploadController.listUsingIframe);
+
 router.get('/me', uploadAuthorize.uploadAuthorize, uploadController.showMyUploads);
 
-router.get('/upload', uploadAuthorize.uploadAuthorize, uploadController.create);
+// router.get('/upload', uploadAuthorize.uploadAuthorize, uploadController.create);
 
 router.post('/upload', uploadAuthorize.storeAuthorize, upload.array('images', 20), uploadRequest.uploadImageRequest, uploadController.store);
 

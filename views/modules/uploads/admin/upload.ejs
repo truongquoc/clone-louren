@@ -45,8 +45,9 @@
 <% block('scripts', `
 <script>
     Dropzone.autoDiscover = false;
+    let dropzone;
     $(document).ready(() => {
-        const dropzone = new Dropzone('form.dropzone', {
+        dropzone = new Dropzone('form.dropzone', {
             url: '/admin/images/upload',
             paramName: function() { return 'images'; },
             uploadMultiple: true,
@@ -58,6 +59,9 @@
                 const dropzone = this;
                 $('.images__upload-btn').on('click', () => {
                     dropzone.processQueue();
+                });
+                this.on('addedfile', function (file) {
+                    console.log(file);
                 });
             },
             successmultiple: function (file, res) {
@@ -76,8 +80,12 @@
                     }
                     return _results;
                 }
-            }
+            },
         });
+        const mockFile = { name:'', size : 1 };
+        dropzone.emit('addedfile', mockFile);
+        dropzone.emit('thumbnail', mockFile, 'http://localhost:3000/public/images/articles/2018092210273600.jpg');
+        dropzone.emit('complete', mockFile);
     });
 </script>
 `) %>

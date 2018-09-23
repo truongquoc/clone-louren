@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/admin/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.0/image-picker.min.css">
+    <link rel="stylesheet" href="/public/admin/css/custom.css">
+    <style>
+        body {
+            padding: 15px;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="pick-image-tab" data-toggle="pill" href="#pick-image" role="tab"
+           aria-controls="pills-home" aria-selected="true">Chọn ảnh</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#upload" role="tab"
+           aria-controls="pills-upload" aria-selected="false">Tải ảnh lên</a>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active image-picker__container" id="pick-image" role="tabpanel"
+         aria-labelledby="pick-image-tab">
+        <select class="image-picker" multiple="multiple">
+            <% images.docs.forEach((image) => { %>
+            <option data-img-src="<%= image.url %>" value="<%= image.url %>"></option>
+            <% }) %>
+        </select>
+        <%- images.renderPagination(images, query.page) %>
+    </div>
+    <div class="tab-pane fade" id="upload" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="dropzone"></div>
+        <div class="text-center">
+            <button class="btn btn-info images__upload-btn">
+                <i class="fa fa-cloud-upload"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/public/vendors/jquery/jquery.min.js"></script>
+<script src="/public/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.0/image-picker.min.js"></script>
+<script src="/public/admin/js/custom.js"></script>
+<script>
+    const images = {
+        url: [],
+        tempUrl: [],
+        max: 5,
+        imagePickerOptions: {
+            hide_select: true,
+        }
+    };
+
+    Dropzone.autoDiscover = false;
+    $(document).ready(() => {
+        init_configDropzone(images, '.image-picker');
+        init_imagePicker(images, top.tinymce);
+    });
+</script>
+</body>
+</html>

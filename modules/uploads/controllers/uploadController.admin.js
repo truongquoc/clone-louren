@@ -28,7 +28,7 @@ const index = async (req, res, next) => {
 const list = async (req, res, next) => {
     const { query } = req;
     try {
-        const images = await UploadRepository.list(undefined, {
+        const images = await UploadRepository.list(undefined, undefined, {
             query,
             pageUrl: req.baseUrl,
         });
@@ -43,10 +43,35 @@ const list = async (req, res, next) => {
     }
 };
 
+const listUsingIframe = async (req, res, next) => {
+    const { query } = req;
+    try {
+        const images = await UploadRepository.list(undefined, 1, {
+            query,
+            pageUrl: url.parse(req.originalUrl).pathname,
+            limit: 20,
+        });
+        images.renderPagination = paginationHelper.renderPagination;
+        if (req.xhr) {
+            return res.render('modules/products/admin/ajax/pickImages', {
+                images,
+                query,
+            });
+        }
+
+        return res.render('modules/products/admin/ajax/imagesIframe', {
+            images,
+            query,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 const showMyUploads = async (req, res, next) => {
     const { query } = req;
     try {
-        const images = await UploadRepository.list(req.session.cUser._id, {
+        const images = await UploadRepository.list(req.session.cUser._id, undefined, {
             query,
             pageUrl: req.baseUrl,
         });
@@ -104,6 +129,7 @@ const destroy = async (req, res) => {
         return res.json(responseHelper.error(e.message));
     }
 };
+
 const destroyByUrl = async (req, res) => {
     const { images } = req.body;
     try {
@@ -121,6 +147,7 @@ const destroyByUrl = async (req, res) => {
 module.exports = {
     index,
     list,
+    listUsingIframe,
     showMyUploads,
     create,
     store,

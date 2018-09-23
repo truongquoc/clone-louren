@@ -187,7 +187,6 @@ const editProductRequest = [
 
 const storeImagesRequest = [
     check('images').not().isEmpty().withMessage('Ảnh không được bỏ trống'),
-    check('type').isIn(['1', '2']).withMessage('Cách lưu trữ không hợp lệ'),
 ];
 
 module.exports = {
