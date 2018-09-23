@@ -186,6 +186,12 @@ class ProductRepository extends ArticleRepository {
     }
 
     create(data, user) {
+        let { images } = data;
+        if (!images) {
+            images = [];
+        } else if (typeof images === 'string') {
+            images = [images];
+        }
         const product = {
             type: data.type,
             author: user._id,
@@ -195,6 +201,10 @@ class ProductRepository extends ArticleRepository {
             price: {
                 number: data.priceValue,
                 string: data.priceText,
+            },
+            image: {
+                cover: data.image,
+                array: images,
             },
             'image.cover': data.image,
             discount: data.discount || 0,
@@ -210,6 +220,12 @@ class ProductRepository extends ArticleRepository {
         if (data.image && data.imageUrl) {
             storageHelper.storage('local').destroy(data.imageUrl);
         }
+        let { images } = data;
+        if (!images) {
+            images = [];
+        } else if (typeof images === 'string') {
+            images = [images];
+        }
         const product = {
             type: data.type,
             name: data.name,
@@ -219,6 +235,7 @@ class ProductRepository extends ArticleRepository {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
                 string: data.priceText,
             },
+            'image.array': images,
             discount: data.discount || 0,
             info: data.info,
             detail: data.detail,
@@ -274,15 +291,8 @@ class ProductRepository extends ArticleRepository {
            .select('-isApproved -updatedAt');
     }
 
-    async storeImages(images, id, type) {
-        const article = await this.getDetail({ _id: id }, { select: '_id image.array' });
-        if (type === '2' || !article.image.array) {
-            article.image.array = images;
-        } else if (type === '1' && article.image.array) {
-            article.image.array = article.image.array.concat(images);
-        }
-
-        return article.save();
+    async changeImageOrder(images, id) {
+        return this.baseUpdate({ 'image.array': images }, { _id: id });
     }
 }
 

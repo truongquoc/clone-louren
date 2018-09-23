@@ -32,10 +32,10 @@ const changeOrderAuthorize = async (req, res, next) => {
     if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
         return res.json(responseHelper.notAuthorized());
     }
-    const { ids } = req.body;
+    const { images } = req.body;
     try {
-        const check = await SlideRepository.baseGet({ _id: ids }, { select: '_id' });
-        if (check.length !== ids.length) {
+        const check = await SlideRepository.baseGet({ _id: images }, { select: '_id' });
+        if (check.length !== images.length) {
             return res.json(responseHelper.notFound());
         }
         next();

@@ -1,0 +1,7 @@
+<select class="image-picker" multiple="multiple">
+    <% images.docs.forEach((image) => { %>
+        <option data-img-src="<%= image.url %>" value="<%= image.url %>"></option>
+    <% }) %>
+</select>
+
+<%- images.renderPagination(images, query.page) %>
