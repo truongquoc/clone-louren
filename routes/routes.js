@@ -12,6 +12,7 @@ const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const adminSlideRouter = require('../modules/slides/routes.admin');
 const adminInfoRouter = require('../modules/infos/router.admin');
 const adminRobotRouter = require('../modules/robots/router.admin');
+const adminLinkRouter = require('../modules/links/router.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
 const clientProductTypeRouter = require('../modules/productTypes/routes.client');
 const clientCartRouter = require('../modules/carts/routes.client');
@@ -43,6 +44,7 @@ router.use('/admin/blog/tags', adminBlogTagRouter);
 router.use('/admin/slides', adminSlideRouter);
 router.use('/admin/infos', adminInfoRouter);
 router.use('/admin/robots', adminRobotRouter);
+router.use('/admin/links', adminLinkRouter);
 router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use(redisHelper.getRedis);

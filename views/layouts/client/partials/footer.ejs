@@ -10,10 +10,11 @@
           </ul>
        </div>
        <ul class="utilMenu">
-          <li><a href="#">GIỚI THIỆU</a></li>
-          <li><a href="#">THỎA THUẬN</a></li>
-          <li><a href="#"><strong>CHÍNH SÁCH</strong></a></li>
-          <li><a href="#">HƯỚNG DẪN MUA SẮM</a></li>
+           <% if(typeof links !== 'undefined') { %>
+            <% links.forEach(link => { %>
+                <li><a target="_blank" style="text-transform: uppercase;" href="<%= link.url %>"><%= link.title %></a></li>
+            <% }) %>
+           <% } %>
        </ul>
        <div class="xans-element- xans-layout xans-layout-footer">
           <p class="address">
