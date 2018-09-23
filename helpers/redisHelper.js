@@ -9,7 +9,7 @@ module.exports = {
                 res.locals.info = JSON.parse(reply);
             } else {
                 res.locals.info = {
-                    title: 'MayHienHome',
+                    title: 'Mây Hiên Home',
                     company: '',
                     deputy: '',
                     tax: '',

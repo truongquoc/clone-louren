@@ -39,9 +39,7 @@ module.exports = (res) => {
         return '';
     };
 
-    res.locals.titleRedis = (data) => {
-        return typeof data.title !== 'undefined' ? data.title : 'MayHienHome';
-    };
+    res.locals.titleRedis = data => (typeof data.title !== 'undefined' ? data.title : 'Mây Hiên Home');
 
     res.locals.getPageIndex = (page) => {
         page = parseInt(page, 10);

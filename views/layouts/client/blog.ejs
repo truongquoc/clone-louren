@@ -16,7 +16,47 @@
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
-    <title><%= block('title') %></title>
+    <title><%= titleRedis(info) %> | <%= block('title') %></title>
+
+    <meta name="author" content="<%= titleRedis(info) %>"/>
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="https://mayhienhome.com" id="fbUrl" />
+    <!-- <meta property="og:type" content="article" /> -->
+    <meta property="og:title" content="<%= titleRedis(info) %>" />
+    <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
+
+    <% if(infoRedis('', info, 'google') !== '') { %>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<%= info.google %>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '<%= info.google %>');
+        </script>
+    <% }%>
+
+    <% if(infoRedis('', info, 'facebook') !== '') { %>
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '<%= info.facebook %>');
+            fbq('track', 'PageView');
+        </script>
+        <noscript>
+            <img height="1" width="1" style="display:none"
+                 src="https://www.facebook.com/tr?id=<%= info.facebook %>&ev=PageView&noscript=1"/>
+        </noscript>
+    <% }%>
 </head>
 
 <body class="">
@@ -57,11 +97,31 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
 <script>
+    $('#fbUrl').attr('content', location.href);
+
     $('.lazyload').lazy({
         effect: 'fadeIn',
         effectTime: 1000,
         threshold: 0,
     });
 </script>
+
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="148677635307246"
+     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
+     logged_out_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?">
+</div>
 </body>
 </html>
