@@ -794,9 +794,9 @@ function getImages(images, element) {
     const $images = $(`${element} input[name="images"]`);
     for (let i = 0; i < $images.length; i++) {
         const image = $($images[i]).attr('value');
-        images.tempUrl.push(image);
+        images.url.push(image);
     }
-    images.url = images.tempUrl;
+    images.tempUrl = images.url.slice(0);
 }
 
 function init_imagePicker(images, $tinymce) {
@@ -850,23 +850,37 @@ function init_imagePicker(images, $tinymce) {
     $('.pick-image-btn').on('click', function () {
         const $images = $('.images');
         $images.html('');
+        images.url = [];
         images.tempUrl.forEach((image) => {
             $images.append(`<input type="hidden" name="images" value="${image}">`);
+            images.url.push(image);
         });
         $('.image__form__representation b').text(`Đã có ${images.tempUrl.length} bức ảnh được chọn`);
-        images.url = images.tempUrl;
+        $('.image__modal').addClass('pick-image-event');
     });
 
-    $('.cancel-pick-image-btn').on('click', function () {
+    const $imageModal = $('.image__modal');
+    $imageModal.on('shown.bs.modal', function () {
+        $(this).removeClass('pick-image-event');
+    });
+
+    $imageModal.on('hidden.bs.modal', function () {
+        if ($(this).hasClass('pick-image-event')) {
+            return false;
+        }
         const $options = $('.image-picker option:selected');
         for (let i = 0; i < $options.length; i++) {
             const image = $($options[i]).attr('value');
-            if (!images.tempUrl.includes(image)) {
+            if (!images.url.includes(image)) {
                 $($options[i]).prop('selected', false);
                 $(`.image_picker_selector img[src="${image}"]`).closest('.thumbnail').removeClass('selected');
             }
         }
-        images.tempUrl = images.url;
+        images.tempUrl = images.url.slice(0);
+        images.url.forEach((image) => {
+            $(`.image_picker_selector img[src="${image}"]`).closest('.thumbnail').addClass('selected');
+            $(`.image-picker option[value="${image}"]`).prop('selected', true);
+        });
     });
 
     return $imagePicker;
