@@ -22,6 +22,7 @@ const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes.client');
 const clientUserRouter = require('../modules/users/routes.client');
 const clientBillRouter = require('../modules/bills/routers.client');
+const clientInfoRouter = require('../modules/infos/router.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 const redisHelper = require('../helpers/redisHelper');
 
@@ -59,6 +60,7 @@ router.use('/nguoi-dung', clientUserRouter);
 router.use('/mat-hang', clientProductTypeRouter);
 router.use('/gio-hang', clientCartRouter);
 router.use('/', clientProductRoutes);
+router.use('/', clientInfoRouter);
 router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);

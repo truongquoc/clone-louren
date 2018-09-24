@@ -1,4 +1,5 @@
 <% layout('../../../layouts/admin/app') %>
+<% script('https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=z27ex772s1pdtappa5g4xgcmnefnoxrer6zhvwu743rri69i') %>
 
 <% block('title', 'Thông tin Website') %>
 
@@ -90,6 +91,21 @@
                             <label for="quantity">Facebook Pixel</label>
                             <input type="text" class="form-control form__title__input" value="<%= valInfo('facebook', info) %>" name="facebook">
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Giới thiệu</label>
+                        <textarea name="about" class="form-control form__content__input tinymce"><%= valInfo('about', info) %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Chính sách bán hàng</label>
+                        <textarea name="policy" class="form-control form__content__input tinymce"><%= valInfo('policy', info) %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Cam kết</label>
+                        <textarea name="courage" class="form-control form__content__input tinymce"><%= valInfo('courage', info) %></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                 </form>

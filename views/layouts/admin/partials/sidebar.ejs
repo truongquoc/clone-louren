@@ -208,26 +208,12 @@
                     </ul>
                 </li>
                 <% if (hasRole(cUser, 'Admin')) { %>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-external-link"></i>
-                            <p>Liên kết (Footer)<i class="fa fa-angle-left right"></i></p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/links" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Quản lý</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/links/create" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Thêm mới</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li class="nav-item">
+                            <a href="/admin/links" class="nav-link">
+                                <i class="fa fa-external-link nav-icon"></i>
+                                <p>Liên kết (Footer)</p>
+                            </a>
+                        </li>
                     <li class="nav-item">
                         <a href="/admin/infos" class="nav-link">
                             <i class="fa fa-info-circle nav-icon"></i>
