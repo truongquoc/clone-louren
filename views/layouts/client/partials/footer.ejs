@@ -10,11 +10,11 @@
           </ul>
        </div>
        <ul class="utilMenu">
-           <% if(typeof links !== 'undefined') { %>
-            <% links.forEach(link => { %>
-                <li><a target="_blank" style="text-transform: uppercase;" href="<%= link.url %>"><%= link.title %></a></li>
-            <% }) %>
-           <% } %>
+           <% links.forEach(link => { %>
+            <% if (link.show === 'show') { %>
+                <li><a style="text-transform: uppercase;" href="<%= link.link %>"><%= link.name %></a></li>
+            <% } %>
+           <% }) %>
        </ul>
        <div class="xans-element- xans-layout xans-layout-footer">
           <p class="address">

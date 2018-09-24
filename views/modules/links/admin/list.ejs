@@ -30,26 +30,55 @@
                 <div class="float-left">
                         <h3 class="card-title">Danh sách liên kết</h3>
                 </div>
-                <div class="float-right">
-                    <a href="/admin/links/create"><button type="submit" class="btn btn-success">Thêm mới</button></a>
-                </div>
             </div>
             <div class="card-body row" style="display: flex; justify-content: center;">
                 <div class="col-12 col-md-8">
                     <ul class="todo-list">
-                        <% links.forEach(link => { %>
-                            <li data-id="<%= link._id %>">
+                        <% if(links) { %>
+                            <% links.forEach(link => { %>
+                                <li data-id="<%= link._id %>" style="<%= link.show === 'disShow' ? 'background: #ff9e9e' : '' %>">
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text"><%= link.name %></span>
+                                    <div class="tools">
+                                        <i class="fa <%= link.show === 'show' ? 'fa-eye' : 'fa-eye-slash' %> show" id="<%= link.show %>"></i>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        <% } else { %>
+                            <li data-id="gt">
                                 <span class="handle">
                                     <i class="fa fa-ellipsis-v"></i>
                                     <i class="fa fa-ellipsis-v"></i>
                                 </span>
-                                <span class="text"><%= link.title %></span>
+                                <span class="text">Giới thiệu</span>
                                 <div class="tools">
-                                    <a href="/admin/links/edit/<%= link._id %>"><i class="fa fa-edit"></i></a>
-                                    <i class="fa fa-trash-o deleteLink" data-id="<%= link._id %>"></i>
+                                    <i class="fa fa-eye show" id="show"></i>
                                 </div>
-                                </li>
-                        <% }) %>
+                            </li>
+                            <li data-id="cs">
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                                <span class="text">Chính sách bán hàng</span>
+                                <div class="tools">
+                                    <i class="fa fa-eye show" id="show"></i>
+                                </div>
+                            </li>
+                            <li data-id="ck">
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                                <span class="text">Cam kết</span>
+                                <div class="tools">
+                                    <i class="fa fa-eye show" id="show"></i>
+                                </div>
+                            </li>
+                        <% } %>
                       </ul>
                       <button id="sttLinks" class="btn btn-primary" style="margin-top: 20px">Cập nhật</button>
                 </div>

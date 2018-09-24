@@ -1,0 +1,39 @@
+<% layout('../../../layouts/client/app') %>
+
+<% stylesheet('/public/client/css/style.css') %>
+<% block('stylesheets', `
+<style>
+.slick-slide img {
+    width: 100%;
+}
+
+.slick-arrow {
+    z-index: 100;
+}
+</style>
+`) %>
+
+<% block('title', 'Về chúng tôi') %>
+
+<div id="contents" class="homepage">
+    <div class="fixed_row">
+        <div id="contents">
+
+            <style type="text/css">
+                #container {
+                    padding-bottom: 0 !important;
+                }
+
+                #container>.fixed_row {
+                    width: 534px !important;
+                }
+
+                #footer .footer_instagram_area {
+                    display: none;
+                }
+            </style>
+
+            <%- content %>
+        </div>
+    </div>
+</div>

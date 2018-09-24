@@ -99,15 +99,18 @@ function deleteRecord(data) {
 function init_updateStt () {
     $('#sttLinks').click(function() {
         const lists = $('.todo-list li');
+        const show = $('.show');
         const ids = [];
+        const shows = [];
         for (let i = 0; i < lists.length; i++) {
             const id = $(lists[i]).data('id');
             ids.push(id);
+            shows.push($(show[i]).attr('id'));
         }
 
         fetch('/admin/links/update', {
             method: 'POST',
-            body: JSON.stringify({ ids }),
+            body: JSON.stringify({ ids, shows }),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -128,44 +131,19 @@ function init_updateStt () {
 }
 
 function init_deleteLink() {
-    $('.deleteLink').click(function() {
-        const id = $(this).data('id');
-
-        swal({
-            title: 'Bạn chắc chứ?',
-            text: 'Bạn có thể sẽ không khôi phục được dữ liệu này!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-        })
-            .then((result) => {
-                if (result) {
-                    fetch('/admin/links/delete', {
-                        method: 'DELETE',
-                        body: JSON.stringify({ id }),
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                        .then((value) => {
-                            if (value.status === 200) {
-                                window.location.href = '/admin/links';
-                            } else {
-                                swal({
-                                    title: 'Lỗi',
-                                    text: 'Không xóa được liên kết, vui lòng thử lại',
-                                    icon: 'error',
-                                    dangerMode: true,
-                                });
-                            }
-                        });
-                }
-            });
+    $('.show').click(function() {
+        const view = $(this).attr('id');
+        if (view === 'show') {
+            $(this).attr('id', 'disShow');
+            $(this).removeClass('fa-eye');
+            $(this).addClass('fa-eye-slash');
+            $(this).parents('li').css('background', '#ff9e9e');
+        } else {
+            $(this).attr('id', 'show');
+            $(this).removeClass('fa-eye-slash');
+            $(this).addClass('fa-eye');
+            $(this).parents('li').css('background', '#f4f4f4');
+        }
     });
 };
 
@@ -893,7 +871,7 @@ function init_tinymce() {
     tinymce.init({
         selector: 'textarea.tinymce',
         height: 500,
-        plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+        plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
         toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         file_picker_types: 'image',
         image_title: true,

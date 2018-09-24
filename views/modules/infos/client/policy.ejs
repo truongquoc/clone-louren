@@ -1,0 +1,37 @@
+<% layout('../../../layouts/client/app') %>
+
+<% stylesheet('/public/client/css/style.css') %>
+<% block('stylesheets', `
+<style>
+.slick-slide img {
+    width: 100%;
+}
+
+.slick-arrow {
+    z-index: 100;
+}
+</style>
+`) %>
+
+<% block('title', 'Về chúng tôi') %>
+
+<div id="contents" class="homepage">
+    <div id="contents">
+
+        <div class="titleArea firstTitleArea">
+            <h2><%= title %></h2>
+        </div>
+
+        <div class="xans-element- xans-mall xans-mall-privacy ">
+            <div class="ec-base-box typeThinBg">
+                <strong class="date displaynone"></strong>
+                <div class="agree">
+                    <%- content %>
+                </div>
+            </div>
+            <div class="ec-base-button displaynone">
+                <a href="" class="btnPrev" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+</div>
