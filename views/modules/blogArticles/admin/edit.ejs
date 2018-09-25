@@ -62,15 +62,15 @@
                             <li><a data-toggle="tab" href="#video">Video</a></li>
                         </ul>
                         <div class="float-right">
-                            <span class="form__error-message"><%= errors('useVideo') %></span>
+                            <span class="form__error-message" style="margin-right: 10px;"><%= errors('useVideo') %></span>
                             <label>
-                                <input type="checkbox" name="useVideo" class="flat-red" <%= old('useVideo', blogArticle.display.useVideo) ? 'checked' : '' %>> Dùng video
+                                <input type="checkbox" name="useVideo" class="flat-red" <%= old('useVideo', hasError() ? false : blogArticle.display.useVideo) ? 'checked' : '' %>> Dùng video
                             </label>
                         </div>
                     </div>
                     <div class="clearbox"></div>
                     <div class="tab-content">
-                        <div id="image" class="tab-pane fade <%= !old('useVideo', blogArticle.display.useVideo) ? 'in active show' : '' %>">
+                        <div id="image" class="tab-pane fade <%= !old('useVideo', hasError() ? false : blogArticle.display.useVideo) ? 'in active show' : '' %>">
                             <div class="form-group">
                                 <label>Ảnh</label>
                                 <div class="custom-file">

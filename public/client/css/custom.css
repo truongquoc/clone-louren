@@ -124,3 +124,20 @@
     color: #000000;
     font-weight: bold;
 }
+
+.call-hotline {
+    position: fixed;
+    bottom: 80px !important;
+    left: 20px;
+}
+
+.fixed-hotline-call {
+    background: rgba(244,67,54,1)!important;
+    font-size: 20px;
+    padding: 7px 12px !important;
+    border-radius: 15px;
+}
+
+.header_area .logo img {
+    vertical-align: middle;
+}

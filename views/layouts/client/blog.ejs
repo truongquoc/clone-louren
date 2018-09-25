@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
     <title><%= titleRedis(info) %> | <%= block('title') %></title>
 
@@ -95,6 +96,14 @@
     <%- include partials/footer.ejs %>
 </div>
 
+<div class="call-hotline">
+    <div class="fixed-hotline-call animated swing infinite ">
+        <span>
+            <a style="color: #fff;" href="tel:<%= info.phone %>">
+                <i style="transform: rotate(90deg);" class="fa fa-phone"></i></a>
+        </span>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
