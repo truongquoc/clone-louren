@@ -12,6 +12,13 @@ const indexAuthorize = (req, res, next) => {
     next();
 };
 
+const showIframeAuthorize = async (req, res, next) => {
+    if (roleHelper.hasRole(req.session.cUser, 'User')) {
+        return next(responseHelper.notAuthorized());
+    }
+    next();
+};
+
 const uploadAuthorize = async (req, res, next) => {
     if (roleHelper.hasRole(req.session.cUser, 'User')) {
         return next(responseHelper.notAuthorized());
@@ -47,6 +54,7 @@ const destroyAuthorize = async (req, res, next) => {
 
 module.exports = {
     indexAuthorize,
+    showIframeAuthorize,
     uploadAuthorize,
     storeAuthorize,
     destroyAuthorize,

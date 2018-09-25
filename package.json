@@ -51,6 +51,7 @@
     "serve-favicon": "^2.5.0",
     "sharp": "^0.20.5",
     "speakingurl": "^14.0.1",
+    "util": "^0.11.0",
     "validator": "^10.7.1",
     "vhost": "^3.0.2"
   },

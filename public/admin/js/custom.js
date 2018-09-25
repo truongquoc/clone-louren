@@ -96,6 +96,57 @@ function deleteRecord(data) {
     });
 }
 
+function init_updateStt () {
+    $('#sttLinks').click(function() {
+        const lists = $('.todo-list li');
+        const show = $('.show');
+        const ids = [];
+        const shows = [];
+        for (let i = 0; i < lists.length; i++) {
+            const id = $(lists[i]).data('id');
+            ids.push(id);
+            shows.push($(show[i]).attr('id'));
+        }
+
+        fetch('/admin/links/update', {
+            method: 'POST',
+            body: JSON.stringify({ ids, shows }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((value) => {
+                if (value.status === 200) {
+                    window.location.href = '/admin/links';
+                } else {
+                    swal({
+                        title: 'Lỗi',
+                        text: 'Không thể cập nhật, vui lòng thử lại',
+                        icon: 'error',
+                        dangerMode: true,
+                    });
+                }
+            });
+    })
+}
+
+function init_deleteLink() {
+    $('.show').click(function() {
+        const view = $(this).attr('id');
+        if (view === 'show') {
+            $(this).attr('id', 'disShow');
+            $(this).removeClass('fa-eye');
+            $(this).addClass('fa-eye-slash');
+            $(this).parents('li').css('background', '#ff9e9e');
+        } else {
+            $(this).attr('id', 'show');
+            $(this).removeClass('fa-eye-slash');
+            $(this).addClass('fa-eye');
+            $(this).parents('li').css('background', '#f4f4f4');
+        }
+    });
+};
+
 function revertRecord(data) {
     swal({
         title: 'Bạn chắc chứ?',
@@ -422,65 +473,6 @@ function init_changeCity() {
     });
 }
 
-function init_pickImages() {
-    $('.images__table__pick-btn').on('click', function () {
-        swal({
-            title: `Thêm các bức ảnh này vào bài viết?`,
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Thêm',
-            cancelButtonText: 'Hủy',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-        }).then(() => {
-            const url = $('.images-picker__table').data('pick-url');
-            const type = $('.images__table__pick-type').val();
-            let checkboxes = [];
-            if (type === '1') {
-                checkboxes = $('.images__table__pick-checkbox:checked').not('.images__table__used-image');
-            } else if (type === '2') {
-                checkboxes = $('.images__table__pick-checkbox:checked');
-            }
-            const images = [];
-            for (let i = 0; i < checkboxes.length; i++) {
-                images.push($(checkboxes[i]).closest('tr').find('img.images__table__image-detail').data('src'));
-            }
-            $.ajax({
-                url,
-                dataType: 'json',
-                type: 'PUT',
-                data: {
-                    _method: 'PUT',
-                    images,
-                    type,
-                },
-                success: function (res) {
-                    if (!res.status && res.error.code === 500) {
-                        swal('Lỗi!', 'Đã có lỗi hệ thống', 'error');
-                        return false;
-                    }
-                    if (!res.status && res.error.code === 400) {
-                        const messages = res.error.message;
-                        for (const message in messages) {
-                            swal('Lỗi!', messages[message].msg, 'error');
-                        }
-                        return false;
-                    }
-                    swal('Thành công!', '', 'success');
-                    if (type === '2') {
-                        $('.images__table__pick-checkbox').removeClass('images__table__used-image');
-                    }
-                    for (let i = 0; i < checkboxes.length; i++) {
-                        $(checkboxes[i]).addClass('images__table__used-image');
-                    }
-                }
-            });
-        });
-    });
-}
-
 function init_deleteImages() {
     $('.images__table__delete-btn').on('click', function () {
         swal({
@@ -639,7 +631,7 @@ function convertPercent () {
     });
 }
 
-function discountedPrice () {
+function discountedPrice() {
     let originalPrice = $('[name="priceValue"]').val();
     let discount = $('#discount').val();
     let discountedPrice =  (discount != 0 && originalPrice && 0<= discount && discount <= 1 ) ?
@@ -694,25 +686,24 @@ function init_showUserInformation() {
 }
 
 function init_changeSlideOrder() {
+    const url = $('.images__table').data('change-order-url');
     $('.change-order__btn').on('click', function () {
         const self = this;
-        $(self).html('<i class="fa fa-spinner fa-spin"></i>');
         $(self).attr('disabled', true);
-        const $tr = $('tbody tr');
-        const ids = [];
+        const $tr = $('.images__table tbody tr');
+        const images = [];
         for (let i = 0; i < $tr.length; i++) {
-            ids.push($($tr[i]).data('key'));
+            images.push($($tr[i]).data('key'));
         }
         $.ajax({
-            url: '/admin/slides/orders/change',
+            url: url,
             type: 'put',
             dataType: 'json',
             data: {
                 _method: 'PUT',
-                ids,
+                images,
             },
             success: function (res) {
-                $(self).html('Thay đổi vị trí');
                 $(self).attr('disabled', false);
                 if (!res.status) {
                     if (res.error.code === 403) {
@@ -724,12 +715,189 @@ function init_changeSlideOrder() {
                     }
                     return false;
                 }
-                for (let i = 0; i < $tr.length; i++) {
-                    $($tr[i]).find('td:first-child').text(i + 1);
-                }
+                swal('Thành công!', '', 'success');
             }
         });
     });
+}
+
+function init_configDropzone(images, classElement) {
+    const dropzone = new Dropzone('.dropzone', {
+        url: '/admin/images/upload',
+        paramName: function() { return 'images'; },
+        uploadMultiple: true,
+        resizeMimeType: 'image/jpeg',
+        autoProcessQueue: false,
+        parallelUploads: 10,
+        addRemoveLinks: true,
+        init: function () {
+            const dropzone = this;
+            $('.images__upload-btn').on('click', (e) => {
+                e.preventDefault();
+                dropzone.processQueue();
+            });
+        },
+        successmultiple: function (file, res) {
+            if (!res.status) {
+                swal('Lỗi!', res.error.message[0], 'error');
+                let node, _i, _len, _ref, _results;
+                for (const index in file) {
+                    file[index].previewElement.classList.add("dz-error");
+                    file[index].previewElement.classList.remove("dz-success");
+                    _ref = file[index].previewElement.querySelectorAll("[data-dz-errormessage]");
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                        node = _ref[_i];
+                        _results.push(node.textContent = 'error');
+                    }
+                }
+                return _results;
+            }
+            if (images) {
+                const $images = $(`${classElement}`);
+                const optionsLength = $(`${classElement} option`).length;
+                res.data.forEach((image, index) => {
+                    $images.prepend(`<option data-img-src="${image}" value="${image}"></option>`);
+                    $(`${classElement} option:nth-child(${optionsLength - index - 1})`).remove();
+                });
+                $images.imagepicker(images.imagePickerOptions);
+            }
+        },
+    });
+
+    return dropzone;
+}
+
+function getImages(images, element) {
+    const $images = $(`${element} input[name="images"]`);
+    for (let i = 0; i < $images.length; i++) {
+        const image = $($images[i]).attr('value');
+        images.url.push(image);
+    }
+    images.tempUrl = images.url.slice(0);
+}
+
+function init_imagePicker(images, $tinymce) {
+    if (!$.fn.imagepicker) {
+        return false;
+    }
+
+    /* Add selected option after show website */
+    images.tempUrl.forEach((image) => {
+        $(`option[value="${image}"]`).prop('selected', true);
+    });
+
+    const $imagePicker = $('.image-picker').imagepicker(images.imagePickerOptions);
+
+    /* Ajax to load image */
+    $(document).on('click', '.image-picker__container .pagination a', function (e) {
+        e.preventDefault();
+        const link = $(this).attr('href');
+        $.ajax({
+            url: link,
+            success: function (res) {
+                $('.image-picker__container').html(res);
+                images.tempUrl.forEach((image) => {
+                    $(`option[value="${image}"]`).prop('selected', true);
+                });
+                $('.image-picker').imagepicker(images.imagePickerOptions);
+            }
+        });
+    });
+
+    $(document).on('click', '.image_picker_selector .thumbnail', function () {
+        const image = $(this).find('img').attr('src');
+        const imageIndex = images.tempUrl.indexOf(image);
+        if ($tinymce) {
+            $tinymce.activeEditor.windowManager.getParams().oninsert(image, {});
+            $tinymce.activeEditor.windowManager.close();
+            return true;
+        }
+
+        if (imageIndex < 0 && images.tempUrl.length < images.max) {
+            images.tempUrl.push(image);
+        } else if (imageIndex >= 0) {
+            images.tempUrl.splice(imageIndex, 1);
+        } else {
+            $(`.image-picker option[value="${image}"]`).prop('selected', false);
+            $(this).removeClass('selected');
+            swal('Lỗi!', `Đã vượt quá ${images.max} ảnh`, 'error');
+        }
+    });
+
+    $('.pick-image-btn').on('click', function () {
+        const $images = $('.images');
+        $images.html('');
+        images.url = [];
+        images.tempUrl.forEach((image) => {
+            $images.append(`<input type="hidden" name="images" value="${image}">`);
+            images.url.push(image);
+        });
+        $('.image__form__representation b').text(`Đã có ${images.tempUrl.length} bức ảnh được chọn`);
+        $('.image__modal').addClass('pick-image-event');
+    });
+
+    const $imageModal = $('.image__modal');
+    $imageModal.on('shown.bs.modal', function () {
+        $(this).removeClass('pick-image-event');
+    });
+
+    $imageModal.on('hidden.bs.modal', function () {
+        if ($(this).hasClass('pick-image-event')) {
+            return false;
+        }
+        const $options = $('.image-picker option:selected');
+        for (let i = 0; i < $options.length; i++) {
+            const image = $($options[i]).attr('value');
+            if (!images.url.includes(image)) {
+                $($options[i]).prop('selected', false);
+                $(`.image_picker_selector img[src="${image}"]`).closest('.thumbnail').removeClass('selected');
+            }
+        }
+        images.tempUrl = images.url.slice(0);
+        images.url.forEach((image) => {
+            $(`.image_picker_selector img[src="${image}"]`).closest('.thumbnail').addClass('selected');
+            $(`.image-picker option[value="${image}"]`).prop('selected', true);
+        });
+    });
+
+    return $imagePicker;
+}
+
+function init_tinymce() {
+    if (typeof tinymce === 'undefined') {
+        return false;
+    }
+    tinymce.init({
+        selector: 'textarea.tinymce',
+        height: 500,
+        plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+        toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        file_picker_types: 'image',
+        image_title: true,
+        automatic_uploads: true,
+        file_picker_callback(cb) {
+            const filebrowser = '/admin/images/iframe';
+            tinymce.activeEditor.windowManager.open({
+                title: 'Quản lý ảnh',
+                width: 1000,
+                height: 600,
+                url: filebrowser,
+            }, {
+                oninsert(url, objVals) {
+                    cb(url, objVals);
+                },
+            });
+            return false;
+        },
+    });
+}
+
+function init_lazyload() {
+    if (!$.fn.lazyload) {
+        return false;
+    }
+    $('.lazyload').lazyload();
 }
 
 $(document).ready(() => {
@@ -739,11 +907,14 @@ $(document).ready(() => {
     init_approveModule();
     init_deleteModule();
     init_changeCity();
-    init_pickImages();
     init_deleteImages();
     init_viewRequests();
     init_revertModule();
     init_billChangeSearchType();
     init_showUserInformation();
     init_changeSlideOrder();
+    init_deleteLink();
+    init_updateStt();
+    init_lazyload();
+    init_tinymce();
 });

@@ -79,20 +79,19 @@ class BillRepository extends BaseRepository {
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),
             this.model
-                    .find(conditions)
-                    .populate({
-                        path: 'productBill',
-                        select: '-_id product quantity price',
-                        match: { deletedAt: null },
-                        populate: {
-                            path: 'product',
-                            select: '-_id name',
-                        },
-                    })
-                    .skip((options.query.page - 1) * options.limit)
-                    .limit(options.limit)
-                    .sort({ createdAt: -1 }),
-
+                .find(conditions)
+                .populate({
+                    path: 'productBill',
+                    select: '-_id product quantity price',
+                    match: { deletedAt: null },
+                    populate: {
+                        path: 'product',
+                        select: '-_id name',
+                    },
+                })
+                .skip((options.query.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({ createdAt: -1 }),
         ]);
 
         const data = { docs, total };

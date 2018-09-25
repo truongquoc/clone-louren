@@ -50,6 +50,31 @@
 .logo a {
     font-size: 32px !important;
 }
+.call-hotline {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.fixed-hotline-call {
+    background: rgba(244,67,54,1)!important;
+    font-size: 20px;
+    padding: 7px 12px !important;
+    border-radius: 15px;
+}
+.iframe__container {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%;
+}
+.iframe__container .blog-article__iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
 #header .widget_gnb_right ul li a {
     padding: 0 !important;
     margin: 12px 0;

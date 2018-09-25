@@ -143,7 +143,7 @@ class CartRepository extends BaseRepository {
             .findOne({ user, deletedAt: null })
             .populate({
                 path: 'products.item',
-                select: 'name quantity',
+                select: 'name quantity price.isAgreement',
                 match: { deletedAt: null },
             })
             .select('_id');

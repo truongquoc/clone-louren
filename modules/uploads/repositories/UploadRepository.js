@@ -11,18 +11,21 @@ class UploadRepository extends BaseRepository {
         return Upload;
     }
 
-    async list(id, options) {
+    async list(id, type, options) {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = options.limit || commonConstant.limit;
         const conditions = { deletedAt: null };
         if (options.query.search) {
             const search = new RegExp(options.query.search, 'i');
             const users = await UserRepository.baseGet({ name: search }, { select: '_id' });
-            const userIds = users.map((user) => user._id);
+            const userIds = users.map(user => user._id);
             conditions.user = { $in: userIds };
         }
         if (id) {
             conditions.user = id;
+        }
+        if (type) {
+            conditions.type = type;
         }
         const [total, docs] = await Promise.all([
             this.model.countDocuments(conditions),

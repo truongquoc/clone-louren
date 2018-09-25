@@ -8,6 +8,27 @@
     height: 500px;
 }
 
+
+.comments {
+    text-align: center;
+}
+
+.comments div {
+    width: 100%;
+}
+
+.comments span {
+    /*width: 100% !important;*/
+}
+.comments iframe {
+    max-width: 700px;
+    margin: auto;
+    width: 100% !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media (max-width: 992px) {
     .thumbnail img {
         height: 200px;

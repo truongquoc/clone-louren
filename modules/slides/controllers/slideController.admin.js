@@ -85,9 +85,9 @@ const update = async (req, res, next) => {
 };
 
 const changeOrder = async (req, res) => {
-    const { ids } = req.body;
+    const { images } = req.body;
     try {
-        await SlideRepository.changeOrder(ids);
+        await SlideRepository.changeOrder(images);
 
         return res.json(responseHelper.success());
     } catch (e) {

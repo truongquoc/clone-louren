@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="title">Tiêu đề</label>
                         <input type="text" class="form-control form__title__input" value="<%= old('title') %>" name="title">
-                        <p class="form__error-message form__title__error-message"><%= errors('title') %></p>
+                        <p class="form__error-message"><%= errors('title') %></p>
                     </div>
                     <div class="form-group">
                         <label>Thể loại</label>
@@ -49,12 +49,12 @@
                                     value="<%= element._id %>"><%= element.name %></option>
                             <% }) %>
                         </select>
-                        <p class="form__error-message form__category__error-message"><%= errors('category') %></p>
+                        <p class="form__error-message"><%= errors('category') %></p>
                     </div>
                     <div class="form-group">
                         <label>Mô tả</label>
                         <textarea name="description" class="form-control"><%= old('description') %></textarea>
-                        <p class="form__error-message form__title__error-message"><%= errors('description') %></p>
+                        <p class="form__error-message"><%= errors('description') %></p>
                     </div>
                     <div>
                         <ul class="nav nav-tabs float-left nav-tabs--border-none">
@@ -62,7 +62,7 @@
                             <li><a data-toggle="tab" href="#video">Video</a></li>
                         </ul>
                         <div class="float-right">
-                            <span class="form__error-message"><%= errors('useVideo') %></span>
+                            <span class="form__error-message" style="margin-right: 10px;"><%= errors('useVideo') %></span>
                             <label>
                                 <input type="checkbox" name="useVideo" class="flat-red" <%= old('useVideo') ? 'checked' : '' %>> Dùng video
                             </label>
@@ -77,21 +77,22 @@
                                     <input type="file" class="custom-file-input form__image__input" name="image" id="validatedCustomFile">
                                     <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
                                 </div>
-                                <p class="form__error-message form__image__error-message"><%= errors('image') %></p>
+                                <p class="form__error-message"><%= errors('image') %></p>
                             </div>
                         </div>
                         <div id="video" class="tab-pane fade <%= old('useVideo') ? 'in active show' : '' %>">
                             <div class="form-group">
                                 <label for="title">Video</label>
                                 <input type="text" class="form-control form__video__input" value="<%= old('video') %>" name="video">
-                                <p class="form__error-message form__video__error-message"><%= errors('video') %></p>
+                                <p class="form__error-message"><%= errors('video') %></p>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Thẻ</label>
                         <select class="form-control form__tags__input select2" multiple style="width: 100%;" name="tags">
-                            <% const oldTags = old('tags'); let check; %>
+                            <% let oldTags = old('tags'); let check; %>
+                            <% oldTags = (typeof oldTags === 'string') ? [oldTags] : oldTags %>
                             <% blogTags.forEach(function (tag) { %>
                                 <% check = false %>
                                 <% if (oldTags) { %>
@@ -103,12 +104,12 @@
                                 <option value="<%= tag._id %>" <%= check ? 'selected' : '' %>><%= tag.name %></option>
                             <% }) %>
                         </select>
-                        <p class="form__error-message form__tags__error-message"><%= errors('tags') %></p>
+                        <p class="form__error-message"><%= errors('tags') %></p>
                     </div>
                     <div class="form-group">
                         <label>Nội dung</label>
                         <textarea name="content" class="form-control form__content__input tinymce"><%= old('content') %></textarea>
-                        <p class="form__error-message form__content__error-message"><%= errors('content') %></p>
+                        <p class="form__error-message"><%= errors('content') %></p>
                     </div>
                     <div class="form-group">
                         <label>
@@ -129,30 +130,6 @@
         $('input[type="checkbox"], input[type="radio"]').iCheck({
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
-        });
-        tinymce.init({
-            selector: 'textarea.tinymce',
-            height: 500,
-            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
-            toolbar: "insertfile undo redo | styleselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            images_upload_handler: function (blobInfo, success, failure) {
-                const formData = new FormData();
-                formData.append('images', blobInfo.blob(), blobInfo.filename());
-                $.ajax({
-                    url: '/admin/images/upload',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (res) {
-                        if (!res.status) {
-                            failure(res.error.message[0]);
-                        }
-                        success(res.data[0]);
-                    }
-                });
-            }
         });
     });
 </script>

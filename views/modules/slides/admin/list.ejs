@@ -38,10 +38,11 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered module__table" data-delete-url="/admin/slides/delete">
+                <table class="table table-bordered module__table images__table" data-delete-url="/admin/slides/delete"
+                       data-change-order-url="/admin/slides/orders/change">
                     <thead>
                         <tr>
-                            <th style="width: 10px">#</th>
+                            <th style="width: 10px"><i class="fa fa-arrows-v"></i></th>
                             <th>Tiêu đề</th>
                             <th>Đường dẫn</th>
                             <th>Ảnh</th>
@@ -50,10 +51,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <% pageIndex = getPageIndex(query.page) %>
-                    <% slides.forEach(function (slide, index) { %>
+                    <% slides.forEach(function (slide) { %>
                     <tr data-key="<%= slide._id %>">
-                        <td><%= pageIndex + index + 1 %></td>
+                        <td class="text-center"><i class="fa fa-ellipsis-v"></i></td>
                         <td class="module__table__name"><%= slide.title %></td>
                         <td class="module__table__slug">
                             <% if (slide.url) { %>
@@ -78,7 +78,6 @@
                     </tr>
                     <% }) %>
                     </tbody>
-
                 </table>
             </div>
             <div class="card-footer clearfix">
@@ -90,11 +89,11 @@
 
 <% block('scripts', `
 <script>
-  $( function() {
+$(function() {
     $('tbody').sortable({
-      placeholder: "ui-state-highlight"
+        placeholder: "ui-state-highlight"
     });
     $('tbody').disableSelection();
-  } );
+});
 </script>
 `) %>

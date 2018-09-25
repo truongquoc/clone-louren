@@ -1,8 +1,19 @@
 <% layout('../../../layouts/client/app') %>
 
+<% block('metaTags', `
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="${originalUrl}" id="fbUrl" />
+    <!-- <meta property="og:type" content="article" /> -->
+    <meta property="og:title" content="${titleRedis(info)} | Thể loại ${productType.name}" />
+    <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
+`) %>
+
 <% stylesheet('/public/client/css/styleList.css') %>
 
-<% block('title', "Sản phẩm | " + productType.name) %>
+<% block('title', `Mặt hàng ${productType.name}`) %>
 
 <% productTypes.forEach((type) => {
     type.childs = productTypes.filter(childType => {
@@ -79,9 +90,16 @@
                                 </a>
                                 <div class="custom_layer_btn">
                                     <ul>
-                                        <li class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng" data-id="<%= product._id %>">
-                                            <i class="fa fa-shopping-cart"></i>
-                                        </li>
+                                        <% if (!product.price.isAgreement) { %>
+                                            <li data-id="<%= product._id %>"
+                                                class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="cart shopping__icon telephone__text">
+                                                Liên hệ: <%= info.phone %>
+                                            </li>
+                                        <% } %>
                                         <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
                                             <i class="fa fa-heart-o"></i>
                                         </li> -->
@@ -105,19 +123,22 @@
                                 </strong>
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
-                                        <span style="font-size:12px;color:#000000;font-weight:bold;" >
+                                        <% if (product.price.isAgreement) { %>
+                                            Liên hệ: <%= info.phone %>
+                                        <% } else { %>
                                             <span class="priceDisplay"></span>
                                             <input class="priceValue"
-                                            value="<%= product.price.number %>"
-                                            type="hidden"/>
+                                                   value="<%= product.price.number %>"
+                                                   type="hidden"/>
                                             <span class="price dc_price priceDiscountText">
-                                                    <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
-                                                    <span class="priceDiscountPercent"></span>
+                                                <i class="fa fa-long-arrow-down"
+                                                   aria-hidden="true"></i>
+                                                <span class="priceDiscountPercent"></span>
                                             </span>
                                             <input class="priceDiscount"
-                                            value="<%= product.discount %>"
-                                            type="hidden"/>
-                                        </span>
+                                                   value="<%= product.discount %>"
+                                                   type="hidden"/>
+                                        <% } %>
                                     </li>
                                 </ul>
                             </div>

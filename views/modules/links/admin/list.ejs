@@ -1,0 +1,88 @@
+<% layout('../../../layouts/admin/app') %>
+<% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
+
+<% block('scripts', `<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>`) %>
+<% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
+<% script('/public/admin/js/dashboard.js') %>
+
+<% block('title', 'Liên kết') %>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Liên kết</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Liên kết</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left">
+                        <h3 class="card-title">Danh sách liên kết</h3>
+                </div>
+            </div>
+            <div class="card-body row" style="display: flex; justify-content: center;">
+                <div class="col-12 col-md-8">
+                    <ul class="todo-list">
+                        <% if(links) { %>
+                            <% links.forEach(link => { %>
+                                <li data-id="<%= link._id %>" style="<%= link.show === 'disShow' ? 'background: #ff9e9e' : '' %>">
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text"><%= link.name %></span>
+                                    <div class="tools">
+                                        <i class="fa <%= link.show === 'show' ? 'fa-eye' : 'fa-eye-slash' %> show" id="<%= link.show %>"></i>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        <% } else { %>
+                            <li data-id="gt">
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                                <span class="text">Giới thiệu</span>
+                                <div class="tools">
+                                    <i class="fa fa-eye show" id="show"></i>
+                                </div>
+                            </li>
+                            <li data-id="cs">
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                                <span class="text">Chính sách bán hàng</span>
+                                <div class="tools">
+                                    <i class="fa fa-eye show" id="show"></i>
+                                </div>
+                            </li>
+                            <li data-id="ck">
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                                <span class="text">Cam kết</span>
+                                <div class="tools">
+                                    <i class="fa fa-eye show" id="show"></i>
+                                </div>
+                            </li>
+                        <% } %>
+                      </ul>
+                      <button id="sttLinks" class="btn btn-primary" style="margin-top: 20px">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

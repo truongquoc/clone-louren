@@ -42,6 +42,9 @@ const index = async (req, res, next) => {
 
         const totalPrice = cart.products.reduce((total, product) => {
             const { price, discount } = product.item;
+            if (price.isAgreement) {
+                return total;
+            }
             const discounted = discount ? price.number * (1 - discount) : price.number;
             const add = product.item.discount ? Math.round(discounted / 1000) * 1000 : discounted;
             return total + (add * product.quantity);
@@ -57,7 +60,7 @@ const addToCart = async (req, res, next) => {
     try {
         const { id, quantity } = req.body;
         let total = 0;
-        const product = await ProductRepository.clientCheckExistById(id, { select: '_id quantity' });
+        const product = await ProductRepository.clientCheckExistById(id, { select: '_id quantity price.isAgreement' });
 
         if (!product) {
             return res.json(responseHelper.notFound());
@@ -67,6 +70,9 @@ const addToCart = async (req, res, next) => {
         }
         if (product.quantity < (+quantity || 1)) {
             return res.json(responseHelper.error('Sản phẩm trong kho không đủ', 400));
+        }
+        if (product.price.isAgreement) {
+            return res.json(responseHelper.error('Sản phẩm thương lượng giá cả', 400));
         }
 
         if (req.session.cUser) {
@@ -176,7 +182,7 @@ const removeProduct = async (req, res) => {
             ));
         }
         const { quantity } = product;
-        product = await ProductRepository.getById(product.item, { select: 'price.number discount' });
+        product = await ProductRepository.getById(product.item, { select: 'price discount' });
 
         return res.json(responseHelper.success({
             product, quantity,

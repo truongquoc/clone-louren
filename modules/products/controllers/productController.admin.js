@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator/check');
 const url = require('url');
 const getSlug = require('speakingurl');
-const roleHelper = require('../../../helpers/roleHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
@@ -18,6 +17,7 @@ const UploadRepository = new UploadRepositoryClass();
 const index = async (req, res, next) => {
     try {
         const { query } = req;
+        query.search = query.search ? query.search.trim() : '';
         const products = await ProductRepository.adminList(undefined, {
             query,
             pageUrl: req.baseUrl,
@@ -35,6 +35,7 @@ const index = async (req, res, next) => {
 const showMyProducts = async (req, res, next) => {
     try {
         const { query } = req;
+        query.search = query.search ? query.search.trim() : '';
         const products = await ProductRepository.adminList(req.session.cUser._id, {
             query,
             pageUrl: url.parse(req.originalUrl).pathname,
@@ -50,11 +51,26 @@ const showMyProducts = async (req, res, next) => {
 };
 
 const create = async (req, res, next) => {
+    const { query } = req;
     try {
+        const images = await UploadRepository.list(undefined, 1, {
+            query,
+            pageUrl: url.parse(req.originalUrl).pathname,
+            limit: 20,
+        });
+        images.renderPagination = paginationHelper.renderPagination;
+        if (req.xhr) {
+            return res.render('modules/products/admin/ajax/pickImages', {
+                images,
+                query,
+            });
+        }
         const productTypes = await ProductTypeRepository.baseGet();
 
         return res.render('modules/products/admin/create', {
             productTypes,
+            images,
+            query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
@@ -89,13 +105,29 @@ const store = async (req, res, next) => {
 };
 
 const edit = async (req, res, next) => {
+    const { query } = req;
     try {
+        const images = await UploadRepository.list(undefined, 1, {
+            query,
+            pageUrl: url.parse(req.originalUrl).pathname,
+            limit: 20,
+        });
+        images.renderPagination = paginationHelper.renderPagination;
+        if (req.xhr) {
+            return res.render('modules/products/admin/ajax/pickImages', {
+                images,
+                query,
+            });
+        }
         const [product, productTypes] = await Promise.all([
             ProductRepository.getEditArticle(req.params.slug),
             ProductTypeRepository.baseGet(),
         ]);
         return res.render('modules/products/admin/edit', {
-            productTypes, product,
+            productTypes,
+            product,
+            images,
+            query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
@@ -152,42 +184,24 @@ const destroy = async (req, res) => {
 
 const listImages = async (req, res, next) => {
     try {
-        const { query } = req;
-        let id;
-        if (!roleHelper.hasRole(req.session.cUser, ['Admin', 'Manager'])) {
-            id = req.session.cUser._id;
-        }
-        const [product, images] = await Promise.all([
-            ProductRepository.getEditArticle(req.params.slug),
-            UploadRepository.listByArticles(id, {
-                query,
-                pageUrl: url.parse(req.originalUrl).pathname,
-            }),
-        ]);
-        images.renderPagination = paginationHelper.renderPagination;
+        const product = await ProductRepository.getEditArticle(req.params.slug);
 
         return res.render('modules/products/admin/listImages', {
             product,
-            images,
-            query,
         });
     } catch (e) {
         next(responseHelper.error(e.message));
     }
 };
 
-/**
- * Type = 1: Add more images to array
- * Type = 2: Set new images array
- */
-const storeImages = async (req, res) => {
+const changeImageOrder = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.json(responseHelper.error(errors.mapped(), 400));
     }
     try {
-        const { images, type } = req.body;
-        await ProductRepository.storeImages(images, req.params.id, type || '1');
+        const { images } = req.body;
+        await ProductRepository.changeImageOrder(images, req.params.id);
         return res.json(responseHelper.success());
     } catch (e) {
         return res.json(responseHelper.error(e.message));
@@ -204,5 +218,5 @@ module.exports = {
     approve,
     destroy,
     listImages,
-    storeImages,
+    changeImageOrder,
 };

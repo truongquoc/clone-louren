@@ -1,5 +1,16 @@
 <% layout('../../../layouts/client/blog') %>
 
+<% block('metaTags', `
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="${originalUrl}" id="fbUrl" />
+    <!-- <meta property="og:type" content="article" /> -->
+    <meta property="og:title" content="${titleRedis(info)} | Tin tức thể loại ${blogCategory.name}" />
+    <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
+`) %>
+
 <% block('title', `Blog - Thể loại ${blogCategory.name}`) %>
 
 <h2 class="single-article-title fl-wrap"><span>Thể loại: <%= blogCategory.name %></span></h2>
@@ -8,22 +19,32 @@
 <div class="post-grid-wrap">
     <div class="post-grid-holder grid-sb-holder blog-grid-one-col row" style="position: relative; height: 1688px;">
         <% if (blogArticles.docs.length === 0 ) { %>
-            <p>Không có bài viết nào</p>
+            <p style="width:100%;text-align:center;margin-top: 10px;">Không có bài viết nào</p>
         <% } else { %>
             <% blogArticles.docs.forEach((article) => { %>
             <div class="grid-sb-wrap col-12 col-sm-6">
                 <article class="grid-sb">
-                    <div class="blog-media"> <img width="328" height="217" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                                  src="<%= article.display.image %>" class="respimg wp-post-image" alt="23" sizes="(max-width: 328px) 100vw, 328px">
-                        <div class="overlay"></div> <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a></div>
+                    <div class="blog-media">
+                        <% if (article.display.useVideo) { %>
+                            <div class="iframe__container">
+                                <iframe class="blog-article__iframe" src="<%= article.display.video %>" allowfullscreen></iframe>
+                            </div>
+                        <% } else { %>
+                            <img src="<%= article.display.image %>"
+                                 alt="<%= article.title %>" class="img-responsive">
+                            <div class="overlay"></div>
+                            <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a>
+                        <% } %>
+                    </div>
                     <ul class="cat-list">
                         <li><%= moment(article.updatedAt).format('L') %></li>
                         <li>
                             <ul class="post-categories">
-
-                                    <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.name %></a></li>
-
-
+                                <li>
+                                    <a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag">
+                                        <%= article.category.name %>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

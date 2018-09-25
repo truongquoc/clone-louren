@@ -26,9 +26,7 @@ class ProductRepository extends ArticleRepository {
     async clientList(type, options) {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
-        const search = new RegExp(options.query.search, 'i');
         const conditions = {
-            name: search,
             quantity: { $gt: 0 },
             isDraft: false,
             isApproved: true,
@@ -54,7 +52,7 @@ class ProductRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .select('name image.cover price.number discount slug')
+                .select('name image.cover price discount slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),
@@ -110,7 +108,7 @@ class ProductRepository extends ArticleRepository {
             deletedAt: null,
         };
         if (options.query.type === 'productName') {
-            conditions.name = new RegExp(options.query.search.trim(), 'i');
+            conditions.name = new RegExp(options.query.search, 'i');
         }
         if (options.query.productType
             && mongoose.Types.ObjectId.isValid(options.query.productType)) {
@@ -147,7 +145,7 @@ class ProductRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .select('name image.cover price.number slug')
+                .select('name image.cover price slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),
@@ -186,6 +184,12 @@ class ProductRepository extends ArticleRepository {
     }
 
     create(data, user) {
+        let { images } = data;
+        if (!images) {
+            images = [];
+        } else if (typeof images === 'string') {
+            images = [images];
+        }
         const product = {
             type: data.type,
             author: user._id,
@@ -194,7 +198,11 @@ class ProductRepository extends ArticleRepository {
             sku: data.sku,
             price: {
                 number: data.priceValue,
-                string: data.priceText,
+                isAgreement: !!data.isAgreement,
+            },
+            image: {
+                cover: data.image,
+                array: images,
             },
             'image.cover': data.image,
             discount: data.discount || 0,
@@ -210,6 +218,12 @@ class ProductRepository extends ArticleRepository {
         if (data.image && data.imageUrl) {
             storageHelper.storage('local').destroy(data.imageUrl);
         }
+        let { images } = data;
+        if (!images) {
+            images = [];
+        } else if (typeof images === 'string') {
+            images = [images];
+        }
         const product = {
             type: data.type,
             name: data.name,
@@ -217,8 +231,9 @@ class ProductRepository extends ArticleRepository {
             sku: data.sku,
             price: {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
-                string: data.priceText,
+                isAgreement: !!data.isAgreement,
             },
+            'image.array': images,
             discount: data.discount || 0,
             info: data.info,
             detail: data.detail,
@@ -274,15 +289,8 @@ class ProductRepository extends ArticleRepository {
            .select('-isApproved -updatedAt');
     }
 
-    async storeImages(images, id, type) {
-        const article = await this.getDetail({ _id: id }, { select: '_id image.array' });
-        if (type === '2' || !article.image.array) {
-            article.image.array = images;
-        } else if (type === '1' && article.image.array) {
-            article.image.array = article.image.array.concat(images);
-        }
-
-        return article.save();
+    async changeImageOrder(images, id) {
+        return this.baseUpdate({ 'image.array': images }, { _id: id });
     }
 }
 

@@ -15,12 +15,10 @@ class ProductTypeRepository extends ClassificationRepository {
     async list(options) {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = commonConstant.limit;
-        const search = new RegExp(options.query.search, 'i');
-        const conditions = { name: search };
         const [total, docs] = await Promise.all([
-            this.model.countDocuments(conditions),
+            this.model.countDocuments(),
             this.model
-                .find(conditions)
+                .find()
                 .populate('parentType', '_id name', { deletedAt: null })
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)

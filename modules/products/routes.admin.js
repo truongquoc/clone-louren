@@ -24,6 +24,6 @@ router.delete('/delete/:id', productAuthorize.editAuthorize, productController.d
 
 router.get('/:slug/images', productAuthorize.editAuthorize, productController.listImages);
 
-router.put('/:id/images', productAuthorize.editAuthorize, productRequest.storeImagesRequest, productController.storeImages);
+router.put('/:id/images', productAuthorize.editAuthorize, productRequest.storeImagesRequest, productController.changeImageOrder);
 
 module.exports = router;

@@ -1,5 +1,16 @@
 <% layout('../../../layouts/client/blog') %>
 
+<% block('metaTags', `
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="${originalUrl}" id="fbUrl" />
+    <!-- <meta property="og:type" content="article" /> -->
+    <meta property="og:title" content="${titleRedis(info)} | Tin ${blogArticle.title}" />
+    <meta property="og:description" content="${blogArticle.description}" />
+    <meta property="og:image" content="${blogArticle.display.image || 'https://mayhienhome.com/public/client/images/logo/fullLogo.png'}" />
+`) %>
+
 <% block('title', `Blog - ${blogArticle.title}`) %>
 
 <article
@@ -15,7 +26,9 @@
       src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt="">
    </div>
     <% if (blogArticle.display.useVideo) { %>
-        <iframe class="blog-article__iframe" src="<%= blogArticle.display.video %>"></iframe>
+        <div class="iframe__container">
+            <iframe class="blog-article__iframe" src="<%= blogArticle.display.video %>" allowfullscreen></iframe>
+        </div>
     <% } else { %>
         <img src="<%= blogArticle.display.image %>" alt="<%= blogArticle.title %>" class="img-responsive">
     <% } %>

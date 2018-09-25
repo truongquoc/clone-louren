@@ -25,8 +25,11 @@ const productSchema = new Schema({
     price: {
         number: {
             min: 0,
-            required: true,
             type: Number,
+        },
+        isAgreement: {
+            type: Boolean,
+            default: false,
         },
     },
     detail: String,

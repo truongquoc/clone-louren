@@ -9,9 +9,9 @@ module.exports = (res) => {
         if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.oldValue) {
             const name = key.split('.');
             if (name.length > 1) {
-                return res.locals.flashMessages.oldValue[0][name[0]][name[1]];
+                return res.locals.flashMessages.oldValue[0][name[0]][name[1]] || value;
             }
-            return res.locals.flashMessages.oldValue[0][key];
+            return res.locals.flashMessages.oldValue[0][key] || value;
         }
         return value;
     };
@@ -31,6 +31,8 @@ module.exports = (res) => {
         return '';
     };
 
+    res.locals.hasError = () => typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.errors;
+
     res.locals.infoRedis = (title, data, item) => {
         if (data[item] !== '') {
             return `${title}: ${data[item]}`;
@@ -39,9 +41,7 @@ module.exports = (res) => {
         return '';
     };
 
-    res.locals.titleRedis = (data) => {
-        return typeof data.title !== 'undefined' ? data.title : 'MayHienHome';
-    };
+    res.locals.titleRedis = data => (typeof data.title !== 'undefined' ? data.title : 'Mây Hiên Home');
 
     res.locals.getPageIndex = (page) => {
         page = parseInt(page, 10);
@@ -63,6 +63,14 @@ module.exports = (res) => {
     };
 
     res.locals.valInfo = (key, info) => {
+        if (typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.oldValue) {
+            const name = key.split('.');
+            if (name.length > 1) {
+                return res.locals.flashMessages.oldValue[0][name[0]][name[1]];
+            }
+            return res.locals.flashMessages.oldValue[0][key];
+        }
+
         if (info[key]) {
             return info[key];
         }

@@ -12,6 +12,7 @@ const adminBlogTagRouter = require('../modules/blogTags/routes.admin');
 const adminSlideRouter = require('../modules/slides/routes.admin');
 const adminInfoRouter = require('../modules/infos/router.admin');
 const adminRobotRouter = require('../modules/robots/router.admin');
+const adminLinkRouter = require('../modules/links/router.admin');
 const clientAuthRoutes = require('../modules/users/authRoutes.client');
 const clientProductTypeRouter = require('../modules/productTypes/routes.client');
 const clientCartRouter = require('../modules/carts/routes.client');
@@ -21,6 +22,7 @@ const clientBlogTagRouter = require('../modules/blogTags/routes.client');
 const clientBlogArticleRouter = require('../modules/blogArticles/routes.client');
 const clientUserRouter = require('../modules/users/routes.client');
 const clientBillRouter = require('../modules/bills/routers.client');
+const clientInfoRouter = require('../modules/infos/router.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 
 router.use((req, res, next) => {
@@ -41,6 +43,7 @@ router.use('/admin/blog/tags', adminBlogTagRouter);
 router.use('/admin/slides', adminSlideRouter);
 router.use('/admin/infos', adminInfoRouter);
 router.use('/admin/robots', adminRobotRouter);
+router.use('/admin/links', adminLinkRouter);
 router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use(redisHelper.getRedis);
@@ -55,6 +58,7 @@ router.use('/nguoi-dung', clientUserRouter);
 router.use('/mat-hang', clientProductTypeRouter);
 router.use('/gio-hang', clientCartRouter);
 router.use('/', clientProductRoutes);
+router.use('/', clientInfoRouter);
 router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);

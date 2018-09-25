@@ -1,16 +1,27 @@
 const redis = require('redis');
 const { validationResult } = require('express-validator/check');
+const { promisify } = require('util');
 const InfoRepositoryClass = require('../repositories/infoRepository');
 const responseHelper = require('../../../helpers/responseHelper');
 
 const infoRepository = new InfoRepositoryClass();
 const client = redis.createClient();
+const getAsync = promisify(client.get).bind(client);
 
 module.exports = {
     manage: async (req, res) => {
         const infos = await infoRepository.show();
 
         const info = infos.length !== 0 ? infos[0] : {};
+        const [about, policy, courage] = await Promise.all([
+            getAsync('about'),
+            getAsync('policy'),
+            getAsync('courage'),
+        ]);
+
+        info.about = about !== null ? about : '';
+        info.policy = policy !== null ? policy : '';
+        info.courage = courage !== null ? courage : '';
 
         return res.render('modules/infos/admin/create', {
             info,
@@ -34,6 +45,9 @@ module.exports = {
                 const infoJson = JSON.stringify(detail);
 
                 client.set('info', infoJson);
+                client.set('about', data.about);
+                client.set('policy', data.policy);
+                client.set('courage', data.courage);
 
                 req.flash('oldValue', data);
                 req.flash('success', 'Cập nhật thông tin thành công');
@@ -45,6 +59,9 @@ module.exports = {
             const infoJson = JSON.stringify(detail);
 
             client.set('info', infoJson);
+            client.set('about', data.about);
+            client.set('policy', data.policy);
+            client.set('courage', data.courage);
 
             req.flash('oldValue', data);
             req.flash('success', 'Cập nhật thông tin thành công');

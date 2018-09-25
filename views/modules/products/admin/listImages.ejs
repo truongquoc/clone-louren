@@ -1,8 +1,10 @@
 <% layout('../../../layouts/admin/app') %>
 
+<% stylesheet('//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') %>
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css') %>
 <% stylesheet('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/flat/green.css') %>
 
+<% script('https://code.jquery.com/ui/1.12.1/jquery-ui.js') %>
 <% script('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js') %>
 <% script('https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js') %>
 <% script('https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js') %>
@@ -30,51 +32,38 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title images__table__title pull-left">Chọn ảnh</h3>
+                <h3 class="card-title images__table__title pull-left">Vị trí ảnh</h3>
                 <div class="pull-right">
                     <div class="form-inline">
-                        <select class="form-control images__table__pick-type">
-                            <option value="1">Thêm</option>
-                            <option value="2">Thay thế</option>
-                        </select>
-                        <button class="btn btn-success images__table__pick-btn">Chọn <i class="fa fa-check"></i></button>
+                        <!--<select class="form-control images__table__pick-type">-->
+                            <!--<option value="1">Thêm</option>-->
+                            <!--<option value="2">Thay thế</option>-->
+                        <!--</select>-->
+                        <button class="btn btn-success change-order__btn">Thay đổi</button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered images__table images-picker__table"
-                       data-pick-url="/admin/products/<%= product._id %>/images">
-                    <tr>
-                        <th style="width: 10px"></th>
-                        <th>Ảnh</th>
-                        <th>Đường dẫn</th>
-                        <th>Ngày tạo</th>
-                    </tr>
-                    <% images.docs.forEach(function (image) { %>
-                    <tr data-key="<%= image.url %>">
-                        <td style="width: 10px">
-                            <label>
-                                <% let check = false; %>
-                                <% product.image.array.some(function (oldImage) { %>
-                                    <% check = image.url === oldImage %>
-                                    <% if (check) return true %>
-                                <% }) %>
-                                <input type="checkbox" <%= check ? 'checked': '' %>
-                                       class="flat-red images__table__pick-checkbox <%= check ? 'images__table__used-image': '' %>">
-                            </label>
-                        </td>
-                        <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
-                                 data-src="<%= image.url %>" class="lazyload images__table__image-detail"></td>
-                        <td><a href="<%= image.url %>">Link</a></td>
-                        <td><%= moment(image.createdAt).format('HH:mm DD/MM/YYYY') %></td>
-                    </tr>
-                    <% }) %>
+                <table class="table table-bordered images__table"
+                       data-change-order-url="/admin/products/<%= product._id %>/images">
+                    <thead>
+                        <tr>
+                            <th style="width: 34px;"><i class="fa fa-arrows-v"></i></th>
+                            <th>Ảnh</th>
+                            <th>Đường dẫn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% product.image.array.forEach((image) => { %>
+                            <tr data-key="<%= image %>">
+                                <td class="text-center"><i class="fa fa-ellipsis-v"></i></td>
+                                <td><img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="<%= image %>"
+                                         class="lazyload images__table__image-detail"></td>
+                                <td><a href="<%= image %>" target="_blank">Link</a></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
                 </table>
-            </div>
-            <div class="card-footer clearfix">
-                <div class=" pagination-sm m-0 float-right">
-                    <%- images.renderPagination(images, query.page) %>
-                </div>
             </div>
         </div>
     </div>
@@ -87,7 +76,10 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });
-        $('img.lazyload').lazyload();
+        $('tbody').sortable({
+            placeholder: "ui-state-highlight"
+        });
+        $('tbody').disableSelection();
     });
 </script>
 `) %>
