@@ -22,10 +22,10 @@
             <div class="item">
                 <% if (slide.url) { %>
                     <a href="<%= slide.url %>">
-                        <img src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage">
+                        <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage owl-lazy">
                     </a>
                 <% } else { %>
-                    <img src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage">
+                    <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage owl-lazy">
                 <% } %>
             </div>
             <% }) %>
@@ -34,15 +34,14 @@
             <div class="common_title">
                 <div class="main_title">
                     <h3>
-                        <span style="">NEW ARRIVAL</span>
-                        <span style="display: none;"><img src="" alt="NEW ARRIVAL"/></span>
+                        <span style="">SẢN PHẨM MỚI NHẤT</span>
                     </h3>
                     <span class="desc"></span>
                 </div>
             </div>
-            <ul class="prdList grid3 hover_fade">
+            <ul class="prdList grid3 hover_fade row d-flex m-0">
                 <% newestProducts.forEach((product) => { %>
-                    <li class="item xans-record-">
+                    <li class="item xans-record- col-6 col-md-4 mx-0">
                         <div class="box">
                             <div class="thumbnail">
                                 <a href="/san-pham/<%= product.slug %>" class="thumb_link">
@@ -127,7 +126,8 @@ $(document).ready(function () {
         margin:10,
         autoplay:true,
         autoplayTimeout:5000,
-        autoplayHoverPause:true
+        lazyLoad: true,
+        autoplayHoverPause:true,
     });
     $('.play').on('click',function(){
         owl.trigger('play.owl.autoplay',[1000])
