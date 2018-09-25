@@ -31,6 +31,8 @@ module.exports = (res) => {
         return '';
     };
 
+    res.locals.hasError = () => typeof res.locals.flashMessages !== 'undefined' && res.locals.flashMessages.errors;
+
     res.locals.infoRedis = (title, data, item) => {
         if (data[item] !== '') {
             return `${title}: ${data[item]}`;

@@ -37,8 +37,7 @@ const createProductRequest = [
         .isEmpty()
         .withMessage('Số lượng không được bỏ trống'),
     check('priceValue')
-        .not()
-        .isEmpty()
+        .custom((value, { req }) => (req.body.isAgreement ? true : value))
         .withMessage('Giá tiền không được bỏ trống'),
     check('sku')
         .not()
@@ -141,8 +140,7 @@ const editProductRequest = [
         .isEmpty()
         .withMessage('Số lượng không được bỏ trống'),
     check('priceValue')
-        .not()
-        .isEmpty()
+        .custom((value, { req }) => (req.body.isAgreement ? true : value))
         .withMessage('Giá tiền không được bỏ trống'),
     check('image').custom((value, { req }) => {
         try {

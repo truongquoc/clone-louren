@@ -32,6 +32,9 @@ module.exports = {
             }
         });
 
+        res.locals.originalUrl = req.originalUrl;
+        res.locals.hostname = `${req.protocol}://${req.hostname}`;
+
         next();
     },
 };

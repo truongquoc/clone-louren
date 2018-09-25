@@ -92,7 +92,8 @@
                     <div class="form-group">
                         <label>Thẻ</label>
                         <select class="form-control select2" multiple style="width: 100%;" name="tags">
-                            <% const oldTags = old('tags', blogArticle.tags); let check; %>
+                            <% let oldTags = old('tags', blogArticle.tags); let check; %>
+                            <% oldTags = (typeof oldTags === 'string') ? [oldTags] : oldTags %>
                             <% blogTags.forEach(function (tag) { %>
                                 <% if (oldTags) { %>
                                     <% oldTags.some(function (oldTag) { %>
@@ -112,7 +113,7 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            <input type="checkbox" name="isDraft" class="flat-red" <%= old('isDraft', blogArticle.isDraft) ? 'checked' : '' %>> Nháp
+                            <input type="checkbox" name="isDraft" class="flat-red" <%= old('isDraft', hasError() ? false : blogArticle.isDraft) ? 'checked' : '' %>> Nháp
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
