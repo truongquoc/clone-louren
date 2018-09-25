@@ -8,8 +8,9 @@ const BlogArticleRepository = new BlogArticleRepositoryClass();
 const BlogTagRepository = new BlogTagRepositoryClass();
 
 const index = async (req, res, next) => {
+    const { query } = req;
+    query.search = query.search ? query.search.trim() : '';
     try {
-        const { query } = req;
         const blogTag = await BlogTagRepository.getDetailBySlug(req.params.slug);
         const [blogArticles] = await Promise.all([
             BlogArticleRepository.clientList({

@@ -53,8 +53,8 @@ const createArticleRequest = [
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('useVideo').custom((value, { req }) => {
         try {
-            if ((!value && req.body.video) || (value && !req.body.video)) {
-                throw new Error('Video không được sử dụng hoặc bỏ trống');
+            if (value && !req.body.video) {
+                throw new Error('Video không được bỏ trống');
             }
             return true;
         } catch (e) {
@@ -139,8 +139,8 @@ const editArticleRequest = [
         .custom(value => (value ? adminHelper.validateYouTubeUrl(value) : true)).withMessage('Video không đúng định dạng Youtube'),
     check('useVideo').custom((value, { req }) => {
         try {
-            if ((!value && req.body.video) || (value && !req.body.video)) {
-                throw new Error('Video không được sử dụng hoặc bỏ trống');
+            if (value && !req.body.video) {
+                throw new Error('Video không được bỏ trống');
             }
             return true;
         } catch (e) {

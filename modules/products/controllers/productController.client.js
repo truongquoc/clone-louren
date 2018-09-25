@@ -45,6 +45,7 @@ const list = async (req, res, next) => {
 
 const search = async (req, res, next) => {
     const { query } = req;
+    query.search = query.search ? query.search.trim() : '';
     try {
         const products = await ProductRepository.clientSearch({
             pageUrl: url.parse(req.originalUrl).pathname,

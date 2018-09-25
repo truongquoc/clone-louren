@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator/check');
 const url = require('url');
 const getSlug = require('speakingurl');
-const roleHelper = require('../../../helpers/roleHelper');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const responseHelper = require('../../../helpers/responseHelper');
 const imageHelper = require('../../../helpers/imageHelper');
@@ -18,6 +17,7 @@ const UploadRepository = new UploadRepositoryClass();
 const index = async (req, res, next) => {
     try {
         const { query } = req;
+        query.search = query.search ? query.search.trim() : '';
         const products = await ProductRepository.adminList(undefined, {
             query,
             pageUrl: req.baseUrl,
@@ -35,6 +35,7 @@ const index = async (req, res, next) => {
 const showMyProducts = async (req, res, next) => {
     try {
         const { query } = req;
+        query.search = query.search ? query.search.trim() : '';
         const products = await ProductRepository.adminList(req.session.cUser._id, {
             query,
             pageUrl: url.parse(req.originalUrl).pathname,
