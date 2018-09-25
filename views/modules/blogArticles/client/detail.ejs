@@ -26,7 +26,9 @@
       src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt="">
    </div>
     <% if (blogArticle.display.useVideo) { %>
-        <iframe class="blog-article__iframe" src="<%= blogArticle.display.video %>"></iframe>
+        <div class="iframe__container">
+            <iframe class="blog-article__iframe" src="<%= blogArticle.display.video %>" allowfullscreen></iframe>
+        </div>
     <% } else { %>
         <img src="<%= blogArticle.display.image %>" alt="<%= blogArticle.title %>" class="img-responsive">
     <% } %>

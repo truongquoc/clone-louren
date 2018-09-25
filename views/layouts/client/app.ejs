@@ -18,6 +18,7 @@
 
     <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
     <%- block('beforeCommon') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <link rel="stylesheet" href="/public/client/css/style.css">
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/public/client/css/custom.css"/>
@@ -103,6 +104,14 @@
     <%- include partials/footer.ejs %>
 </div>
 
+<div class="call-hotline">
+    <div class="fixed-hotline-call animated swing infinite ">
+        <span>
+            <a style="color: #fff;" href="tel:<%= info.phone %>">
+                <i style="transform: rotate(90deg);" class="fa fa-phone"></i></a>
+        </span>
+    </div>
+</div>
 
 <div id="scroll_up_down">
     <a href="#up" class="up"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
