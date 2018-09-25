@@ -26,9 +26,7 @@ class ProductRepository extends ArticleRepository {
     async clientList(type, options) {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
         options.limit = 20;
-        const search = new RegExp(options.query.search, 'i');
         const conditions = {
-            name: search,
             quantity: { $gt: 0 },
             isDraft: false,
             isApproved: true,
@@ -110,7 +108,7 @@ class ProductRepository extends ArticleRepository {
             deletedAt: null,
         };
         if (options.query.type === 'productName') {
-            conditions.name = new RegExp(options.query.search.trim(), 'i');
+            conditions.name = new RegExp(options.query.search, 'i');
         }
         if (options.query.productType
             && mongoose.Types.ObjectId.isValid(options.query.productType)) {

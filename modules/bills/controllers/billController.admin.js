@@ -6,6 +6,7 @@ const BillRepository = new BillRepositoryClass();
 
 const index = async (req, res, next) => {
     const { query } = req;
+    query.search = query.search ? query.search.trim() : '';
     try {
         const bills = await BillRepository.adminList({
             pageUrl: req.baseUrl,

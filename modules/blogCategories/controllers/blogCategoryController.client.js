@@ -8,18 +8,17 @@ const BlogArticleRepository = new BlogArticleRepositoryClass();
 const BlogCategoryRepository = new BlogCategoryRepositoryClass();
 
 const index = async (req, res, next) => {
+    const { query } = req;
+    query.search = query.search ? query.search.trim() : '';
     try {
-        const { query } = req;
         const blogCategory = await BlogCategoryRepository.getDetailBySlug(req.params.slug);
-        const [blogArticles] = await Promise.all([
-            BlogArticleRepository.clientList({
-                name: 'category',
-                value: blogCategory._id,
-            }, {
-                query,
-                pageUrl: url.parse(req.originalUrl).pathname,
-            }),
-        ]);
+        const blogArticles = await BlogArticleRepository.clientList({
+            name: 'category',
+            value: blogCategory._id,
+        }, {
+            query,
+            pageUrl: url.parse(req.originalUrl).pathname,
+        });
 
         blogArticles.renderPagination = paginationHelper.renderPagination;
         return res.render('modules/blogCategories/client/list', {

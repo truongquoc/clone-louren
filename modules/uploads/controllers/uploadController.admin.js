@@ -27,6 +27,7 @@ const index = async (req, res, next) => {
 
 const list = async (req, res, next) => {
     const { query } = req;
+    query.search = query.search ? query.search.trim() : '';
     try {
         const images = await UploadRepository.list(undefined, undefined, {
             query,
