@@ -35,6 +35,9 @@ module.exports = {
             res.locals.links = [];
         }
 
+        res.locals.originalUrl = req.originalUrl;
+        res.locals.hostname = `${req.protocol}://${req.hostname}`;
+
         next();
     },
 };

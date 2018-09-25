@@ -1,5 +1,16 @@
 <% layout('../../../layouts/client/blog') %>
 
+<% block('metaTags', `
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="${originalUrl}" id="fbUrl" />
+    <!-- <meta property="og:type" content="article" /> -->
+    <meta property="og:title" content="${titleRedis(info)} | Tin tức thẻ ${blogTag.name}" />
+    <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
+`) %>
+
 <% block('title', `Blog - Thẻ ${blogTag.name}`) %>
 
 <h2 class="single-article-title fl-wrap"><span>Tag: <%= blogTag.name %></span></h2>

@@ -184,11 +184,16 @@ function removeFromCart() {
                 }
                 const { product, quantity } = res.data;
                 $tr.fadeOut();
+
                 const $quantity = $('.count.EC-Layout-Basket-count em');
                 const $totalPrice = $('#cartTotalPrice');
 
                 const currentQuantity = (parseInt($quantity.text(), 10) || 0) - quantity;
                 $quantity.html(currentQuantity);
+
+                if (product.price.isAgreement) {
+                    return true;
+                }
 
                 let price = parseInt($totalPrice.attr('data-price'), 10);
 
@@ -218,6 +223,16 @@ function preventSubmit() {
     });
 }
 
+function init_clickDetailMenu() {
+    $('.custom_detail_tabs a').on('click', function (e) {
+        e.preventDefault();
+        const id = $(this).attr('href');
+        $('html, body').animate({
+            scrollTop: $(id).offset().top - 200
+        }, 2000);
+    });
+}
+
 $(document).ready(function () {
     splitCurruncy();
     checkSoldOut();
@@ -226,4 +241,5 @@ $(document).ready(function () {
     handleCart();
     removeFromCart();
     preventSubmit();
+    init_clickDetailMenu();
 });

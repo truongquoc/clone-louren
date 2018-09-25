@@ -54,7 +54,7 @@ class ProductRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .select('name image.cover price.number discount slug')
+                .select('name image.cover price discount slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),
@@ -147,7 +147,7 @@ class ProductRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .select('name image.cover price.number slug')
+                .select('name image.cover price slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),
@@ -200,7 +200,7 @@ class ProductRepository extends ArticleRepository {
             sku: data.sku,
             price: {
                 number: data.priceValue,
-                string: data.priceText,
+                isAgreement: !!data.isAgreement,
             },
             image: {
                 cover: data.image,
@@ -233,7 +233,7 @@ class ProductRepository extends ArticleRepository {
             sku: data.sku,
             price: {
                 number: data.priceValue.replace(/[($)\s\._\-]+/g, ''),
-                string: data.priceText,
+                isAgreement: !!data.isAgreement,
             },
             'image.array': images,
             discount: data.discount || 0,

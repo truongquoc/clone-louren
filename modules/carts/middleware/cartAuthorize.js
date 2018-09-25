@@ -36,7 +36,7 @@ const changeQuantityAuthorize = async (req, res, next) => {
             _id: req.params.product,
             isDraft: false,
             isApproved: true,
-        }, { select: 'quantity' });
+        }, { select: 'quantity price.isAgreement' });
         if (!product) {
             return res.json(responseHelper.notFound());
         }
@@ -45,6 +45,9 @@ const changeQuantityAuthorize = async (req, res, next) => {
         }
         if (product.quantity < (+req.body.quantity || 1)) {
             return res.json(responseHelper.error('Sản phẩm trong kho không đủ', 400));
+        }
+        if (product.price.isAgreement) {
+            return res.json(responseHelper.error('Sản phẩm thương lượng giá cả', 400));
         }
         next();
     } catch (e) {
@@ -98,13 +101,19 @@ const verifyProductQuantity = async (req, res, next) => {
                         });
                         return res.redirectBack();
                     }
+                    if (element.item.price.isAgreement) {
+                        req.flash('errors', {
+                            quantity: { msg: `Sản phẩm "${element.item.name}" giá cả thương lượng. Hãy liên hệ riêng với chúng tôi` },
+                        });
+                        return res.redirectBack();
+                    }
                 }
             }
         } else {
             const cart = req.session.cart || [];
             const cartLength = cart.length;
             let products = cart.map(element => element.item);
-            products = await ProductRepository.getManyByIds(products, { select: '_id name quantity' });
+            products = await ProductRepository.getManyByIds(products, { select: '_id name quantity price.isAgreement' });
             for (let i = 0; i < cartLength; i += 1) {
                 const product = products.find(element => element._id.toString() === cart[i].item);
                 if (product.quantity <= 0) {
@@ -112,9 +121,16 @@ const verifyProductQuantity = async (req, res, next) => {
                         quantity: { msg: `Sản phẩm "${product.name}" đã hết hàng` },
                     });
                     return res.redirectBack();
-                } else if (cart[i].quantity > product.quantity) {
+                }
+                if (cart[i].quantity > product.quantity) {
                     req.flash('errors', {
                         quantity: { msg: `Số lượng sản phẩm "${product.name}" trong kho không đủ` },
+                    });
+                    return res.redirectBack();
+                }
+                if (product.price.isAgreement) {
+                    req.flash('errors', {
+                        quantity: { msg: `Sản phẩm "${product.name}" giá cả thương lượng. Hãy liên hệ riêng với chúng tôi` },
                     });
                     return res.redirectBack();
                 }

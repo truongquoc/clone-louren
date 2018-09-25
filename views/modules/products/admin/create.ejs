@@ -103,21 +103,33 @@
                             <p class="form__error-message"><%= errors('priceValue') %></p>
                         </div>
                         <div class="col-12 col-md">
-                            <div class="row justify-content-between m-0">
-                                <div class="col p-0">
-                                    <label for="discount">Giảm giá (đơn vị %)</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row justify-content-between m-0">
+                                        <div class="col p-0">
+                                            <label for="discount">Giảm giá (đơn vị %)</label>
+                                        </div>
+                                        <div class="col-auto text-right font-weight-light font-weight-bold">
+                                            <span id="discountedPrice"></span>
+                                            <input type="hidden" min="0" max="1" value="<%= old('discount') %>" id="discount" name="discount">
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="number" min="0" max="100" class="form-control form__title__input"
+                                                   id="discountInput" name="discountInput">
+                                        </div>
+                                        <p class="form__error-message"><%= errors('discount') %></p>
+                                    </div>
                                 </div>
-                                <div class="col-auto text-right font-weight-light font-weight-bold">
-                                    <span id="discountedPrice">
-
-                                    </span>
-                                    <input type="hidden" min="0" max="1" value="<%= old('discount') %>" id="discount" name="discount">
+                                <div class="col-md-4">
+                                    <div class="col p-0">
+                                        <label>&nbsp;</label>
+                                    </div>
+                                    <label for="isAgreement">
+                                        <input type="checkbox" name="isAgreement" id="isAgreement" class="flat-red"
+                                                <%= old('isAgreement') ? 'checked' : '' %>> Thỏa thuận
+                                    </label>
                                 </div>
                             </div>
-                            <div class="input-group">
-                                <input type="number" min="0" max="100" class="form-control form__title__input" id="discountInput" name="discountInput">
-                            </div>
-                            <p class="form__error-message"><%= errors('discount') %></p>
                         </div>
                     </div>
 
