@@ -24,7 +24,6 @@ const clientUserRouter = require('../modules/users/routes.client');
 const clientBillRouter = require('../modules/bills/routers.client');
 const clientInfoRouter = require('../modules/infos/router.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
-const redisHelper = require('../helpers/redisHelper');
 
 router.use((req, res, next) => {
     res.locals.flashMessages = req.session.flash;
@@ -32,7 +31,6 @@ router.use((req, res, next) => {
     delete req.session.flash;
     next();
 });
-
 router.use('/admin', adminAuthRoutes);
 router.use('/admin/images', adminUploadRouter);
 router.use('/admin/users', adminUserRouter);

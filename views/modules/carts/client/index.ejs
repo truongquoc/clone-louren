@@ -58,19 +58,19 @@
                 <tbody class="xans-element- xans-order xans-order-list center">
                     <% cart.products.forEach((product) => { %>
                         <tr class="xans-record-">
-                            <td class="thumb gClearLine">
-                                <a href="/san-pham/<%= product.item.slug %>">
+                            <td class="thumb gClearLine col-12 d-flex justify-content-center order-1">
+                                <a href="/san-pham/<%= product.item.slug %>" class="thumb-img-prd">
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<%= product.item.image.cover %>"
                                          class="lazyload" alt="<%= product.item.name %>" />
                                 </a>
                             </td>
-                            <td class="left gClearLine">
+                            <td class="left gClearLine col-5 order-3">
                                 <strong class="name">
                                     <a href="/san-pham/<%= product.item.slug %>" class="ec-product-name">
                                         <%= product.item.name %>
                                     </a>
                                 </strong>
-                                <p class="cart__error color-red">
+                                <span class="cart__error color-red">
                                     <% if (product.item.quantity <= 0) { %>
                                         Sản phẩm hết hàng
                                     <% } else if (product.item.quantity < product.quantity) { %>
@@ -78,9 +78,9 @@
                                     <% } else if (product.item.price.isAgreement) { %>
                                         Sản phẩm thương lượng giá cả
                                     <% } %>
-                                </p>
+                                </span>
                             </td>
-                            <td class="right">
+                            <td class="right col-5 order-4">
                                 <div class="">
                                     <span style="font-size:12px;color:#000000;font-weight:bold;">
                                         <% if (product.item.price.isAgreement) { %>
@@ -102,7 +102,7 @@
                                     </span>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-2 order-5">
                                 <span class="">
                                     <span class="ec-base-qty">
                                         <input class="cartProductQuantity" data-id="<%= product.item._id %>"
@@ -120,7 +120,7 @@
                                     </span>
                                 </span>
                             </td>
-                            <td>
+                            <td class="col-1 order-2">
                                 <button class="remove-product-from-cart"><i class="fa fa-times"></i></button>
                             </td>
                         </tr>

@@ -48,9 +48,10 @@
 
     <div class="xans-element- xans-product xans-product-normalpackage ">
         <div class="xans-element- xans-product xans-product-normalmenu ">
-            <div class="function">
-                <p class="prdCount">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
-                <ul id="type" class="xans-element- xans-product xans-product-orderby">
+            <div class="function row d-flex m-0">
+                <p class="prdCount col-12-auto col-md-auto">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
+                <ul id="type" class="xans-element- xans-product xans-product-orderby 
+                col-12 col-md px-1 m-0 row d-flex justify-content-around justify-content-md-end">
                     <li class="xans-record-">
                         <a href="?sort=productName" class="<%= query.sort === 'productName' ? 'sort' : '' %>">Tên sản phẩm</a>
                     </li>
@@ -78,9 +79,9 @@
         </div>
 
         <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
-            <ul class="prdList hover_zoom grid5">
+            <ul class="prdList hover_zoom grid5 d-flex row">
                 <% products.docs.forEach((product) => { %>
-                    <li class="item xans-record-">
+                    <li class="item xans-record- col-6 col-md-4 mx-0">
                         <div class="box">
                             <div class="thumbnail">
                                 <a href="/san-pham/<%= product.slug %>" class="thumb_link">

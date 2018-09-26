@@ -223,6 +223,38 @@ function preventSubmit() {
     });
 }
 
+function hamburger() {
+    $('#hamburger').prop('checked', false);
+
+    $('#hamburger').click(function a() {
+        const check = $(this).is(':checked');
+        if (check) {
+            $('.icon_cart').addClass('d-none');
+            $('.icon_member').removeClass('d-none');
+            $('.widget_lnb_menu').addClass('menu--showed');
+            return;
+            
+        }
+        $('.icon_member').addClass('d-none');
+        $('.icon_cart ').removeClass('d-none');
+
+        $('.widget_lnb_menu').removeClass('menu--showed');
+        return;
+    })
+}
+
+function menu() {
+    $('.lnb_sub_menu').hide();
+    $('.product-sub-mobi').click(function a() {
+        
+        if ($('.lnb_sub_menu ul').is(':visible')) {
+            $('.lnb_sub_menu').hide();
+        } else {
+            $('.lnb_sub_menu').show();
+        };
+    })
+}
+
 function init_clickDetailMenu() {
     $('.custom_detail_tabs a').on('click', function (e) {
         e.preventDefault();
@@ -241,5 +273,7 @@ $(document).ready(function () {
     handleCart();
     removeFromCart();
     preventSubmit();
+    hamburger();
+    menu();
     init_clickDetailMenu();
 });

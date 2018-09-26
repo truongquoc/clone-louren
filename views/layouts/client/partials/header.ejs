@@ -17,7 +17,7 @@
     </h1>
     <div class="widget_gnb_right">
         <ul>
-            <li class="sub_menu_layer icon_member">
+            <li class="sub_menu_layer icon_member d-none d-md-block">
                 <!-- <a href="/member/login.html" module="Layout_statelogoff"><span class="hide">MEMBER</span></a>
                 <a href="{$action_logout}" module="Layout_stateLogon"><span class="hide">MEMBER</span></a>-->
                 <a href="#" class="item"><span class="hide">Thành viên</span></a>
@@ -35,7 +35,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="xans-element- xans-layout xans-layout-orderbasketcount sub_menu_layer icon_cart ">
+            <li class="xans-element- xans-layout xans-layout-orderbasketcount sub_menu_layer icon_cart">
                 <a href="/gio-hang" class="btnBasket">
                     <span class="count EC-Layout-Basket-count">
                         <em class="EC-Layout-Basket-count"><%= productQuantity %></em>
@@ -45,13 +45,25 @@
         </ul>
     </div>
 
+    <div class="hamburger">
+        <input id="hamburger" type="checkbox" />
+
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <div class="widget_lnb_menu">
-        <ul class="header_lnb_menu">
+        <ul class="header_lnb_menu d-flex flex-md-row flex-column">
             <li class="lnb1"><a href="/">TRANG CHỦ</a></li>
             <li class="lnb2">
-                <a href="/mat-hang" class="text-upper">MẶT HÀNG <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                <a href="/mat-hang" class="text-upper product-sub-desktop">MẶT HÀNG <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                <span class="text-upper product-sub-mobi">MẶT HÀNG <i class="fa fa-angle-down" aria-hidden="true"></i></span>
                 <div class="xans-element- xans-layout xans-layout-category lnb_sub_menu">
                     <ul>
+                        <li class="depth1 xans-record- product-sub-mobi">
+                            <a href="/mat-hang">Tất cả sản phẩm</a>
+                        </li>
                         <% productTypes.forEach((type) => { %>
                             <li class="depth1 xans-record-">
                                 <a href="/mat-hang/<%= type.slug %>"><%= type.name %></a>
