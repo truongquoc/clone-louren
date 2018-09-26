@@ -42,7 +42,7 @@ module.exports = (app, express) => {
     });
 
     app.use('/public', express.static('./public', {
-        maxAge: '36000000',
+        // maxAge: '36000000',
     }));
 
     routes(app);

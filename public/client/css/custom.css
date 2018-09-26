@@ -190,19 +190,6 @@ body {
     font-weight: bold;
 }
 
-.call-hotline {
-    position: fixed;
-    bottom: 80px !important;
-    left: 20px;
-}
-
-.fixed-hotline-call {
-    background: rgba(244,67,54,1)!important;
-    font-size: 20px;
-    padding: 7px 12px !important;
-    border-radius: 15px;
-}
-
 .header_area .logo img {
     vertical-align: middle;
 }
@@ -212,6 +199,78 @@ body {
 .about img {
     width: 100%;
     height: auto;
+}
+
+.phone-call {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 210px;
+    height: 60px;
+    z-index: 999;
+}
+.phone-call:hover .phone-call__icon {
+    background-color: #00bf00;
+    font-size: 33.75px;
+}
+@media (max-width: 576px) {
+    .phone-call {
+        right: -140px;
+        bottom: 10px;
+    }
+}
+@media (min-width: 576px) and (max-width: 768px) {
+    .phone-call {
+        right: -140px;
+        bottom: 10px;
+    }
+}
+.phone-call__icon {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    background-color: #00a800;
+    border-radius: 50%;
+    font-size: 27px;
+    transition: 0.4s;
+    z-index: 999;
+}
+.phone-call__icon i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+    color: #fff;
+    transform: translate(-50%, -50%);
+}
+.phone-call__content--wrap {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #1c9e1c;
+    border-radius: 100px;
+    text-align: center;
+}
+@media (max-width: 576px) {
+    .phone-call__content--wrap {
+        display: none;
+    }
+}
+@media (min-width: 576px) and (max-width: 768px) {
+    .phone-call__content--wrap {
+        display: none;
+    }
+}
+.phone-call__content--wrap a {
+    color: #fff;
+    font-size: 22px;
+}
+.phone-call__content--item {
+    display: inline-block;
+    margin-top: 18px;
+    margin-left: 50px;
 }
 
 @media (max-width: 992px) {
@@ -327,8 +386,8 @@ body {
         height: 27px;
         position: absolute;
         cursor: pointer;
-        opacity: 0; 
-        z-index: 2; 
+        opacity: 0;
+        z-index: 2;
         -webkit-touch-callout: none;
     }
 
