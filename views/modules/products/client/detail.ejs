@@ -246,7 +246,7 @@
                 <li><a href="#prdInfo"><span
                         >THÔNG TIN SẢN PHẨM</span></a></li>
                 <li><a href="#prdReview"><span
-                        >BÌNH LUẬN</span><em class="count">3</em></a></li>
+                        >BÌNH LUẬN</span></a></li>
             </ul>
             <div class="eventArea cont displaynone">
                 <div class="event"></div>
@@ -257,12 +257,12 @@
         </div>
         <div id="prdInfo" class="custom_detail_tabs ">
             <ul class="menu">
-                <li><a href="#prdDetail"><span
+                <li class="selected"><a href="#prdDetail"><span
                         >CHI TIẾT</span></a></li>
-                <li class="selected"><a href="#prdInfo"><span
+                <li><a href="#prdInfo"><span
                         >THÔNG TIN SẢN PHẨM</span></a></li>
                 <li><a href="#prdReview"><span
-                        >BÌNH LUẬN</span><em class="count">3</em></a></li>
+                        >BÌNH LUẬN</span></a></li>
             </ul>
             <div class="cont">
                 <%- product.info %>
@@ -275,16 +275,14 @@
                 <li><a href="#prdInfo"><span
                         >THÔNG TIN SẢN PHẨM</span></a></li>
                 <li class="selected"><a href="#prdReview"><span
-                        >NHẬN XÉT</span></a></li>
-                <li><a href="#prdQnA"><span
-                        >HỎI ĐÁP</span><em class="count">0</em></a></li>
+                        >BÌNH LUẬN</span></a></li>
             </ul>
             <div class="comments">
                 <div class="fb-comments" data-href="<% originalUrl %>" data-numposts="10"></div>
             </div>
         </div>
         <div id="prdRelated" class="cont">
-            <h2>SẢN PHẨM CÙNG CHUYÊN MỤC</h2>
+            <h2 style="font-size: 19px">SẢN PHẨM CÙNG CHUYÊN MỤC</h2>
 
             <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
                 <ul class="prdList hover_zoom grid5 autoplay m-0">
