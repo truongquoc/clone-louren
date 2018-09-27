@@ -1,35 +1,41 @@
-<div class="fluid_row footer_address_row">
-    <div class="fixed_row">
-       <div class="widget_footer_sns">
-          <ul>
-             <li class=""><a href="https://www.facebook.com/noithatmaytrenha/" target="_blank" class="transition_type1"><i class="fa fa-facebook-f"></i></a></li>
-             <li><a href="https://www.instagram.com/mayhienhome/" target="_blank" class="transition_type1"><i class="fa fa-instagram"></i></a></li>
-
-             <!--<li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-google"></i></a></li>-->
-             <!--<li><a href="#" target="_blank" class="transition_type1"><i class="fa fa-twitter"></i></a></li>-->
-          </ul>
-       </div>
-       <ul class="utilMenu">
-           <% links.forEach(link => { %>
-            <% if (link.show === 'show') { %>
-                <li><a style="text-transform: uppercase;" href="<%= link.link %>"><%= link.name %></a></li>
-            <% } %>
-           <% }) %>
-       </ul>
-       <div class="xans-element- xans-layout xans-layout-footer">
-          <p class="address">
-            <span><%= infoRedis('Tên công ty', info, 'company') %></span>
-            <span><%= infoRedis('Tên đại diện', info, 'deputy') %></span>
-            <span><%= infoRedis('Mã số thuế', info, 'tax') %></span>
-            <br>
-            <span>
-                  <a href="tel:<%= info.phone %>"><%= infoRedis('Điện thoại', info, 'phone') %></a>
-            </span>
-            <span><%= infoRedis('Fax', info, 'fax') %></span> <span><%= infoRedis('Địa chỉ', info, 'location') %></span><br/><span><a href="mailto:<%= info.email %>"><%= infoRedis('Email', info, 'email') %></a></span> <span><a
-                href="mailto:<%= info.security %>"><%= infoRedis('Cán bộ bảo mật', info, 'security') %></a></span><br/>
-          </p>
-          <p class="copyright hide">Copyright © <strong>demmo</strong>. All rights reserved. <a
-             href="#" target="_blank">DESIGN MOON</a></p>
+<div class="fluid_row footer_address_row p-5">
+    <div class="container">
+       <div class="row d-flex flex-column flex-md-row justify-content-between">
+            <div class="col-auto d-flex row flex-column my-3">
+                <h3 class="mb-4">MÂY HIÊN HOME</h3>
+                <p class="mb-2">Địa chỉ: Đà Nẵng</p>
+                <p class="mb-2">Tel: 0967 088 787</p>
+                <p class="mb-2">Giờ mở cửa: Thứ 2 - CN 8:00AM-8:00PM</p>
+                <p class="mb-2">Email: mayhienhome@gmail.com</p>
+            </div>
+            <div class="col-auto row d-flex flex-column my-3">
+                <h3 class="mb-4">BÀI ĐĂNG MỚI NHẤT</h3>
+                <div class="col-auto mb-2 p-0">
+                    <a href="#">Tên bài viết Demo</a>
+                    <p class="mt-1 post-date">Tháng Chín 05, 2018</p>
+                    <hr>
+                </div>
+                <div class="col-auto mb-2 p-0">
+                    <a href="#">Tên bài viết Demo</a>
+                    <p class="mt-1 post-date">Tháng Chín 05, 2018</p>
+                    <hr>
+                </div>
+                <div class="col-auto mb-2 p-0">
+                    <a href="#">Tên bài viết Demo</a>
+                    <p class="mt-1 post-date">Tháng Chín 05, 2018</p>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-auto row d-flex flex-column my-3">
+                <h3 class="mb-4">HỖ TRỢ KHÁCH HÀNG</h3>
+                <a class="mt-2" href="#">Phương thức mua hàng</a>
+                <a class="mt-2" href="#">Hình thức thanh toán</a>
+                <a class="mt-2" href="#">Chính sách giao nhận</a>
+                <a class="mt-2" href="#">Chế độ bảo hành</a>
+            </div>
+            <div class="col-auto d-flex facebook-page my-3">
+    
+            </div>
        </div>
     </div>
     <!-- /.fixed_row -->
