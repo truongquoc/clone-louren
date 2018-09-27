@@ -105,7 +105,7 @@
                             <td>
                                 <span class="module__delete-container <%= bill.deletedAt ? 'hide' : '' %>">
                                     <% if (bill.userInformation.name) { %>
-                                        <button class="badge bg-primary-gradient module__show-user-info-btn" data-toggle="modal" data-target="#myModal2">
+                                        <button class="badge bg-primary-gradient module__show-user-info-btn" data-toggle="modal" data-target="#myModal<%= index %>">
                                             <i class="fa fa-eye"></i>
                                         </button>
                                         <div class="hide bill__table__user-info"
@@ -113,6 +113,7 @@
                                              data-user-email="<%= bill.userInformation.email %>"
                                              data-user-telephone="<%= bill.userInformation.telephone %>"
                                              data-user-address="<%= bill.userInformation.address %>"
+                                             data-payment-method="<%= bill.userInformation.paymentMethod %>"
                                              data-note="<%= bill.userInformation.note %>"
                                         ></div>
                                     <% } %>
@@ -144,40 +145,75 @@
     </div>
 </section>
 
-<div class="modal" id="myModal2">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Thông tin người dùng</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+<% bills.docs.forEach(function (bill, index) { %>
+    <div class="modal" id="myModal<%= index %>">
+        <div class="modal-lg modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thông tin người dùng</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
-            <div class="modal-body">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th scope="row">Tên</th>
-                        <td class="user-info__table__name"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Email</th>
-                        <td class="user-info__table__email"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Số điện thoại</th>
-                        <td class="user-info__table__telephone"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Lưu ý</th>
-                        <td class="user-info__table__note"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Tên</th>
+                            <td class="user-info__table__name"><%= bill.userInformation.name %></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td class="user-info__table__email"><%= bill.userInformation.email %></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Số điện thoại</th>
+                            <th><%= bill.userInformation.telephone %></th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phương thức thanh toán</th>
+                            <th></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Địa chỉ</th>
+                            <th><%= bill.userInformation.address %></th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Lưu ý</th>
+                            <th><%= bill.userInformation.note %></th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tổng số tiền</th>
+                            <th><%= formatPrice(bill.price) %></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3>Đơn hàng</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="row">Tên</th>
+                            <th scope="row">Số lượng</th>
+                            <th scope="row">Đơn giá</th>
+                            <th scope="row">Tổng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% bill.productBill.forEach((element) => { %>
+                            <tr>
+                                <td><%= element.product.name %></td>
+                                <td class=""><%= element.quantity %></td>
+                                <td class=""><%= formatPrice(element.price) %> ₫</td>
+                                <td class=""><%= formatPrice(element.quantity * element.price) %> ₫</td>
+                            </tr>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<% }) %>
 
 <% block('scripts', `
 <script>

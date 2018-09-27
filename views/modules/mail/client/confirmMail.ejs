@@ -29,11 +29,14 @@
                         </div>
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
                             <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.<br>Hãy liên lạc với chúng tôi qua số điện thoại <%= info[0] ? info[0].phone : '' %> để xác nhận đơn hàng này</p>
+                            <% if (info[0] && info[0].bankAccount && bill.paymentMethod === 'via-bank') { %>
+                                <p>Hãy chuyển tiền qua thẻ ngân hàng với số tài khoản <%= info[0].bankAccount %> để nhận hàng.</p>
+                            <% } %>
                             <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
                                 <h4 class="subtitle">Thông tin đơn hàng</h4>
                                 <table class="container user__information">
                                     <tbody>
-                                    <% const user = bill.user || bill.userInformation %>
+                                    <% const user = bill.userInformation %>
                                     <tr>
                                         <td></td>
                                         <td></td>

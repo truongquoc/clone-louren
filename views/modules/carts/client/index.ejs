@@ -132,7 +132,7 @@
 
         <div class="xans-element- xans-order xans-order-totalorder ec-base-button justify">
             <span class="gRight">
-                <form <%= cart._id ? `action=/gio-hang/${cart._id}/xac-nhan method=POST` : 'action=/gio-hang/xac-nhan method=GET'%>>
+                <form action="/gio-hang/xac-nhan" method="GET">
                     <button class="btn btn-primary" id="cartBtnSubmit"
                             style="padding: 10px 15px; background: #444; color: #fff; font-size: 16px;">Xác nhận</button>
                 </form>

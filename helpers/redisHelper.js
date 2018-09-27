@@ -14,6 +14,7 @@ module.exports = {
         } else {
             res.locals.info = {
                 title: 'Mây Hiên Home',
+                bankAccount: '',
                 company: '',
                 deputy: '',
                 tax: '',

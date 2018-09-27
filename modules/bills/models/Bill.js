@@ -25,6 +25,11 @@ const Bill = new Schema({
             type: String,
             trim: true,
         },
+        paymentMethod: {
+            type: String,
+            trim: true,
+            enum: ['cod', 'via-bank'],
+        },
         note: {
             type: String,
             trim: true,

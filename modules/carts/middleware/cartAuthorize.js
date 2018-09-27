@@ -23,8 +23,12 @@ const confirmCartAuthorize = async (req, res, next) => {
     }
 };
 
-const showUserInformationAuthorize = (req, res, next) => {
-    if (!req.session.cart || !req.session.cart.length) {
+const showUserInformationAuthorize = async (req, res, next) => {
+    let cart;
+    if (req.session.cUser) {
+        cart = await CartRepository.checkExist({ user: req.session.cUser._id }, { select: 'products' });
+    }
+    if ((!req.session.cart || !req.session.cart.length) && (!cart || !cart.products.length)) {
         return res.redirect('/gio-hang');
     }
     next();

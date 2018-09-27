@@ -31,8 +31,8 @@ class CartRepository extends BaseRepository {
             .populate('products.item', 'price.number discount');
     }
 
-    async createBill(id, userId) {
-        const cart = await this.getCart({ _id: id });
+    async createBill(data, userId) {
+        const cart = await this.getCart({ user: userId });
         const products = [];
         cart.products.forEach((product) => {
             const { item } = product;
@@ -60,6 +60,14 @@ class CartRepository extends BaseRepository {
 
         return BillRepository.baseCreate({
             user: userId,
+            userInformation: {
+                name: data.name,
+                email: data.email,
+                telephone: data.telephone,
+                address: data.address,
+                paymentMethod: data.paymentMethod,
+                note: data.note,
+            },
             productBill,
             code,
             price: totalPrice,
@@ -112,8 +120,8 @@ class CartRepository extends BaseRepository {
         });
     }
 
-    emptyCart(id) {
-        return this.baseUpdate({ products: [] }, { _id: id });
+    emptyCart(userId) {
+        return this.baseUpdate({ products: [] }, { user: userId });
     }
 
     create(user) {
