@@ -1323,7 +1323,11 @@ blockquote p {
     text-align:left;
 }
 /*-------------- General--------------------------------------*/
-#main  , #wrapper , .hero-wrap{
+#main, #wrapper {
+    width:100%;
+    position:relative;
+}
+.hero-wrap{
     float:left;
     width:100%;
     position:relative;

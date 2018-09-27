@@ -12,7 +12,7 @@ const index = async (req, res, next) => {
     try {
         const [slides, newestProducts] = await Promise.all([
             SlideRepository.homeGetSlides(),
-            ProductRepository.getNewestProducts(),
+            ProductRepository.getNewestProducts(9),
         ]);
 
         return res.render('modules/products/client/index', {

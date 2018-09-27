@@ -9,6 +9,7 @@ class InfoRepository extends BaseRepository {
     create(data) {
         const info = {
             title: data.title,
+            workingTime: data.workingTime,
             bankAccount: data.bankAccount,
             company: data.company,
             deputy: data.deputy,
