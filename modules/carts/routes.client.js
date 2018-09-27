@@ -15,10 +15,6 @@ router.delete('/:product/xoa-san-pham', cartAuthorize.removeProductAuthorize, ca
 
 router.get('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartAuthorize.verifyProductQuantity, getPropertyTypes, cartController.showUserInformationForm);
 
-router.post('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartAuthorize.verifyProductQuantity, cartRequest.buyProductWithoutLoginRequest, cartController.buyProductWithoutLogin);
-
-router.use(authAuthorize.clientRedirectIfNotAuthenticated);
-
-router.post('/:id/xac-nhan', cartAuthorize.confirmCartAuthorize, cartAuthorize.verifyProductQuantity, cartController.buyProduct);
+router.post('/xac-nhan', cartAuthorize.showUserInformationAuthorize, cartAuthorize.verifyProductQuantity, cartRequest.buyProductRequest, cartController.buyProduct);
 
 module.exports = router;

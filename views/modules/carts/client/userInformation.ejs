@@ -19,6 +19,12 @@
             color: red;
             font-weight: bold;
         }
+        .bankAccount--display {
+            color: black;
+            margin-left: 15px;
+            font-weight: bold;
+            display: none;
+        }
     </style>
     <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
@@ -45,43 +51,58 @@
             <form action="" method="POST">
                 <table border="1">
                     <colgroup>
-                        <col style="width:150px">
+                        <col style="width:180px">
                         <col style="width:auto">
                     </colgroup>
                     <tbody>
+                    <% cUser = cUser || {} %>
                     <tr>
                         <th scope="row">Tên người mua <span class="red-note">&#8277;</span></th>
                         <td>
-                            <input name="name" value="<%= old('name') %>" type="text">
-                            <p><%= errors('name') %></p>
+                            <input name="name" value="<%= old('name', cUser.name) %>" type="text">
+                            <p class="red-note"><%= errors('name') %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Email <span class="red-note">&#8277;</span></th>
                         <td>
-                            <input name="email" value="<%= old('email') %>" type="text">
-                            <p><%= errors('email') %></p>
+                            <input name="email" value="<%= old('email', cUser.email) %>" type="text">
+                            <p class="red-note"><%= errors('email') %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Điện thoại di động <span class="red-note">&#8277;</span></th>
                         <td>
-                            <input name="telephone" value="<%= old('telephone') %>" type="text">
-                            <p><%= errors('telephone') %></p>
+                            <input name="telephone" value="<%= old('telephone', cUser.telephone) %>" type="text">
+                            <p class="red-note"><%= errors('telephone') %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Địa chỉ <span class="red-note">&#8277;</span></th>
                         <td>
-                            <input name="address" value="<%= old('address') %>" type="text">
-                            <p><%= errors('address') %></p>
+                            <input name="address" value="<%= old('address', cUser.address) %>" type="text">
+                            <p class="red-note"><%= errors('address') %></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Hình thức thức thanh toán <span class="red-note">&#8277;</span></th>
+                        <td>
+                            <input id="cod" name="paymentMethod" value="cod"
+                                   type="radio" <%= old('paymentMethod') === 'cod' ? 'checked' : '' %>>
+                            <label for="cod">Thanh toán khi nhận hàng</label>
+                            <br>
+                            <input id="via-bank" name="paymentMethod" value="via-bank"
+                                   type="radio" <%= old('paymentMethod') === 'via-bank' ? 'checked' : '' %>>
+                            <label for="via-bank">Thanh toán qua thẻ ngân hàng</label>
+                            <span class="bankAccount--display">Mã thẻ: <%= info.bankAccount %></span>
+                            <p class="red-note"><%= errors('paymentMethod') %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Ghi chú</th>
                         <td>
                             <textarea name="note"><%- old('note') %></textarea>
-                            <p><%= errors('note') %></p>
+                            <p class="red-note"><%= errors('note') %></p>
                         </td>
                     </tr>
                     </tbody>
@@ -102,8 +123,26 @@
 
 <script type="text/javascript" src="/public/client/js/vendor.js"></script>
 <script type="text/javascript" src="/public/client/js/test3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     var mobileWeb = false;
+</script>
+<script>
+    $(document).ready(function () {
+        displayElementMethod('[name="paymentMethod"]:checked');
+        $('[name="paymentMethod"]').on('change', function () {
+            displayElementMethod(this);
+        });
+    });
+
+    function displayElementMethod(element) {
+        const value = $(element).val();
+        if (value === 'via-bank') {
+            $('.bankAccount--display').fadeIn();
+        } else if (value === 'cod') {
+            $('.bankAccount--display').fadeOut('bankAccount--display-block');
+        }
+    }
 </script>
 </body>
 </html>

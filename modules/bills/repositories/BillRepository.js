@@ -59,6 +59,16 @@ class BillRepository extends BaseRepository {
             this.model
                 .find(conditions)
                 .populate('user', '-_id name slug')
+                .populate({
+                    path: 'productBill',
+                    select: '-_id product price quantity',
+                    match: { deletedAt: null },
+                    populate: {
+                        path: 'product',
+                        select: '-_id name sku price.number image.cover',
+                        match: { deletedAt: null },
+                    },
+                })
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ isApproved: 1, createdAt: 1 }),
@@ -198,7 +208,7 @@ class BillRepository extends BaseRepository {
         });
         const template = ejs.compile(file);
         const mailOptions = {
-            to: bill.user ? bill.user.email : bill.userInformation.email,
+            to: bill.userInformation.email,
             from: config.emailAddress,
             subject: `Xác nhận đơn hàng ${bill.code}`,
             html: template({

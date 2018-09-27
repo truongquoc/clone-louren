@@ -7,6 +7,7 @@ const infoSchema = new Schema({
         type: String,
         default: 'Mây Hiên Home',
     },
+    bankAccount: String,
     company: String,
     deputy: String,
     tax: String,

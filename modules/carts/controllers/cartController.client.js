@@ -196,7 +196,7 @@ const showUserInformationForm = (req, res) => res.render('modules/carts/client/u
     products: req.session.cart,
 });
 
-const buyProductWithoutLogin = async (req, res, next) => {
+const buyProduct = async (req, res, next) => {
     const errors = validationResult(req);
     const data = req.body;
     if (!errors.isEmpty()) {
@@ -205,27 +205,25 @@ const buyProductWithoutLogin = async (req, res, next) => {
         return res.redirectBack();
     }
     try {
-        const bill = await CartRepository.createBillWithoutLogin(data, req.session.cart);
-        await BillRepository.sendConfirmEmail(bill._id);
-        delete req.session.cart;
-        req.flash('success', 'Gửi yêu cầu mua thành công, hãy kiểm tra lại email của bạn.');
+        let bill;
+        let redirectRoute;
+        const user = req.session.cUser;
+        const commands = [];
+        if (user) {
+            bill = await CartRepository.createBill(data, user._id);
+            commands.push(CartRepository.emptyCart(user._id));
+            redirectRoute = '/nguoi-dung/don-hang';
+        } else {
+            bill = await CartRepository.createBillWithoutLogin(data, req.session.cart);
+            delete req.session.cart;
+            redirectRoute = '/gio-hang';
+        }
+        commands.push(BillRepository.sendConfirmEmail(bill._id));
+        await Promise.all(commands);
 
-        return res.redirect('/gio-hang');
-    } catch (e) {
-        next(responseHelper.error(e.message));
-    }
-};
+        req.flash('success', 'Gửi yêu cầu mua thành công, xin vui lòng kiểm tra email của bạn.');
 
-const buyProduct = async (req, res, next) => {
-    try {
-        const bill = await CartRepository.createBill(req.params.id, req.session.cUser._id);
-        await Promise.all([
-            BillRepository.sendConfirmEmail(bill._id),
-            CartRepository.emptyCart(req.params.id),
-        ]);
-        req.flash('success', 'Gửi yêu cầu mua thành công, hãy kiểm tra lại email của bạn.');
-
-        return res.redirect('/nguoi-dung/don-hang');
+        return res.redirect(redirectRoute);
     } catch (e) {
         next(responseHelper.error(e.message));
     }
@@ -233,9 +231,8 @@ const buyProduct = async (req, res, next) => {
 
 module.exports = {
     index,
-    buyProductWithoutLogin,
-    showUserInformationForm,
     buyProduct,
+    showUserInformationForm,
     addToCart,
     changeQuantity,
     removeProduct,
