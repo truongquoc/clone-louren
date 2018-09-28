@@ -11,7 +11,7 @@ class ProductRepository extends ArticleRepository {
         return Product;
     }
 
-    getNewestProducts() {
+    getNewestProducts(quantity) {
         return this.model
             .find({
                 quantity: { $gt: 0 },
@@ -20,7 +20,7 @@ class ProductRepository extends ArticleRepository {
                 deletedAt: null,
             })
             .sort({ createdAt: -1 })
-            .limit(9);
+            .limit(quantity);
     }
 
     async clientList(type, options) {

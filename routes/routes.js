@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { countCartProduct } = require('../infrastructure/controllers/productController.client');
+const { countCartProduct, getNewestProducts } = require('../infrastructure/controllers/productController.client');
 const adminAuthRoutes = require('../modules/users/authRoutes.admin');
 const adminUploadRouter = require('../modules/uploads/routes.admin');
 const adminUserRouter = require('../modules/users/routes.admin');
@@ -49,7 +49,7 @@ router.use('/admin', (req, res) => res.render('errors/admin/404'));
 
 router.use(redisHelper.getRedis);
 
-router.use(countCartProduct);
+router.use(countCartProduct, getNewestProducts);
 router.use('/', clientAuthRoutes);
 router.use('/blog', clientBlogCategoryRouter);
 router.use('/blog', clientBlogTagRouter);

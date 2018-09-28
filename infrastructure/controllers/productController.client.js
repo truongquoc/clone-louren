@@ -1,7 +1,9 @@
 const responseHelper = require('../../helpers/responseHelper');
+const ProductRepositoryClass = require('../../modules/products/repositories/ProductRepository');
 const ProductTypeRepositoryClass = require('../../modules/productTypes/repositories/ProductTypeRepository');
 const CartRepositoryClass = require('../../modules/carts/repositories/CartRepository');
 
+const ProductRepository = new ProductRepositoryClass();
 const ProductTypeRepository = new ProductTypeRepositoryClass();
 const CartRepository = new CartRepositoryClass();
 
@@ -41,7 +43,17 @@ const countCartProduct = async (req, res, next) => {
     }
 };
 
+const getNewestProducts = async (req, res, next) => {
+    try {
+        res.locals.footerNewestProducts = await ProductRepository.getNewestProducts(3);
+        next();
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     getPropertyTypes,
     countCartProduct,
+    getNewestProducts,
 };

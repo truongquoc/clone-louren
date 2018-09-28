@@ -15,6 +15,7 @@ module.exports = {
             res.locals.info = {
                 title: 'Mây Hiên Home',
                 bankAccount: '',
+                workingTime: '',
                 company: '',
                 deputy: '',
                 tax: '',
