@@ -9,32 +9,67 @@
     });
     productTypes = productTypes.filter((type) => !type.parentType)
 %>
-<div class="m-0 row d-flex sub__header justify-content-md-between justify-content-center align-items-center w-100">
-    <div class="col-auto d-flex pl-0">
-        <div class="col">
-            <i class="fa fa-envelope-o header__icon" aria-hidden="true"></i>
-            <a class="pl-2" href="mailto:mayhienhome@gmail.com"><%= info.email %></a>
-        </div>
-        <div class="col-auto">
-            <a href="#"><i class="fa fa-facebook header__icon" aria-hidden="true"></i>
-            </a>
-        </div>
-    </div>
-    <div class="col-auto d-flex pr-0">
-        <div class="col-auto">
-            <i class="fa fa-headphones header__icon" aria-hidden="true"></i>
-            <a class="pl-2" href="tel:<%= info.phone %>"><%= info.phone %></a>
-        </div>
-        <div class="col-auto">
-            <i class="fa fa-clock-o header__icon" aria-hidden="true"></i>
-            <span class="pl-2"><%= info.workingTime %></span>
-        </div>
-        <div class="col-auto">
-            <i class="fa fa-map-marker header__icon" aria-hidden="true"></i>
-            <span class="pl-2"><%= info.location %></span>
-        </div>
+<!--<div class="m-0 row d-flex sub__header justify-content-md-between justify-content-center align-items-center w-100">-->
+    <!--<div class="col-auto d-flex pl-0">-->
+        <!--<div class="col">-->
+            <!--<i class="fa fa-envelope-o header__icon" aria-hidden="true"></i>-->
+            <!--<a class="pl-2" href="mailto:mayhienhome@gmail.com"><%= info.email %></a>-->
+        <!--</div>-->
+        <!--<div class="col-auto">-->
+            <!--<a href="#"><i class="fa fa-facebook header__icon" aria-hidden="true"></i>-->
+            <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-auto d-flex pr-0">-->
+        <!--<div class="col-auto">-->
+            <!--<i class="fa fa-headphones header__icon" aria-hidden="true"></i>-->
+            <!--<a class="pl-2" href="tel:<%= info.phone %>"><%= info.phone %></a>-->
+        <!--</div>-->
+        <!--<div class="col-auto">-->
+            <!--<i class="fa fa-clock-o header__icon" aria-hidden="true"></i>-->
+            <!--<span class="pl-2"><%= info.workingTime %></span>-->
+        <!--</div>-->
+        <!--<div class="col-auto">-->
+            <!--<i class="fa fa-map-marker header__icon" aria-hidden="true"></i>-->
+            <!--<span class="pl-2"><%= info.location %></span>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="header__contact clearfix" style="padding-top: 3px; padding-bottom: 6px">
+    <div class="container">
+        <ul class="list-inline pull-left">
+            <li class="header__contact--list list-inline-item">
+                <a href="tel:<%= info.phone %>">
+                    <i class="fa fa-phone" aria-hidden=true></i> <%= info.phone %>
+                </a>
+            </li>
+            <li class="header__contact--list list-inline-item">
+                <a href="tel:<%= info.email %>">
+                    <i class="fa fa-envelope" aria-hidden=true></i>
+                    <%= info.email %>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-inline list-unstyled pull-right">
+            <li class="header__contact--list list-inline-item">
+                <a href="#">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <%= info.location %>
+                </a>
+            </li>
+            <li class="header__contact--list list-inline-item">
+                <a href="#">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <%= info.workingTime %>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
+
+
 <div class="header_area">
     <h1 class="xans-element- xans-layout xans-layout-logotop logo ">
         <a href="/">
