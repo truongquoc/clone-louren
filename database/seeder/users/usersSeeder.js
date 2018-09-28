@@ -15,27 +15,15 @@ async function fakeUsers() {
     const role = await RoleRepository.getDetailByName('Admin');
     const items = [{
         roles: [role._id],
-        name: 'Tai.Ltq',
-        email: 'tai.ltq@yopmail.com',
-        password: bcrypt.hashSync('123123123', salt),
+        name: 'Admin',
+        email: 'admin@gmail.com',
+        password: bcrypt.hashSync('1', salt),
         avatar: '/public/admin/img/default-150x150.png',
         gender: 1,
         telephone: 123456789,
         createdAt: new Date(),
         updatedAt: new Date(),
-        slug: getSlug('tai.ltq@yopmail.com'),
-    },
-    {
-        roles: [role._id],
-        name: 'vinh',
-        email: '123@123.123',
-        password: bcrypt.hashSync('123123123', salt),
-        avatar: '/public/admin/img/default-150x150.png',
-        gender: 1,
-        telephone: '123123123',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        slug: getSlug('123@123.123'),
+        slug: getSlug('admin@gmail.com'),
     }];
 
     try {
