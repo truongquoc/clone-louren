@@ -224,6 +224,10 @@
                                    data-id="<%= product._id %>" style="text-align: center">
                                     <span class="transition_type1">Thêm vào giỏ hàng</span>
                                 </a>
+                            <% } else { %>
+                                <a href="tel:<%= info.phone %>" class="custom_btn_basket first custom_btn_buy" style="text-align: center">
+                                    <span class="transition_type1">Liên hệ</span>
+                                </a>
                             <% } %>
                             <span class="custom_btn_soldout displaynone" id="soldOut"
                                   data-quantity="<%= product.quantity %>" style="line-height: 60px;text-align: center">Hết hàng</span>
