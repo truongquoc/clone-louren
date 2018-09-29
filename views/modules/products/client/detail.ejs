@@ -167,7 +167,7 @@
                                         style="font-size:12px;color:#000000;font-weight:bold;">Giá: </span></th>
                             <td>
                                 <% if (product.price.isAgreement) { %>
-                                    Liên hệ: <%= info.phone %>
+                                    Liên hệ
                                 <% } else { %>
                                     <span class="" style="font-size:12px;color:#000000;font-weight:bold;">
                                         <span class="priceDisplay"></span>
@@ -200,15 +200,18 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="guideArea">
-
-                    <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>Chọn số lượng và thêm vào giỏ hàng</span>
-                        <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0"
-                               name="quantityBuy" value="1" id="quantityBuy">
-                    </p>
-
+                    <% if (!product.price.isAgreement) { %>
+                        <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Chọn số lượng và thêm vào giỏ hàng</span>
+                            <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0"
+                                    name="quantityBuy" value="1" id="quantityBuy">
+                        </p>
+                    <% } else { %>
+                        <p class="info" style="font-weight: 700;">
+                            Quý khách vui lòng liên hệ đến hotline <%= info.phone %> để đặt hàng. Xin cảm ơn!
+                        </p>
+                    <% } %>
                 </div>
                 <% if (product.isApproved && !product.isDraft) { %>
                     <div class="xans-element- xans-product xans-product-action ">
@@ -216,11 +219,7 @@
                             <!--<a href="#none" class="first custom_btn_buy " id="buyNow">-->
                                 <!--<span id="btnBuy" class="transition_type1">Mua ngay</span>-->
                             <!--</a>-->
-                            <% if (product.price.isAgreement) { %>
-                                <a class="custom_btn_basket first custom_btn_buy" style="text-align: center" disabled>
-                                    <span class="transition_type1">Liên hệ: <%= info.phone %></span>
-                                </a>
-                            <% } else { %>
+                            <% if (!product.price.isAgreement) { %>
                                 <a class="custom_btn_basket first custom_btn_buy add-to-cart-btn" id="addCart"
                                    data-id="<%= product._id %>" style="text-align: center">
                                     <span class="transition_type1">Thêm vào giỏ hàng</span>

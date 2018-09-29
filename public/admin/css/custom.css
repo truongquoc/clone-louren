@@ -29,6 +29,18 @@ a[disabled] {
     line-height: 38px;
 }
 
+.bg-warning-gradient {
+    cursor: pointer;
+}
+
+.bg-danger-gradient {
+    cursor: pointer;
+}
+
+.bg-success-gradient {
+    cursor: pointer;
+}
+
 button.badge {
     border: none;
 }

@@ -181,7 +181,7 @@ body {
     font-size: 14px !important;
     height: 22px;
     line-height: 12px;
-    width: 160px;
+    width: 70px;
 }
 
 .xans-product-listitem {
@@ -201,7 +201,7 @@ body {
     height: auto;
 }
 
-.header__contact{background-color:#111}@media (max-width:768px){.header__contact{display:none}}.header__contact ul{margin-top:5px}.header__contact i{margin-right:2px}.header__contact--list{margin-top:5px}.header__contact--list a{color:#aaa;font-size:12px;text-decoration:none}.header__contact--list a:hover{color:#555}.header__contact--list a.text-uppercase{font-weight:500}
+.header__contact{background-color:#181818}@media (max-width:768px){.header__contact{display:none}}.header__contact ul{margin-top:5px}.header__contact i{margin-right:2px}.header__contact--list{margin-top:5px}.header__contact--list a{color:#aaa;font-size:12px;text-decoration:none}.header__contact--list a:hover{color:#555}.header__contact--list a.text-uppercase{font-weight:500}
 
 .phone-call {
     position: fixed;
