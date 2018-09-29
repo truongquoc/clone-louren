@@ -60,10 +60,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Ảnh</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="image" id="validatedCustomFile">
-                                    <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh</label>
+                                <label>Chọn ảnh hiển thị chính (01 ảnh):</label>
+                                <div class="">
+                                    <input type="file" class="" name="image">
                                 </div>
                                 <p class="form__error-message"><%= errors('image') %></p>
                             </div>
@@ -126,7 +125,7 @@
                                     </div>
                                     <label for="isAgreement">
                                         <input type="checkbox" name="isAgreement" id="isAgreement" class="flat-red"
-                                                <%= old('isAgreement') ? 'checked' : '' %>> Thỏa thuận
+                                                <%= old('isAgreement') ? 'checked' : '' %>> Liên hệ
                                     </label>
                                 </div>
                             </div>
@@ -138,7 +137,7 @@
                         <span class="form__error-message"><%= errors('images') %></span>
                         <b>Đã có <%= imageArray.length %> bức ảnh được chọn</b>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Chọn ảnh
+                            Chọn ảnh sản phẩm (nhiều hình)
                         </button>
                     </div>
 

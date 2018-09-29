@@ -20,9 +20,12 @@
             </div>
             <div class="col-auto row d-flex flex-column my-3">
                 <h3 class="mb-4">HỖ TRỢ KHÁCH HÀNG</h3>
-                <a class="mt-2" href="/gioi-thieu">Giới thiệu</a>
-                <a class="mt-2" href="/chinh-sach">Chính sách</a>
-                <a class="mt-2" href="/cam-ket">Cam kết</a>
+                <% links.forEach(link => { %>
+                    <% if (link.show === 'show') { %>
+                        <a class="mt-2" href="<%= link.link %>"><%= link.name %></a>
+                    <% } %>
+                <% }) %>
+        
                 <!--<a class="mt-2" href="/">Chế độ bảo hành</a>-->
             </div>
             <div class="col-auto d-flex facebook-page my-3">
