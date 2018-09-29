@@ -1,12 +1,12 @@
-<div class="fluid_row footer_address_row p-5">
+<div class="fluid_row footer_address_row">
     <div class="container">
        <div class="row d-flex flex-column flex-md-row justify-content-between">
             <div class="col-auto d-flex row flex-column my-3">
                 <h3 class="mb-4">MÂY HIÊN HOME</h3>
-                <p class="mb-2">Địa chỉ: <%= info.location %></p>
-                <p class="mb-2">Tel: <%= info.phone %></p>
-                <p class="mb-2">Giờ mở cửa: <%= info.workingTime %></p>
-                <p class="mb-2">Email: <%= info.email %></p>
+                <%- infoRedis('Địa chỉ', info, 'location') %>
+                <%- infoRedis('Tel', info, 'phone') %>
+                <%- infoRedis('Giờ mở cửa', info, 'workingTime') %>
+                <%- infoRedis('Email', info, 'email') %>
             </div>
             <div class="col-auto row d-flex flex-column my-3">
                 <h3 class="mb-4">SẢN PHẨM MỚI NHẤT</h3>

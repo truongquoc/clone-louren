@@ -205,7 +205,7 @@ body {
 
 .phone-call {
     position: fixed;
-    bottom: 50px;
+    bottom: 42px;
     left: 20px;
     width: 210px;
     height: 60px;
@@ -218,13 +218,19 @@ body {
 @media (max-width: 576px) {
     .phone-call {
         right: -140px;
-        bottom: 10px;
+        bottom: 20px;
+    }
+    #container {
+        margin-top: 60px;
+    }
+    #footer .footer_address_row {
+        padding: 30px 15px !important;
     }
 }
 @media (min-width: 576px) and (max-width: 768px) {
     .phone-call {
         right: -140px;
-        bottom: 10px;
+        bottom: 20px;
     }
 }
 .phone-call__icon {
@@ -284,7 +290,10 @@ body {
 
 @media (max-width: 768px) {
     #wrap {
-        padding: 150px 15px 0;
+        padding: 0 15px 0;
+    }
+    .titleArea {
+        padding: 0 !important;
     }
     .header_area {
         position: relative;
