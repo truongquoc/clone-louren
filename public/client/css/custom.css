@@ -112,7 +112,7 @@
 }
 
 .owl-carousel .owl-item img {
-    height: 300px;
+    height: 550px;
     object-fit: cover;
 }
 
@@ -172,7 +172,7 @@ body {
 }
 
 .homepage .owl-stage-outer {
-    height: 300px;
+    height: 550px;
 }
 
 
