@@ -233,7 +233,7 @@ function hamburger() {
             $('.icon_member').removeClass('d-none');
             $('.widget_lnb_menu').addClass('menu--showed');
             return;
-            
+
         }
         $('.icon_member').addClass('d-none');
         $('.icon_cart ').removeClass('d-none');
@@ -246,7 +246,6 @@ function hamburger() {
 function menu() {
     $('.lnb_sub_menu').hide();
     $('.product-sub-mobi').click(function a() {
-        
         if ($('.lnb_sub_menu ul').is(':visible')) {
             $('.lnb_sub_menu').hide();
         } else {
@@ -260,8 +259,8 @@ function init_clickDetailMenu() {
         e.preventDefault();
         const id = $(this).attr('href');
         $('html, body').animate({
-            scrollTop: $(id).offset().top - 200
-        }, 2000);
+            scrollTop: $(id).offset().top - 100
+        }, 200);
     });
 }
 

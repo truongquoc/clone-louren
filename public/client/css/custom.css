@@ -487,3 +487,8 @@ body {
 .text__no-products, .text__read-more {
     font-size: 13px;
 }
+
+.icon_search a img {
+    margin-top: 20px;
+    height: 20px !important;
+}
