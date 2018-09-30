@@ -230,7 +230,7 @@ body {
 @media (min-width: 576px) and (max-width: 768px) {
     .phone-call {
         right: -140px;
-        bottom: 20px;
+        bottom: 22px;
     }
 }
 .phone-call__icon {
