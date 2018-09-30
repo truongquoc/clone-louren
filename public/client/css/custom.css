@@ -24,6 +24,7 @@
 .product__name {
     color: #555555;
     font-size: 12px;
+    text-transform: uppercase;
 }
 
 .product__price {
@@ -49,12 +50,13 @@
     text-decoration: none;
 }
 
-.ec-base-paginate li a {
+.ec-base-paginate li.page-item a.page-link {
     color: #333;
     font-size: 16px;
+    border: none;
 }
 
-.ec-base-paginate li a.active {
+.ec-base-paginate li.page-item a.page-link.active {
     font-weight: bold;
     color: #333;
 }
@@ -181,7 +183,7 @@ body {
     font-size: 14px !important;
     height: 22px;
     line-height: 12px;
-    width: 70px;
+    width: 60px;
 }
 
 .xans-product-listitem {
@@ -201,7 +203,7 @@ body {
     height: auto;
 }
 
-.header__contact{background-color:#181818}@media (max-width:768px){.header__contact{display:none}}.header__contact ul{margin-top:5px}.header__contact i{margin-right:2px}.header__contact--list{margin-top:5px}.header__contact--list a{color:#aaa;font-size:12px;text-decoration:none}.header__contact--list a:hover{color:#555}.header__contact--list a.text-uppercase{font-weight:500}
+.header__contact{background-color:#181818}@media (max-width:768px){.header__contact{display:none}}/*.header__contact ul{margin-top:5px}*/.header__contact i{margin-right:2px}.header__contact--list{margin-top:5px}.header__contact--list a{color:#aaa;font-size:12px;text-decoration:none}.header__contact--list a:hover{color:#555}.header__contact--list a.text-uppercase{font-weight:500}
 
 .phone-call {
     position: fixed;
@@ -476,4 +478,12 @@ body {
         height: 150px;
         object-fit: cover !important;
     }
+}
+
+.product__detail__name {
+    text-transform: uppercase;
+}
+
+.text__no-products, .text__read-more {
+    font-size: 13px;
 }

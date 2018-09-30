@@ -10,14 +10,16 @@ const ProductRepository = new ProductRepositoryClass();
 const index = async (req, res, next) => {
     const { query } = req;
     try {
-        const [slides, newestProducts] = await Promise.all([
+        const [slides, newestProducts, discountedProducts] = await Promise.all([
             SlideRepository.homeGetSlides(),
             ProductRepository.getNewestProducts(9),
+            ProductRepository.getNewestProducts(6, true),
         ]);
 
         return res.render('modules/products/client/index', {
-            newestProducts,
             slides,
+            newestProducts,
+            discountedProducts,
             query,
         });
     } catch (e) {
@@ -67,7 +69,8 @@ const detail = async (req, res, next) => {
 
     try {
         const product = await ProductRepository.clientShow(slug);
-        const productsRelated = await ProductRepository.getProductsByType(product.type);
+        const { _id, type } = product;
+        const productsRelated = await ProductRepository.getProductsByType(_id, type);
 
         return res.render('modules/products/client/detail', {
             product,

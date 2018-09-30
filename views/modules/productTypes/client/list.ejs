@@ -50,7 +50,7 @@
         <div class="xans-element- xans-product xans-product-normalmenu ">
             <div class="function row d-flex m-0">
                 <p class="prdCount col-12-auto col-md-auto">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
-                <ul id="type" class="xans-element- xans-product xans-product-orderby 
+                <ul id="type" class="xans-element- xans-product xans-product-orderby
                 col-12 col-md px-1 m-0 row d-flex justify-content-around justify-content-md-end">
                     <li class="xans-record-">
                         <a href="?sort=productName" class="<%= query.sort === 'productName' ? 'sort' : '' %>">Tên sản phẩm</a>
@@ -71,10 +71,6 @@
         <div class="xans-element- xans-search xans-search-form">
             <div class="noData <%= products.total !== 0 ? 'displaynone' : '' %>">
                 <strong class="warning">Không có sản phẩm nào được tìm thấy. </strong>
-                <strong>Hãy kiểm tra giá trị tìm kiếm của bạn và thử lại.</strong>
-                <ul>
-                    <li>Nếu bạn tìm kiếm hơn một từ, hãy kiểm tra lại khoảng trống.</li>
-                </ul>
             </div>
         </div>
 
@@ -97,7 +93,7 @@
                                             </li>
                                         <% } else { %>
                                             <li class="cart shopping__icon telephone__text">
-                                                Liên hệ: <%= info.phone %>
+                                                Liên hệ
                                             </li>
                                         <% } %>
                                         <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
@@ -105,6 +101,9 @@
                                         </li> -->
                                     </ul>
                                 </div>
+                                <% if (!product.price.isAgreement && product.discount > 0) { %>
+                                    <span class="price dc_price checked"><%= product.discount * 100 %><em>%</em></span>
+                                <% } %>
                                 <!-- /.custom_layer_btn -->
                                 <!-- <div class="like_button">
                                     <div class="likeButton">

@@ -120,7 +120,7 @@
                                         </li>
                                     <% } else { %>
                                         <li class="cart shopping__icon telephone__text">
-                                            Liên hệ: <%= info.phone %>
+                                            Liên hệ
                                         </li>
                                     <% } %>
                                     <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
@@ -128,6 +128,9 @@
                                     </li> -->
                                 </ul>
                             </div>
+                            <% if (!product.price.isAgreement && product.discount > 0) { %>
+                                <span class="price dc_price checked"><%= product.discount * 100 %><em>%</em></span>
+                            <% } %>
                             <!-- /.custom_layer_btn -->
                             <!-- <div class="like_button">
                                 <div class="likeButton">

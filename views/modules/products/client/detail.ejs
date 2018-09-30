@@ -200,7 +200,11 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="guideArea">
+                    <div class="info" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="fb-like" data-href="<%= originalUrl %>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                    </div>
                     <% if (!product.price.isAgreement) { %>
                         <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
                             <span>Chọn số lượng và thêm vào giỏ hàng</span>
@@ -219,14 +223,14 @@
                             <!--<a href="#none" class="first custom_btn_buy " id="buyNow">-->
                                 <!--<span id="btnBuy" class="transition_type1">Mua ngay</span>-->
                             <!--</a>-->
-                            <% if (!product.price.isAgreement) { %>
+                            <% if (product.price.isAgreement) { %>
+                                <a class="custom_btn_basket first custom_btn_buy" style="text-align: center" disabled>
+                                    <span class="transition_type1">Liên hệ: <%= info.phone %></span>
+                                </a>
+                            <% } else { %>
                                 <a class="custom_btn_basket first custom_btn_buy add-to-cart-btn" id="addCart"
                                    data-id="<%= product._id %>" style="text-align: center">
                                     <span class="transition_type1">Thêm vào giỏ hàng</span>
-                                </a>
-                            <% } else { %>
-                                <a href="tel:<%= info.phone %>" class="custom_btn_basket first custom_btn_buy" style="text-align: center">
-                                    <span class="transition_type1">Liên hệ</span>
                                 </a>
                             <% } %>
                             <span class="custom_btn_soldout displaynone" id="soldOut"
@@ -307,7 +311,7 @@
                                             </li>
                                         <% } else { %>
                                             <li class="cart shopping__icon telephone__text">
-                                                Liên hệ: <%= info.phone %>
+                                                Liên hệ
                                             </li>
                                         <% } %>
                                         <!--<li class="wish_btn shopping__icon" title="Yêu thích">-->
@@ -315,6 +319,9 @@
                                         <!--</li>-->
                                     </ul>
                                 </div>
+                                <% if (!product.price.isAgreement && product.discount > 0) { %>
+                                    <span class="price dc_price checked"><%= product.discount * 100 %><em>%</em></span>
+                                <% } %>
                                 <!-- /.custom_layer_btn -->
                                 <!--<div class="like_button">-->
                                     <!--<div class="likeButton">-->
@@ -341,10 +348,10 @@
                                                    value="<%= productItem.price.number %>"
                                                    type="hidden"/>
                                             <span class="price dc_price priceDiscountText">
-                                                        <i class="fa fa-long-arrow-down"
-                                                           aria-hidden="true"></i>
-                                                        <span class="priceDiscountPercent"></span>
-                                                    </span>
+                                                <i class="fa fa-long-arrow-down"
+                                                   aria-hidden="true"></i>
+                                                <span class="priceDiscountPercent"></span>
+                                            </span>
                                             <input class="priceDiscount"
                                                    value="<%= productItem.discount %>"
                                                    type="hidden"/>
