@@ -1,12 +1,12 @@
-<div class="fluid_row footer_address_row p-5">
+<div class="fluid_row footer_address_row">
     <div class="container">
        <div class="row d-flex flex-column flex-md-row justify-content-between">
             <div class="col-auto d-flex row flex-column my-3">
                 <h3 class="mb-4">MÂY HIÊN HOME</h3>
-                <p class="mb-2">Địa chỉ: <%= info.location %></p>
-                <p class="mb-2">Tel: <%= info.phone %></p>
-                <p class="mb-2">Giờ mở cửa: <%= info.workingTime %></p>
-                <p class="mb-2">Email: <%= info.email %></p>
+                <%- infoRedis('Địa chỉ', info, 'location') %>
+                <%- infoRedis('Tel', info, 'phone') %>
+                <%- infoRedis('Giờ mở cửa', info, 'workingTime') %>
+                <%- infoRedis('Email', info, 'email') %>
             </div>
             <div class="col-auto row d-flex flex-column my-3">
                 <h3 class="mb-4">SẢN PHẨM MỚI NHẤT</h3>
@@ -20,12 +20,16 @@
             </div>
             <div class="col-auto row d-flex flex-column my-3">
                 <h3 class="mb-4">HỖ TRỢ KHÁCH HÀNG</h3>
-                <a class="mt-2" href="/gioi-thieu">Giới thiệu</a>
-                <a class="mt-2" href="/chinh-sach">Chính sách</a>
-                <a class="mt-2" href="/cam-ket">Cam kết</a>
+                <% links.forEach(link => { %>
+                    <% if (link.show === 'show') { %>
+                        <a class="mt-2" href="<%= link.link %>"><%= link.name %></a>
+                    <% } %>
+                <% }) %>
+
                 <!--<a class="mt-2" href="/">Chế độ bảo hành</a>-->
             </div>
             <div class="col-auto row d-flex flex-column my-3">
+                <h3 class="mb-4">MẠNG XÃ HỘI</h3>
                 <div class="fb-page"
                      data-href="https://www.facebook.com/noithatdanang.home"
                      data-width="260"

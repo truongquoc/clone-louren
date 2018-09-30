@@ -11,29 +11,39 @@ class ProductRepository extends ArticleRepository {
         return Product;
     }
 
-    getNewestProducts(quantity) {
-        return this.model
-            .find({
-                quantity: { $gt: 0 },
-                isDraft: false,
-                isApproved: true,
-                deletedAt: null,
-            })
-            .sort({ createdAt: -1 })
-            .limit(quantity);
-    }
-
-    async clientList(type, options) {
-        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
-        options.limit = 20;
+    getNewestProducts(quantity, isDiscounted) {
         const conditions = {
             quantity: { $gt: 0 },
             isDraft: false,
             isApproved: true,
             deletedAt: null,
         };
-        if (type) {
-            conditions.type = type;
+        if (isDiscounted) {
+            conditions.discount = { $gt: 0 };
+            conditions['price.isAgreement'] = false;
+        }
+
+        return this.model
+            .find(conditions)
+            .sort({ createdAt: -1 })
+            .limit(quantity);
+    }
+
+    async clientList(type, options) {
+        options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
+        options.limit = commonConstant.limit;
+        const conditions = {
+            quantity: { $gt: 0 },
+            isDraft: false,
+            isApproved: true,
+            deletedAt: null,
+        };
+        if (type && type.name === 'type') {
+            conditions.type = type.value;
+        }
+        if (type && type.name === 'discountProducts') {
+            conditions.discount = { $gt: 0 };
+            conditions['price.isAgreement'] = false;
         }
         const sort = {};
         switch (options.query.sort) {
@@ -100,7 +110,7 @@ class ProductRepository extends ArticleRepository {
 
     async clientSearch(options) {
         options.query.page = Math.abs(parseInt(options.query.page, 10)) || 1;
-        options.limit = 20;
+        options.limit = commonConstant.limit;
         const conditions = {
             quantity: { $gt: 0 },
             isDraft: false,
@@ -145,7 +155,7 @@ class ProductRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .select('name image.cover price slug')
+                .select('name image.cover discount price slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort(sort),
@@ -266,9 +276,10 @@ class ProductRepository extends ArticleRepository {
            .select('-updatedAt');
     }
 
-    getProductsByType(typeId) {
+    getProductsByType(currentProductId, typeId) {
         return this.model
             .find({
+                _id: { $ne: currentProductId },
                 type: typeId,
                 isApproved: true,
                 isDraft: false,

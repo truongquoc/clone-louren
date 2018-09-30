@@ -153,9 +153,11 @@
                 </div>
             </div>
             <div class="infoArea col-12 col-md p-0">
-                <div class="headingArea product__detail__name">
+                <div class="headingArea ">
                     <div class="icon"></div>
-                    <h1><%= product.name %></h1>
+                    <h1>
+                        <%= product.name %>
+                    </h1>
                 </div>
                 <div class="xans-element- xans-product xans-product-detaildesign">
                     <table border="1" summary="">
@@ -165,7 +167,7 @@
                                         style="font-size:12px;color:#000000;font-weight:bold;">Giá: </span></th>
                             <td>
                                 <% if (product.price.isAgreement) { %>
-                                    Liên hệ: <%= info.phone %>
+                                    Liên hệ
                                 <% } else { %>
                                     <span class="" style="font-size:12px;color:#000000;font-weight:bold;">
                                         <span class="priceDisplay"></span>
@@ -201,13 +203,19 @@
 
                 <div class="guideArea">
                     <div class="info" style="display: flex; justify-content: space-between; align-items: center;">
-                    <div class="fb-like" data-href="<%= originalUrl %>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                        <div class="fb-like" data-href="<%= originalUrl %>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
                     </div>
-                    <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>Chọn số lượng và thêm vào giỏ hàng</span>
-                        <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0"
-                               name="quantityBuy" value="1" id="quantityBuy">
-                    </p>
+                    <% if (!product.price.isAgreement) { %>
+                        <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Chọn số lượng và thêm vào giỏ hàng</span>
+                            <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0"
+                                    name="quantityBuy" value="1" id="quantityBuy">
+                        </p>
+                    <% } else { %>
+                        <p class="info" style="font-weight: 700;">
+                            Quý khách vui lòng liên hệ đến hotline <%= info.phone %> để đặt hàng. Xin cảm ơn!
+                        </p>
+                    <% } %>
                 </div>
                 <% if (product.isApproved && !product.isDraft) { %>
                     <div class="xans-element- xans-product xans-product-action ">
@@ -303,7 +311,7 @@
                                             </li>
                                         <% } else { %>
                                             <li class="cart shopping__icon telephone__text">
-                                                Liên hệ: <%= info.phone %>
+                                                Liên hệ
                                             </li>
                                         <% } %>
                                         <!--<li class="wish_btn shopping__icon" title="Yêu thích">-->
@@ -311,6 +319,9 @@
                                         <!--</li>-->
                                     </ul>
                                 </div>
+                                <% if (!product.price.isAgreement && product.discount > 0) { %>
+                                    <span class="price dc_price checked"><%= product.discount * 100 %><em>%</em></span>
+                                <% } %>
                                 <!-- /.custom_layer_btn -->
                                 <!--<div class="like_button">-->
                                     <!--<div class="likeButton">-->
@@ -337,10 +348,10 @@
                                                    value="<%= productItem.price.number %>"
                                                    type="hidden"/>
                                             <span class="price dc_price priceDiscountText">
-                                                        <i class="fa fa-long-arrow-down"
-                                                           aria-hidden="true"></i>
-                                                        <span class="priceDiscountPercent"></span>
-                                                    </span>
+                                                <i class="fa fa-long-arrow-down"
+                                                   aria-hidden="true"></i>
+                                                <span class="priceDiscountPercent"></span>
+                                            </span>
                                             <input class="priceDiscount"
                                                    value="<%= productItem.discount %>"
                                                    type="hidden"/>
