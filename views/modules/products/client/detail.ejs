@@ -153,11 +153,9 @@
                 </div>
             </div>
             <div class="infoArea col-12 col-md p-0">
-                <div class="headingArea ">
+                <div class="headingArea product__detail__name">
                     <div class="icon"></div>
-                    <h1>
-                        <%= product.name %>
-                    </h1>
+                    <h1><%= product.name %></h1>
                 </div>
                 <div class="xans-element- xans-product xans-product-detaildesign">
                     <table border="1" summary="">
@@ -202,13 +200,14 @@
                 </div>
 
                 <div class="guideArea">
-
+                    <div class="info" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="fb-like" data-href="<%= originalUrl %>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                    </div>
                     <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
                         <span>Chọn số lượng và thêm vào giỏ hàng</span>
                         <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0"
                                name="quantityBuy" value="1" id="quantityBuy">
                     </p>
-
                 </div>
                 <% if (product.isApproved && !product.isDraft) { %>
                     <div class="xans-element- xans-product xans-product-action ">
