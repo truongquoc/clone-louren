@@ -218,7 +218,7 @@ body {
 @media (max-width: 576px) {
     .phone-call {
         right: -140px;
-        bottom: 20px;
+        bottom: 23px;
     }
     #container {
         margin-top: 60px;
