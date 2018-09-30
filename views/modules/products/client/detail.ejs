@@ -16,7 +16,6 @@
 <% block('beforeCommon', `
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.11/css/lightgallery.min.css">
     <style>
         .js .slider-single > div:nth-child(1n+2) { display: none }
@@ -59,7 +58,7 @@
             margin: 0 5px;
         }
 
-        header, img, p, span, div, article, aside, figcaption, figure, footer, header, hgroup, main, nav, section,
+        header, img, p, span, div:not(.container), article, aside, figcaption, figure, footer, header, hgroup, main, nav, section,
         ol, ul, li, button, input, textarea, td, tr, th, tbody, table {
             max-width: 100% !important;
         }
@@ -153,7 +152,7 @@
                 </div>
             </div>
             <div class="infoArea col-12 col-md p-0">
-                <div class="headingArea ">
+                <div class="headingArea product__detail__name">
                     <div class="icon"></div>
                     <h1>
                         <%= product.name %>
@@ -264,9 +263,9 @@
         </div>
         <div id="prdInfo" class="custom_detail_tabs ">
             <ul class="menu">
-                <li class="selected"><a href="#prdDetail"><span
+                <li><a href="#prdDetail"><span
                         >CHI TIẾT</span></a></li>
-                <li><a href="#prdInfo"><span
+                <li class="selected"><a href="#prdInfo"><span
                         >THÔNG TIN SẢN PHẨM</span></a></li>
                 <li><a href="#prdReview"><span
                         >BÌNH LUẬN</span></a></li>
