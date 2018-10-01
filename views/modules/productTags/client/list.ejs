@@ -1,0 +1,134 @@
+<% layout('../../../layouts/client/app') %>
+
+<% block('metaTags', `
+    <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
+
+    <meta property="og:url" content="${originalUrl}" id="fbUrl" />
+    <!-- <meta property="og:type" content="article" /> -->
+    <meta property="og:title" content="${titleRedis(info)} | Tag ${productTag.name}" />
+    <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
+    <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
+`) %>
+
+<% stylesheet('/public/client/css/styleList.css') %>
+
+<% block('title', `Tag ${productTag.name}`) %>
+
+<div id="contents">
+    <div class="xans-element- xans-product xans-product-menupackage ">
+
+        <div class="xans-element- xans-product xans-product-headcategory title">
+            <h2><%= productTag.name %></h2>
+        </div>
+
+        <div class="xans-element- xans-product xans-product-headcategory title "><p class="banner"></p>
+        </div>
+    </div>
+
+    <div class="xans-element- xans-product xans-product-normalpackage ">
+        <div class="xans-element- xans-product xans-product-normalmenu ">
+            <div class="function row d-flex m-0">
+                <p class="prdCount col-12-auto col-md-auto">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
+                <ul id="type" class="xans-element- xans-product xans-product-orderby
+                col-12 col-md px-1 m-0 row d-flex justify-content-around justify-content-md-end">
+                    <li class="xans-record-">
+                        <a href="?sort=productName" class="<%= query.sort === 'productName' ? 'sort' : '' %>">Tên sản phẩm</a>
+                    </li>
+                    <li class="xans-record-">
+                        <a href="?sort=priceLowToHigh" class="<%= query.sort === 'priceLowToHigh' ? 'sort' : '' %>">Giá thấp - cao</a>
+                    </li>
+                    <li class="xans-record-">
+                        <a href="?sort=priceHighToLow" class="<%= query.sort === 'priceHighToLow' ? 'sort' : '' %>">Giá cao - thấp</a>
+                    </li>
+                    <li class="xans-record-">
+                        <a href="?sort=newest" class="<%= !['productName', 'priceLowToHigh' , 'priceHighToLow'].includes(query.sort) ? 'sort' : '' %>">Mới nhất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="xans-element- xans-search xans-search-form">
+            <div class="noData <%= products.total !== 0 ? 'displaynone' : '' %>">
+                <strong class="warning">Không có sản phẩm nào được tìm thấy. </strong>
+            </div>
+        </div>
+
+        <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
+            <ul class="prdList hover_zoom grid5 d-flex row">
+                <% products.docs.forEach((product) => { %>
+                    <li class="item xans-record- col-6 col-md-4 mx-0">
+                        <div class="box">
+                            <div class="thumbnail">
+                                <a href="/san-pham/<%= product.slug %>" class="thumb_link">
+                                    <img data-src="<%= product.image.cover %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                         alt="<%= product.name %>" class="thumb lazyload"/>
+                                </a>
+                                <div class="custom_layer_btn">
+                                    <ul>
+                                        <% if (!product.price.isAgreement) { %>
+                                            <li data-id="<%= product._id %>"
+                                                class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="cart shopping__icon telephone__text">
+                                                Liên hệ
+                                            </li>
+                                        <% } %>
+                                        <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
+                                            <i class="fa fa-heart-o"></i>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                                <% if (!product.price.isAgreement && product.discount > 0) { %>
+                                    <span class="price dc_price checked"><%= product.discount * 100 %><em>%</em></span>
+                                <% } %>
+                                <!-- /.custom_layer_btn -->
+                                <!-- <div class="like_button">
+                                    <div class="likeButton">
+                                        <button type="button" title="Bình chọn" class="rate">
+                                            <i class="fa fa-star-o"></i>
+                                            <strong><span>0</span></strong>
+                                        </button>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="description">
+                                <strong class="name">
+                                    <a href="/san-pham/<%= product.slug %>">
+                                        <span class="product__name"><%= product.name %><br></span>
+                                    </a>
+                                </strong>
+                                <ul class="xans-element- xans-product xans-product-listitem spec">
+                                    <li class="xans-record-">
+                                        <% if (product.price.isAgreement) { %>
+                                            Liên hệ: <%= info.phone %>
+                                        <% } else { %>
+                                            <span class="priceDisplay"></span>
+                                            <input class="priceValue"
+                                                   value="<%= product.price.number %>"
+                                                   type="hidden"/>
+                                            <span class="price dc_price priceDiscountText">
+                                                <i class="fa fa-long-arrow-down"
+                                                   aria-hidden="true"></i>
+                                                <span class="priceDiscountPercent"></span>
+                                            </span>
+                                            <input class="priceDiscount"
+                                                   value="<%= product.discount %>"
+                                                   type="hidden"/>
+                                        <% } %>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+
+    <div class="xans-element- xans-product xans-product-normalpaging ec-base-paginate <%= products.total === 0 ? 'displaynone' : '' %>">
+        <%- products.renderPagination(products, query.page) %>
+    </div>
+</div>
