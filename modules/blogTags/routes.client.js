@@ -5,6 +5,7 @@ const propertyTypes = require('../../infrastructure/controllers/productControlle
 const blogTagController = require('./controllers/blogTagController.client');
 
 router.use(propertyTypes.getPropertyTypes);
-router.get('/the-:slug', blogArticleRight.blogArticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogTagController.index);
+
+router.get('/tag-:slug', blogArticleRight.blogArticleRight, blogCategoryMiddleware.showArticlesAuthorize, blogTagController.index);
 
 module.exports = router;

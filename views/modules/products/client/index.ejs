@@ -22,19 +22,6 @@
 
 <div id="contents" class="homepage">
     <div class="fixed_row">
-        <div class="owl-carousel owl-theme">
-            <% slides.forEach((slide) => { %>
-            <div class="item">
-                <% if (slide.url) { %>
-                    <a href="<%= slide.url %>">
-                        <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage owl-lazy">
-                    </a>
-                <% } else { %>
-                    <img data-src="<%= slide.image %>" title="<%= slide.title %>" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="ThumbImage owl-lazy">
-                <% } %>
-            </div>
-            <% }) %>
-        </div>
         <% if (discountedProducts.length) { %>
             <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product widget_new_product">
                 <div class="common_title">
@@ -45,7 +32,7 @@
                         <span class="desc"></span>
                     </div>
                 </div>
-                <ul class="prdList grid3 hover_fade row d-flex m-0">
+                <ul class="prdList grid3 hover_zoom row d-flex m-0">
                     <% discountedProducts.forEach((product) => { %>
                     <li class="item xans-record- col-6 col-md-4 mx-0">
                         <div class="box">
@@ -131,7 +118,7 @@
                     <span class="desc"></span>
                 </div>
             </div>
-            <ul class="prdList grid3 hover_fade row d-flex m-0">
+            <ul class="prdList grid3 hover_zoom row d-flex m-0">
                 <% newestProducts.forEach((product) => { %>
                     <li class="item xans-record- col-6 col-md-4 mx-0">
                         <div class="box">

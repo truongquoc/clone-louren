@@ -7,6 +7,11 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'product_types',
     },
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: 'product_tags',
+        // unique: true
+    }],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'users',

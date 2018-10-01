@@ -8,10 +8,12 @@ const dateHelper = require('../../../helpers/dateHelper');
 const storageHelper = require('../../../helpers/storage/storageHelper');
 const ProductRepositoryClass = require('../repositories/ProductRepository');
 const ProductTypeRepositoryClass = require('../../productTypes/repositories/ProductTypeRepository');
+const ProductTagRepositoryClass = require('../../productTags/repositories/ProductTagRepository');
 const UploadRepositoryClass = require('../../uploads/repositories/UploadRepository');
 
 const ProductRepository = new ProductRepositoryClass();
 const ProductTypeRepository = new ProductTypeRepositoryClass();
+const ProductTagRepository = new ProductTagRepositoryClass();
 const UploadRepository = new UploadRepositoryClass();
 
 const index = async (req, res, next) => {
@@ -65,10 +67,14 @@ const create = async (req, res, next) => {
                 query,
             });
         }
-        const productTypes = await ProductTypeRepository.baseGet();
+        const [productTypes, productTags] = await Promise.all([
+            ProductTypeRepository.baseGet(),
+            ProductTagRepository.baseGet(),
+        ]);
 
         return res.render('modules/products/admin/create', {
             productTypes,
+            productTags,
             images,
             query,
         });
@@ -119,13 +125,16 @@ const edit = async (req, res, next) => {
                 query,
             });
         }
-        const [product, productTypes] = await Promise.all([
+        const [product, productTypes, productTags] = await Promise.all([
             ProductRepository.getEditArticle(req.params.slug),
             ProductTypeRepository.baseGet(),
+            ProductTagRepository.baseGet(),
         ]);
+
         return res.render('modules/products/admin/edit', {
-            productTypes,
             product,
+            productTypes,
+            productTags,
             images,
             query,
         });

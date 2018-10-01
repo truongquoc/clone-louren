@@ -38,12 +38,19 @@ class ProductRepository extends ArticleRepository {
             isApproved: true,
             deletedAt: null,
         };
-        if (type && type.name === 'type') {
-            conditions.type = type.value;
-        }
-        if (type && type.name === 'discountProducts') {
-            conditions.discount = { $gt: 0 };
-            conditions['price.isAgreement'] = false;
+        if (type) {
+            switch (type.name) {
+                case 'type':
+                    conditions.type = type.value;
+                    break;
+                case 'tag':
+                    conditions.tags = type.value;
+                    break;
+                case 'discountProducts':
+                    conditions.discount = { $gt: 0 };
+                    conditions['price.isAgreement'] = false;
+                    break;
+            }
         }
         const sort = {};
         switch (options.query.sort) {
@@ -202,6 +209,7 @@ class ProductRepository extends ArticleRepository {
         }
         const product = {
             type: data.type,
+            tags: data.tags,
             author: user._id,
             name: data.name,
             quantity: data.quantity,
@@ -236,6 +244,7 @@ class ProductRepository extends ArticleRepository {
         }
         const product = {
             type: data.type,
+            tags: data.tags,
             name: data.name,
             quantity: data.quantity,
             sku: data.sku,
@@ -263,17 +272,22 @@ class ProductRepository extends ArticleRepository {
                 slug,
                 deletedAt: null,
             })
-           .populate({
-                path: 'author',
-                select: '-_id name',
-                match: { deletedAt: null },
-           })
-           .populate({
-                path: 'type',
+            .populate({
+                 path: 'author',
+                 select: '-_id name',
+                 match: { deletedAt: null },
+            })
+            .populate({
+                 path: 'type',
+                 select: '_id name slug',
+                 match: { deletedAt: null },
+            })
+            .populate({
+                path: 'tags',
                 select: '_id name slug',
                 match: { deletedAt: null },
-           })
-           .select('-updatedAt');
+            })
+            .select('-updatedAt');
     }
 
     getProductsByType(currentProductId, typeId) {
