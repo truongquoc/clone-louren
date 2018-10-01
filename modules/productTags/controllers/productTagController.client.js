@@ -9,7 +9,6 @@ const ProductTagRepository = new ProductTagRepositoryClass();
 
 const index = async (req, res, next) => {
     const { query } = req;
-    query.search = query.search ? query.search.trim() : '';
     try {
         const productTag = await ProductTagRepository.getDetailBySlug(req.params.slug);
         const [products] = await Promise.all([
