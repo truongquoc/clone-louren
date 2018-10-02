@@ -13,15 +13,15 @@
 
 <% stylesheet('/public/client/css/styleOrderHistory.css') %>
 
-<% block('title', 'Đơn hàng') %>
+<% block('title', __('product.bill.bills')) %>
 
 <div id="contents">
     <div class="titleArea">
-       <h2>Tất cả đơn hàng</h2>
+       <h2><%= __('product.bill.bills') %></h2>
     </div>
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
        <ul class="menu">
-          <li class="selected"><a href="/nguoi-dung/don-hang">Tất cả đơn hàng</a></li>
+          <li class="selected"><a href="/nguoi-dung/don-hang"><%= __('product.bill.bills') %></a></li>
         </ul>
     </div>
 
@@ -30,9 +30,9 @@
         $login_url = /member/login.html
     -->
         <div class="title">
-            <h3>THÔNG TIN ĐƠN ĐẶT HÀNG</h3>
+            <h3><%= __('product.bill.info') %></h3>
         </div>
-        <table border="1" summary="">
+        <table border="1" summary="" class="center">
             <colgroup>
                 <col style="width:135px;"/>
                 <col style="width:93px;"/>
@@ -44,16 +44,15 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th scope="col">Mã đơn hàng</th>
-                    <th scope="col">Ngày đặt hàng</th>
-                    <th scope="col">Sản phẩm</th>
-                    <th scope="col">Số lượng</th>
-                    <th scope="col">Thành tiền</th>
-                    <th scope="col">Trạng thái</th>
+                    <th scope="col"><%= __('product.bill.code') %></th>
+                    <th scope="col"><%= __('product.bill.date') %></th>
+                    <th scope="col"><%= __('product.product') %></th>
+                    <th scope="col"><%= __('product.quantity') %></th>
+                    <th scope="col"><%= __('product.price.to-money') %></th>
+                    <th scope="col"><%= __('product.bill.status') %></th>
                 </tr>
             </thead>
-            <tbody class="center ">
-
+            <tbody>
                 <% if (bills.docs.length !== 0) { %>
                     <% bills.docs.forEach((bill) => { %>
                         <tr class="">
@@ -68,7 +67,10 @@
                                 <a href="/nguoi-dung/don-hang/<%= bill.code %>">
                                     <% const billLength = bill.productBill.length %>
                                     <% if (billLength > 3) {%>
-                                        <%= bill.productBill[0].product.name %> và <%= billLength - 1 %> sản phẩm khác
+                                        <%= __('product.bill.products', {
+                                            name: bill.productBill[0].product.name,
+                                            quantity: billLength - 1
+                                        })%>
                                     <% } else { %>
                                         <% bill.productBill.forEach((p, index) => { %>
                                             <%= p.product.name %><%= (index !== billLength - 1) ? ', ' : '' %>
@@ -81,18 +83,18 @@
                                 <strong><%= formatPrice(bill.price) %> ₫</strong>
                             </td>
                             <td class="status">
-                                <%= !bill.isApproved ? 'Chưa  duyệt' : 'Đã  duyệt'  %>
+                                <%= !bill.isApproved ? __('product.bill.not-approved') : __('product.bill.approved')  %>
                             </td>
                         </tr>
                     <% }) %>
                 <% } %>
             </tbody>
         </table>
-        <% if(bills.docs.length === 0 ) { %>
-        <p class="message ">Chưa có đơn đặt hàng nào.</p>
+        <% if (bills.docs.length === 0 ) { %>
+            <p class="message "><%= __('product.bill.no-bills') %></p>
         <% } %>
     </div>
-    <% if(bills.docs.length !== 0 ) { %>
+    <% if (bills.docs.length) { %>
         <div class="card-footer clearfix order" style="margin-top: 30px;">
             <div class="pagination-list bill-pagination">
                 <%- bills.renderPagination(bills, query.page) %>

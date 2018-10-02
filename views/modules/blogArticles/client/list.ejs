@@ -1,6 +1,6 @@
 <% layout('../../../layouts/client/blog') %>
 
-<% block('title', 'Blog - Danh sách bài viết') %>
+<% block('title', __('blog.article.no-articles')) %>
 
 <h2 class="single-article-title fl-wrap"><span>Tin tức</span></h2>
 <div class="clearfix"></div>
@@ -8,7 +8,7 @@
 <div class="post-grid-wrap">
     <div class="post-grid-holder grid-sb-holder blog-grid-one-col row" style="position: relative; height: 1688px;">
         <% if (blogArticles.docs.length === 0 ) { %>
-            <p style="width:100%;text-align:center;margin-top: 10px;">Không có bài viết nào</p>
+            <p style="width:100%;text-align:center;margin-top: 10px;"><%= __('blog.article.no-articles') %></p>
         <% } else { %>
             <% blogArticles.docs.forEach((article) => { %>
                 <div class="grid-sb-wrap col-12 col-sm-6">
@@ -35,7 +35,7 @@
                         </ul>
                         <h2><a href="/blog/<%= article.slug %>"><%= article.title %></a></h2>
                         <p><%= article.description %></p>
-                        <a href="/blog/<%= article.slug %>" class="post-link">Xem thêm</a>
+                        <a href="/blog/<%= article.slug %>" class="post-link"><%= __('read-more') %></a>
                     </article>
                 </div>
             <% }) %>

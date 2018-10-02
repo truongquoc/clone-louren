@@ -13,39 +13,25 @@
 
 <% stylesheet('/public/client/css/registerAddress.css') %>
 
-<% block('title', 'Trang chủ') %>
+<% block('title', __('user.auth.login.title')) %>
 
 <div id="contents">
-
-    <div class="path">
-        <span>현재 위치</span>
-        <ol>
-            <li><a href="/">홈</a></li>
-            <li title="현재 위치"><strong>로그인</strong></li>
-        </ol>
-    </div>
-
-    <div class="titleArea">
-        <h2 class="hide">로그인</h2>
-    </div>
-
     <form action="" method="post">
         <div class="xans-element- xans-member xans-member-login ">
             <div class="login">
-                <h3>MEMBER LOGIN</h3>
+                <h3 class="text-upper"><%= __('user.auth.login.title') %></h3>
                 <fieldset>
-                    <legend>회원로그인</legend>
-                    <label class="id ePlaceholder" title="Email">
-                        <input id="email" name="email" value="<%= old('email') %>" type="text"/>
+                    <label class="id ePlaceholder" title="<%= __('user.info.email') %>">
+                        <input id="email" name="email" value="<%= old('email') %>" type="text" class="form-control"/>
                     </label>
                     <p class="login-form__error-msg"><%= errors('email') %></p>
-                    <label class="password ePlaceholder" title="Mật khẩu">
+                    <label class="password ePlaceholder" title="<%= __('user.info.password.title') %>">
                         <input name="password" type="password"/>
                     </label>
                     <p class="login-form__error-msg"><%= errors('password') %></p>
                     <div class="ec-base-button">
                         <button class="custom_btn custom_btn_login custom_btn_submit">
-                            <i class="fa fa-lock" aria-hidden="true"></i> Đăng nhập
+                            <i class="fa fa-lock" aria-hidden="true"></i>  <%= __('user.auth.login.title') %>
                         </button>
                     </div>
                     <ul class="snsArea displaynone">
@@ -58,21 +44,10 @@
                                 src="/public/client/images/icons/sns_login_google.png"/> Đăng nhập bằng Google</a>
                         </li>
                     </ul>
-                    <ul class="find_info">
-                        <li><a href="/quen-mat-khau">Quên mật khẩu</a></li>
+                    <ul class="find_info text-center">
+                        <li><a href="/quen-mat-khau"><%= __('user.auth.password.forgot') %></a></li>
                     </ul>
                 </fieldset>
-                <div class="displaynone">
-                    <h3>NOMEMBER ORDER</h3>
-                    <fieldset>
-                        <p class="custom_join" id="noMemberWrap">
-                            비회원님도 상품구매가 가능하나 다양한 회원혜택에서 제외됩니다.
-                            <a href=""
-                               class="custom_btn custom_btn_login btn_color_type5">비회원구매</a>
-                        </p>
-                    </fieldset>
-                </div>
-
             </div>
         </div>
     </form>

@@ -13,63 +13,62 @@
 
 <% stylesheet('/public/client/css/styleRegister.css') %>
 
-<% block('title', 'Trang chủ') %>
+<% block('title', __('user.auth.register.title')) %>
 
 <div id="contents">
     <div class="titleArea">
-        <h2>Quên mật khẩu</h2>
+        <h2><%= __('user.auth.register.title') %></h2>
     </div>
 
     <form action="" method="post">
         <div class="xans-element- xans-member xans-member-join">
-            <h3>Thông tin cơ bản</h3>
-            <p class="required "><img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"
-                                      alt="필수"/> Những trường bắt buộc</p>
+            <h3><%= __('user.info.basic') %></h3>
+            <p class="required "><img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"/> <%= __('user.info.required-fields') %></p>
             <div class="ec-base-table typeWrite">
                 <table border="1" summary="">
-                    <caption>회원 기본정보</caption>
+                    <caption><%= __('user.info.basic') %></caption>
                     <colgroup>
                         <col style="width:150px;"/>
                         <col style="width:auto;"/>
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">Email <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.email') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="email" value="<%= old('email') %>" type="text" autocomplete="off"/>
                             <%= errors('email') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Mật khẩu <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.password.title') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="password" type="password"/>
                             <%= errors('password') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Xác nhận mật khẩu <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.password.confirm') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="passwordConfirmation" type="password"/>
                             <%= errors('passwordConfirmation') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Tên <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.name') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="name" class="ec-member-name" value="<%= old('name') %>" type="text"/>
                             <%= errors('name') %>
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row">Địa chỉ <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.address') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="address" value="<%= old('address') %>" type="text"/>
                             <%= errors('address') %>
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row">Điện thoại di động <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.telephone') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="telephone" value="<%= old('telephone') %>" type="text"/>
                             <%= errors('telephone') %>
@@ -78,32 +77,31 @@
                     </tbody>
                 </table>
             </div>
-            <h3 class=" ">Thông tin thêm</h3>
+            <h3 class=" "><%= __('user.additional-info') %></h3>
             <div class="ec-base-table typeWrite ">
                 <table border="1" summary="">
-                    <caption>Thông tin bổ sung</caption>
                     <colgroup>
                         <col style="width:150px;"/>
                         <col style="width:auto;"/>
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">Giới tính</th>
+                        <th scope="row"><%= __('user.info.gender.title') %></th>
                         <td>
                             <input id="is_male" name="gender" type="radio"
                                    value="1" <%= old('gender') === '1' ? 'checked' : '' %>/>
-                            <label for="is_male">Nam</label>
+                            <label for="is_male"><%= __('user.info.gender.male') %></label>
                             <input id="is_female" name="gender" type="radio"
                                    value="2" <%= old('gender') === '2' ? 'checked' : '' %>/>
-                            <label for="is_female">Nữ</label>
+                            <label for="is_female"><%= __('user.info.gender.female') %></label>
                             <input id="is_another" name="gender" type="radio"
                                    value="3" <%= old('gender') === '3' ? 'checked' : '' %>/>
-                            <label for="is_another">Khác</label>
+                            <label for="is_another"><%= __('user.info.gender.another') %></label>
                             <%= errors('gender') %>
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row">Ngày sinh</th>
+                        <th scope="row"><%= __('user.info.birthday') %></th>
                         <td>
                             <input name="birthday" value="<%= old('birthday') %>" type="text"/>
                             <%= errors('birthday') %>
@@ -113,7 +111,7 @@
                 </table>
             </div>
             <div class="ec-base-button">
-                <button class="custom_btn custom_btn_login custom_btn_submit">Đăng ký</button>
+                <button class="custom_btn custom_btn_login custom_btn_submit"><%= __('user.auth.register.title') %></button>
             </div>
         </div>
     </form>

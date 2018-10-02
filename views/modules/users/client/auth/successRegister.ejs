@@ -13,37 +13,37 @@
 
 <% stylesheet('/public/client/css/styleSuccessRegister.css') %>
 
-<% block('title', 'Đăng ký thành công') %>
+<% block('title', __('user.auth.register.complete')) %>
 
 <div id="contents">
     <div class="titleArea">
-        <h2>Hoàn tất đăng ký</h2>
+        <h2><%= __('user.auth.register.complete') %></h2>
     </div>
 
     <div class="xans-element- xans-member xans-member-joincomplete ">
         <div class="joinComplete">
-            <p class="desc">Đăng ký thành công</p>
+            <p class="desc"><%= __('user.auth.register.success') %></p>
             <div class="ec-base-box typeMember gMessage">
-                <strong class="message">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</strong>
+                <strong class="message"><%= __('user.thank-for-using') %></strong>
                 <div class="information">
                     <p class="thumbnail"><img src="F" alt="Thành viên chung"
                                               onerror="this.src='//img.echosting.cafe24.com/skin/base/member/img_member_default.gif';"/>
                     </p>
                     <div class="description">
                         <dl class="ec-base-desc typeBullet gSmall gBlank5">
-                            <dt>Tên</dt>
+                            <dt><%= __('user.info.name') %></dt>
                             <dd><span class="authssl_c_name"><%= user.name %></span></dd>
-                            <dt>Email</dt>
+                            <dt><%= __('user.info.email') %></dt>
                             <dd><span class="authssl_c_email"><%= user.email %></span></dd>
-                            <dt>Số điện thoại</dt>
+                            <dt><%= __('user.info.telephone') %></dt>
                             <dd><span class="authssl_c_email"><%= user.telephone %></span></dd>
                         </dl>
                     </div>
                 </div>
             </div>
             <p class="ec-base-button">
-                <a href="/dang-nhap" class="custom_btn custom_btn_login custom_btn_submit">Đăng nhập</a>
-                <a href="/" class="custom_btn custom_btn_login custom_btn_submit">Về trang chủ</a>
+                <a href="/dang-nhap" class="custom_btn custom_btn_login custom_btn_submit"><%= __('user.auth.login.title') %></a>
+                <a href="/" class="custom_btn custom_btn_login custom_btn_submit"><%= __('user.back-to-home') %></a>
             </p>
         </div>
     </div>

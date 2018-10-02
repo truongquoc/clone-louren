@@ -13,12 +13,12 @@
 
 <% stylesheet('/public/client/css/styleProfile.css') %>
 
-<% block('title', 'Thông tin người dùng') %>
+<% block('title', __('user.info.title')) %>
 
 <div id="contents">
 
     <div class="titleArea">
-        <h2>Chỉnh sửa thông tin người dùng</h2>
+        <h2><%= __('user.info.title') %></h2>
     </div>
 
     <div class="xans-element- xans-myshop xans-myshop-asyncbenefit">
@@ -28,7 +28,7 @@
                                           onerror="this.src='//img.echosting.cafe24.com/skin/base/member/img_member_default.gif';"
                                           class="myshop_benefit_group_image_tag"/></p>
                 <div class="description">
-                    <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
+                    <p><%= __('user.thank-for-using') %></p>
                 </div>
             </div>
         </div>
@@ -37,60 +37,60 @@
     <form action="" method="post">
         <input type="hidden" name="_method" value="PUT">
         <div class="xans-element- xans-member xans-member-edit">
-            <h3>Thông tin cơ bản</h3>
-            <p class="required "><span class="red-note">&#8277;</span> Những trường bắt buộc</p>
+            <h3><%= __('user.info.basic') %></h3>
+            <p class="required "><span class="red-note">&#8277;</span> <%= __('user.info.required-fields') %></p>
             <div class="ec-base-table typeWrite">
                 <table border="1" summary="">
-                    <caption>Thông tin cơ bản</caption>
+                    <caption><%= __('user.info.basic') %></caption>
                     <colgroup>
                         <col style="width:150px;"/>
                         <col style="width:auto;"/>
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">Email <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.email') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="email" value="<%= user.email || old('email') %>" type="text" autocomplete="off" disabled/>
                             <%= errors('email') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Mật khẩu hiện tại<span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.password.current') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="password" type="password"/>
                             <%= errors('password') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Mật khẩu mới<span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.password.new') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="newPassword" type="password"/>
                             <%= errors('newPassword') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Xác nhận mật khẩu <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.password.confirm') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="passwordConfirmation" type="password"/>
                             <%= errors('passwordConfirmation') %>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Tên <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.name') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="name" class="ec-member-name" value="<%= old('name', user.name) %>" type="text"/>
                             <%= errors('name') %>
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row">Địa chỉ <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.address') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="address" value="<%= old('address', user.address || '') %>" type="text"/>
                             <%= errors('address') %>
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row">Điện thoại di động <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.telephone') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="telephone" value="<%= old('telephone', user.telephone) %>" type="text"/>
                             <%= errors('telephone') %>
@@ -99,33 +99,32 @@
                     </tbody>
                 </table>
             </div>
-            <h3 class=" ">Thông tin thêm</h3>
+            <h3 class=" "><%= __('user.additional-info') %></h3>
             <div class="ec-base-table typeWrite ">
                 <table border="1" summary="">
-                    <caption>Thông tin bổ sung</caption>
                     <colgroup>
                         <col style="width:150px;"/>
                         <col style="width:auto;"/>
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">Giới tính</th>
+                        <th scope="row"><%= __('user.info.gender.title') %></th>
                         <td>
                             <% const gender = user.gender ? user.gender.toString() : ''; %>
                             <input id="is_male" name="gender" type="radio"
                                    value="1" <%= old('gender', gender) === '1' ? 'checked' : '' %>/>
-                            <label for="is_male">Nam</label>
+                            <label for="is_male"><%= __('user.info.gender.male') %></label>
                             <input id="is_female" name="gender" type="radio"
                                    value="2" <%= old('gender', gender) === '2' ? 'checked' : '' %>/>
-                            <label for="is_female">Nữ</label>
+                            <label for="is_female"><%= __('user.info.gender.female') %></label>
                             <input id="is_another" name="gender" type="radio"
                                    value="3" <%= old('gender', gender) === '3' ? 'checked' : '' %>/>
-                            <label for="is_another">Khác</label>
+                            <label for="is_another"><%= __('user.info.gender.another') %></label>
                             <%= errors('gender') %>
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row">Ngày sinh</th>
+                        <th scope="row"><%= __('user.info.birthday') %></th>
                         <td>
                             <input name="birthday" value="<%= old('birthday', user.birthday ? moment(user.birthday).format('DD/MM/YYYY') : '') %>" type="text"/>
                             <%= errors('birthday') %>
@@ -135,8 +134,8 @@
                 </table>
             </div>
             <div class="ec-base-button justify">
-                <button class="custom_btn custom_btn_login custom_btn_submit">Thay đổi</button>
-                <a href="/nguoi-dung" class="custom_btn custom_btn_login custom_btn_submit">Về trang người dùng</a>
+                <button class="custom_btn custom_btn_login custom_btn_submit"><%= __('user.info.change') %></button>
+                <a href="/nguoi-dung" class="custom_btn custom_btn_login custom_btn_submit"><%= __('user.back-to-dashboard') %></a>
             </div>
             <!--<div class="layerLeave ec-base-layer" id="">
                 <div class="header">

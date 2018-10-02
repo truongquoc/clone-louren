@@ -1,3 +1,5 @@
+const i18n = require('i18n');
+
 const responseHelper = require('../../../helpers/responseHelper');
 const CartRepositoryClass = require('../repositories/CartRepository');
 const ProductRepositoryClass = require('../../products/repositories/ProductRepository');
@@ -45,13 +47,13 @@ const changeQuantityAuthorize = async (req, res, next) => {
             return res.json(responseHelper.notFound());
         }
         if (product.quantity <= 0) {
-            return res.json(responseHelper.error('Sản phẩm đã hết hàng', 400));
+            return res.json(responseHelper.error(i18n.__('product.out-of-stock.original'), 400));
         }
         if (product.quantity < (+req.body.quantity || 1)) {
-            return res.json(responseHelper.error('Sản phẩm trong kho không đủ', 400));
+            return res.json(responseHelper.error(i18n.__('product.not-enough-products.original'), 400));
         }
         if (product.price.isAgreement) {
-            return res.json(responseHelper.error('Sản phẩm thương lượng giá cả', 400));
+            return res.json(responseHelper.error(i18n.__('product.negotiated-price.original'), 400));
         }
         next();
     } catch (e) {
@@ -95,19 +97,19 @@ const verifyProductQuantity = async (req, res, next) => {
                     const element = cart.products[i];
                     if (element.item.quantity <= 0) {
                         req.flash('errors', {
-                             quantity: { msg: `Sản phẩm "${element.item.name}" đã hết hàng` },
+                             quantity: { msg: i18n.__('product.out-of-stock.product', { name: element.item.name }) },
                         });
                         return res.redirectBack();
                     }
                     if (element.quantity > element.item.quantity) {
                         req.flash('errors', {
-                            quantity: { msg: `Số lượng sản phẩm "${element.item.name}" trong kho không đủ` },
+                            quantity: { msg: i18n.__('product.not-enough-products.product', { name: element.item.name }) },
                         });
                         return res.redirectBack();
                     }
                     if (element.item.price.isAgreement) {
                         req.flash('errors', {
-                            quantity: { msg: `Sản phẩm "${element.item.name}" giá cả thương lượng. Hãy liên hệ riêng với chúng tôi` },
+                            quantity: { msg: i18n.__('product.negotiated-price.product', { name: element.item.name }) },
                         });
                         return res.redirectBack();
                     }
@@ -122,19 +124,19 @@ const verifyProductQuantity = async (req, res, next) => {
                 const product = products.find(element => element._id.toString() === cart[i].item);
                 if (product.quantity <= 0) {
                     req.flash('errors', {
-                        quantity: { msg: `Sản phẩm "${product.name}" đã hết hàng` },
+                        quantity: { msg: i18n.__('product.out-of-stock.product', { name: product.name }) },
                     });
                     return res.redirectBack();
                 }
                 if (cart[i].quantity > product.quantity) {
                     req.flash('errors', {
-                        quantity: { msg: `Số lượng sản phẩm "${product.name}" trong kho không đủ` },
+                        quantity: { msg: i18n.__('product.not-enough-products.product', { name: product.name }) },
                     });
                     return res.redirectBack();
                 }
                 if (product.price.isAgreement) {
                     req.flash('errors', {
-                        quantity: { msg: `Sản phẩm "${product.name}" giá cả thương lượng. Hãy liên hệ riêng với chúng tôi` },
+                        quantity: { msg: i18n.__('product.negotiated-price.product', { name: product.name }) },
                     });
                     return res.redirectBack();
                 }

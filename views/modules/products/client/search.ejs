@@ -68,16 +68,16 @@
                         <select class="col-12 col-md-9" id="order_by" name="sort">
                             <option value="" selected="selected">::: Sắp xếp sản phẩm :::</option>
                             <option value="productName" <%= query.sort === 'productName' ? 'selected' : '' %>>
-                                Tên sản phẩm
+                                <%= __('product.sort.name') %>
                             </option>
                             <option value="priceLowToHigh" <%= query.sort === 'priceLowToHigh' ? 'selected' : '' %>>
-                                Giá thấp - cao
+                                <%= __('product.sort.priceLowToHigh') %>
                             </option>
                             <option value="priceHighToLow" <%= query.sort === 'priceHighToLow' ? 'selected' : '' %>>
-                                Giá cao - thấp
+                                <%= __('product.sort.priceHighToLow') %>
                             </option>
                             <option value="newest" <%= !['productName', 'priceLowToHigh' , 'priceHighToLow'].includes(query.sort) ? 'sort' : '' %>>
-                                Mới nhất
+                                <%= __('product.sort.newest') %>
                             </option>
                         </select></div>
                     <p class="button">
@@ -90,10 +90,10 @@
                 <!--</div>-->
             </div>
             <div class="searchResult">
-                <p class="record">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
+                <p class="record"><strong><%= products.total %></strong> <%= __('product.count') %></p>
             </div>
             <div class="noData <%= products.total !== 0 ? 'displaynone' : '' %>">
-                <strong class="warning">Không có sản phẩm nào được tìm thấy. </strong>
+                <strong class="warning"><%= __('product.no-products') %></strong>
                 <strong>Hãy kiểm tra giá trị tìm kiếm của bạn và thử lại.</strong>
                 <ul>
                     <li>Nếu bạn tìm kiếm hơn một từ, hãy kiểm tra lại khoảng trống.</li>
@@ -115,12 +115,12 @@
                             <div class="custom_layer_btn">
                                 <ul>
                                     <% if (!product.price.isAgreement) { %>
-                                        <li data-id="<%= product._id %>" class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                        <li data-id="<%= product._id %>" class="cart shopping__icon add-to-cart-btn" title="<%= __('product.cart.add') %>">
                                             <i class="fa fa-shopping-cart"></i>
                                         </li>
                                     <% } else { %>
                                         <li class="cart shopping__icon telephone__text">
-                                            Liên hệ
+                                            <%= __('contact') %>
                                         </li>
                                     <% } %>
                                     <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
@@ -152,7 +152,7 @@
                             <ul class="xans-element- xans-product xans-product-listitem spec">
                                 <li class="xans-record-">
                                     <% if (product.price.isAgreement) { %>
-                                        Liên hệ: <%= info.phone %>
+                                        <%= __('contact') %>: <%= info.phone %>
                                     <% } else { %>
                                         <span class="priceDisplay"></span>
                                         <input class="priceValue"

@@ -4,6 +4,7 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const helmet = require('helmet');
 const favicon = require('serve-favicon');
+const i18n = require('i18n');
 
 const config = require('./config');
 const helpers = require('../helpers/helpers');
@@ -35,6 +36,13 @@ module.exports = (app, express) => {
     app.use(sessionMiddleware);
 
     app.use(flash());
+
+    i18n.configure({
+        locales: ['en', 'vi'],
+        directory: 'lang',
+        objectNotation: true,
+        defaultLocale: 'vi',
+    });
 
     app.use((req, res, next) => {
         helpers(res);

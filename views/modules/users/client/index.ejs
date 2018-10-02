@@ -13,12 +13,11 @@
 
 <% block('beforeCommon', `<link rel="stylesheet" type="text/css" href="/public/client/css/styleUser.css"/>`) %>
 
-<% block('title', 'Tài khoản') %>
+<% block('title', __('user.title')) %>
 
 <div id="contents">
-
     <div class="titleArea">
-        <h2>Nơi mua sắm của tôi</h2>
+        <h2><%= __('user.title') %></h2>
     </div>
 
     <div class="xans-element- xans-layout xans-layout-logincheck "></div>
@@ -30,18 +29,7 @@
                                           onerror="this.src='/public/client/images/img_member_default.gif';"
                                           class="myshop_benefit_group_image_tag"/></p>
                 <div class="description">
-                    <span>Cảm ơn bạn đã sử dụng trung tâm mua sắm của chúng tôi
-                        <strong class="txtEm">
-                            <span class="authssl_member_name"><%= cUser.name %></span>
-                        </strong> là thành viên
-                        <strong>
-                            <span class="displaynone">
-                                <img src="" alt="" class="myshop_benefit_group_icon_tag"/>
-                            </span>
-                            <span class="xans-member-var-group_name"></span>
-                            <span class="myshop_benefit_ship_free_message"></span>
-                        </strong> của chúng tôi
-                    </span>
+                    <span><%= __('user.thank-for-using') %></span>
                 </div>
             </div>
         </div>
@@ -79,12 +67,22 @@
 
     <div id="myshopMain" class="xans-element- xans-myshop xans-myshop-main">
         <div class="shopMain order">
-            <h3><a href="/nguoi-dung/don-hang"><strong>Đơn hàng của tôi</strong>Xem lịch sử đặt hàng</a></h3>
-            <p><a href="/nguoi-dung/don-hang">Bạn có thể kiểm tra xử lí đơn đặt hàng của bạn</a></p>
+            <h3>
+                <a href="/nguoi-dung/don-hang">
+                    <strong><%= __('user.bill.title') %></strong>
+                    <%= __('user.bill.usage') %>
+                </a>
+            </h3>
+            <p><a href="/nguoi-dung/don-hang"><%= __('user.bill.description') %></a></p>
         </div>
         <div class="shopMain profile">
-            <h3><a href="/nguoi-dung/thong-tin"><strong>Thông tin người dùng</strong></a></h3>
-            <p><a href="/nguoi-dung/thong-tin">Là nơi quản lý thông tin người dùng.<br/>Hãy cập nhật thông tin thường xuyên để có những trải nghiệm tốt nhất.</a></p>
+            <h3>
+                <a href="/nguoi-dung/thong-tin">
+                    <strong><%= __('user.info.title') %></strong>
+                    <%= __('user.info.usage') %>
+                </a>
+            </h3>
+            <p><a href="/nguoi-dung/thong-tin"><%= __('user.info.description') %></a></p>
         </div>
     </div>
 </div>

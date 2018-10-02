@@ -1,0 +1,173 @@
+{
+	"home": "Trang chủ",
+	"about-us": "Về chúng tôi",
+	"policy": "Chính sách",
+	"contact": "Liên hệ",
+	"read-more": "Xem thêm",
+	"messenger-greeting": "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
+	"member": "Thành viên",
+	"product": {
+		"code": "Mã sản phẩm",
+		"no-products": "Không có sản phẩm nào được tìm thấy",
+		"category": "Mặt hàng",
+		"detail-category": "Loại sản phẩm",
+		"products": "Tất cả sản phẩm",
+		"sale-off": "Sản phẩm giảm giá",
+		"newest": "SẢN PHẨM MỚI NHẤT",
+		"quantity": "Số lượng",
+		"tag": "Tag",
+		"bill": {
+			"detail-title": "Đơn hàng chi tiết",
+			"title": "Đơn hàng",
+			"bills": "Tất cả đơn hàng",
+			"info": "THÔNG TIN ĐƠN ĐẶT HÀNG",
+			"code": "Mã đơn hàng",
+			"date": "Ngày đặt hàng",
+			"status": "Trạng thái",
+			"approved": "Đã duyệt",
+			"not-approved": "Chưa duyệt",
+			"no-bills": "Chưa có đơn đặt hàng nào",
+			"products": "{{name}} và {{quantity}} sản phẩm khác"
+		},
+		"order": {
+			"success-message": "Gửi yêu cầu mua thành công, xin vui lòng kiểm tra email của bạn",
+			"date": "Ngày đặt hàng"
+		},
+		"cart": {
+			"title": "Giỏ hàng",
+			"add": "Thêm vào giỏ hàng",
+			"add2": "Chọn số lượng và thêm vào giỏ hàng",
+			"information-confirm": "Xác nhận thông tin",
+			"user-information-title": "Thông tin người mua",
+			"user": {
+				"payment-method": "Hình thức thức thanh toán",
+				"cod": "Thanh toán khi nhận hàng",
+				"via-bank": "Thanh toán qua thẻ ngân hàng",
+				"note": "Ghi chú"
+			},
+			"user-manual": "Hướng dẫn sử dụng",
+			"step1": "Bấm nút xác nhận mua sản phẩm",
+			"step2": "Điền đầy đủ thông tin liên hệ",
+			"step3": "Chuyển khoản ngân hàng và gọi thông báo cho chúng tôi.",
+			"information-confirm-title": "product.cart.information-confirm-title"
+		},
+		"image": "Hình ảnh",
+		"product": "Sản phẩm",
+		"price": {
+			"unit": "Đơn giá",
+			"to-money": "Thành tiền",
+			"total": "Tổng cộng"
+		},
+		"name": "Tên sản phẩm",
+		"out-of-stock": {
+			"original": "Sản phẩm đã hết hàng",
+			"product": "Sản phẩm \"{{name}}\" đã hết hàng"
+		},
+		"not-enough-products": {
+			"original": "Sản phẩm trong kho không đủ",
+			"product": "Sản phẩm \"{{name}}\" trong kho không đủ"
+		},
+		"negotiated-price": {
+			"original": "Sản phẩm thương lượng giá cả",
+			"product": "Sản phẩm \"{{name}}\" giá cả thương lượng. Hãy liên hệ riêng với chúng tôi"
+		},
+		"order-via-negotiate": "Quý khách vui lòng liên hệ đến hotline {{phone}} để đặt hàng. Xin cảm ơn!",
+		"detail": "CHI TIẾT",
+		"description": "THÔNG TIN SẢN PHẨM",
+		"comments": "BÌNH LUẬN",
+		"related-products": "SẢN PHẨM CÙNG CHUYÊN MỤC",
+		"discounted-products": "Sản phẩm giảm giá",
+		"sort": {
+			"name": "Tên sản phẩm",
+			"priceLowToHigh": "Giá thấp - cao",
+			"priceHighToLow": "Giá cao - thấp",
+			"newest": "Mới nhất"
+		},
+		"count": " sản phẩm được tìm thấy"
+	},
+	"blog": {
+		"header": "BLOG",
+		"banner": "Tin tức",
+		"recent": "Bài viết gần đây",
+		"tag": "Tag",
+		"category": "Thể loại",
+		"article": {
+			"list-title": "Danh sách bài viết",
+			"related": "Bài viết liên quan",
+			"no-articles": "Không có bài viết nào",
+			"read-article": "Xem bài viết"
+		}
+	},
+	"address": "Địa chỉ",
+	"tel": "Tel",
+	"working-time": "Giờ mở cửa",
+	"email": "Email",
+	"customer-support": "Hỗ trợ khách hàng",
+	"social-media": "Mạng xã hội",
+	"confirm": "Xác nhận",
+	"option": "Tùy chọn",
+	"user": {
+		"dashboard": "Tài khoản",
+		"orders": "Đơn hàng",
+		"title": "Nơi mua sắm của tôi",
+		"thank-for-using": "Cảm ơn bạn đã sử dụng trung tâm mua sắm của chúng tôi",
+		"bill": {
+			"title": "Đơn hàng của tôi",
+			"usage": "Xem lịch sử đặt hàng",
+			"description": "Bạn có thể kiểm tra xử lí đơn đặt hàng của bạn"
+		},
+		"info": {
+			"title": "Thông tin người dùng",
+			"usage": "Quản lý thông tin người dùng",
+			"description": "Hãy cập nhật thông tin thường xuyên để có những trải nghiệm tốt nhất",
+			"basic": "Thông tin cơ bản",
+			"required-fields": "Những trường bắt buộc",
+			"name": "Họ tên",
+			"email": "Email",
+			"telephone": "Điện thoại di động",
+			"address": "Địa chỉ",
+			"password": {
+				"title": "Mật khẩu",
+				"current": "Mật khẩu hiện tại",
+				"new": "Mật khẩu mới",
+				"confirm": "Xác nhận mật khẩu"
+			},
+			"gender": {
+				"title": "Giới tính",
+				"male": "Nam",
+				"female": "Nữ",
+				"another": "Khác"
+			},
+			"birthday": "Ngày sinh",
+			"change": "Thay đổi"
+		},
+		"auth": {
+			"password": {
+				"forgot": "Quên mật khẩu",
+				"restore": {
+					"title": "Khôi phục mật khẩu",
+					"success": "Khôi phục mật khẩu thành công",
+					"method": "Khôi phục bằng",
+					"invalid-token": "Token không hợp lệ hoặc đã hết hạn"
+				},
+				"not-valid": "Mật khẩu không chính xác"
+			},
+			"login": {
+				"title": "Đăng nhập",
+				"fail": "Email hoặc mật khẩu không chính xác"
+			},
+			"register": {
+				"title": "Đăng ký",
+				"success": "Đăng ký thành công",
+				"complete": "Hoàn tất đăng ký"
+			},
+			"logout": "Đăng xuất",
+			"send": "Gửi",
+			"blocked-user": "Tài khoản này đã bị chặn",
+			"success-send-mail": "Gửi mail thành công"
+		},
+		"additional-info": "Thông tin thêm",
+		"back-to-dashboard": "Về trang người dùng",
+		"back-to-home": "Về trang chủ"
+	}
+}

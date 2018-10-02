@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/public/client/css/custom.css"/>
 
-    <title><%= titleRedis(info) %> | <%= block('title') %></title>
+    <title><%= titleRedis(info) %> | Blog - <%= block('title') %></title>
 
     <meta name="author" content="<%= titleRedis(info) %>"/>
     <%- block('metaTags', `
@@ -76,7 +76,7 @@
             </div>
             <div class="hero-inner">
                 <div class="container" style="text-align: center;">
-                    <a href="/blog" class="title-blog" >Tin tức</a>
+                    <a href="/blog" class="title-blog"><%= __('blog.banner') %></a>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
                     <%- body %>
                 </div>
                 <div class="main-sidebar right-sidebar">
-                    <%- include partials/blogSidebar.ejs %>
+                    <%- include partials/blogAside.ejs %>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
     <%- include partials/footer.ejs %>
 </div>
 <div class="fixed_copyright d-flex justify-content-center justify-content-md-between align-items-center flex-md-row px-5">
-    <span class="xans-element- xans-layout xans-layout-footer copyright col-auto">© <strong>MyHienHome</strong> . ALL RIGHTS RESERVED.
+    <span class="xans-element- xans-layout xans-layout-footer copyright col-auto">© <strong>MayHienHome</strong> . ALL RIGHTS RESERVED.
         <a href="#" target="_blank"></a>
     </span>
     <span class="col-auto d-none d-md-flex align-items-center">
@@ -148,8 +148,8 @@
 <div class="fb-customerchat"
      attribution=setup_tool
      page_id="148677635307246"
-     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
-     logged_out_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?">
+     logged_in_greeting="<%= __('messenger-greeting') %>"
+     logged_out_greeting="<%= __('messenger-greeting') %>">
 </div>
 </body>
 </html>

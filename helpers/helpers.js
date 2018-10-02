@@ -1,4 +1,5 @@
 const moment = require('moment');
+const i18n = require('i18n');
 const RoleHelper = require('./roleHelper');
 const Constant = require('../constants/commonConstant');
 
@@ -85,4 +86,6 @@ module.exports = (res) => {
     res.locals.checkValidUser = RoleHelper.checkValidUser;
 
     res.locals.moment = moment;
+
+    res.locals.__ = i18n.__;
 };
