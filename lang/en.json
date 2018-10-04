@@ -1,7 +1,8 @@
 {
 	"home": "Home",
-	"about-s": "About us",
+	"about-us": "About us",
 	"policy": "Policy",
+	"courage": "Commitment",
 	"contact": "Contact",
 	"read-more": "Read more",
 	"messenger-greeting": "Hello, can we help you?",
@@ -34,7 +35,8 @@
 			"confirm-bill": "Confirm order code %s",
 			"contact-to-confirm": "Please contact us by the phone number %s to confirm this order.",
 			"exchange-via-bank": "Please transfer money via bank card with account number %s to pay",
-			"expected-delivery-date": "Your order will be delivered within 3-5 days"
+			"expected-delivery-date": "Your order will be delivered within 3-5 days",
+			"confirmed-bill": "Bill of the order %s"
 		},
 		"order": {
 			"success-message": "Submit purchase request successfully, please check your email",
@@ -124,7 +126,7 @@
 		},
 		"info": {
 			"title": "User information",
-			"Usage": "Manage user information",
+			"usage": "Manage user information",
 			"description": "Keep updating information for the best experience",
 			"basic": "Basic information",
 			"required-fields": "Required fields",
@@ -195,5 +197,6 @@
 		}
 	},
 	"send": "Send",
-	" ": " "
+	" ": " ",
+	"": ""
 }

@@ -168,23 +168,30 @@
                         </tr>
                         <tr>
                             <th scope="row">Số điện thoại</th>
-                            <th><%= bill.userInformation.telephone %></th>
+                            <td><%= bill.userInformation.telephone %></td>
                         </tr>
                         <tr>
                             <th scope="row">Phương thức thanh toán</th>
-                            <th></td>
+                            <td>
+                                <% const { paymentMethod } = bill.userInformation; %>
+                                <% if (paymentMethod === 'cod') { %>
+                                    Thanh toán tiền mặt khi nhận hàng
+                                <% } else if (paymentMethod === 'via-bank') { %>
+                                    Thanh toán qua thẻ ngân hàng
+                                <% } %>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">Địa chỉ</th>
-                            <th><%= bill.userInformation.address %></th>
+                            <td><%= bill.userInformation.address %></td>
                         </tr>
                         <tr>
                             <th scope="row">Lưu ý</th>
-                            <th><%= bill.userInformation.note %></th>
+                            <td><%= bill.userInformation.note %></td>
                         </tr>
                         <tr>
                             <th scope="row">Tổng số tiền</th>
-                            <th><%= formatPrice(bill.price) %></th>
+                            <td><%= formatPrice(bill.price) %></td>
                         </tr>
                         </tbody>
                     </table>

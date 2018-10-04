@@ -1,7 +1,8 @@
 {
 	"home": "Trang chủ",
 	"about-us": "Về chúng tôi",
-	"policy": "Chính sách",
+	"policy": "Chính sách bán hàng",
+	"courage": "Cam kết",
 	"contact": "Liên hệ",
 	"read-more": "Xem thêm",
 	"messenger-greeting": "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
@@ -34,7 +35,8 @@
 			"confirm-bill": "Xác nhận đơn hàng mã %s",
 			"contact-to-confirm": "Hãy liên lạc với chúng tôi qua số điện thoại %s để xác nhận đơn hàng này",
 			"exchange-via-bank": "Hãy chuyển tiền qua thẻ ngân hàng với số tài khoản %s để thanh toán",
-			"expected-delivery-date": "Đơn hàng của bạn sẽ được giao trong vòng 3 - 5 ngày"
+			"expected-delivery-date": "Đơn hàng của bạn sẽ được giao trong vòng 3 - 5 ngày",
+			"confirmed-bill": "Hóa đơn điện tử của đơn hàng %s"
 		},
 		"order": {
 			"success-message": "Gửi yêu cầu mua thành công, xin vui lòng kiểm tra email của bạn",

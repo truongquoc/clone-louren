@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -31,7 +30,11 @@
         <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
         <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
     `) %>
-
+    <style>
+        .fb-comments, .fb-comments span, .fb-comments iframe {
+            width: 100% !important;
+        }
+    </style>
     <% if(infoRedis('', info, 'google') !== '') { %>
         <script async src="https://www.googletagmanager.com/gtag/js?id=<%= info.google %>"></script>
         <script>
@@ -64,6 +67,14 @@
 </head>
 
 <body class="">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1&appId=301746350312092&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <div id="header">
     <%- include partials/header.ejs %>
 </div>

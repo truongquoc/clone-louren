@@ -22,7 +22,7 @@
                 <h3 class="mb-4"><%= __('customer-support') %></h3>
                 <% links.forEach(link => { %>
                     <% if (link.show === 'show') { %>
-                        <a class="mt-2" href="<%= link.link %>"><%= link.name %></a>
+                        <a class="mt-2" href="<%= link.link %>"><%= __(link.key || ' ') %></a>
                     <% } %>
                 <% }) %>
 

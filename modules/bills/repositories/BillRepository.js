@@ -177,10 +177,14 @@ class BillRepository extends BaseRepository {
         const template = ejs.compile(file);
         bill = JSON.parse(JSON.stringify(bill));
         bill.user = bill.user ? bill.user : bill.userInformation;
+
         const mailOptions = {
             to: bill.user.email,
             from: config.emailAddress,
-            subject: `Hóa đơn điện tử của đơn hàng ${bill.code}`,
+            subject: i18n.__({
+                phrase: 'product.bill.confirmed-bill',
+                locale: bill.language,
+            }, bill.code),
             html: template({
                 bill,
                 info,
@@ -213,7 +217,10 @@ class BillRepository extends BaseRepository {
         const mailOptions = {
             to: bill.userInformation.email,
             from: config.emailAddress,
-            subject: `Xác nhận đơn hàng ${bill.code}`,
+            subject: i18n.__({
+                phrase: 'product.bill.confirm-bill',
+                locale: bill.language,
+            }, bill.code),
             html: template({
                 bill,
                 info,

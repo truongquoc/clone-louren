@@ -183,7 +183,7 @@ body {
     font-size: 14px !important;
     height: 22px;
     line-height: 12px;
-    width: 60px;
+    width: 60px !important;
 }
 
 .xans-product-listitem {
@@ -216,6 +216,10 @@ body {
 .phone-call:hover .phone-call__icon {
     background-color: #00bf00;
     font-size: 33.75px;
+}
+
+.header__contact--list:hover {
+    color: #fff;
 }
 @media (max-width: 576px) {
     .phone-call {
@@ -366,7 +370,6 @@ body {
     }
 
     #header h1.xans-layout-logotop {
-        position: absolute;
         width: 100%;
     }
 

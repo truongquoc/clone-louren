@@ -14,6 +14,7 @@ const getCookie = (req, res, next) => {
 const setCookie = (req, res) => {
     const { language } = req.params;
     if (commonConstant.languages.indexOf(language) >= 0) {
+        res.clearCookie('mayhienhome_lang');
         res.cookie('mayhienhome_lang', language, {
             maxAge: 1000 * 60 * 43200,
             httpOnly: true,

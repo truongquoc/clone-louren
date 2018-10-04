@@ -23,6 +23,8 @@ li{list-style:none;}table{width:100%;border:0;border-spacing:0;border-collapse:c
     }
     .xans-order-basketpackage .ec-base-table td.thumb img {
         max-width: 150px;
+        width: 150px;
+        height: 150px;
         object-fit: cover;
     }
 

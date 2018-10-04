@@ -35,21 +35,20 @@
 
    <div class="single-article-inner d-flex flex-column">
       <div class="single-article-content">
-         <p><%- blogArticle.content %></p>
+         <%- blogArticle.content %>
+          <div style="margin: 10px 0;">
+              <div class="fb-like" data-href="<%= originalUrl %>"
+                   data-layout="button_count" data-action="like" data-size="small"
+                   data-show-faces="true" data-share="true"></div>
+          </div>
          <div class="fl-wrap share-buts-wrap">
-            <div class="single-post-tags fl-left"><i class="fa fa-tags"></i>
-                <%  blogArticle.tags && blogArticle.tags.forEach((tag) => { %>
-                    <a href="/blog/tag-<%= tag.slug%>" rel="tag"><%= tag.getName %></a>
-                <% }) %>
-            </div>
-
-            <div class="share-button">
-              <div class="fb-share-button" data-href="https://www.facebook.com/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmayhienhome.com/blog/<%= blogArticle.slug %>%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
-            </div>
-            <div class="share-inner">
-               <div class="share-container"
-                  data-share="['facebook&#039;,&#039;pinterest&#039;,&#039;googleplus&#039;,&#039;twitter&#039;,&#039;linkedin']"></div>
-            </div>
+             <% if (blogArticle.tags && blogArticle.tags.length) { %>
+                <div class="single-post-tags fl-left"><i class="fa fa-tags"></i>
+                    <% blogArticle.tags.forEach((tag) => { %>
+                        <a href="/blog/tag-<%= tag.slug%>" rel="tag"><%= tag.getName %></a>
+                    <% }) %>
+                </div>
+             <% } %>
          </div>
       </div>
       <div class="limit-box"></div>
@@ -57,24 +56,27 @@
 </article>
 
 <div class="clearfix"></div>
-<% if (postNext.length) {  %>
+<% if (relatedArticles.length) {  %>
     <div class="post-related-wrap">
         <h3 class="middle-title"><%= __('blog.article.related') %></h3>
         <div class="post-related row">
-            <% postNext.forEach((article) => { %>
+            <% relatedArticles.forEach((article) => { %>
                 <div class="item-related col-md-4">
                     <a href="<%= article.slug %>">
-                        <img width="293" height="194" src=""
-                             class="attachment-springbook-related size-springbook-related wp-post-image"/>
+                        <% if (article.display.useVideo) { %>
+                            <div class="iframe__container">
+                                <iframe class="blog-article__iframe" src="<%= article.display.video %>" allowfullscreen></iframe>
+                            </div>
+                        <% } else { %>
+                            <img src="<%= article.display.image %>" alt="<%= article.title %>" class="img-responsive">
+                        <% } %>
                     </a>
                     <h3><a href="<%= article.slug %>"><%= article.title %></a></h3>
-                    <span class="post-date"><%= moment(article.updatedAt).format('L') %></span>
+                    <span class="post-date"><%= moment(article.createdAt).format('L') %></span>
                 </div>
             <% }) %>
         </div>
     </div>
 <% } %>
 
-<div id="fb-root"></div>
-
-<div class="fb-comments" data-href="#" data-width="616" data-numposts="7"></div>
+<div class="fb-comments" data-href="<% originalUrl %>" data-numposts="10"></div>

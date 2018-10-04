@@ -34,37 +34,51 @@
                     <td class="container-padding content" align="left" style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff">
                         <br>
                         <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:15px;font-weight:600;color:#374550">
-                            <%= info[0] ? info[0].title : 'Mây Hiên Home' %>: <%= __('product.bill.introduction', bill.code) %>
+                            <%= info[0] ? info[0].title : 'Mây Hiên Home' %>: <%= __({
+                                phrase: 'product.bill.introduction',
+                                locale: bill.language,
+                            }, bill.code) %>
                         </div>
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
-                            <p><%= __('user.thank-for-using') %>.<br><%= __('product.bill.expected-delivery-date') %></p>
+                            <p>
+                                <%= __({ phrase: 'user.thank-for-using', locale: bill.language }) %>.<br>
+                                <%= __({ phrase: 'product.bill.expected-delivery-date', locale: bill.language }) %>
+                            </p>
                             <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
-                                <h4 class="subtitle"><%= __('product.bill.information') %></h4>
+                                <h4 class="subtitle"><%= __({ phrase: 'product.bill.information', locale: bill.language }) %></h4>
                                 <table class="container user__information">
                                     <tbody>
                                     <tr>
-                                        <td class="user__information__title"><%= __('product.bill.receiver') %>:</td>
+                                        <td class="user__information__title">
+                                            <%= __({ phrase: 'product.bill.receiver', locale: bill.language }) %>:
+                                        </td>
                                         <td><%= bill.user.name %></td>
                                     </tr>
                                     <tr>
-                                        <td class="user__information__title"><%= __('user.info.email') %>:</td>
+                                        <td class="user__information__title">
+                                            <%= __({ phrase: 'user.info.email', locale: bill.language }) %>:
+                                        </td>
                                         <td><a href="mailto:<%= bill.user.email %>"><%= bill.user.email %></a></td>
                                     </tr>
                                     <tr>
-                                        <td class="user__information__title"><%= __('user.info.telephone') %>:</td>
+                                        <td class="user__information__title">
+                                            <%= __({ phrase: 'user.info.telephone', locale: bill.language }) %>:
+                                        </td>
                                         <td><%= bill.user.telephone %></td>
                                     </tr>
                                     </tbody>
                                 </table>
 
-                                <h4 class="subtitle"><%= __('product.product') %></h4>
+                                <h4 class="subtitle">
+                                    <%= __({ phrase: 'product.product', locale: bill.language }) %>
+                                </h4>
                                 <table class="container products__information">
                                     <tbody>
                                     <tr>
-                                        <th><%= __('product.name') %></th>
-                                        <th><%= __('product.price.unit') %></th>
-                                        <th><%= __('product.quantity') %></th>
-                                        <th><%= __('product.price.to-money') %></th>
+                                        <th><%= __({ phrase: 'product.name', locale: bill.language }) %></th>
+                                        <th><%= __({ phrase: 'product.price.unit', locale: bill.language }) %></th>
+                                        <th><%= __({ phrase: 'product.quantity', locale: bill.language }) %></th>
+                                        <th><%= __({ phrase: 'product.price.to-money', locale: bill.language }) %></th>
                                     </tr>
                                     <% bill.productBill.forEach((element) => { %>
                                     <tr>
@@ -76,7 +90,8 @@
                                     <% }) %>
                                     </tbody>
                                 </table>
-                                <p class="text-right"><%= __('product.price.total') %>: <%= bill.price.toLocaleString('de-DE') %> ₫</p>
+                                <p class="text-right"><%= __({ phrase: 'product.price.total', locale: bill.language }) %>:
+                                    <%= bill.price.toLocaleString('de-DE') %> ₫</p>
                             </div>
                         </div>
                     </td>

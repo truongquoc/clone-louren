@@ -109,8 +109,17 @@ class BlogArticleRepository extends ArticleRepository {
             .select('-isApproved -updatedAt');
     }
 
-    async postNext(slug) {
-         return this.model.find({ slug: { $gt: slug }, deletedAt: null }).limit(3);
+    async relatedArticles(_id, category) {
+         return this.model.find({
+             _id: { $ne: _id },
+             category,
+             isApproved: true,
+             isDraft: false,
+             deletedAt: null,
+         })
+             .select('title display slug createdAt')
+             .sort({ createdAt: -1 })
+             .limit(3);
     }
 
     create(data, user) {

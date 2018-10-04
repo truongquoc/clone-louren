@@ -71,6 +71,7 @@ class CartRepository extends BaseRepository {
             productBill,
             code,
             price: totalPrice,
+            language: data.language,
         });
     }
 
@@ -117,6 +118,7 @@ class CartRepository extends BaseRepository {
             productBill,
             code,
             price: totalPrice,
+            language: data.language,
         });
     }
 

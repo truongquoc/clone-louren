@@ -209,6 +209,11 @@ const buyProduct = async (req, res, next) => {
         let redirectRoute;
         const user = req.session.cUser;
         const commands = [];
+
+        const language = i18n.getLocale(req);
+        i18n.setLocale(language);
+        data.language = language;
+
         if (user) {
             bill = await CartRepository.createBill(data, user._id);
             commands.push(CartRepository.emptyCart(user._id));
@@ -218,7 +223,7 @@ const buyProduct = async (req, res, next) => {
             delete req.session.cart;
             redirectRoute = '/gio-hang';
         }
-        commands.push(BillRepository.sendConfirmEmail(bill._id));
+        commands.push(BillRepository.sendConfirmEmail(bill._id, i18n));
         await Promise.all(commands);
 
         req.flash('success', i18n.__('product.order.success-message'));

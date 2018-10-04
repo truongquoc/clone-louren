@@ -683,25 +683,25 @@ function init_billChangeSearchType() {
 }
 
 function init_showUserInformation() {
-    $('.module__show-user-info-btn').on('click', function () {
-        const $userInfo = $(this).next('.bill__table__user-info');
-        $('.user-info__table__name').text($userInfo.data('user-name'));
-        $('.user-info__table__email').text($userInfo.data('user-email'));
-        $('.user-info__table__telephone').text($userInfo.data('user-telephone'));
-        $('.user-info__table__note').text($userInfo.data('note'));
-        let paymentMethod = $userInfo.data('payment-method');
-        switch (paymentMethod) {
-            case 'cod':
-                paymentMethod = 'Thanh toán tiền mặt khi nhận hàng';
-                break;
-            case 'via-bank':
-                paymentMethod = 'Thanh toán qua thẻ ngân hàng';
-                break;
-            default:
-                paymentMethod = '';
-        }
-        $('.user-info__table__payment-method').text(paymentMethod);
-    });
+    // $('.module__show-user-info-btn').on('click', function () {
+    //     const $userInfo = $(this).next('.bill__table__user-info');
+    //     $('.user-info__table__name').text($userInfo.data('user-name'));
+    //     $('.user-info__table__email').text($userInfo.data('user-email'));
+    //     $('.user-info__table__telephone').text($userInfo.data('user-telephone'));
+    //     $('.user-info__table__note').text($userInfo.data('note'));
+    //     let paymentMethod = $userInfo.data('payment-method');
+    //     switch (paymentMethod) {
+    //         case 'cod':
+    //             paymentMethod = 'Thanh toán tiền mặt khi nhận hàng';
+    //             break;
+    //         case 'via-bank':
+    //             paymentMethod = 'Thanh toán qua thẻ ngân hàng';
+    //             break;
+    //         default:
+    //             paymentMethod = '';
+    //     }
+    //     $('.user-info__table__payment-method').text(paymentMethod);
+    // });
 }
 
 function init_changeSlideOrder() {
