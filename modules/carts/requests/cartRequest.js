@@ -3,21 +3,21 @@ const validator = require('validator');
 
 const buyProductRequest = [
     check('name').trim()
-        .not().isEmpty().withMessage('Tên không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('email').trim()
-        .not().isEmpty().withMessage('Email không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .custom(value => validator.isEmail(value))
         .withMessage('Email không đúng định dạng'),
     check('address').trim()
-        .not().isEmpty().withMessage('Địa chỉ không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('paymentMethod').trim()
-        .not().isEmpty().withMessage('Hình thức thanh toán không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .isIn(['cod', 'via-bank'])
-        .withMessage('Hình thức thanh toán không hợp lệ'),
+        .withMessage('validation.not-valid'),
     check('telephone').trim()
-        .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .custom(value => validator.isMobilePhone(value, ['vi-VN']))
-        .withMessage('Số điện thoại không đúng định dạng'),
+        .withMessage('validation.wrong-format'),
 ];
 
 module.exports = {

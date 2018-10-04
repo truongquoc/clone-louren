@@ -2,6 +2,8 @@ const fs = require('fs');
 const ejs = require('ejs');
 const moment = require('moment');
 const nodemailer = require('nodemailer');
+const i18n = require('i18n');
+
 const config = require('../../../config/config');
 const paginationHelper = require('../../../helpers/paginationHelper');
 const commonConstant = require('../../../constants/commonConstant');
@@ -182,6 +184,7 @@ class BillRepository extends BaseRepository {
             html: template({
                 bill,
                 info,
+                __: i18n.__,
             }),
         };
 
@@ -214,6 +217,7 @@ class BillRepository extends BaseRepository {
             html: template({
                 bill,
                 info,
+                __: i18n.__,
             }),
         };
 

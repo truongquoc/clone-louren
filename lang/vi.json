@@ -17,6 +17,8 @@
 		"quantity": "Số lượng",
 		"tag": "Tag",
 		"bill": {
+			"introduction": "Hóa đơn thanh toán đơn hàng mã %s",
+			"information": "Thông tin đơn hàng",
 			"detail-title": "Đơn hàng chi tiết",
 			"title": "Đơn hàng",
 			"bills": "Tất cả đơn hàng",
@@ -27,7 +29,12 @@
 			"approved": "Đã duyệt",
 			"not-approved": "Chưa duyệt",
 			"no-bills": "Chưa có đơn đặt hàng nào",
-			"products": "{{name}} và {{quantity}} sản phẩm khác"
+			"products": "{{name}} và {{quantity}} sản phẩm khác",
+			"receiver": "Người nhận",
+			"confirm-bill": "Xác nhận đơn hàng mã %s",
+			"contact-to-confirm": "Hãy liên lạc với chúng tôi qua số điện thoại %s để xác nhận đơn hàng này",
+			"exchange-via-bank": "Hãy chuyển tiền qua thẻ ngân hàng với số tài khoản %s để thanh toán",
+			"expected-delivery-date": "Đơn hàng của bạn sẽ được giao trong vòng 3 - 5 ngày"
 		},
 		"order": {
 			"success-message": "Gửi yêu cầu mua thành công, xin vui lòng kiểm tra email của bạn",
@@ -41,15 +48,14 @@
 			"user-information-title": "Thông tin người mua",
 			"user": {
 				"payment-method": "Hình thức thức thanh toán",
-				"cod": "Thanh toán khi nhận hàng",
+				"cod": "Thanh toán sau khi nhận hàng",
 				"via-bank": "Thanh toán qua thẻ ngân hàng",
 				"note": "Ghi chú"
 			},
 			"user-manual": "Hướng dẫn sử dụng",
 			"step1": "Bấm nút xác nhận mua sản phẩm",
 			"step2": "Điền đầy đủ thông tin liên hệ",
-			"step3": "Chuyển khoản ngân hàng và gọi thông báo cho chúng tôi.",
-			"information-confirm-title": "product.cart.information-confirm-title"
+			"step3": "Chuyển khoản ngân hàng và gọi thông báo cho chúng tôi."
 		},
 		"image": "Hình ảnh",
 		"product": "Sản phẩm",
@@ -110,7 +116,7 @@
 		"dashboard": "Tài khoản",
 		"orders": "Đơn hàng",
 		"title": "Nơi mua sắm của tôi",
-		"thank-for-using": "Cảm ơn bạn đã sử dụng trung tâm mua sắm của chúng tôi",
+		"thank-for-using": "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi",
 		"bill": {
 			"title": "Đơn hàng của tôi",
 			"usage": "Xem lịch sử đặt hàng",
@@ -148,7 +154,8 @@
 					"title": "Khôi phục mật khẩu",
 					"success": "Khôi phục mật khẩu thành công",
 					"method": "Khôi phục bằng",
-					"invalid-token": "Token không hợp lệ hoặc đã hết hạn"
+					"invalid-token": "Token không hợp lệ hoặc đã hết hạn",
+					"method-name": "Phương thức"
 				},
 				"not-valid": "Mật khẩu không chính xác"
 			},
@@ -162,12 +169,31 @@
 				"complete": "Hoàn tất đăng ký"
 			},
 			"logout": "Đăng xuất",
-			"send": "Gửi",
 			"blocked-user": "Tài khoản này đã bị chặn",
 			"success-send-mail": "Gửi mail thành công"
 		},
 		"additional-info": "Thông tin thêm",
 		"back-to-dashboard": "Về trang người dùng",
 		"back-to-home": "Về trang chủ"
-	}
+	},
+	"validation": {
+		"required": "%s không được bỏ trống",
+		"not-valid": "%s không hợp lệ",
+		"wrong-format": "%s không đúng định dạng",
+		"exist": "%s đã tồn tại",
+		"account-not-exist": "Không tìm thấy tài khoản"
+	},
+	"error": {
+		"403": {
+			"message": "Không có quyền truy cập"
+		},
+		"404": {
+			"message": "Không tìm thấy trang"
+		},
+		"500": {
+			"message": "Lỗi hệ thống"
+		}
+	},
+	"send": "Gửi",
+	" ": " "
 }

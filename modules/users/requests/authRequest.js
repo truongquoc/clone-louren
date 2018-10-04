@@ -1,13 +1,14 @@
 const { check } = require('express-validator/check');
 const validator = require('validator');
 const moment = require('moment');
+
 const AuthRepositoryClass = require('../repositories/AuthRepository');
 
 const AuthRepository = new AuthRepositoryClass();
 
 const loginRequest = [
-    check('email').trim().not().isEmpty().withMessage('Email không được bỏ trống'),
-    check('password').trim().not().isEmpty().withMessage('Mật khẩu không được bỏ trống'),
+    check('email').trim().not().isEmpty().withMessage('validation.required'),
+    check('password').trim().not().isEmpty().withMessage('validation.required'),
 ];
 
 const changePasswordRequest = [
@@ -19,9 +20,9 @@ const changePasswordRequest = [
 ];
 
 const resetPasswordRequest = [
-    check('newPassword').trim()
-        .not().isEmpty().withMessage('Mật khẩu mới không được bỏ trống'),
-    check('passwordConfirmation').custom((value, { req }) => value === req.body.newPassword).withMessage('Xác thực mật khẩu không chính xác'),
+    check('newPassword').trim().not().isEmpty().withMessage('validation.required'),
+    check('passwordConfirmation').custom((value, { req }) => value === req.body.newPassword)
+        .withMessage('validation.not-valid'),
 ];
 
 const forgotPasswordRequest = [
@@ -62,17 +63,17 @@ const forgotPasswordRequest = [
 ];
 
 const clientForgotPasswordRequest = [
-    check('method').trim().isIn(['1']).withMessage('Phương thức không hợp lệ'),
+    check('method').trim().isIn(['1']).withMessage('validation.not-valid'),
     check('email').trim()
         .custom(async (value, { req }) => {
             try {
                 if (!value && req.body.method === '1') {
-                    throw new Error('Email không được bỏ trống');
+                    throw new Error('validation.required');
                 }
                 if (value) {
                     const user = await AuthRepository.checkExist({ email: value });
                     if (!user) {
-                        throw new Error('Không tìm thấy tài khoản');
+                        throw new Error('validation.account-not-exist');
                     }
                 }
                 return true;
@@ -84,12 +85,12 @@ const clientForgotPasswordRequest = [
         .custom(async (value, { req }) => {
             try {
                 if (!value && req.body.method === '2') {
-                    throw new Error('Số điện thoại không được bỏ trống');
+                    throw new Error('validation.required');
                 }
                 if (value) {
                     const user = await AuthRepository.checkExist({ telephone: value });
                     if (!user) {
-                        throw new Error('Không tìm thấy tài khoản');
+                        throw new Error('validation.account-not-exist');
                     }
                 }
                 return true;
@@ -101,41 +102,41 @@ const clientForgotPasswordRequest = [
 
 const clientRegisterRequest = [
     check('name').trim()
-        .not().isEmpty().withMessage('Tên không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('email').trim()
-        .not().isEmpty().withMessage('Email không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .custom(value => validator.isEmail(value))
-        .withMessage('Email không đúng định dạng')
+        .withMessage('validation.wrong-format')
         .custom(async (value) => {
             try {
                 const user = await AuthRepository.checkExistWithTrashed({
                     email: value,
                 });
                 if (user) {
-                    throw new Error('Email đã tồn tại');
+                    throw new Error('validation.exist');
                 }
             } catch (e) {
                 return Promise.reject(e.message);
             }
         }),
     check('password').trim()
-        .not().isEmpty().withMessage('Mật khẩu không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('passwordConfirmation')
-        .not().isEmpty().withMessage('Xác thực mật khẩu không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .custom((value, { req }) => value === req.body.password)
-        .withMessage('Xác thực mật khẩu không đúng'),
+        .withMessage('validation.not-valid'),
     check('address').trim()
-        .not().isEmpty().withMessage('Địa chỉ không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('telephone').trim()
-        .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .custom(value => validator.isMobilePhone(value, ['vi-VN']))
-        .withMessage('Số điện thoại không đúng định dạng'),
+        .withMessage('validation.wrong-format'),
     check('gender')
         .custom(value => (value ? ['1', '2', '3'].includes(value) : true))
-        .withMessage('Giới tính không hợp lệ'),
+        .withMessage('validation.not-valid'),
     check('birthday').trim()
         .custom(value => (value ? (moment(value, 'DD/MM/YYYY').isValid() && moment().year() - moment(value, 'DD/MM/YYYY').year() >= 18) : true))
-        .withMessage('Ngày sinh không hợp lệ'),
+        .withMessage('validation.not-valid'),
 ];
 
 module.exports = {

@@ -119,7 +119,7 @@
 
     <div class="widget_lnb_menu">
         <ul class="header_lnb_menu d-flex flex-md-row flex-column">
-            <li class="lnb1"><a href="/"><%= __('home') %></a></li>
+            <li class="lnb1 text-upper"><a href="/"><%= __('home') %></a></li>
             <li class="lnb2">
                 <a href="/mat-hang" class="text-upper product-sub-desktop"><%= __('product.category') %> <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                 <span class="text-upper product-sub-mobi"><%= __('product.category') %> <i class="fa fa-angle-down" aria-hidden="true"></i></span>
@@ -130,13 +130,13 @@
                         </li>
                         <% productTypes.forEach((type) => { %>
                             <li class="depth1 xans-record-">
-                                <a href="/mat-hang/<%= type.slug %>"><%= type.name %></a>
+                                <a href="/mat-hang/<%= type.slug %>"><%= type.getName %></a>
                                 <% if (type.childs.length > 0) { %>
                                     <div class="sub-category" style="display: none;">
                                         <ul>
                                             <% type.childs.forEach((childType) => { %>
                                                 <li class="depth2">
-                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.name %></a>
+                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.getName %></a>
                                                 </li>
                                             <% }) %>
                                         </ul>

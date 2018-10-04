@@ -24,11 +24,11 @@
                     <label class="id ePlaceholder" title="<%= __('user.info.email') %>">
                         <input id="email" name="email" value="<%= old('email') %>" type="text" class="form-control"/>
                     </label>
-                    <p class="login-form__error-msg"><%= errors('email') %></p>
+                    <p class="login-form__error-msg"><%= __(errors('email') || ' ', __('user.info.email')) %></p>
                     <label class="password ePlaceholder" title="<%= __('user.info.password.title') %>">
                         <input name="password" type="password"/>
                     </label>
-                    <p class="login-form__error-msg"><%= errors('password') %></p>
+                    <p class="login-form__error-msg"><%= __(errors('password') || ' ', __('user.info.password.title')) %></p>
                     <div class="ec-base-button">
                         <button class="custom_btn custom_btn_login custom_btn_submit">
                             <i class="fa fa-lock" aria-hidden="true"></i>  <%= __('user.auth.login.title') %>

@@ -51,49 +51,49 @@
                         <th scope="row"><%= __('user.info.email') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="email" value="<%= user.email || old('email') %>" type="text" autocomplete="off" disabled/>
-                            <%= errors('email') %>
+                            <%= __(errors('email') || ' ', __('user.info.email')) %>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.password.current') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="password" type="password"/>
-                            <%= errors('password') %>
+                            <%= __(errors('password') || ' ', __('user.info.password.current')) %>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.password.new') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="newPassword" type="password"/>
-                            <%= errors('newPassword') %>
+                            <%= __(errors('newPassword') || ' ', __('user.info.password.new')) %>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.password.confirm') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="passwordConfirmation" type="password"/>
-                            <%= errors('passwordConfirmation') %>
+                            <%= __(errors('passwordConfirmation') || ' ', __('user.info.password.confirm')) %>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.name') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="name" class="ec-member-name" value="<%= old('name', user.name) %>" type="text"/>
-                            <%= errors('name') %>
+                            <%= __(errors('name') || ' ', __('user.info.name')) %>
                         </td>
                     </tr>
                     <tr class="">
                         <th scope="row"><%= __('user.info.address') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="address" value="<%= old('address', user.address || '') %>" type="text"/>
-                            <%= errors('address') %>
+                            <%= __(errors('address') || ' ', __('user.info.address')) %>
                         </td>
                     </tr>
                     <tr class="">
                         <th scope="row"><%= __('user.info.telephone') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="telephone" value="<%= old('telephone', user.telephone) %>" type="text"/>
-                            <%= errors('telephone') %>
+                            <%= __(errors('telephone') || ' ', __('user.info.telephone')) %>
                         </td>
                     </tr>
                     </tbody>
@@ -120,14 +120,14 @@
                             <input id="is_another" name="gender" type="radio"
                                    value="3" <%= old('gender', gender) === '3' ? 'checked' : '' %>/>
                             <label for="is_another"><%= __('user.info.gender.another') %></label>
-                            <%= errors('gender') %>
+                            <%= __(errors('gender') || ' ', __('user.info.gender.title')) %>
                         </td>
                     </tr>
                     <tr class="">
                         <th scope="row"><%= __('user.info.birthday') %></th>
                         <td>
                             <input name="birthday" value="<%= old('birthday', user.birthday ? moment(user.birthday).format('DD/MM/YYYY') : '') %>" type="text"/>
-                            <%= errors('birthday') %>
+                            <%= __(errors('birthday') || ' ', __('user.info.birthday')) %>
                         </td>
                     </tr>
                     </tbody>

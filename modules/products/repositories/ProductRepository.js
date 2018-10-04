@@ -173,22 +173,6 @@ class ProductRepository extends ArticleRepository {
         return data;
     }
 
-    show(slug) {
-        return this.model.findOne({ slug, deletedAt: null })
-            .sort({ createdAt: -1 })
-            .populate({
-                path: 'author',
-                select: '-_id name',
-                match: { deletedAt: null },
-            })
-            .populate({
-                path: 'type',
-                select: '_id name slug',
-                match: { deletedAt: null },
-            })
-            .select('-isApproved -updatedAt');
-    }
-
     clientCheckExistById(id, options = {}) {
         return this.model
             .findOne({
@@ -279,12 +263,12 @@ class ProductRepository extends ArticleRepository {
             })
             .populate({
                  path: 'type',
-                 select: '_id name slug',
+                 select: '_id name names slug',
                  match: { deletedAt: null },
             })
             .populate({
                 path: 'tags',
-                select: '_id name slug',
+                select: '_id name names slug',
                 match: { deletedAt: null },
             })
             .select('-updatedAt');
@@ -306,12 +290,12 @@ class ProductRepository extends ArticleRepository {
                 select: '-_id name',
                 match: { deletedAt: null },
            })
-           .populate({
-                path: 'type',
-                select: '-_id name slug',
-                match: { deletedAt: null },
-           })
-           .select('-isApproved -updatedAt');
+           // .populate({
+           //      path: 'type',
+           //      select: '-_id name names slug',
+           //      match: { deletedAt: null },
+           // })
+           .select('name image.cover discount price slug');
     }
 
     async changeImageOrder(images, id) {

@@ -1,153 +1,199 @@
 {
-	"home": "Trang chủ",
-	"about-us": "Về chúng tôi",
-	"policy": "Chính sách",
-	"contact": "Liên hệ",
+	"home": "Home",
+	"about-s": "About us",
+	"policy": "Policy",
+	"contact": "Contact",
 	"read-more": "Read more",
-	"messenger-greeting": "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
-	"member": "Thành viên",
+	"messenger-greeting": "Hello, can we help you?",
+	"member": "Member",
 	"product": {
-		"code": "Mã sản phẩm",
-		"no-products": "Không có sản phẩm nào được tìm thấy",
-		"category": "Mặt hàng",
-		"detail-category": "Loại sản phẩm",
-		"products": "Tất cả sản phẩm",
-		"sale-off": "Sản phẩm giảm giá",
-		"newest": "SẢN PHẨM MỚI NHẤT",
-		"quantity": "Số lượng",
+		"code": "Product code",
+		"no-products": "No products found",
+		"category": "Category",
+		"detail-category": "Product type",
+		"products": "All products",
+		"sale-off": "Discounted product",
+		"newest": "LATEST PRODUCT",
+		"quantity": "Quantity",
 		"tag": "Tag",
 		"bill": {
-			"detail-title": "Đơn hàng chi tiết",
-			"title": "Đơn hàng",
-			"bills": "Tất cả đơn hàng",
-			"info": "THÔNG TIN ĐƠN ĐẶT HÀNG",
-			"code": "Mã đơn hàng",
-			"date": "Ngày đặt hàng",
-			"status": "Trạng thái",
-			"approved": "Đã duyệt",
-			"not-approved": "Chưa duyệt",
-			"no-bills": "Chưa có đơn đặt hàng nào",
-			"products": "{{ name }} và {{ quantity }} sản phẩm khác"
+			"introduction": "Payment bill code %s",
+			"information": "Order information",
+			"detail-title": "Order detail",
+			"title": "Order",
+			"bills": "All orders",
+			"info": "ORDERING INFORMATION",
+			"code": "Order code",
+			"date": "Order date",
+			"status": "Status",
+			"approved": "Approved",
+			"not-approved": "Not approved",
+			"no-bills": "No orders yet",
+			"products": "{{name}} and {{quantity}} other products",
+			"receiver": "Receiver",
+			"confirm-bill": "Confirm order code %s",
+			"contact-to-confirm": "Please contact us by the phone number %s to confirm this order.",
+			"exchange-via-bank": "Please transfer money via bank card with account number %s to pay",
+			"expected-delivery-date": "Your order will be delivered within 3-5 days"
 		},
 		"order": {
-			"date": "Ngày đặt hàng"
+			"success-message": "Submit purchase request successfully, please check your email",
+			"date": "Order Date"
 		},
 		"cart": {
-			"title": "Giỏ hàng",
-			"add": "Thêm vào giỏ hàng",
-			"add2": "Chọn số lượng và thêm vào giỏ hàng",
-			"information-confirm": "Xác nhận thông tin",
-			"user-information-title": "Thông tin người mua",
+			"title": "Shopping cart",
+			"add": "Add to Cart",
+			"add2": "Select quantity and add to cart",
+			"information-confirm": "Confirm information",
+			"user-information-title": "Customer information",
 			"user": {
-				"payment-method": "Hình thức thức thanh toán",
-				"cod": "Thanh toán khi nhận hàng",
-				"via-bank": "Thanh toán qua thẻ ngân hàng",
-				"note": "Ghi chú"
+				"payment-method": "Payment method",
+				"cod": "Pay upon receipt",
+				"via-bank": "Pay via bank card",
+				"note": "Note"
 			},
-			"user-manual": "Hướng dẫn sử dụng",
-			"step1": "Bấm nút xác nhận mua sản phẩm",
-			"step2": "Điền đầy đủ thông tin liên hệ",
-			"step3": "Chuyển khoản ngân hàng và gọi thông báo cho chúng tôi.",
-			"information-confirm-title": "product.cart.information-confirm-title"
+			"user-manual": "Transaction guide",
+			"step1": "Press purchase confirmation button",
+			"step2": "Fill in contact information",
+			"step3": "Bank transfer and call us."
 		},
-		"image": "Hình ảnh",
-		"product": "Sản phẩm",
+		"image": "Image",
+		"product": "Product",
 		"price": {
-			"unit": "Đơn giá",
-			"to-money": "Thành tiền",
-			"total": "Tổng cộng"
+			"unit": "Unit price",
+			"to-money": "Money",
+			"total": "Total"
 		},
-		"name": "Tên sản phẩm",
-		"out-of-stock": "Sản phẩm hết hàng",
-		"not-enough-products": "Sản phẩm trong kho không đủ",
-		"negotiated-price": "Sản phẩm thương lượng giá cả",
-		"order-via-negotiate": "Quý khách vui lòng liên hệ đến hotline {{phone}} để đặt hàng. Xin cảm ơn!",
-		"detail": "CHI TIẾT",
-		"description": "THÔNG TIN SẢN PHẨM",
-		"comments": "BÌNH LUẬN",
-		"related-products": "SẢN PHẨM CÙNG CHUYÊN MỤC",
-		"discounted-products": "Sản phẩm giảm giá",
+		"name": "Product Name",
+		"out-of-stock": {
+			"original": "Product is out of stock",
+			"product": "Product \"{{name}}\" is out of stock"
+		},
+		"not-enough-products": {
+			"original": "Product in stock is not enough",
+			"product": "Product \"{{name}}\" in stock is not enough"
+		},
+		"negotiated-price": {
+			"original": "Negotiated product",
+			"product": "Product \"{{name}}\" is negotiated price. Please contact us"
+		},
+		"order-via-negotiate": "Please contact the {{phone}} hotline to confirm your order. Thank you!",
+		"detail": "DETAIL",
+		"description": "PRODUCT INFORMATION",
+		"comments": "COMMENTS",
+		"related-products": "RELATED PRODUCTS",
+		"discounted-products": "Discounted products",
 		"sort": {
-			"name": "Tên sản phẩm",
-			"priceLowToHigh": "Giá thấp - cao",
-			"priceHighToLow": "Giá cao - thấp",
-			"newest": "Mới nhất"
+			"name": "Product name",
+			"priceLowToHigh": "Price Low - High",
+			"priceHighToLow": "Price High - Low",
+			"newest": "Newest"
 		},
-		"count": " sản phẩm được tìm thấy"
+		"count": " products found"
 	},
 	"blog": {
 		"header": "BLOG",
-		"banner": "Tin tức",
-		"recent": "Bài viết gần đây",
+		"banner": "News",
+		"recent": "Recent Articles",
 		"tag": "Tag",
-		"category": "Thể loại",
+		"category": "Category",
 		"article": {
-			"list-title": "Danh sách bài viết",
-			"related": "Bài viết liên quan",
-			"no-articles": "Không có bài viết nào",
-			"read-article": "Xem bài viết"
+			"list-title": "List of articles",
+			"related": "Related articles",
+			"no-articles": "No articles",
+			"read-article": "Read article"
 		}
 	},
-	"address": "Địa chỉ",
+	"address": "Address",
 	"tel": "Tel",
-	"working-time": "Giờ mở cửa",
+	"working-time": "Opening hours",
 	"email": "Email",
-	"customer-support": "Hỗ trợ khách hàng",
-	"social-media": "Mạng xã hội",
-	"confirm": "Xác nhận",
-	"option": "Tùy chọn",
+	"customer-support": "Customer support",
+	"social-media": "Social network",
+	"confirm": "Confirm",
+	"option": "Option",
 	"user": {
-		"dashboard": "Tài khoản",
-		"orders": "Đơn hàng",
-		"title": "Nơi mua sắm của tôi",
-		"thank-for-using": "Cảm ơn bạn đã sử dụng trung tâm mua sắm của chúng tôi",
+		"dashboard": "Account",
+		"orders": "Orders",
+		"title": "My place of shopping",
+		"thank-for-using": "Thank you for using our service",
 		"bill": {
-			"title": "Đơn hàng của tôi",
-			"usage": "Xem lịch sử đặt hàng",
-			"description": "Bạn có thể kiểm tra xử lí đơn đặt hàng của bạn"
+			"title": "My Orders",
+			"usage": "View order history",
+			"description": "You can check your order processing"
 		},
 		"info": {
-			"title": "Thông tin người dùng",
-			"usage": "Quản lý thông tin người dùng",
-			"description": "Hãy cập nhật thông tin thường xuyên để có những trải nghiệm tốt nhất",
-			"basic": "Thông tin cơ bản",
-			"required-fields": "Những trường bắt buộc",
-			"name": "Họ tên",
+			"title": "User information",
+			"Usage": "Manage user information",
+			"description": "Keep updating information for the best experience",
+			"basic": "Basic information",
+			"required-fields": "Required fields",
+			"name": "Full name",
 			"email": "Email",
-			"telephone": "Điện thoại di động",
-			"address": "Địa chỉ",
+			"telephone": "Mobile phone",
+			"address": "Address",
 			"password": {
-				"title": "Mật khẩu",
-				"current": "Mật khẩu hiện tại",
-				"new": "Mật khẩu mới",
-				"confirm": "Xác nhận mật khẩu"
+				"title": "Password",
+				"current": "Current password",
+				"new": "New password",
+				"confirm": "Confirm password"
 			},
 			"gender": {
-				"title": "Giới tính",
-				"male": "Nam",
-				"female": "Nữ",
-				"another": "Khác"
+				"title": "Gender",
+				"male": "Male",
+				"female": "Female",
+				"another": "Other"
 			},
-			"birthday": "Ngày sinh",
-			"change": "Thay đổi"
+			"birthday": "Birthday",
+			"change": "Change"
 		},
 		"auth": {
 			"password": {
-				"forgot": "Quên mật khẩu",
-				"restore": "Khôi phục mật khẩu",
-				"restore-method": "Khôi phục bằng"
+				"forgot": "Forgot password",
+				"restore": {
+					"title": "Password recovery",
+					"success": "Successful password recovery",
+					"method": "Recovery with",
+					"invalid-token": "Invalid or expired token",
+					"method-name": "Method"
+				},
+				"not-valid": "Incorrect password"
 			},
-			"login": "Đăng nhập",
+			"login": {
+				"title": "Login",
+				"fail": "Incorrect email or password"
+			},
 			"register": {
-				"title": "Đăng ký",
-				"success": "Đăng ký thành công",
-				"complete": "Hoàn tất đăng ký"
+				"title": "Sign up",
+				"success": "Successful registration",
+				"complete": "Complete registration"
 			},
-			"logout": "Đăng xuất",
-			"send": "Gửi"
+			"logout": "Logout",
+			"blocked-user": "This account has been blocked",
+			"success-send-mail": "Send mail successfully"
 		},
-		"additional-info": "Thông tin thêm",
-		"back-to-dashboard": "Về trang người dùng",
-		"back-to-home": "Về trang chủ"
-	}
+		"additional-info": "More info",
+		"back-to-dashboard": "Back to dashboard",
+		"back-to-home": "Back to homepage"
+	},
+	"validation": {
+		"required": "%s is required",
+		"not-valid": "%s is invalid",
+		"wrong-format": "%s doesn't have the correct format",
+		"exist": "%s already exists",
+		"account-not-exist": "Account not found"
+	},
+	"error": {
+		"403": {
+			"message": "Forbidden"
+		},
+		"404": {
+			"message": "Page not found"
+		},
+		"500": {
+			"message": "System error"
+		}
+	},
+	"send": "Send",
+	" ": " "
 }

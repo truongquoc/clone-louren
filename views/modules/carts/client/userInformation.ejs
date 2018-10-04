@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= language %>">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
     </style>
     <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
-    <title><%= titleRedis(info) %> | <%= __('product.cart.information-confirm-title') %></title>
+    <title><%= titleRedis(info) %> | <%= __('product.cart.user-information-title') %></title>
     <meta name="author" content="<%= titleRedis(info) %>"/>
     <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all."/>
     <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
@@ -60,28 +60,28 @@
                         <th scope="row"><%= __('user.info.name') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="name" value="<%= old('name', cUser.name) %>" type="text">
-                            <p class="red-note"><%= errors('name') %></p>
+                            <p class="red-note"><%= __(errors('name') || ' ', __('user.info.name')) %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.email') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="email" value="<%= old('email', cUser.email) %>" type="text">
-                            <p class="red-note"><%= errors('email') %></p>
+                            <p class="red-note"><%= __(errors('email') || ' ', __('user.info.email')) %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.telephone') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="telephone" value="<%= old('telephone', cUser.telephone) %>" type="text">
-                            <p class="red-note"><%= errors('telephone') %></p>
+                            <p class="red-note"><%= __(errors('telephone') || ' ', __('user.info.telephone')) %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('user.info.address') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="address" value="<%= old('address', cUser.address) %>" type="text">
-                            <p class="red-note"><%= errors('address') %></p>
+                            <p class="red-note"><%= __(errors('address') || ' ', __('user.info.address')) %></p>
                         </td>
                     </tr>
                     <tr>
@@ -95,20 +95,20 @@
                                    type="radio" <%= old('paymentMethod') === 'via-bank' ? 'checked' : '' %>>
                             <label for="via-bank"><%= __('product.cart.user.via-bank') %></label>
                             <span class="bankAccount--display">Mã thẻ: <%= info.bankAccount %></span>
-                            <p class="red-note"><%= errors('paymentMethod') %></p>
+                            <p class="red-note"><%= __(errors('paymentMethod') || ' ', __('product.cart.user.payment-method')) %></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><%= __('product.cart.user.note') %></th>
                         <td>
                             <textarea name="note"><%- old('note') %></textarea>
-                            <p class="red-note"><%= errors('note') %></p>
+                            <p class="red-note"><%= __(errors('note') || ' ', __('product.cart.user.note')) %></p>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="ec-base-button">
-                    <button class="custom_btn custom_btn_login custom_btn_submit">Gửi</button>
+                    <button class="custom_btn custom_btn_login custom_btn_submit"><%= __('send') %></button>
                 </div>
             </form>
         </div>

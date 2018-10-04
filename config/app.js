@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
@@ -16,6 +17,8 @@ const minifyHTML = require('./minifyHTML');
 module.exports = (app, express) => {
     app.use(helmet());
     app.use(minifyHTML);
+
+    app.use(cookieParser(process.env.SESSION_SECRET));
 
     app.use(bodyParser.urlencoded({
         extended: true,

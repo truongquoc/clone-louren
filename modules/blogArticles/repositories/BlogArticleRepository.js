@@ -27,9 +27,9 @@ class BlogArticleRepository extends ArticleRepository {
             this.model.countDocuments(conditions),
             this.model
                 .find(conditions)
-                .populate('category', '-_id name slug', { deletedAt: null })
+                .populate('category', '-_id name names slug', { deletedAt: null })
                 .populate('author', '-_id name', { deletedAt: null })
-                .populate('tags', '-_id name slug ')
+                .populate('tags', '-_id name names slug')
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 })
@@ -98,12 +98,12 @@ class BlogArticleRepository extends ArticleRepository {
             })
             .populate({
                 path: 'tags',
-                select: '_id name slug',
+                select: '_id name names slug',
                 match: { deletedAt: null },
             })
             .populate({
                 path: 'category',
-                select: '_id name slug',
+                select: '_id name names slug',
                 match: { deletedAt: null },
             })
             .select('-isApproved -updatedAt');

@@ -42,6 +42,7 @@
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Tên</th>
+                        <th>Tên (English)</th>
                         <th>Đường dẫn</th>
                         <th>Ngày chỉnh sửa</th>
                         <th style="width: 120px">Tùy chọn</th>
@@ -51,6 +52,7 @@
                         <tr data-key="<%= category._id %>">
                             <td><%= pageIndex + index + 1 %></td>
                             <td class="module__table__name"><%= category.name %></td>
+                            <td class="module__table__name-en"><%= category.names.en || '' %></td>
                             <td class="module__table__slug"><%= category.slug %></td>
                             <td class="module__table__update-time">
                                 <%= moment(category.updatedAt).format('HH:mm DD/MM/YYYY') %>
@@ -94,6 +96,11 @@
                         <p class="form__error-message module__form__error-name"></p>
                     </div>
                     <div class="form-group">
+                        <label>Tên (English)</label>
+                        <input type="text" class="form-control module__form__name-en">
+                        <p class="form__error-message module__form__error-nameEn"></p>
+                    </div>
+                    <div class="form-group">
                         <label>Đường dẫn</label>
                         <input type="text" class="form-control module__form__slug">
                         <p class="form__error-message module__form__error-slug"></p>
@@ -124,6 +131,11 @@
                         <label>Tên</label>
                         <input type="text" class="form-control module__form__name">
                         <p class="form__error-message module__form__error-name"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên (English)</label>
+                        <input type="text" class="form-control module__form__name-en">
+                        <p class="form__error-message module__form__error-nameEn"></p>
                     </div>
                     <div class="form-group">
                         <label>Đường dẫn</label>

@@ -42,7 +42,7 @@ class ProductTypeRepository extends ClassificationRepository {
 
     async create(data) {
         let type = await this.getDetailOnlyTrashed({
-            $or: [{ name: data.name }, { slug: getSlug(data.slug) }],
+            $or: [{ name: data.name }, { 'names.en': data.nameEn }, { slug: getSlug(data.slug) }],
         });
         if (data.parentType && data.parentType === '0') {
             data.parentType = undefined;
@@ -50,6 +50,7 @@ class ProductTypeRepository extends ClassificationRepository {
         if (type) {
             type.parentType = data.parentType;
             type.name = data.name;
+            type['names.en'] = data.nameEn;
             type.slug = getSlug(data.slug || data.name);
             type.createdAt = new Date();
             type.deletedAt = null;
@@ -59,6 +60,7 @@ class ProductTypeRepository extends ClassificationRepository {
         type = {
             parentType: data.parentType,
             name: data.name,
+            'names.en': data.nameEn,
             slug: getSlug(data.slug || data.name),
         };
         type = await this.baseCreate(type);
@@ -78,6 +80,7 @@ class ProductTypeRepository extends ClassificationRepository {
         let type = {
             parentType: data.parentType,
             name: data.name,
+            'names.en': data.nameEn,
             slug: getSlug(data.slug || data.name),
         };
         type = await this.model.findOneAndUpdate(

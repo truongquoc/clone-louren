@@ -192,7 +192,7 @@
                             <th scope="row"><span style="font-size:12px;color:#555555;"><%= __('product.detail-category') %>: </span></th>
                             <td>
                                 <span style="font-size:12px;color:#555555;">
-                                      <%= product.type.name %>
+                                      <%= product.type.getName %>
                                 </span>
                             </td>
                         </tr>
@@ -201,7 +201,7 @@
                                 <th scope="row"><span style="font-size:12px;color:#555555;"><%= __('product.tag') %>: </span></th>
                                 <td>
                                     <% product.tags.forEach((tag) => { %>
-                                        <a href="/mat-hang/tag-<%= tag.slug %>" class="custom_btn"><%= tag.name %></a>
+                                        <a href="/mat-hang/tag-<%= tag.slug %>" class="custom_btn"><%= tag.getName %></a>
                                     <% }) %>
                                 </td>
                             </tr>

@@ -90,25 +90,25 @@ const editRequest = [
 
 const clientEditProfileRequest = [
     check('name').trim()
-        .not().isEmpty().withMessage('Tên không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('password').trim().custom((value, { req }) => (req.body.newPassword ? value : true))
-        .withMessage('Mật khẩu không được bỏ trống'),
+        .withMessage('validation.required'),
     check('newPassword').trim(),
     check('passwordConfirmation')
         .custom((value, { req }) => (req.body.newPassword ? value === req.body.newPassword : true))
-        .withMessage('Xác thực mật khẩu không đúng'),
+        .withMessage('validation.not-valid'),
     check('address').trim()
-        .not().isEmpty().withMessage('Địa chỉ không được bỏ trống'),
+        .not().isEmpty().withMessage('validation.required'),
     check('telephone').trim()
-        .not().isEmpty().withMessage('Số điện thoại không được bỏ trống')
+        .not().isEmpty().withMessage('validation.required')
         .custom(value => validator.isMobilePhone(value, ['vi-VN']))
-        .withMessage('Số điện thoại không đúng định dạng'),
+        .withMessage('validation.wrong-format'),
     check('gender')
         .custom(value => (value ? ['1', '2', '3'].includes(value) : true))
-        .withMessage('Giới tính không hợp lệ'),
+        .withMessage('validation.not-valid'),
     check('birthday').trim()
         .custom(value => (value ? (moment(value, 'DD/MM/YYYY').isValid() && moment().year() - moment(value, 'DD/MM/YYYY').year() >= 18) : true))
-        .withMessage('Ngày sinh không hợp lệ'),
+        .withMessage('validation.not-valid'),
 ];
 
 const uploadAvatar = [
