@@ -217,6 +217,10 @@ body {
     background-color: #00bf00;
     font-size: 33.75px;
 }
+
+.header__contact--list:hover {
+    color: #fff;
+}
 @media (max-width: 576px) {
     .phone-call {
         right: -140px;
@@ -366,7 +370,6 @@ body {
     }
 
     #header h1.xans-layout-logotop {
-        position: absolute;
         width: 100%;
     }
 
