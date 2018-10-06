@@ -1,4 +1,6 @@
 const moment = require('moment');
+const i18n = require('i18n');
+
 const responseHelper = require('../../../helpers/responseHelper');
 const roleHelper = require('../../../helpers/roleHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
@@ -68,7 +70,7 @@ const clientResetPasswordAuthorize = async (req, res, next) => {
             resetPasswordExpires: { $gt: Date.now() },
         });
         if (!user) {
-            req.flash('error', 'Token không hợp lệ hoặc đã hết hạn');
+            req.flash('error', i18n.__('user.auth.password.restore.invalid-token'));
             return res.redirect('/quen-mat-khau');
         }
         next();

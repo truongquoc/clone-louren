@@ -1,41 +1,41 @@
 <% layout('../../../layouts/client/blog') %>
 
-<% block('title', 'Blog - Danh sách bài viết') %>
+<% block('title', __('blog.article.list-title')) %>
 
-<h2 class="single-article-title fl-wrap"><span>Tin tức</span></h2>
+<h2 class="single-article-title fl-wrap"><span><%= __('blog.article.list-title') %></span></h2>
 <div class="clearfix"></div>
 <div class="separator img-separator"><img src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt=""></div>
 <div class="post-grid-wrap">
     <div class="post-grid-holder grid-sb-holder blog-grid-one-col row" style="position: relative; height: 1688px;">
         <% if (blogArticles.docs.length === 0 ) { %>
-            <p style="width:100%;text-align:center;margin-top: 10px;">Không có bài viết nào</p>
+            <p style="width:100%;text-align:center;margin-top: 10px;"><%= __('blog.article.no-articles') %></p>
         <% } else { %>
             <% blogArticles.docs.forEach((article) => { %>
                 <div class="grid-sb-wrap col-12 col-sm-6">
                     <article class="grid-sb">
-                            <div class="blog-media">
-                                <% if (article.display.useVideo) { %>
-                                    <div class="iframe__container">
-                                        <iframe class="blog-article__iframe" src="<%= article.display.video %>" allowfullscreen></iframe>
-                                    </div>
-                                <% } else { %>
-                                    <img src="<%= article.display.image %>"
-                                         alt="<%= article.title %>" class="img-responsive">
-                                    <div class="overlay"></div>
-                                    <a href="/blog/<%= article.slug %>" class="dec-link">Xem bài viết</a>
-                                <% } %>
-                            </div>
+                        <div class="blog-media">
+                            <% if (article.display.useVideo) { %>
+                                <div class="iframe__container">
+                                    <iframe class="blog-article__iframe" src="<%= article.display.video %>" allowfullscreen></iframe>
+                                </div>
+                            <% } else { %>
+                                <img src="<%= article.display.image %>"
+                                     alt="<%= article.title %>" class="img-responsive">
+                                <div class="overlay"></div>
+                                <a href="/blog/<%= article.slug %>" class="dec-link"><%= __('read-more') %></a>
+                            <% } %>
+                        </div>
                         <ul class="cat-list">
                                 <li><%= moment(article.updatedAt).format('L') %></li>
                             <li>
                                 <ul class="post-categories">
-                                        <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.name %></a></li>
+                                    <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.getName %></a></li>
                                 </ul>
                             </li>
                         </ul>
                         <h2><a href="/blog/<%= article.slug %>"><%= article.title %></a></h2>
                         <p><%= article.description %></p>
-                        <a href="/blog/<%= article.slug %>" class="post-link">Xem thêm</a>
+                        <a href="/blog/<%= article.slug %>" class="post-link"><%= __('read-more') %></a>
                     </article>
                 </div>
             <% }) %>

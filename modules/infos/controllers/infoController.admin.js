@@ -13,15 +13,21 @@ module.exports = {
         const infos = await infoRepository.show();
 
         const info = infos.length !== 0 ? infos[0] : {};
-        const [about, policy, courage] = await Promise.all([
+        const [about, policy, courage, aboutEn, policyEn, courageEn] = await Promise.all([
             getAsync('about'),
             getAsync('policy'),
             getAsync('courage'),
+            getAsync('aboutEn'),
+            getAsync('policyEn'),
+            getAsync('courageEn'),
         ]);
 
         info.about = about !== null ? about : '';
         info.policy = policy !== null ? policy : '';
         info.courage = courage !== null ? courage : '';
+        info.aboutEn = aboutEn !== null ? aboutEn : '';
+        info.policyEn = policyEn !== null ? policyEn : '';
+        info.courageEn = courageEn !== null ? courageEn : '';
 
         return res.render('modules/infos/admin/create', {
             info,
@@ -48,6 +54,9 @@ module.exports = {
                 client.set('about', data.about);
                 client.set('policy', data.policy);
                 client.set('courage', data.courage);
+                client.set('aboutEn', data.aboutEn);
+                client.set('policyEn', data.policyEn);
+                client.set('courageEn', data.courageEn);
 
                 req.flash('oldValue', data);
                 req.flash('success', 'Cập nhật thông tin thành công');
@@ -62,6 +71,9 @@ module.exports = {
             client.set('about', data.about);
             client.set('policy', data.policy);
             client.set('courage', data.courage);
+            client.set('aboutEn', data.aboutEn);
+            client.set('policyEn', data.policyEn);
+            client.set('courageEn', data.courageEn);
 
             req.flash('oldValue', data);
             req.flash('success', 'Cập nhật thông tin thành công');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= language %>">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
     </style>
     <script type="text/javascript" src="/public/client/js/custom_init.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
-    <title><%= titleRedis(info) %> | Xác nhận thông tin</title>
+    <title><%= titleRedis(info) %> | <%= __('product.cart.user-information-title') %></title>
     <meta name="author" content="<%= titleRedis(info) %>"/>
     <meta name="description" content="Nội Thất Mây Hiên home. We create a product, not just it but all."/>
     <meta name="keywords" content="Đồ nội thất mây, đồ nội thất mây, ghế mây, đồ nội thất thủ công"/>
@@ -43,10 +43,10 @@
 
 <div class="xans-element- xans-estimate xans-estimate-userform ec-base-layer" style="width: 99.9%;">
     <div class="header">
-        <h1>Thêm thông tin người mua</h1>
+        <h1><%= __('product.cart.user-information-title') %></h1>
     </div>
     <div class="content">
-        <h2>Thông tin người mua</h2>
+        <h2><%= __('product.cart.user-information-title') %></h2>
         <div class="ec-base-table">
             <form action="" method="POST">
                 <table border="1">
@@ -57,58 +57,58 @@
                     <tbody>
                     <% cUser = cUser || {} %>
                     <tr>
-                        <th scope="row">Tên người mua <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.name') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="name" value="<%= old('name', cUser.name) %>" type="text">
-                            <p class="red-note"><%= errors('name') %></p>
+                            <p class="red-note"><%= __(errors('name') || ' ', __('user.info.name')) %></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Email <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.email') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="email" value="<%= old('email', cUser.email) %>" type="text">
-                            <p class="red-note"><%= errors('email') %></p>
+                            <p class="red-note"><%= __(errors('email') || ' ', __('user.info.email')) %></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Điện thoại di động <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.telephone') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="telephone" value="<%= old('telephone', cUser.telephone) %>" type="text">
-                            <p class="red-note"><%= errors('telephone') %></p>
+                            <p class="red-note"><%= __(errors('telephone') || ' ', __('user.info.telephone')) %></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Địa chỉ <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('user.info.address') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input name="address" value="<%= old('address', cUser.address) %>" type="text">
-                            <p class="red-note"><%= errors('address') %></p>
+                            <p class="red-note"><%= __(errors('address') || ' ', __('user.info.address')) %></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Hình thức thức thanh toán <span class="red-note">&#8277;</span></th>
+                        <th scope="row"><%= __('product.cart.user.payment-method') %> <span class="red-note">&#8277;</span></th>
                         <td>
                             <input id="cod" name="paymentMethod" value="cod"
                                    type="radio" <%= old('paymentMethod') === 'cod' ? 'checked' : '' %>>
-                            <label for="cod">Thanh toán khi nhận hàng</label>
+                            <label for="cod"><%= __('product.cart.user.cod') %></label>
                             <br>
                             <input id="via-bank" name="paymentMethod" value="via-bank"
                                    type="radio" <%= old('paymentMethod') === 'via-bank' ? 'checked' : '' %>>
-                            <label for="via-bank">Thanh toán qua thẻ ngân hàng</label>
+                            <label for="via-bank"><%= __('product.cart.user.via-bank') %></label>
                             <span class="bankAccount--display">Mã thẻ: <%= info.bankAccount %></span>
-                            <p class="red-note"><%= errors('paymentMethod') %></p>
+                            <p class="red-note"><%= __(errors('paymentMethod') || ' ', __('product.cart.user.payment-method')) %></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Ghi chú</th>
+                        <th scope="row"><%= __('product.cart.user.note') %></th>
                         <td>
                             <textarea name="note"><%- old('note') %></textarea>
-                            <p class="red-note"><%= errors('note') %></p>
+                            <p class="red-note"><%= __(errors('note') || ' ', __('product.cart.user.note')) %></p>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="ec-base-button">
-                    <button class="custom_btn custom_btn_login custom_btn_submit">Gửi</button>
+                    <button class="custom_btn custom_btn_login custom_btn_submit"><%= __('send') %></button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
+const i18n = require('i18n');
+
 const responseHelper = require('../../../helpers/responseHelper');
 const UserRepositoryClass = require('../repositories/UserRepository');
 
@@ -36,7 +38,7 @@ const updateProfile = async (req, res, next) => {
                 req.flash('oldValue', data);
                 req.flash('errors', {
                     password: {
-                        msg: 'Mật khẩu không chính xác',
+                        msg: i18n.__('user.auth.password.not-valid'),
                     },
                 });
                 return res.redirectBack();

@@ -98,7 +98,7 @@ const sendMessage = async (req, res, next) => {
     }
 };
 
-const showResetPasswordForm = async (req, res) => res.render('modules/users/admin/auth/resetPassword',);
+const showResetPasswordForm = async (req, res) => res.render('modules/users/admin/auth/resetPassword');
 
 const resetPassword = async (req, res, next) => {
     const data = req.body;

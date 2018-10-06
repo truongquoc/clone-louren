@@ -13,7 +13,7 @@
 
 <% stylesheet('/public/client/css/styleList.css') %>
 
-<% block('title', 'Sản phẩm') %>
+<% block('title', __('product.products')) %>
 
 <div id="contents">
     <div class="xans-element- xans-product xans-product-menupackage ">
@@ -36,20 +36,20 @@
                 <h3><span>HIT PRODUCT</span></h3>
             </div>
             <div class="function row d-flex m-0">
-                <p class="prdCount col-12-auto col-md-auto">Có <strong><%= products.total %></strong> sản phẩm được tìm thấy.</p>
+                <p class="prdCount col-12-auto col-md-auto"><strong><%= products.total %></strong> <%= __('product.count') %></p>
                 <ul id="type" class="xans-element- xans-product xans-product-orderby
                 col-12 col-md px-1 m-0 row d-flex justify-content-around justify-content-md-end">
                     <li class="xans-record-">
-                        <a href="?sort=productName" class="<%= query.sort === 'productName' ? 'sort' : '' %>">Tên sản phẩm</a>
+                        <a href="?sort=productName" class="<%= query.sort === 'productName' ? 'sort' : '' %>"><%= __('product.sort.name') %></a>
                     </li>
                     <li class="xans-record-">
-                        <a href="?sort=priceLowToHigh" class="<%= query.sort === 'priceLowToHigh' ? 'sort' : '' %>">Giá thấp - cao</a>
+                        <a href="?sort=priceLowToHigh" class="<%= query.sort === 'priceLowToHigh' ? 'sort' : '' %>"><%= __('product.sort.priceLowToHigh') %></a>
                     </li>
                     <li class="xans-record-">
-                        <a href="?sort=priceHighToLow" class="<%= query.sort === 'priceHighToLow' ? 'sort' : '' %>">Giá cao - thấp</a>
+                        <a href="?sort=priceHighToLow" class="<%= query.sort === 'priceHighToLow' ? 'sort' : '' %>"><%= __('product.sort.priceHighToLow') %></a>
                     </li>
                     <li class="xans-record-">
-                        <a href="?sort=newest" class="<%= !['productName', 'priceLowToHigh' , 'priceHighToLow'].includes(query.sort) ? 'sort' : '' %>">Mới nhất</a>
+                        <a href="?sort=newest" class="<%= !['productName', 'priceLowToHigh' , 'priceHighToLow'].includes(query.sort) ? 'sort' : '' %>"><%= __('product.sort.newest') %></a>
                     </li>
                 </ul>
             </div>
@@ -57,7 +57,7 @@
 
         <div class="xans-element- xans-search xans-search-form">
             <div class="noData <%= products.total !== 0 ? 'displaynone' : '' %>">
-                <strong class="warning">Không có sản phẩm nào được tìm thấy. </strong>
+                <strong class="warning"><%= __('product.no-products') %></strong>
             </div>
         </div>
 
@@ -75,12 +75,12 @@
                                     <ul>
                                         <% if (!product.price.isAgreement) { %>
                                             <li data-id="<%= product._id %>"
-                                                class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                                class="cart shopping__icon add-to-cart-btn" title="<%= __('product.cart.add') %>">
                                                 <i class="fa fa-shopping-cart"></i>
                                             </li>
                                         <% } else { %>
                                             <li class="cart shopping__icon telephone__text">
-                                                Liên hệ
+                                                <%= __('contact') %>
                                             </li>
                                         <% } %>
                                         <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
@@ -110,7 +110,7 @@
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
                                         <% if (product.price.isAgreement) { %>
-                                            Liên hệ: <%= info.phone %>
+                                            <%= __('contact') %>: <%= info.phone %>
                                         <% } else { %>
                                             <span class="priceDisplay"></span>
                                             <input class="priceValue"

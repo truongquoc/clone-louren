@@ -27,14 +27,14 @@ const index = async (req, res, next) => {
 const show = async (req, res, next) => {
     const { query } = req;
     try {
-        const [blogArticle, postNext] = await Promise.all([
-            BlogArticleRepository.show(req.params.slug),
-            BlogArticleRepository.postNext(req.params.slug),
-        ]);
+        const blogArticle = await BlogArticleRepository.show(req.params.slug);
+        const relatedArticles = await BlogArticleRepository.relatedArticles(
+            blogArticle._id, blogArticle.category._id,
+        );
 
         return res.render('modules/blogArticles/client/detail', {
             blogArticle,
-            postNext,
+            relatedArticles,
             query,
         });
     } catch (e) {

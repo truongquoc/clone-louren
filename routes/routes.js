@@ -27,6 +27,7 @@ const clientBillRouter = require('../modules/bills/routers.client');
 const clientInfoRouter = require('../modules/infos/router.client');
 const handleExceptionHelper = require('../helpers/handleExceptionHelper');
 const redisHelper = require('../helpers/redisHelper');
+const languageHelper = require('../helpers/languageHelper');
 
 router.use((req, res, next) => {
     res.locals.flashMessages = req.session.flash;
@@ -34,6 +35,9 @@ router.use((req, res, next) => {
     delete req.session.flash;
     next();
 });
+
+router.use(languageHelper.getCookie);
+
 router.use('/admin', adminAuthRoutes);
 router.use('/admin/images', adminUploadRouter);
 router.use('/admin/users', adminUserRouter);
@@ -64,6 +68,7 @@ router.use('/mat-hang', clientProductTypeRouter);
 router.use('/gio-hang', clientCartRouter);
 router.use('/', clientProductRoutes);
 router.use('/', clientInfoRouter);
+router.get('/languages/:language', languageHelper.setCookie);
 router.use('/', (req, res) => res.render('errors/client/404'));
 
 router.use(handleExceptionHelper.handleException);

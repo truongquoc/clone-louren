@@ -261,6 +261,7 @@ function init_createSubModule() {
                     `<tr data-key="${result._id}">
                         <td>1</td>
                         <td class="module__table__name">${result.name}</td>
+                        <td class="module__table__name-en">${result.names.en}</td>
                         ${checkIsProductType ? '<td class="module__table__parentType"' + (result.parentType ? 'data-parent-key="' + result.parentType._id + '"' : '') + '>' + (result.parentType ? result.parentType.name : '') + '</td>' : ''}
                         ${result.slug ? '<td class="module__table__slug">' + result.slug + '</td>' : ''}
                         <td class="module__table__update-time">
@@ -288,12 +289,13 @@ function init_createSubModule() {
     $('.module__create-form').on('submit', function (e) {
         e.preventDefault();
         const name = $(this).find('.module__form__name').val();
+        const nameEn = $(this).find('.module__form__name-en').val();
         const slug = $(this).find('.module__form__slug').val();
         const parentType = $(this).has('.module__form__parentType') ?
             $(this).find('.module__form__parentType').val() : '';
         const url = $(this).attr('action');
 
-        createSubModule(url, { name, parentType, slug });
+        createSubModule(url, { name, nameEn, parentType, slug });
     });
 }
 
@@ -324,6 +326,7 @@ function init_editSubModule() {
                     return false;
                 }
                 const result = res.data;
+                console.log(result);
                 const $row = $(`.module__table tr[data-key="${result._id}"]`);
                 const checkIsProductType = $('.module__table').hasClass('product-types__table');
                 if (checkIsProductType) {
@@ -333,6 +336,7 @@ function init_editSubModule() {
                     $(`option[value=${result._id}]`).html(`${result.name}`);
                 }
                 $row.find('.module__table__name').text(result.name).html();
+                $row.find('.module__table__name-en').text(result.names.en).html();
                 $row.find('.module__table__slug').text(result.slug).html();
                 $row.find('.module__table__update-time').text(moment(result.updatedAt).format('HH:mm MM/DD/YYYY')).html();
                 $form.find('.form__error-message').html('');
@@ -345,12 +349,14 @@ function init_editSubModule() {
     $(document).on('click', '.module__edit-btn', function (e) {
         e.preventDefault();
         const name = $(this).closest('tr').find('.module__table__name').text();
+        const nameEn = $(this).closest('tr').find('.module__table__name-en').text();
         const city = $(this).closest('tr').find('.module__table__city').data('city');
         const icon = $(this).closest('tr').find('.module__table__icon').text();
         const slug = $(this).closest('tr').find('.module__table__slug').text();
         const key = $(this).closest('tr').data('key');
         const $form = $('.module__edit-form');
         $form.find('.module__form__name').val(name);
+        $form.find('.module__form__name-en').val(nameEn);
         $form.find('.module__form__city').val(city);
         $form.find('.module__form__icon').val(icon);
         $form.find('.module__form__slug').val(slug);
@@ -362,10 +368,11 @@ function init_editSubModule() {
         const parentType = $(this).has('.module__form__parentType') ? $(this).find('.module__form__parentType').val() : '';
         const icon = $(this).has('.module__form__icon') ? $(this).find('.module__form__icon').val() : '';
         const name = $(this).find('.module__form__name').val();
+        const nameEn = $(this).find('.module__form__name-en').val();
         const slug = $(this).find('.module__form__slug').val();
         const url = $(this).attr('action');
         const key = $(this).find('.module__form__key').val();
-        editSubModule(`${url}/${key}`, { _method: 'PUT', parentType, name, icon, slug });
+        editSubModule(`${url}/${key}`, { _method: 'PUT', parentType, name, nameEn, icon, slug });
     });
 }
 
@@ -676,25 +683,25 @@ function init_billChangeSearchType() {
 }
 
 function init_showUserInformation() {
-    $('.module__show-user-info-btn').on('click', function () {
-        const $userInfo = $(this).next('.bill__table__user-info');
-        $('.user-info__table__name').text($userInfo.data('user-name'));
-        $('.user-info__table__email').text($userInfo.data('user-email'));
-        $('.user-info__table__telephone').text($userInfo.data('user-telephone'));
-        $('.user-info__table__note').text($userInfo.data('note'));
-        let paymentMethod = $userInfo.data('payment-method');
-        switch (paymentMethod) {
-            case 'cod':
-                paymentMethod = 'Thanh toán tiền mặt khi nhận hàng';
-                break;
-            case 'via-bank':
-                paymentMethod = 'Thanh toán qua thẻ ngân hàng';
-                break;
-            default:
-                paymentMethod = '';
-        }
-        $('.user-info__table__payment-method').text(paymentMethod);
-    });
+    // $('.module__show-user-info-btn').on('click', function () {
+    //     const $userInfo = $(this).next('.bill__table__user-info');
+    //     $('.user-info__table__name').text($userInfo.data('user-name'));
+    //     $('.user-info__table__email').text($userInfo.data('user-email'));
+    //     $('.user-info__table__telephone').text($userInfo.data('user-telephone'));
+    //     $('.user-info__table__note').text($userInfo.data('note'));
+    //     let paymentMethod = $userInfo.data('payment-method');
+    //     switch (paymentMethod) {
+    //         case 'cod':
+    //             paymentMethod = 'Thanh toán tiền mặt khi nhận hàng';
+    //             break;
+    //         case 'via-bank':
+    //             paymentMethod = 'Thanh toán qua thẻ ngân hàng';
+    //             break;
+    //         default:
+    //             paymentMethod = '';
+    //     }
+    //     $('.user-info__table__payment-method').text(paymentMethod);
+    // });
 }
 
 function init_changeSlideOrder() {

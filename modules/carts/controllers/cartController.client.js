@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator/check');
+const i18n = require('i18n');
 
-const { roundPrice } = require('../../../helpers/adminHelper');
 const Cart = require('../../carts/models/Cart');
 const Product = require('../../products/models/Product');
 const responseHelper = require('../../../helpers/responseHelper');
@@ -66,13 +66,13 @@ const addToCart = async (req, res, next) => {
             return res.json(responseHelper.notFound());
         }
         if (product.quantity <= 0) {
-            return res.json(responseHelper.error('Sản phẩm đã hết hàng', 400));
+            return res.json(responseHelper.error(i18n.__('product.out-of-stock.original'), 400));
         }
         if (product.quantity < (+quantity || 1)) {
-            return res.json(responseHelper.error('Sản phẩm trong kho không đủ', 400));
+            return res.json(responseHelper.error(i18n.__('product.not-enough-products.original'), 400));
         }
         if (product.price.isAgreement) {
-            return res.json(responseHelper.error('Sản phẩm thương lượng giá cả', 400));
+            return res.json(responseHelper.error(i18n.__('product.negotiated-price.original'), 400));
         }
 
         if (req.session.cUser) {
@@ -209,6 +209,11 @@ const buyProduct = async (req, res, next) => {
         let redirectRoute;
         const user = req.session.cUser;
         const commands = [];
+
+        const language = i18n.getLocale(req);
+        i18n.setLocale(language);
+        data.language = language;
+
         if (user) {
             bill = await CartRepository.createBill(data, user._id);
             commands.push(CartRepository.emptyCart(user._id));
@@ -218,10 +223,10 @@ const buyProduct = async (req, res, next) => {
             delete req.session.cart;
             redirectRoute = '/gio-hang';
         }
-        commands.push(BillRepository.sendConfirmEmail(bill._id));
+        commands.push(BillRepository.sendConfirmEmail(bill._id, i18n));
         await Promise.all(commands);
 
-        req.flash('success', 'Gửi yêu cầu mua thành công, xin vui lòng kiểm tra email của bạn.');
+        req.flash('success', i18n.__('product.order.success-message'));
 
         return res.redirect(redirectRoute);
     } catch (e) {

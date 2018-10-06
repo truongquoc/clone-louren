@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator/check');
+const i18n = require('i18n');
+
 const passport = require('../../../config/passport');
 const responseHelper = require('../../../helpers/responseHelper');
 const AuthRepositoryClass = require('../repositories/AuthRepository');
@@ -24,7 +26,7 @@ const login = async (req, res, next) => {
         const user = await AuthRepository.login(data);
         if (!user) {
             req.flash('oldValue', data);
-            req.flash('errors', { email: { msg: 'Email hoặc mật khẩu không chính xác' } });
+            req.flash('errors', { email: { msg: i18n.__('user.auth.login.fail') } });
             return res.redirectBack();
         }
         req.session.cUser = AuthRepository.getCurrentUserData(user);
@@ -50,7 +52,7 @@ const facebookLogin = (req, res, next) => {
                 id: data.id,
             });
             if (user && user.deletedAt) {
-                req.flash('message', 'Tài khoản này đã bị chặn');
+                req.flash('message', i18n.__('user.auth.blocked-user'));
                 return res.redirect('/login');
             }
             if (!user) {
@@ -76,7 +78,7 @@ const googleLogin = (req, res, next) => {
                 email: data.emails[0].value,
             });
             if (user && user.deletedAt) {
-                req.flash('message', 'Tài khoản này đã bị chặn');
+                req.flash('message', i18n.__('user.auth.blocked-user'));
                 return res.redirect('/login');
             }
             if (!user) {
@@ -135,7 +137,7 @@ const sendMessage = async (req, res, next) => {
     try {
         const user = await AuthRepository.getForgotPasswordUser(data);
         await AuthRepository.sendMail(user, `${req.headers.origin}/quen-mat-khau/khoi-phuc`);
-        req.flash('success', 'Gửi mail thành công');
+        req.flash('success', i18n.__('user.auth.success-send-mail'));
 
         return res.redirectBack();
     } catch (e) {
@@ -155,7 +157,7 @@ const resetPassword = async (req, res, next) => {
     }
     try {
         await AuthRepository.resetPassword(data, req.params.token);
-        req.flash('success', 'Khôi phục mật khẩu thành công');
+        req.flash('success', i18n.__('user.auth.password.restore.success'));
 
         return res.redirect('/dang-nhap');
     } catch (e) {

@@ -1,0 +1,63 @@
+<div class="main-sidebar-widgets">
+    <div class="search-form-holder">
+        <div class="search-form-wrap">
+            <form class="searchform" method="GET" action="<%= typeof blogArticle === 'object' ? '/blog' : '' %>">
+                <input type="text" autocomplete="off" name="search" placeholder="Tìm kiếm bài tin tức" value="<%= query.search || '' %>">
+            </form>
+        </div>
+    </div>
+    <% if (recentArticles.length !== 0) { %>
+    <div id="springbook-recent-posts-3" class="widget main-sidebar-widget springbook_recent_posts">
+        <h3><%= __('blog.recent') %></h3>
+        <div class="recent-post-widget">
+            <ul>
+                <% recentArticles.forEach((article) => { %>
+                <li>
+                    <div class="recent-post-img">
+                        <a href="/blog/<%= article.slug %>" class="widget-posts-img">
+                            <% if (!article.display.useVideo) { %>
+                            <img width="50" height="50" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<%= article.display.image %>" class="respimg wp-post-image lazyload" alt="<%= article.title %>"/>
+                            <% } else { %>
+                            <div style="width:50px;height:50px;"></div>
+                            <% } %>
+                        </a>
+                    </div>
+                    <div class="recent-post-content">
+                        <h4><a href="/blog/<%= article.slug %>" title="<%= article.title %>"><%= article.title %></a></h4>
+                        <div class="recent-post-opt"> <span class="post-date"><%= moment(article.createdAt).format('L') %></span> </div>
+                    </div>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <% } %>
+    <div id="tag_cloud-2" class="widget main-sidebar-widget widget_tag_cloud">
+        <h3><%= __('blog.tag') %></h3>
+        <div class="tagcloud">
+            <ul class='wp-tag-cloud'>
+                <% newTags.forEach((tag) => { %>
+                <li>
+                    <a href='/blog/tag-<%= tag.slug%>' class='tag-link-4 tag-link-position-1' title='4 topics' style='font-size: 10px;'>
+                        <%= tag.getName %>
+                    </a>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+
+    <div id="categories-2" class="widget main-sidebar-widget widget_categories">
+        <h3><%= __('blog.category') %></h3>
+        <ul>
+            <% for(let i = 0; i< categories.length; i++ ) { %>
+            <li class="cat-item cat-item-13">
+                <a href="/blog/chuyen-muc-<%= categories[i].slug %> ">
+                    <%= categories[i].name %>
+                </a>
+                (<%= categories[i].countArticle[0] ? categories[i].countArticle[0].count : 0 %>)
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</div>

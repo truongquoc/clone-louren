@@ -1,4 +1,4 @@
-
+const i18n = require('i18n');
 const redis = require('redis');
 const { promisify } = require('util');
 const responseHelper = require('../../../helpers/responseHelper');
@@ -9,9 +9,13 @@ const getAsync = promisify(client.get).bind(client);
 module.exports = {
     about: async (req, res, next) => {
         try {
-            const about = await getAsync('about');
-
-            const content = about !== null ? about : '';
+            let content = '';
+            const locale = i18n.getLocale(req);
+            if (locale === 'vi') {
+                content = await getAsync('about');
+            } else if (locale === 'en') {
+                content = await getAsync('aboutEn');
+            }
 
             return res.render('modules/infos/client/about', {
                 content,
@@ -23,13 +27,18 @@ module.exports = {
 
     policy: async (req, res, next) => {
         try {
-            const title = 'Chính sách bán hàng';
-            const policy = await getAsync('policy');
-
-            const content = policy !== null ? policy : '';
+            const key = 'policy';
+            let content = '';
+            const locale = i18n.getLocale(req);
+            if (locale === 'vi') {
+                content = await getAsync('policy');
+            } else if (locale === 'en') {
+                content = await getAsync('policyEn');
+            }
 
             return res.render('modules/infos/client/policy', {
-                content, title,
+                content,
+                key,
             });
         } catch (e) {
             next(responseHelper.error(e.message));
@@ -38,13 +47,18 @@ module.exports = {
 
     courage: async (req, res, next) => {
         try {
-            const title = 'Cam kết';
-            const courage = await getAsync('courage');
-
-            const content = courage !== null ? courage : '';
+            const key = 'courage';
+            let content = '';
+            const locale = i18n.getLocale(req);
+            if (locale === 'vi') {
+                content = await getAsync('courage');
+            } else if (locale === 'en') {
+                content = await getAsync('courageEn');
+            }
 
             return res.render('modules/infos/client/policy', {
-                content, title,
+                content,
+                key,
             });
         } catch (e) {
             next(responseHelper.error(e.message));

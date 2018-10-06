@@ -54,6 +54,12 @@ const Bill = new Schema({
         type: Boolean,
         default: false,
     },
+    language: {
+        type: String,
+        required: true,
+        trim: true,
+        default: 'vi',
+    },
     deletedAt: {
         type: Date,
     },

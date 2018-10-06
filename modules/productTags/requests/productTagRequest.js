@@ -18,6 +18,19 @@ const createTagRequest = [
                 return Promise.reject(e.message);
             }
         }),
+    check('nameEn').trim()
+        .not().isEmpty().withMessage('Tên không được bỏ trống')
+        .custom(async (value) => {
+            try {
+                const validate = await ProductTagRepository.checkExist({ 'names.en': value });
+                if (validate) {
+                    throw new Error('Tên đã được sử dụng');
+                }
+                return true;
+            } catch (e) {
+                return Promise.reject(e.message);
+            }
+        }),
     check('slug').trim()
         .custom(async (value) => {
             try {
@@ -41,6 +54,22 @@ const editTagRequest = [
                 const validate = await ProductTagRepository.checkExistWithTrashed({
                     _id: { $ne: req.params.id },
                     name: value,
+                });
+                if (validate) {
+                    throw new Error('Tên đã được sử dụng hoặc bị xóa');
+                }
+                return true;
+            } catch (e) {
+                return Promise.reject(e.message);
+            }
+        }),
+    check('nameEn').trim()
+        .not().isEmpty().withMessage('Tên không được bỏ trống')
+        .custom(async (value, { req }) => {
+            try {
+                const validate = await ProductTagRepository.checkExistWithTrashed({
+                    _id: { $ne: req.params.id },
+                    'names.en': value,
                 });
                 if (validate) {
                     throw new Error('Tên đã được sử dụng hoặc bị xóa');

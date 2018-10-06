@@ -25,18 +25,21 @@ module.exports = {
             const data = {
                 gt: {
                     _id: 'gt',
+                    key: 'about-us',
                     name: 'Giới thiệu',
                     link: 'gioi-thieu',
                     show: 'show',
                 },
                 cs: {
                     _id: 'cs',
+                    key: 'policy',
                     name: 'Chính sách bán hàng',
                     link: 'chinh-sach',
                     show: 'show',
                 },
                 ck: {
                     _id: 'ck',
+                    key: 'courage',
                     name: 'Cam kết',
                     link: 'cam-ket',
                     show: 'show',

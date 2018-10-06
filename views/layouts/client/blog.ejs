@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -18,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/public/client/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/public/client/css/custom.css"/>
 
-    <title><%= titleRedis(info) %> | <%= block('title') %></title>
+    <title><%= titleRedis(info) %> | Blog - <%= block('title') %></title>
 
     <meta name="author" content="<%= titleRedis(info) %>"/>
     <%- block('metaTags', `
@@ -31,7 +30,11 @@
         <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
         <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
     `) %>
-
+    <style>
+        .fb-comments, .fb-comments span, .fb-comments iframe {
+            width: 100% !important;
+        }
+    </style>
     <% if(infoRedis('', info, 'google') !== '') { %>
         <script async src="https://www.googletagmanager.com/gtag/js?id=<%= info.google %>"></script>
         <script>
@@ -64,6 +67,14 @@
 </head>
 
 <body class="">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.1&appId=301746350312092&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <div id="header">
     <%- include partials/header.ejs %>
 </div>
@@ -76,7 +87,7 @@
             </div>
             <div class="hero-inner">
                 <div class="container" style="text-align: center;">
-                    <a href="/blog" class="title-blog" >Tin tức</a>
+                    <a href="/blog" class="title-blog"><%= __('blog.banner') %></a>
                 </div>
             </div>
         </div>
@@ -87,7 +98,7 @@
                     <%- body %>
                 </div>
                 <div class="main-sidebar right-sidebar">
-                    <%- include partials/blogSidebar.ejs %>
+                    <%- include partials/blogAside.ejs %>
                 </div>
             </div>
         </div>
@@ -97,7 +108,7 @@
     <%- include partials/footer.ejs %>
 </div>
 <div class="fixed_copyright d-flex justify-content-center justify-content-md-between align-items-center flex-md-row px-5">
-    <span class="xans-element- xans-layout xans-layout-footer copyright col-auto">© <strong>MyHienHome</strong> . ALL RIGHTS RESERVED.
+    <span class="xans-element- xans-layout xans-layout-footer copyright col-auto">© <strong>MayHienHome</strong> . ALL RIGHTS RESERVED.
         <a href="#" target="_blank"></a>
     </span>
     <span class="col-auto d-none d-md-flex align-items-center">
@@ -148,8 +159,8 @@
 <div class="fb-customerchat"
      attribution=setup_tool
      page_id="148677635307246"
-     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
-     logged_out_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?">
+     logged_in_greeting="<%= __('messenger-greeting') %>"
+     logged_out_greeting="<%= __('messenger-greeting') %>">
 </div>
 </body>
 </html>

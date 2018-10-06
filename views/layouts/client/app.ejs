@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= language %>">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -135,6 +135,7 @@
 <script type="text/javascript" src="/public/client/js/test3.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<script type="text/javascript" src="/public/client/js/i18n.js"></script>
 <%- scripts %>
 <script src="/public/client/js/custom.js"></script>
 <%- block('script') %>
@@ -161,8 +162,8 @@
 <div class="fb-customerchat"
      attribution=setup_tool
      page_id="148677635307246"
-     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
-     logged_out_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?">
+     logged_in_greeting="<%= __('messenger-greeting') %>"
+     logged_out_greeting="<%= __('messenger-greeting') %>">
 </div>
 </body>
 </html>

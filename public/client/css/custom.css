@@ -183,7 +183,7 @@ body {
     font-size: 14px !important;
     height: 22px;
     line-height: 12px;
-    width: 60px;
+    width: 60px !important;
 }
 
 .xans-product-listitem {
@@ -494,4 +494,8 @@ body {
 .icon_search a img {
     margin-top: 20px;
     height: 20px !important;
+}
+
+.xans-member-login .login fieldset .id, .xans-member-login .login fieldset .password {
+    width: 100%;
 }

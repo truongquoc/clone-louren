@@ -13,27 +13,27 @@
 
 <% stylesheet('/public/client/css/styleOrderHistory.css') %>
 
-<% block('title', 'Đơn hàng chi tiết') %>
+<% block('title', __('product.bill.detail-title')) %>
 
 <div id="contents">
 
     <div class="titleArea">
-        <h2>Đơn hàng <%= code %></h2>
+        <h2><%= __('product.bill.title') %> <%= code %></h2>
     </div>
 
     <div class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
         <ul class="menu">
-            <li><a href="/nguoi-dung/don-hang">Tất cả đơn hàng</a></li>
+            <li><a href="/nguoi-dung/don-hang"><%= __('product.bill.bills') %></a></li>
             <li class="selected">
-                <a href="">Đơn hàng <%= code %></a>
+                <a href=""><%= __('product.bill.title') %> <%= code %></a>
             </li>
         </ul>
     </div>
     <div class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
         <div class="title">
-            <h3>Đơn hàng <%= code %></h3>
+            <h3><%= __('product.bill.title') %> <%= code %></h3>
         </div>
-        <table border="1" summary="">
+        <table border="1" summary="" class="center">
             <colgroup>
                 <col style="width:135px;"/>
                 <col style="width:93px;"/>
@@ -45,15 +45,15 @@
             </colgroup>
             <thead>
             <tr>
-                <th scope="col">Ngày đặt hàng</th>
-                <th scope="col">Hình ảnh</th>
-                <th scope="col">Sản phẩm</th>
-                <th scope="col">Đơn giá</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Thành tiền</th>
+                <th scope="col"><%= __('product.order.date') %></th>
+                <th scope="col"><%= __('product.image') %></th>
+                <th scope="col"><%= __('product.name') %></th>
+                <th scope="col"><%= __('product.price.unit') %></th>
+                <th scope="col"><%= __('product.quantity') %></th>
+                <th scope="col"><%= __('product.price.to-money') %></th>
             </tr>
             </thead>
-            <tbody class="center">
+            <tbody>
                 <% let totalMoney = 0; %>
                 <% billDetail.productBill.forEach((p)=> { %>
                 <tr>
@@ -76,6 +76,6 @@
                 <% }) %>
             </tbody>
         </table>
-        <p class="right" style="margin-top: 15px"><strong>Tổng: <%= formatPrice(totalMoney) %> ₫</strong></p>
+        <p class="right" style="margin-top: 15px"><strong><%= __('product.price.total') %>: <%= formatPrice(totalMoney) %> ₫</strong></p>
     </div>
 </div>

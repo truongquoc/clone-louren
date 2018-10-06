@@ -25,15 +25,20 @@
                     <td class="container-padding content" align="left" style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff">
                         <br>
                         <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:15px;font-weight:600;color:#374550">
-                            <%= info[0] ? info[0].title : 'Mây Hiên Home' %>: Xác nhận đơn hàng mã <%= bill.code %>
+                            <%= info[0] ? info[0].title : 'Mây Hiên Home' %>: <%= __({
+                                phrase: 'product.bill.confirm-bill',
+                                locale: bill.language,
+                            }, bill.code) %> %>
                         </div>
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
-                            <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.<br>Hãy liên lạc với chúng tôi qua số điện thoại <%= info[0] ? info[0].phone : '' %> để xác nhận đơn hàng này</p>
+                            <p><%= __({ phrase: 'user.thank-for-using', locale: bill.language }) %>.<br>
+                                <%= __({ phrase: 'product.bill.contact-to-confirm', locale: bill.language }, info[0] ? info[0].phone : '') %>
+                            </p>
                             <% if (info[0] && info[0].bankAccount && bill.paymentMethod === 'via-bank') { %>
-                                <p>Hãy chuyển tiền qua thẻ ngân hàng với số tài khoản <%= info[0].bankAccount %> để nhận hàng.</p>
+                                <p><%= __({ phrase: 'product.bill.exchange-via-bank', locale: bill.language }, info[0].bankAccount) %></p>
                             <% } %>
                             <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:left;color:#333333">
-                                <h4 class="subtitle">Thông tin đơn hàng</h4>
+                                <h4 class="subtitle"><%= __('product.bill.information') %></h4>
                                 <table class="container user__information">
                                     <tbody>
                                     <% const user = bill.userInformation %>
@@ -42,28 +47,31 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="user__information__title">Người nhận:</td>
+                                        <td class="user__information__title">
+                                            <%= __({ phrase: 'product.bill.receiver', locale: bill.language }) %>:</td>
                                         <td><%= user.name %></td>
                                     </tr>
                                     <tr>
-                                        <td class="user__information__title">Email:</td>
+                                        <td class="user__information__title"><%= __({ phrase: 'user.info.email', locale: bill.language }) %>:</td>
                                         <td><a href="mailto:<%= user.email %>"><%= user.email %></a></td>
                                     </tr>
                                     <tr>
-                                        <td class="user__information__title">Số điện thoại:</td>
+                                        <td class="user__information__title">
+                                            <%= __({ phrase: 'user.info.telephone', locale: bill.language }) %>:
+                                        </td>
                                         <td><%= user.telephone %></td>
                                     </tr>
                                     </tbody>
                                 </table>
 
-                                <h4 class="subtitle">Sản phẩm</h4>
+                                <h4 class="subtitle"><%= __({ phrase: 'product.product', locale: bill.language }) %></h4>
                                 <table class="container products__information">
                                     <tbody>
                                     <tr>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Tổng giá</th>
+                                        <th><%= __({ phrase: 'product.name', locale: bill.language }) %></th>
+                                        <th><%= __({ phrase: 'product.price.unit', locale: bill.language }) %></th>
+                                        <th><%= __({ phrase: 'product.quantity', locale: bill.language }) %></th>
+                                        <th><%= __({ phrase: 'product.price.to-money', locale: bill.language }) %></th>
                                     </tr>
                                     <% bill.productBill.forEach((element) => { %>
                                         <tr>
@@ -75,7 +83,10 @@
                                     <% }) %>
                                     </tbody>
                                 </table>
-                                <p class="text-right">Tổng giá: <%= bill.price.toLocaleString('de-DE') %> ₫</p>
+                                <p class="text-right">
+                                    <%= __({ phrase: 'product.price.total', locale: bill.language }) %>:
+                                    <%= bill.price.toLocaleString('de-DE') %> ₫
+                                </p>
                             </div>
                         </div>
                     </td>

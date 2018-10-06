@@ -3,13 +3,13 @@
        <div class="row d-flex flex-column flex-md-row justify-content-between">
             <div class="col-auto d-flex row flex-column my-3">
                 <h3 class="mb-4">MÂY HIÊN HOME</h3>
-                <%- infoRedis('Địa chỉ', info, 'location') %>
-                <%- infoRedis('Tel', info, 'phone') %>
-                <%- infoRedis('Giờ mở cửa', info, 'workingTime') %>
-                <%- infoRedis('Email', info, 'email') %>
+                <%- infoRedis(__('address'), info, 'location') %>
+                <%- infoRedis(__('tel'), info, 'phone') %>
+                <%- infoRedis(__('working-time'), info, 'workingTime') %>
+                <%- infoRedis(__('email'), info, 'email') %>
             </div>
             <div class="col-auto row d-flex flex-column my-3">
-                <h3 class="mb-4">SẢN PHẨM MỚI NHẤT</h3>
+                <h3 class="mb-4"><%= __('product.newest') %></h3>
                 <% footerNewestProducts.forEach((product) => { %>
                     <div class="col-auto mb-2 p-0">
                         <a href="#"><%= product.name %></a>
@@ -19,17 +19,17 @@
                 <% }) %>
             </div>
             <div class="col-auto row d-flex flex-column my-3">
-                <h3 class="mb-4">HỖ TRỢ KHÁCH HÀNG</h3>
+                <h3 class="mb-4"><%= __('customer-support') %></h3>
                 <% links.forEach(link => { %>
                     <% if (link.show === 'show') { %>
-                        <a class="mt-2" href="<%= link.link %>"><%= link.name %></a>
+                        <a class="mt-2" href="<%= link.link %>"><%= __(link.key || ' ') %></a>
                     <% } %>
                 <% }) %>
 
                 <!--<a class="mt-2" href="/">Chế độ bảo hành</a>-->
             </div>
             <div class="col-auto row d-flex flex-column my-3">
-                <h3 class="mb-4">MẠNG XÃ HỘI</h3>
+                <h3 class="mb-4"><%= __('social-media') %></h3>
                 <div class="fb-page"
                      data-href="https://www.facebook.com/noithatdanang.home"
                      data-width="260"

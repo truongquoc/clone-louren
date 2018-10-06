@@ -18,7 +18,7 @@
 </style>
 `) %>
 
-<% block('title', 'Trang chủ') %>
+<% block('title', __('home')) %>
 
 <div id="contents" class="homepage">
     <div class="fixed_row">
@@ -45,14 +45,14 @@
                                 <div class="custom_layer_btn">
                                     <ul>
                                         <% if (!product.price.isAgreement) { %>
-                                        <li data-id="<%= product._id %>"
-                                            class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
-                                            <i class="fa fa-shopping-cart"></i>
-                                        </li>
+                                            <li data-id="<%= product._id %>"
+                                                class="cart shopping__icon add-to-cart-btn" title="<%= __('product.cart.add') %>">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </li>
                                         <% } else { %>
-                                        <li class="cart shopping__icon telephone__text">
-                                            Liên hệ
-                                        </li>
+                                            <li class="cart shopping__icon telephone__text">
+                                                <%= __('contact') %>
+                                            </li>
                                         <% } %>
 
                                         <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
@@ -82,20 +82,20 @@
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
                                         <% if (product.price.isAgreement) { %>
-                                        Liên hệ: <%= info.phone %>
+                                            <%= __('contact') %>: <%= info.phone %>
                                         <% } else { %>
-                                        <span class="priceDisplay"></span>
-                                        <input class="priceValue"
-                                               value="<%= product.price.number %>"
-                                               type="hidden"/>
-                                        <span class="price dc_price priceDiscountText">
-                                                        <i class="fa fa-long-arrow-down"
-                                                           aria-hidden="true"></i>
-                                                        <span class="priceDiscountPercent"></span>
-                                                    </span>
-                                        <input class="priceDiscount"
-                                               value="<%= product.discount %>"
-                                               type="hidden"/>
+                                            <span class="priceDisplay"></span>
+                                            <input class="priceValue"
+                                                   value="<%= product.price.number %>"
+                                                   type="hidden"/>
+                                            <span class="price dc_price priceDiscountText">
+                                                <i class="fa fa-long-arrow-down"
+                                                   aria-hidden="true"></i>
+                                                <span class="priceDiscountPercent"></span>
+                                            </span>
+                                            <input class="priceDiscount"
+                                                   value="<%= product.discount %>"
+                                                   type="hidden"/>
                                         <% } %>
                                     </li>
                                 </ul>
@@ -105,11 +105,11 @@
                     <% }) %>
                 </ul>
                 <div class="text-center">
-                    <a href="/mat-hang/giam-gia" class="text__read-more">Xem thêm <i class="fa fa-angle-double-right"></i></a>
+                    <a href="/mat-hang/giam-gia" class="text__read-more"><%= __('read-more') %> <i class="fa fa-angle-double-right"></i></a>
                 </div>
             </div>
         <% } %>
-        
+
         <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product widget_new_product">
             <div class="common_title">
                 <div class="main_title">
@@ -121,46 +121,27 @@
             </div>
             <!-- CATEGORIES list here -->
             <ul class="prdList grid3 row d-flex m-0">
-                    <li class="item xans-record- col-12 col-md-4 mx-0">
-                        <div class="box">
-                            <div class="thumbnail cat__box">
-                                <a href="#" class="thumb_cat lazyload" data-src="http://demtranghome.vn/wp-content/uploads/2016/04/home-8-image-1.jpg">
-                                    <span class="cat__title">
-                                        Hello Everyone
-                                    </span>
-                                </a>
-                            </div>
+                <li class="item xans-record- col-12 col-md-6 mx-0">
+                    <div class="box">
+                        <div class="thumbnail cat__box">
+                            <a href="/mat-hang/giam-gia" class="thumb_cat lazyload" data-src="/public/client/images/home-image-1.jpg">
+                                <span class="cat__title">SALE OFF</span>
+                            </a>
                         </div>
-                    </li>
-                    <li class="item xans-record- col-12 col-md-4 mx-0">
-                        <div class="box">
-                            <div class="thumbnail cat__box">
-                                <a href="#" class="thumb_cat lazyload" data-src="http://yodobi.com/4k-Wallpapers/4k-wallpapers-phone-Is-4K-Wallpaper.jpg">
-                                    <span class="cat__title">
-                                        Hello Everyone
-                                    </span>
-                                </a>
-                            </div>
+                    </div>
+                </li>
+                <li class="item xans-record- col-12 col-md-6 mx-0">
+                    <div class="box">
+                        <div class="thumbnail cat__box">
+                            <a href="/mat-hang" class="thumb_cat lazyload" data-src="/public/client/images/home-image-2.jpg">
+                                <span class="cat__title">PRODUCTS</span>
+                            </a>
                         </div>
-                    </li>
-                    <li class="item xans-record- col-12 col-md-4 mx-0">
-                        <div class="box">
-                            <div class="thumbnail cat__box">
-                                <a href="#" class="thumb_cat lazyload" data-src="https://cdn.vox-cdn.com/uploads/chorus_asset/file/10675417/The_Verge_Singularity_Wallpaper_Portrait.0.png">
-                                    <span class="cat__title">
-                                        Hello Everyone
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
+                    </div>
+                </li>
             </ul>
-            <div class="text-center">
-                    <a href="#" class="text__read-more">Xem thêm <i class="fa fa-angle-double-right"></i></a>
-            </div>
         </div>
 
-        
         <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product widget_new_product">
             <div class="common_title">
                 <div class="main_title">
@@ -184,13 +165,11 @@
                                     <ul>
                                         <% if (!product.price.isAgreement) { %>
                                             <li data-id="<%= product._id %>"
-                                                class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                                class="cart shopping__icon add-to-cart-btn" title="<%= __('product.cart.add') %>">
                                                 <i class="fa fa-shopping-cart"></i>
                                             </li>
                                         <% } else { %>
-                                            <li class="cart shopping__icon telephone__text">
-                                                Liên hệ
-                                            </li>
+                                            <li class="cart shopping__icon telephone__text"><%= __('contact') %></li>
                                         <% } %>
 
                                         <!-- <li class="wish_btn shopping__icon wish-btn" title="Yêu thích">
@@ -220,7 +199,7 @@
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
                                         <% if (product.price.isAgreement) { %>
-                                            Liên hệ: <%= info.phone %>
+                                        <%= __('contact') %>: <%= info.phone %>
                                         <% } else { %>
                                             <span class="priceDisplay"></span>
                                             <input class="priceValue"
@@ -244,9 +223,9 @@
             </ul>
             <div class="text-center">
                 <% if (newestProducts.length) { %>
-                    <a href="/mat-hang" class="text__read-more">Xem thêm <i class="fa fa-angle-double-right"></i></a>
+                    <a href="/mat-hang" class="text__read-more"><%= __('read-more') %> <i class="fa fa-angle-double-right"></i></a>
                 <% } else { %>
-                    <strong class="warning text__no-products">Không có sản phẩm nào được tìm thấy. </strong>
+                    <strong class="warning text__no-products"><%= __('product.no-products') %></strong>
                 <% } %>
             </div>
         </div>

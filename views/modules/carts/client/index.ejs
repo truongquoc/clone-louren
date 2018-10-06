@@ -13,18 +13,18 @@
 
 <% stylesheet('/public/client/css/styleCart.css') %>
 
-<% block('title', 'Trang chủ') %>
+<% block('title', __('product.cart.title')) %>
 
 <div id="contents">
     <div class="titleArea">
-        <h2>Giỏ hàng</h2>
+        <h2><%= __('product.cart.title') %></h2>
     </div>
 
     <div class="xans-element- xans-order xans-order-basketpackage "><p class="orderStep"><img
                     src="//img.echosting.cafe24.com/skin/base_ko_KR/order/img_order_step1.gif" alt="01 장바구니"/></p>
         <div class="orderListArea ec-base-table typeList gBorder">
             <div class="xans-element- xans-order xans-order-normtitle title ">
-                <h3>Tất cả sản phẩm</h3>
+                <h3><%= __('product.products') %></h3>
             </div>
 
             <table border="1" summary="" class="xans-element- xans-order xans-order-normindividual xans-record-">
@@ -38,17 +38,17 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th scope="col">Hình ảnh</th>
-                        <th scope="col" class="left" style="padding-left: 10px">Thông tin sản phẩm</th>
-                        <th scope="col">Giá</th>
-                        <th scope="col">Số lượng</th>
-                        <th scope="col">Tùy chọn</th>
+                        <th scope="col"><%= __('product.image') %></th>
+                        <th scope="col" class="left" style="padding-left: 10px"><%= __('product.name') %></th>
+                        <th scope="col"><%= __('product.price.unit') %></th>
+                        <th scope="col"><%= __('product.quantity') %></th>
+                        <th scope="col"><%= __('option') %></th>
                     </tr>
                 </thead>
                 <tfoot class="right">
                     <tr>
                         <td colspan="10">
-                            <span>Tổng hóa đơn:</span><strong class="txtEm gIndent10">
+                            <span><%= __('product.price.total') %>:</span><strong class="txtEm gIndent10">
                                 <span class="txt18" id="cartTotalPrice" data-price="<%= totalPrice %>"><%= formatPrice(totalPrice) %></span> đ
                             </strong>
                             <span lass="displaynone"></span>
@@ -72,11 +72,11 @@
                                 </strong>
                                 <span class="cart__error color-red">
                                     <% if (product.item.quantity <= 0) { %>
-                                        Sản phẩm hết hàng
+                                        <%= __('product.out-of-stock.original') %>
                                     <% } else if (product.item.quantity < product.quantity) { %>
-                                        Sản phẩm trong kho không đủ
+                                        <%= __('product.not-enough-products.original') %>
                                     <% } else if (product.item.price.isAgreement) { %>
-                                        Sản phẩm thương lượng giá cả
+                                        <%= __('product.negotiated-price.original') %>
                                     <% } %>
                                 </span>
                             </td>
@@ -84,7 +84,7 @@
                                 <div class="">
                                     <span style="font-size:12px;color:#000000;font-weight:bold;">
                                         <% if (product.item.price.isAgreement) { %>
-                                            Liên hệ<br> <%= info.phone %>
+                                            <%= __('contact') %><br> <%= info.phone %>
                                         <% } else { %>
                                             <span class="priceDisplay"></span>
                                             <input class="priceValue"
@@ -134,20 +134,20 @@
             <span class="gRight">
                 <form action="/gio-hang/xac-nhan" method="GET">
                     <button class="btn btn-primary" id="cartBtnSubmit"
-                            style="padding: 10px 15px; background: #444; color: #fff; font-size: 16px;">Xác nhận</button>
+                            style="padding: 10px 15px; background: #444; color: #fff; font-size: 16px;"><%= __('confirm') %></button>
                 </form>
             </span>
         </div>
     </div>
 
     <div class="xans-element- xans-order xans-order-basketguide ec-base-help ">
-        <h3>Hướng dẫn sử dụng</h3>
+        <h3><%= __('product.cart.user-manual') %></h3>
         <div class="inner">
-            <h4>Giỏ hàng</h4>
+            <h4><%= __('product.cart.title') %></h4>
             <ol>
-                <li class="item1">Bấm nút xác nhận mua sản phẩm</li>
-                <li class="item2">Điền đầy đủ thông tin liên hệ</li>
-                <li class="item3">Chuyển khoản ngân hàng và gọi thông báo cho chúng tôi.</li>
+                <li class="item1"><%= __('product.cart.step1') %></li>
+                <li class="item2"><%= __('product.cart.step2') %></li>
+                <li class="item3"><%= __('product.cart.step3') %></li>
             </ol>
         </div>
     </div>

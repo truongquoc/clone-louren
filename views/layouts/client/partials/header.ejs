@@ -65,6 +65,16 @@
                     <%= info.workingTime %>
                 </a>
             </li>
+            <li class="header__contact--list list-inline-item">
+                <a href="/languages/vi">
+                    <img src="/public/client/images/flags/vn.png"> VIETNAM
+                </a>
+            </li>
+            <li class="header__contact--list list-inline-item">
+                <a href="/languages/en">
+                    <img src="/public/client/images/flags/en.png"> ENGLISH
+                </a>
+            </li>
         </ul>
     </div>
 </div>
@@ -84,17 +94,17 @@
             <li class="sub_menu_layer icon_member d-none d-md-block">
                 <!-- <a href="/member/login.html" module="Layout_statelogoff"><span class="hide">MEMBER</span></a>
                 <a href="{$action_logout}" module="Layout_stateLogon"><span class="hide">MEMBER</span></a>-->
-                <a href="#" class="item"><span class="hide">Thành viên</span></a>
+                <a href="#" class="item"><span class="hide"><%= __('member') %></span></a>
                 <div class="sub_menu">
                     <ul class="xans-element- xans-layout xans-layout-statelogoff text-upper">
                         <% if (!cUser) { %>
-                            <li><a href="/dang-nhap" class="log">Đăng nhập</a></li>
-                            <li><a href="/dang-ky">Đăng ký</a></li>
-                            <li><a href="/quen-mat-khau">Quên mật khẩu</a></li>
+                            <li><a href="/dang-nhap" class="log"><%= __('user.auth.login.title') %></a></li>
+                            <li><a href="/dang-ky"><%= __('user.auth.register.title') %></a></li>
+                            <li><a href="/quen-mat-khau"><%= __('user.auth.password.forgot') %></a></li>
                         <% } else { %>
-                            <li><a href="/nguoi-dung">Tài khoản</a></li>
-                            <li><a href="/nguoi-dung/don-hang">Đơn hàng</a></li>
-                            <li><a href="/dang-xuat">Thoát</a></li>
+                            <li><a href="/nguoi-dung"><%= __('user.dashboard') %></a></li>
+                            <li><a href="/nguoi-dung/don-hang"><%= __('user.orders') %></a></li>
+                            <li><a href="/dang-xuat"><%= __('user.auth.logout') %></a></li>
                         <% } %>
                     </ul>
                 </div>
@@ -119,24 +129,24 @@
 
     <div class="widget_lnb_menu">
         <ul class="header_lnb_menu d-flex flex-md-row flex-column">
-            <li class="lnb1"><a href="/">TRANG CHỦ</a></li>
+            <li class="lnb1 text-upper"><a href="/"><%= __('home') %></a></li>
             <li class="lnb2">
-                <a href="/mat-hang" class="text-upper product-sub-desktop">MẶT HÀNG <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                <span class="text-upper product-sub-mobi">MẶT HÀNG <i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                <a href="/mat-hang" class="text-upper product-sub-desktop"><%= __('product.category') %> <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                <span class="text-upper product-sub-mobi"><%= __('product.category') %> <i class="fa fa-angle-down" aria-hidden="true"></i></span>
                 <div class="xans-element- xans-layout xans-layout-category lnb_sub_menu">
                     <ul>
                         <li class="depth1 xans-record- product-sub-mobi">
-                            <a href="/mat-hang">Tất cả sản phẩm</a>
+                            <a href="/mat-hang"><%= __('product.products') %></a>
                         </li>
                         <% productTypes.forEach((type) => { %>
                             <li class="depth1 xans-record-">
-                                <a href="/mat-hang/<%= type.slug %>"><%= type.name %></a>
+                                <a href="/mat-hang/<%= type.slug %>"><%= type.getName %></a>
                                 <% if (type.childs.length > 0) { %>
                                     <div class="sub-category" style="display: none;">
                                         <ul>
                                             <% type.childs.forEach((childType) => { %>
                                                 <li class="depth2">
-                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.name %></a>
+                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.getName %></a>
                                                 </li>
                                             <% }) %>
                                         </ul>
@@ -145,13 +155,13 @@
                             </li>
                         <% }) %>
                         <li class="depth1 xans-record-">
-                            <a href="/mat-hang/giam-gia">Sản phẩm giảm giá</a>
+                            <a href="/mat-hang/giam-gia"><%= __('product.sale-off') %></a>
                         </li>
                     </ul>
                 </div>
                 <!--/.lnb_sub_menu -->
             </li>
-            <li class="lnb1"><a href="/blog" class="text-upper">BLOG</a></li>
+            <li class="lnb1"><a href="/blog" class="text-upper"><%= __('blog.header') %></a></li>
         </ul>
     </div>
 </div>

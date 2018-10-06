@@ -19,10 +19,11 @@ class ClassificationRepository extends BaseRepository {
 
     async create(data) {
         let classification = await this.getDetailOnlyTrashed({
-            $or: [{ name: data.name }, { slug: getSlug(data.slug) }],
+            $or: [{ name: data.name }, { 'names.en': data.nameEn }, { slug: getSlug(data.slug) }],
         });
         if (classification) {
             classification.name = data.name;
+            classification['names.en'] = data.nameEn;
             classification.slug = getSlug(data.slug || data.name);
             classification.createdAt = new Date();
             classification.deletedAt = null;
@@ -31,6 +32,7 @@ class ClassificationRepository extends BaseRepository {
         }
         classification = {
             name: data.name,
+            'names.en': data.nameEn,
             slug: getSlug(data.slug || data.name),
         };
 
@@ -40,6 +42,7 @@ class ClassificationRepository extends BaseRepository {
     async update(data, id) {
         const classification = {
             name: data.name,
+            'names.en': data.nameEn,
             slug: getSlug(data.slug || data.name),
         };
 

@@ -163,10 +163,10 @@
                         <tbody>
                         <tr class=" xans-record-">
                             <th scope="row"><span
-                                        style="font-size:12px;color:#000000;font-weight:bold;">Giá: </span></th>
+                                        style="font-size:12px;color:#000000;font-weight:bold;"><%= __('product.price.unit') %>: </span></th>
                             <td>
                                 <% if (product.price.isAgreement) { %>
-                                    Liên hệ
+                                    <%= __('contact') %>
                                 <% } else { %>
                                     <span class="" style="font-size:12px;color:#000000;font-weight:bold;">
                                         <span class="priceDisplay"></span>
@@ -185,23 +185,23 @@
                             </td>
                         </tr>
                         <tr class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">Mã sản phẩm</span></th>
+                            <th scope="row"><span style="font-size:12px;color:#555555;"><%= __('product.code') %></span></th>
                             <td><span style="font-size:12px;color:#555555;"><%= product.sku %></span></td>
                         </tr>
                         <tr class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">Loại sản phẩm: </span></th>
+                            <th scope="row"><span style="font-size:12px;color:#555555;"><%= __('product.detail-category') %>: </span></th>
                             <td>
                                 <span style="font-size:12px;color:#555555;">
-                                      <%= product.type.name %>
+                                      <%= product.type.getName %>
                                 </span>
                             </td>
                         </tr>
                         <% if (product.tags.length) { %>
                             <tr class=" xans-record-">
-                                <th scope="row"><span style="font-size:12px;color:#555555;">Thẻ: </span></th>
+                                <th scope="row"><span style="font-size:12px;color:#555555;"><%= __('product.tag') %>: </span></th>
                                 <td>
                                     <% product.tags.forEach((tag) => { %>
-                                        <a href="/mat-hang/tag-<%= tag.slug %>" class="custom_btn"><%= tag.name %></a>
+                                        <a href="/mat-hang/tag-<%= tag.slug %>" class="custom_btn"><%= tag.getName %></a>
                                     <% }) %>
                                 </td>
                             </tr>
@@ -216,13 +216,16 @@
                     </div>
                     <% if (!product.price.isAgreement) { %>
                         <p class="info" style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>Chọn số lượng và thêm vào giỏ hàng</span>
+                            <span><%= __('product.cart.add2') %></span>
                             <input type="number" style="min-height: 30px; width: 100px; text-align: center;" min="0"
                                     name="quantityBuy" value="1" id="quantityBuy">
                         </p>
                     <% } else { %>
                         <p class="info" style="font-weight: 700;">
-                            Quý khách vui lòng liên hệ đến hotline <%= info.phone %> để đặt hàng. Xin cảm ơn!
+                            <%= __('product.order-via-negotiate', {
+                                phone: info.phone,
+                            }) %>
+
                         </p>
                     <% } %>
                 </div>
@@ -234,12 +237,12 @@
                             <!--</a>-->
                             <% if (product.price.isAgreement) { %>
                                 <a class="custom_btn_basket first custom_btn_buy" style="text-align: center" disabled>
-                                    <span class="transition_type1">Liên hệ: <%= info.phone %></span>
+                                    <span class="transition_type1"><%= __('contact') %>: <%= info.phone %></span>
                                 </a>
                             <% } else { %>
                                 <a class="custom_btn_basket first custom_btn_buy add-to-cart-btn" id="addCart"
                                    data-id="<%= product._id %>" style="text-align: center">
-                                    <span class="transition_type1">Thêm vào giỏ hàng</span>
+                                    <span class="transition_type1"><%= __('product.cart.add') %></span>
                                 </a>
                             <% } %>
                             <span class="custom_btn_soldout displaynone" id="soldOut"
@@ -258,11 +261,11 @@
         <div id="prdDetail" class="custom_detail_tabs ">
             <ul class="menu">
                 <li class="selected"><a href="#prdDetail"><span
-                        >CHI TIẾT</span></a></li>
+                        ><%= __('product.detail') %></span></a></li>
                 <li><a href="#prdInfo"><span
-                        >THÔNG TIN SẢN PHẨM</span></a></li>
+                        ><%= __('product.description') %></span></a></li>
                 <li><a href="#prdReview"><span
-                        >BÌNH LUẬN</span></a></li>
+                        ><%= __('product.comments') %></span></a></li>
             </ul>
             <div class="eventArea cont displaynone">
                 <div class="event"></div>
@@ -274,11 +277,11 @@
         <div id="prdInfo" class="custom_detail_tabs ">
             <ul class="menu">
                 <li><a href="#prdDetail"><span
-                        >CHI TIẾT</span></a></li>
+                        ><%= __('product.detail') %></span></a></li>
                 <li class="selected"><a href="#prdInfo"><span
-                        >THÔNG TIN SẢN PHẨM</span></a></li>
+                        ><%= __('product.description') %></span></a></li>
                 <li><a href="#prdReview"><span
-                        >BÌNH LUẬN</span></a></li>
+                        ><%= __('product.comments') %></span></a></li>
             </ul>
             <div class="cont">
                 <%- product.info %>
@@ -287,18 +290,18 @@
         <div id="prdReview" class="custom_detail_tabs ">
             <ul class="menu">
                 <li><a href="#prdDetail"><span
-                        >CHI TIẾT</span></a></li>
+                        ><%= __('product.detail') %></span></a></li>
                 <li><a href="#prdInfo"><span
-                        >THÔNG TIN SẢN PHẨM</span></a></li>
+                        ><%= __('product.description') %></span></a></li>
                 <li class="selected"><a href="#prdReview"><span
-                        >BÌNH LUẬN</span></a></li>
+                        ><%= __('product.comments') %></span></a></li>
             </ul>
             <div class="comments">
                 <div class="fb-comments" data-href="<% originalUrl %>" data-numposts="10"></div>
             </div>
         </div>
         <div id="prdRelated" class="cont">
-            <h2 style="font-size: 19px">SẢN PHẨM CÙNG CHUYÊN MỤC</h2>
+            <h2 style="font-size: 19px"><%= __('product.related-products') %></h2>
 
             <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
                 <ul class="prdList hover_zoom grid5 autoplay m-0">
@@ -315,12 +318,12 @@
                                     <ul>
                                         <% if (!productItem.price.isAgreement) { %>
                                             <li data-id="<%= productItem._id %>"
-                                                class="cart shopping__icon add-to-cart-btn" title="Thêm vào giỏ hàng">
+                                                class="cart shopping__icon add-to-cart-btn" title="<%= __('product.cart.add') %>">
                                                 <i class="fa fa-shopping-cart"></i>
                                             </li>
                                         <% } else { %>
                                             <li class="cart shopping__icon telephone__text">
-                                                Liên hệ
+                                                <%= __('contact') %>
                                             </li>
                                         <% } %>
                                         <!--<li class="wish_btn shopping__icon" title="Yêu thích">-->
@@ -350,7 +353,7 @@
                                 <ul class="xans-element- xans-product xans-product-listitem spec">
                                     <li class="xans-record-">
                                         <% if (productItem.price.isAgreement) { %>
-                                            Liên hệ: <%= info.phone %>
+                                            <%= __('contact') %>: <%= info.phone %>
                                         <% } else { %>
                                             <span class="priceDisplay"></span>
                                             <input class="priceValue"
