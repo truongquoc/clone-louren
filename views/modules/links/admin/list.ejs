@@ -35,51 +35,18 @@
                 <div class="col-12 col-md-8">
                     <p><i>Có thể ẩn hiện liên kết hoặc di chuyển để sắp xếp thứ tự các liên kết</i></p>
                     <ul class="todo-list">
-                        <% if(links) { %>
-                            <% links.forEach(link => { %>
-                                <li data-id="<%= link._id %>" style="<%= link.show === 'disShow' ? 'background: #ff9e9e' : '' %>">
-                                    <span class="handle">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                        <i class="fa fa-ellipsis-v"></i>
-                                    </span>
-                                    <span class="text"><%= link.name %></span>
-                                    <div class="tools">
-                                        <i class="fa <%= link.show === 'show' ? 'fa-eye' : 'fa-eye-slash' %> show" id="<%= link.show %>"></i>
-                                    </div>
-                                </li>
-                            <% }) %>
-                        <% } else { %>
-                            <li data-id="gt">
+                        <% links.forEach(link => { %>
+                            <li data-id="<%= link._id %>" style="<%= link.show === 'disShow' ? 'background: #ff9e9e' : '' %>">
                                 <span class="handle">
                                     <i class="fa fa-ellipsis-v"></i>
                                     <i class="fa fa-ellipsis-v"></i>
                                 </span>
-                                <span class="text">Giới thiệu</span>
+                                <span class="text"><%= link.name %></span>
                                 <div class="tools">
-                                    <i class="fa fa-eye show" id="show"></i>
+                                    <i class="fa <%= link.show ? 'fa-eye' : 'fa-eye-slash' %> show" id="<%= link.show %>"></i>
                                 </div>
                             </li>
-                            <li data-id="cs">
-                                <span class="handle">
-                                    <i class="fa fa-ellipsis-v"></i>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </span>
-                                <span class="text">Chính sách bán hàng</span>
-                                <div class="tools">
-                                    <i class="fa fa-eye show" id="show"></i>
-                                </div>
-                            </li>
-                            <li data-id="ck">
-                                <span class="handle">
-                                    <i class="fa fa-ellipsis-v"></i>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </span>
-                                <span class="text">Cam kết</span>
-                                <div class="tools">
-                                    <i class="fa fa-eye show" id="show"></i>
-                                </div>
-                            </li>
-                        <% } %>
+                        <% }) %>
                       </ul>
                       <button id="sttLinks" class="btn btn-primary" style="margin-top: 20px">Cập nhật</button>
                 </div>

@@ -499,3 +499,7 @@ body {
 .xans-member-login .login fieldset .id, .xans-member-login .login fieldset .password {
     width: 100%;
 }
+
+.footer-info--font-size-15 {
+    font-size: 15px;
+}

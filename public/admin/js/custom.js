@@ -326,7 +326,6 @@ function init_editSubModule() {
                     return false;
                 }
                 const result = res.data;
-                console.log(result);
                 const $row = $(`.module__table tr[data-key="${result._id}"]`);
                 const checkIsProductType = $('.module__table').hasClass('product-types__table');
                 if (checkIsProductType) {

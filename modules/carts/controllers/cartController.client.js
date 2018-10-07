@@ -208,7 +208,6 @@ const buyProduct = async (req, res, next) => {
         let bill;
         let redirectRoute;
         const user = req.session.cUser;
-        const commands = [];
 
         const language = i18n.getLocale(req);
         i18n.setLocale(language);
@@ -216,15 +215,14 @@ const buyProduct = async (req, res, next) => {
 
         if (user) {
             bill = await CartRepository.createBill(data, user._id);
-            commands.push(CartRepository.emptyCart(user._id));
+            await CartRepository.emptyCart(user._id);
             redirectRoute = '/nguoi-dung/don-hang';
         } else {
             bill = await CartRepository.createBillWithoutLogin(data, req.session.cart);
             delete req.session.cart;
             redirectRoute = '/gio-hang';
         }
-        commands.push(BillRepository.sendConfirmEmail(bill._id, i18n));
-        await Promise.all(commands);
+        BillRepository.sendConfirmEmail(bill._id, i18n);
 
         req.flash('success', i18n.__('product.order.success-message'));
 
