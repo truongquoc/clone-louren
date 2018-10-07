@@ -230,7 +230,6 @@ class ProductRepository extends ArticleRepository {
         } else if (typeof images === 'string') {
             images = [images];
         }
-        console.log(!!data.isRare);
         const product = {
             type: data.type,
             tags: data.tags,

@@ -18,7 +18,7 @@
    <h1 class="single-article-title fl-wrap"><span><%= blogArticle.title %></span></h1>
    <div class="single-article-cat fl-wrap">
       <ul class="post-categories">
-         <li><a href="/blog/chuyen-muc-<%= blogArticle.category.slug %>" rel="category tag"><%= blogArticle.category.getName %></a></li>
+         <li><a href="/blog/chuyen-muc-<%= blogArticle.category.slug %>" rel="category tag"><%= blogArticle.category.getName(language) %></a></li>
       </ul>
    </div>
    <div class="clearfix"></div>
@@ -45,7 +45,7 @@
              <% if (blogArticle.tags && blogArticle.tags.length) { %>
                 <div class="single-post-tags fl-left"><i class="fa fa-tags"></i>
                     <% blogArticle.tags.forEach((tag) => { %>
-                        <a href="/blog/tag-<%= tag.slug%>" rel="tag"><%= tag.getName %></a>
+                        <a href="/blog/tag-<%= tag.slug%>" rel="tag"><%= tag.getName(language) %></a>
                     <% }) %>
                 </div>
              <% } %>

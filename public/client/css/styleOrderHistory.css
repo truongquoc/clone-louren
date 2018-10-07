@@ -26,9 +26,11 @@
 .pagination-list .pagination li.page-item.active a.page-link.active {
     color: #fff;
     background: #808f66;
+    border-color: transparent;
 }
 .order .pagination li.page-item a.page-link:hover {
     background: #808f66;
+    color: #fff !important;
 }
 
 .bill-pagination.pagination-list .pagination li {

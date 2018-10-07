@@ -36,7 +36,7 @@ class ProductTypeRepository extends ClassificationRepository {
             .find({
                 deletedAt: null,
             })
-            .select('_id parentType name slug')
+            .select('_id parentType name names slug')
             .sort({ createdAt: -1 });
     }
 

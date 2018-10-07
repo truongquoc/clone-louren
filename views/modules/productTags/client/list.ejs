@@ -13,13 +13,13 @@
 
 <% stylesheet('/public/client/css/styleList.css') %>
 
-<% block('title', `${__('product.tag')} ${productTag.getName}`) %>
+<% block('title', `${__('product.tag')} ${productTag.getName(language)}`) %>
 
 <div id="contents">
     <div class="xans-element- xans-product xans-product-menupackage ">
 
         <div class="xans-element- xans-product xans-product-headcategory title">
-            <h2><%= productTag.getName %></h2>
+            <h2><%= productTag.getName(language) %></h2>
         </div>
 
         <div class="xans-element- xans-product xans-product-headcategory title "><p class="banner"></p>

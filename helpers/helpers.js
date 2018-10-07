@@ -36,7 +36,7 @@ module.exports = (res) => {
 
     res.locals.infoRedis = (title, data, item) => {
         if (data[item] !== '' && data[item] !== undefined) {
-            return `<p class="mb-2">${title}: ${data[item]}</p>`;
+            return `<p class="mb-2 footer-info--font-size-15">${title}: ${data[item]}</p>`;
         }
 
         return '';

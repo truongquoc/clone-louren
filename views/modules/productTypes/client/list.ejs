@@ -13,7 +13,7 @@
 
 <% stylesheet('/public/client/css/styleList.css') %>
 
-<% block('title', `${__('product.category')} ${productType.getName}`) %>
+<% block('title', `${__('product.category')} ${productType.getName(language)}`) %>
 
 <% productTypes.forEach((type) => {
     type.childs = productTypes.filter(childType => {
@@ -30,14 +30,14 @@
         ) %>
 
         <div class="xans-element- xans-product xans-product-headcategory title">
-            <h2><%= displayType.getName %></h2>
+            <h2><%= displayType.getName(language) %></h2>
         </div>
 
         <% if (displayType.childs) { %>
             <ul class="menuCategory">
                 <% displayType.childs.forEach((type) => { %>
                     <li class="xans-element- xans-product xans-product-displaycategory  xans-record- <%= type.slug === productType.slug ? 'selected' : '' %>"
-                    ><a href="/mat-hang/<%= type.slug %>"><%= type.getName %></a>
+                    ><a href="/mat-hang/<%= type.slug %>"><%= type.getName(language) %></a>
                     </li>
                 <% }) %>
             </ul>
