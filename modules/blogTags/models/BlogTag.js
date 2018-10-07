@@ -31,15 +31,14 @@ const BlogTag = new Schema({
     timestamps: true,
 });
 
-BlogTag.virtual('getName').get(function callback() {
-    const locale = i18n.getLocale();
+BlogTag.methods.getName = function callback(locale) {
     if (locale === 'vi') {
         return this.name;
     }
-    if (locale === 'en') {
+    if (locale === 'en' && this.names.en) {
         return this.names.en;
     }
-    return '';
-});
+    return this.name;
+};
 
 module.exports = mongoose.model('blog_tags', BlogTag);

@@ -141,13 +141,13 @@
                         </li>
                         <% productTypes.forEach((type) => { %>
                             <li class="depth1 xans-record-">
-                                <a href="/mat-hang/<%= type.slug %>"><%= type.getName %></a>
+                                <a href="/mat-hang/<%= type.slug %>"><%= type.getName(language) %></a>
                                 <% if (type.childs.length > 0) { %>
                                     <div class="sub-category" style="display: none;">
                                         <ul>
                                             <% type.childs.forEach((childType) => { %>
                                                 <li class="depth2">
-                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.getName %></a>
+                                                    <a href="/mat-hang/<%= childType.slug %>"><%= childType.getName(language) %></a>
                                                 </li>
                                             <% }) %>
                                         </ul>
