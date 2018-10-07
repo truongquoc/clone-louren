@@ -94,6 +94,57 @@
     color: red;
 }
 
+.xans-product-additional .nav-tabs {
+    height: 45px;
+    margin: 0 0 20px;
+    font-size: 0;
+    line-height: 0;
+    text-align: center;
+    border-bottom: 0;
+    border-left: 0;
+    background: transparent;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.xans-product-additional .nav-tabs .nav-item {
+    display: inline-block;
+    width: calc(100% / 3) !important;
+    margin: 0 0;
+    padding: 0 0;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: top;
+    *zoom: 1;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.xans-product-additional .nav-tabs .nav-item a {
+    display: block;
+    text-decoration: none;
+    margin-left: -1px;
+    padding: 15px 0;
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #333;
+    background: transparent;
+    color: #777;
+    font-family: 'Open Sans','나눔고딕','Nanum Gothic',sans-serif;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.xans-product-additional .nav-tabs .nav-item a.active {
+    position: relative;
+    z-index: 1;
+    font-weight: 400;
+    background: transparent;
+    color: #000;
+    border: 1px solid #333;
+    border-bottom: 1px solid #fff;
+}
+
 .xans-product-additional .cont {
     width: 100%;
     height: 100%;
@@ -114,7 +165,7 @@
 }
 
 .owl-carousel .owl-item img {
-    height: 550px;
+    height: 600px;
     object-fit: cover;
 }
 
@@ -174,7 +225,7 @@ body {
 }
 
 .homepage .owl-stage-outer {
-    height: 550px;
+    height: 600px;
 }
 
 
@@ -286,6 +337,12 @@ body {
     margin-top: 18px;
     margin-left: 50px;
 }
+.owl-carousel {
+    margin-top: 88px;
+}
+.footer_social {
+    width: 300px;
+}
 
 @media (max-width: 992px) {
     .thumbnail img {
@@ -297,6 +354,15 @@ body {
 @media (max-width: 768px) {
     #wrap {
         padding: 0 15px 0;
+    }
+    .owl-carousel .owl-item img {
+        height: 400px;
+    }
+    .owl-carousel .owl-item img {
+        height: 400px;
+    }
+    .footer_social {
+        width: auto;
     }
     .titleArea {
         padding: 0 !important;
@@ -473,6 +539,9 @@ body {
     .thumbnail img {
         height: 200px;
         object-fit: cover !important;
+    }
+    .owl-carousel {
+        margin-top: 50px;
     }
 }
 
