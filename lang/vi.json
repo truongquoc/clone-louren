@@ -8,11 +8,12 @@
 	"messenger-greeting": "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
 	"member": "Thành viên",
 	"product": {
+		"rareProducts": "Sản phẩm hiếm",
 		"code": "Mã sản phẩm",
 		"no-products": "Không có sản phẩm nào được tìm thấy",
 		"category": "Mặt hàng",
 		"detail-category": "Loại sản phẩm",
-		"products": "Tất cả sản phẩm",
+		"products": "Danh sách sản phẩm",
 		"sale-off": "Sản phẩm giảm giá",
 		"newest": "SẢN PHẨM MỚI NHẤT",
 		"quantity": "Số lượng",

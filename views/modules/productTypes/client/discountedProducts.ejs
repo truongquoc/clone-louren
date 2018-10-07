@@ -6,7 +6,7 @@
 
     <meta property="og:url" content="${originalUrl}" id="fbUrl" />
     <!-- <meta property="og:type" content="article" /> -->
-    <meta property="og:title" content="${titleRedis(info)} | Danh sách sản phẩm" />
+    <meta property="og:title" content="${titleRedis(info)} | Sản phẩm giảm giá" />
     <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
     <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
 `) %>
@@ -16,13 +16,19 @@
 <% block('title', __('product.discounted-products')) %>
 
 <div id="contents">
+    <div class="xans-element- xans-product xans-product-menupackage ">
+        <div class="xans-element- xans-product xans-product-headcategory title">
+            <h2><%= __('product.discounted-products') %></h2>
+        </div>
+    </div>
+
     <div class="xans-element- xans-product xans-product-normalpackage ">
         <div class="xans-element- xans-product xans-product-normalmenu ">
             <div class="title hide" id="Product_ListMenu">
                 <h3><span>HIT PRODUCT</span></h3>
             </div>
             <div class="function row d-flex m-0">
-                <p class="prdCount col-12-auto col-md-auto"><strong><%= products.total %></strong> <%= __('product.count') %></p>
+                <p class="prdCount col-12-auto col-md-auto"><strong><%= products.total %></strong> <%= __n('product.count', products.total) %></p>
                 <ul id="type" class="xans-element- xans-product xans-product-orderby
                 col-12 col-md px-1 m-0 row d-flex justify-content-around justify-content-md-end">
                     <li class="xans-record-">

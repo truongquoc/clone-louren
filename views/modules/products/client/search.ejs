@@ -90,7 +90,7 @@
                 <!--</div>-->
             </div>
             <div class="searchResult">
-                <p class="record"><strong><%= products.total %></strong> <%= __('product.count') %></p>
+                <p class="record"><strong><%= products.total %></strong> <%= __('product.count', products.total) %></p>
             </div>
             <div class="noData <%= products.total !== 0 ? 'displaynone' : '' %>">
                 <strong class="warning"><%= __('product.no-products') %></strong>

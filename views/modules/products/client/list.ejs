@@ -17,16 +17,8 @@
 
 <div id="contents">
     <div class="xans-element- xans-product xans-product-menupackage ">
-        <div class="xans-element- xans-product xans-product-headcategory path"><span>현재 위치</span>
-            <ol>
-                <li><a href="/">홈</a></li>
-                <li class=""><a href="/category/chair/24/">chair</a></li>
-            </ol>
-        </div>
         <div class="xans-element- xans-product xans-product-headcategory title">
-            <h2>Danh sách sản phẩm</h2>
-        </div>
-        <div class="xans-element- xans-product xans-product-headcategory title "><p class="banner"></p>
+            <h2><%= __('product.products') %></h2>
         </div>
     </div>
 
@@ -36,7 +28,7 @@
                 <h3><span>HIT PRODUCT</span></h3>
             </div>
             <div class="function row d-flex m-0">
-                <p class="prdCount col-12-auto col-md-auto"><strong><%= products.total %></strong> <%= __('product.count') %></p>
+                <p class="prdCount col-12-auto col-md-auto"><strong><%= products.total %></strong> <%= __n('product.count', products.total) %></p>
                 <ul id="type" class="xans-element- xans-product xans-product-orderby
                 col-12 col-md px-1 m-0 row d-flex justify-content-around justify-content-md-end">
                     <li class="xans-record-">

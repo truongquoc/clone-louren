@@ -6,48 +6,35 @@
 
     <meta property="og:url" content="${originalUrl}" id="fbUrl" />
     <!-- <meta property="og:type" content="article" /> -->
-    <meta property="og:title" content="${titleRedis(info)} | Thể loại ${productType.name}" />
+    <meta property="og:title" content="${titleRedis(info)} | Sản phẩm hiếm" />
     <meta property="og:description" content="Nội Thất Mây Hiên home. We create a product, not just it but all." />
     <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
 `) %>
 
 <% stylesheet('/public/client/css/styleList.css') %>
 
-<% block('title', `${__('product.category')} ${productType.getName}`) %>
-
-<% productTypes.forEach((type) => {
-    type.childs = productTypes.filter(childType => {
-        return childType.parentType ? childType.parentType.toString() === type._id.toString() : false;
-    });
-    return type;
-}); %>
-<% productTypes = productTypes.filter((type) => !type.parentType) %>
+<% block('title', __('product.products')) %>
 
 <div id="contents">
     <div class="xans-element- xans-product xans-product-menupackage ">
-        <% const displayType = productTypes.find((type) => (productType._id.toString() === type._id.toString()
-                || (productType.parentType ? productType.parentType.toString() === type._id.toString() : false))
-        ) %>
-
-        <div class="xans-element- xans-product xans-product-headcategory title">
-            <h2><%= displayType.getName %></h2>
+        <div class="xans-element- xans-product xans-product-headcategory path"><span>현재 위치</span>
+            <ol>
+                <li><a href="/">홈</a></li>
+                <li class=""><a href="/category/chair/24/">chair</a></li>
+            </ol>
         </div>
-
-        <% if (displayType.childs) { %>
-            <ul class="menuCategory">
-                <% displayType.childs.forEach((type) => { %>
-                    <li class="xans-element- xans-product xans-product-displaycategory  xans-record- <%= type.slug === productType.slug ? 'selected' : '' %>"
-                    ><a href="/mat-hang/<%= type.slug %>"><%= type.getName %></a>
-                    </li>
-                <% }) %>
-            </ul>
-        <% } %>
+        <div class="xans-element- xans-product xans-product-headcategory title">
+            <h2><%= __('product.rareProducts') %></h2>
+        </div>
         <div class="xans-element- xans-product xans-product-headcategory title "><p class="banner"></p>
         </div>
     </div>
 
     <div class="xans-element- xans-product xans-product-normalpackage ">
         <div class="xans-element- xans-product xans-product-normalmenu ">
+            <div class="title hide" id="Product_ListMenu">
+                <h3><span>HIT PRODUCT</span></h3>
+            </div>
             <div class="function row d-flex m-0">
                 <p class="prdCount col-12-auto col-md-auto"><strong><%= products.total %></strong> <%= __n('product.count', products.total) %></p>
                 <ul id="type" class="xans-element- xans-product xans-product-orderby
@@ -75,7 +62,7 @@
         </div>
 
         <div class="xans-element- xans-product xans-product-listnormal ec-base-product">
-            <ul class="prdList hover_zoom grid5 d-flex row">
+            <ul class="prdList hover_zoom grid5 row d-flex m-0">
                 <% products.docs.forEach((product) => { %>
                     <li class="item xans-record- col-6 col-md-4 mx-0">
                         <div class="box">

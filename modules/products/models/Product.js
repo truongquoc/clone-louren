@@ -61,6 +61,10 @@ const productSchema = new Schema({
         min: 0,
         required: true,
     },
+    isRare: {
+        type: Boolean,
+        default: false,
+    },
     isDraft: {
         type: Boolean,
         default: false,
