@@ -21,7 +21,7 @@
             <div class="col-auto row d-flex flex-column my-3">
                 <h3 class="mb-4"><%= __('customer-support') %></h3>
                 <% links.forEach(link => { %>
-                    <% if (link.show === 'show') { %>
+                    <% if (link.show === 'show' && link.key !== 'about-us') { %>
                         <a class="mt-2" href="<%= link.link %>"><%= __(link.key || ' ') %></a>
                     <% } %>
                 <% }) %>

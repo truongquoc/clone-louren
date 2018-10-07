@@ -88,4 +88,6 @@ module.exports = (res) => {
     res.locals.moment = moment;
 
     res.locals.__ = i18n.__;
+
+    res.locals.__n = i18n.__n;
 };

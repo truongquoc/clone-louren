@@ -50,6 +50,9 @@ class ProductRepository extends ArticleRepository {
                     conditions.discount = { $gt: 0 };
                     conditions['price.isAgreement'] = false;
                     break;
+                case 'rare':
+                    conditions.isRare = true;
+                    break;
             }
         }
         const sort = {};
@@ -210,6 +213,7 @@ class ProductRepository extends ArticleRepository {
             discount: data.discount || 0,
             info: data.info,
             detail: data.detail,
+            isRare: !!data.isRare,
             isDraft: !!data.isDraft,
             slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
         };
@@ -226,6 +230,7 @@ class ProductRepository extends ArticleRepository {
         } else if (typeof images === 'string') {
             images = [images];
         }
+        console.log(!!data.isRare);
         const product = {
             type: data.type,
             tags: data.tags,
@@ -240,6 +245,7 @@ class ProductRepository extends ArticleRepository {
             discount: data.discount || 0,
             info: data.info,
             detail: data.detail,
+            isRare: !!data.isRare,
             isDraft: !!data.isDraft,
             slug: getSlug(`${data.slug || data.name}-${data.createdTime}`),
         };

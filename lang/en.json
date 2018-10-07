@@ -8,6 +8,7 @@
 	"messenger-greeting": "Hello, can we help you?",
 	"member": "Member",
 	"product": {
+		"rareProducts": "Rare products",
 		"code": "Product code",
 		"no-products": "No products found",
 		"category": "Category",
@@ -91,7 +92,10 @@
 			"priceHighToLow": "Price High - Low",
 			"newest": "Newest"
 		},
-		"count": " products found"
+		"count": {
+			"one": " product found",
+			"other": " products found"
+		}
 	},
 	"blog": {
 		"header": "BLOG",

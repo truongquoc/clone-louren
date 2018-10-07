@@ -135,14 +135,25 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group text-right image__form__representation">
-                        <% let imageArray = old('images', product.image.array || []) %>
-                        <span class="form__error-message"><%= errors('images') %></span>
-                        <b>Đã có <%= imageArray.length %> bức ảnh được chọn</b>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Chọn ảnh sản phẩm (nhiều hình)
-                        </button>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <div class="form-group">
+                                <label for="isRare">
+                                    <input type="checkbox" name="isRare"
+                                           id="isRare" class="flat-red" <%= old('isRare', hasError() ? false : product.isRare) ? 'checked' : '' %>> Sản phẩm hiếm
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-6">
+                            <div class="form-group text-right image__form__representation">
+                                <% let imageArray = old('images', product.image.array || []) %>
+                                <span class="form__error-message"><%= errors('images') %></span>
+                                <b>Đã có <%= imageArray.length %> bức ảnh được chọn</b>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Chọn ảnh sản phẩm (nhiều hình)
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="images">

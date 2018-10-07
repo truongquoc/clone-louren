@@ -30,7 +30,7 @@ const index = async (req, res, next) => {
     }
 };
 
-const getDiscountedProducts = async (req, res, next) => {
+const listDiscountedProducts = async (req, res, next) => {
     const { query } = req;
     try {
         const products = await ProductRepository.clientList({
@@ -50,7 +50,29 @@ const getDiscountedProducts = async (req, res, next) => {
     }
 };
 
+const listRareProducts = async (req, res, next) => {
+    const { query } = req;
+    try {
+        const products = await ProductRepository.clientList({
+            name: 'rare',
+            value: true,
+        }, {
+            pageUrl: url.parse(req.originalUrl).pathname,
+            query,
+        });
+        products.renderPagination = paginationHelper.renderPagination;
+
+        return res.render('modules/productTypes/client/rareProducts', {
+            products,
+            query,
+        });
+    } catch (e) {
+        next(responseHelper.error(e.message));
+    }
+};
+
 module.exports = {
     index,
-    getDiscountedProducts,
+    listDiscountedProducts,
+    listRareProducts,
 };
