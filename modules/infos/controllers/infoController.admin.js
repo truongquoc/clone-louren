@@ -12,22 +12,55 @@ module.exports = {
     manage: async (req, res) => {
         const infos = await infoRepository.show();
 
-        const info = infos.length !== 0 ? infos[0] : {};
-        const [about, policy, courage, aboutEn, policyEn, courageEn] = await Promise.all([
+        let info = infos.length !== 0 ? JSON.parse(JSON.stringify(infos[0])) : {};
+        const [
+            about,
+            aboutEn,
+            purchaseMethod,
+            purchaseMethodEn,
+            payments,
+            paymentsEn,
+            deliveryPolicy,
+            deliveryPolicyEn,
+            policyToChange,
+            policyToChangeEn,
+            warranty,
+            warrantyEn,
+            privacyPolicy,
+            privacyPolicyEn,
+        ] = await Promise.all([
             getAsync('about'),
-            getAsync('policy'),
-            getAsync('courage'),
             getAsync('aboutEn'),
-            getAsync('policyEn'),
-            getAsync('courageEn'),
+            getAsync('purchaseMethod'),
+            getAsync('purchaseMethodEn'),
+            getAsync('payments'),
+            getAsync('paymentsEn'),
+            getAsync('deliveryPolicy'),
+            getAsync('deliveryPolicyEn'),
+            getAsync('policyToChange'),
+            getAsync('policyToChangeEn'),
+            getAsync('warranty'),
+            getAsync('warrantyEn'),
+            getAsync('privacyPolicy'),
+            getAsync('privacyPolicyEn'),
         ]);
 
-        info.about = about !== null ? about : '';
-        info.policy = policy !== null ? policy : '';
-        info.courage = courage !== null ? courage : '';
-        info.aboutEn = aboutEn !== null ? aboutEn : '';
-        info.policyEn = policyEn !== null ? policyEn : '';
-        info.courageEn = courageEn !== null ? courageEn : '';
+        info = Object.assign({
+            about,
+            aboutEn,
+            purchaseMethod,
+            purchaseMethodEn,
+            payments,
+            paymentsEn,
+            deliveryPolicy,
+            deliveryPolicyEn,
+            policyToChange,
+            policyToChangeEn,
+            warranty,
+            warrantyEn,
+            privacyPolicy,
+            privacyPolicyEn,
+        }, info);
 
         return res.render('modules/infos/admin/create', {
             info,
@@ -45,37 +78,39 @@ module.exports = {
 
         try {
             const info = await infoRepository.show();
+            let detail;
 
             if (info.length) {
-                const detail = await infoRepository.update(info[0]._id, data);
-                const infoJson = JSON.stringify(detail);
-
-                client.set('info', infoJson);
-                client.set('about', data.about);
-                client.set('policy', data.policy);
-                client.set('courage', data.courage);
-                client.set('aboutEn', data.aboutEn);
-                client.set('policyEn', data.policyEn);
-                client.set('courageEn', data.courageEn);
-
-                req.flash('oldValue', data);
-                req.flash('success', 'Cập nhật thông tin thành công');
-
-                return res.redirect('/admin/infos');
+                detail = await infoRepository.update(info[0]._id, data);
+                detail = JSON.stringify(detail);
+            } else {
+                detail = await infoRepository.create(data);
+                detail = JSON.stringify(detail);
             }
 
-            const detail = await infoRepository.create(data);
-            const infoJson = JSON.stringify(detail);
+            client.set('info', detail);
 
-            client.set('info', infoJson);
             client.set('about', data.about);
-            client.set('policy', data.policy);
-            client.set('courage', data.courage);
             client.set('aboutEn', data.aboutEn);
-            client.set('policyEn', data.policyEn);
-            client.set('courageEn', data.courageEn);
 
-            req.flash('oldValue', data);
+            client.set('purchaseMethod', data.purchaseMethod);
+            client.set('purchaseMethodEn', data.purchaseMethodEn);
+
+            client.set('payments', data.payments);
+            client.set('paymentsEn', data.paymentsEn);
+
+            client.set('deliveryPolicy', data.deliveryPolicy);
+            client.set('deliveryPolicyEn', data.deliveryPolicyEn);
+
+            client.set('policyToChange', data.policyToChange);
+            client.set('policyToChangeEn', data.policyToChangeEn);
+
+            client.set('warranty', data.warranty);
+            client.set('warrantyEn', data.warrantyEn);
+
+            client.set('privacyPolicy', data.privacyPolicy);
+            client.set('privacyPolicyEn', data.privacyPolicyEn);
+
             req.flash('success', 'Cập nhật thông tin thành công');
 
             return res.redirect('/admin/infos');

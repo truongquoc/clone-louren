@@ -94,7 +94,7 @@
                             <input id="via-bank" name="paymentMethod" value="via-bank"
                                    type="radio" <%= old('paymentMethod') === 'via-bank' ? 'checked' : '' %>>
                             <label for="via-bank"><%= __('product.cart.user.via-bank') %></label>
-                            <span class="bankAccount--display">Mã thẻ: <%= info.bankAccount %></span>
+                            <span class="bankAccount--display"><%= __('credit-card-number') %>: <%= info.bankAccount %></span>
                             <p class="red-note"><%= __(errors('paymentMethod') || ' ', __('product.cart.user.payment-method')) %></p>
                         </td>
                     </tr>

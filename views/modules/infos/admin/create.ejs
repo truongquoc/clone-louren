@@ -110,13 +110,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Giới thiệu</label>
-                                <textarea name="about" class="form-control form__content__input tinymce"><%= valInfo('about', info) %></textarea>
+                                <textarea name="about" class="form-control tinymce"><%= valInfo('about', info) %></textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Giới thiệu (En)</label>
-                                <textarea name="aboutEn" class="form-control form__content__input tinymce"><%= valInfo('aboutEn', info) %></textarea>
+                                <textarea name="aboutEn" class="form-control tinymce"><%= valInfo('aboutEn', info) %></textarea>
                             </div>
                         </div>
                     </div>
@@ -124,14 +124,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Chính sách bán hàng</label>
-                                <textarea name="policy" class="form-control form__content__input tinymce"><%= valInfo('policy', info) %></textarea>
+                                <label for="name">Phương thức mua hàng</label>
+                                <textarea name="purchaseMethod" class="form-control tinymce"><%= valInfo('purchaseMethod', info) %></textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Chính sách bán hàng (En)</label>
-                                <textarea name="policyEn" class="form-control form__content__input tinymce"><%= valInfo('policyEn', info) %></textarea>
+                                <label for="name">Phương thức mua hàng (En)</label>
+                                <textarea name="purchaseMethodEn" class="form-control tinymce"><%= valInfo('purchaseMethodEn', info) %></textarea>
                             </div>
                         </div>
                     </div>
@@ -139,15 +139,74 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Cam kết</label>
-                                <textarea name="courage" class="form-control form__content__input tinymce"><%= valInfo('courage', info) %></textarea>
+                                <label for="name">Hình thức thanh toán</label>
+                                <textarea name="payments" class="form-control tinymce"><%= valInfo('payments', info) %></textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Cam kết (En)</label>
-                                <textarea name="courageEn"
-                                          class="form-control form__content__input tinymce"><%= valInfo('courageEn', info) %></textarea>
+                                <label for="name">Hình thức thanh toán (En)</label>
+                                <textarea name="paymentsEn" class="form-control tinymce"><%= valInfo('paymentsEn', info) %></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Chính sách giao nhận</label>
+                                <textarea name="deliveryPolicy" class="form-control tinymce"><%= valInfo('deliveryPolicy', info) %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Chính sách giao nhận (En)</label>
+                                <textarea name="deliveryPolicyEn" class="form-control tinymce"><%= valInfo('deliveryPolicyEn', info) %></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Quy định đổi trả</label>
+                                <textarea name="policyToChange" class="form-control tinymce"><%= valInfo('policyToChange', info) %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Quy định đổi trả (En)</label>
+                                <textarea name="policyToChangeEn" class="form-control tinymce"><%= valInfo('policyToChangeEn', info) %></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Chế độ bảo hành</label>
+                                <textarea name="warranty" class="form-control tinymce"><%= valInfo('warranty', info) %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Chế độ bảo hành (En)</label>
+                                <textarea name="warrantyEn" class="form-control tinymce"><%= valInfo('warrantyEn', info) %></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Chính sách bảo mật</label>
+                                <textarea name="privacyPolicy" class="form-control tinymce"><%= valInfo('privacyPolicy', info) %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Chính sách bảo mật (En)</label>
+                                <textarea name="privacyPolicyEn" class="form-control tinymce"><%= valInfo('privacyPolicyEn', info) %></textarea>
                             </div>
                         </div>
                     </div>
