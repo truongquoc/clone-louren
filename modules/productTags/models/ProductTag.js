@@ -31,15 +31,14 @@ const ProductTag = new Schema({
     timestamps: true,
 });
 
-ProductTag.virtual('getName').get(function callback() {
-    const locale = i18n.getLocale();
+ProductTag.methods.getName = function callback(locale) {
     if (locale === 'vi') {
         return this.name;
     }
-    if (locale === 'en') {
+    if (locale === 'en' && this.names.en) {
         return this.names.en;
     }
-    return '';
-});
+    return this.name;
+};
 
 module.exports = mongoose.model('product_tags', ProductTag);

@@ -124,6 +124,12 @@ class BaseRepository {
     forceDelete(conditions) {
         return this.model.deleteMany(conditions);
     }
+
+    baseCount(conditions = {}) {
+        conditions.deletedAt = null;
+
+        return this.model.countDocuments(conditions);
+    }
 }
 
 module.exports = BaseRepository;

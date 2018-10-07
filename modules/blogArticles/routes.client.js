@@ -5,6 +5,7 @@ const blogArticleController = require('./controllers/blogArticleController.clien
 const propertyTypes = require('../../infrastructure/controllers/productController.client');
 
 router.use(propertyTypes.getPropertyTypes);
+
 router.get('/', blogArticleRight.blogArticleRight, blogArticleController.index);
 
 router.get('/:slug', blogArticleRight.blogArticleRight, blogArticleAuthorize.showAuthorize, blogArticleController.show);

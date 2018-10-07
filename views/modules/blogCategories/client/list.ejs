@@ -11,9 +11,9 @@
     <meta property="og:image" content="https://mayhienhome.com/public/client/images/logo/fullLogo.png" />
 `) %>
 
-<% block('title', __('blog.category') + ' ' + blogCategory.getName) %>
+<% block('title', __('blog.category') + ' ' + blogCategory.getName(language)) %>
 
-<h2 class="single-article-title fl-wrap"><span><%= __('blog.category') %>: <%= blogCategory.getName %></span></h2>
+<h2 class="single-article-title fl-wrap"><span><%= __('blog.category') %>: <%= blogCategory.getName(language) %></span></h2>
 <div class="clearfix"></div>
 <div class="separator img-separator"><img src="http://demowp.cththemes.net/springbook/wp-content/themes/springbook/images/sep-blk.png" alt=""></div>
 <div class="post-grid-wrap">
@@ -42,7 +42,7 @@
                             <ul class="post-categories">
                                 <li>
                                     <a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag">
-                                        <%= article.category.getName %>
+                                        <%= article.category.getName(language) %>
                                     </a>
                                 </li>
                             </ul>

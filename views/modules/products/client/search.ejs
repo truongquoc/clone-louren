@@ -41,7 +41,7 @@
                             <option value="0" selected="selected">Tìm kiếm theo thể loại</option>
                             <% productTypes.forEach((type) => { %>
                                 <option value="<%= type._id %>" <%= query.productType === type._id.toString() ? 'selected' : '' %>>
-                                    <%= type.getName %>
+                                    <%= type.getName(language) %>
                                 </option>
                             <% }) %>
                         </select>

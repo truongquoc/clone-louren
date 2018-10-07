@@ -39,15 +39,14 @@ BlogCategory.pre('validate', function callback(next) {
     next();
 });
 
-BlogCategory.virtual('getName').get(function callback() {
-    const locale = i18n.getLocale();
+BlogCategory.methods.getName = function callback(locale) {
     if (locale === 'vi') {
         return this.name;
     }
-    if (locale === 'en') {
+    if (locale === 'en' && this.names.en) {
         return this.names.en;
     }
-    return '';
-});
+    return this.name;
+};
 
 module.exports = mongoose.model('blog_categories', BlogCategory);

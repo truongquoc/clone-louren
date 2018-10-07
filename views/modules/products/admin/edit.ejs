@@ -171,7 +171,8 @@
                             <% productTags.forEach(function (tag) { %>
                                 <% if (oldTags) { %>
                                     <% oldTags.some(function (oldTag) { %>
-                                        <% check = (oldTag.toString() === tag._id.toString()) %>
+                                        <% const oldId = (typeof oldTag === 'object') ? oldTag._id : oldTag %>
+                                        <% check = (oldId.toString() === tag._id.toString()) %>
                                         <% if (check) return true %>
                                     <% }) %>
                                 <% } %>

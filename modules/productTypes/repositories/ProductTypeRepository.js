@@ -36,7 +36,7 @@ class ProductTypeRepository extends ClassificationRepository {
             .find({
                 deletedAt: null,
             })
-            .select('_id parentType name slug')
+            .select('_id parentType name names slug')
             .sort({ createdAt: -1 });
     }
 
@@ -99,9 +99,9 @@ class ProductTypeRepository extends ClassificationRepository {
 
     async delete(id) {
         await ProductRepository.forceDelete({ type: id, deletedAt: { $ne: null } });
+        await ProductRepository.baseDelete({ type: id });
         // delete product here
         return Promise.all([
-            ProductRepository.baseDelete({ type: id }),
             this.baseUpdate({ parentType: undefined }, { parentType: id }),
             this.deleteById(id),
         ]);

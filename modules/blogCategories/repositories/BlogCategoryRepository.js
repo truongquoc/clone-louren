@@ -1,5 +1,4 @@
 const BlogCategory = require('../models/BlogCategory');
-
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
 const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
 
@@ -11,38 +10,24 @@ class BlogCategoryRepository extends ClassificationRepository {
     }
 
     async getCategories() {
-        return this.model
-            .aggregate([
-                {
-                    $project: {
-                        name: 1, slug: 1,
-                    },
-                },
-                {
-                    $lookup: {
-                        from: 'blog_articles',
-                        let: { id: '$_id' },
-                        as: 'countArticle',
-                        pipeline: [
-                            {
-                                $match: {
-                                    $expr: {
-                                        $eq: ['$category', '$$id'],
-                                    },
-                                },
-                            },
-                            {
-                                $count: 'count',
-                            },
-                        ],
-                    },
-                },
-                {
-                    $sort: {
-                        'countArticle.0.count': -1,
-                    },
-                },
-            ]);
+        let categories = await this.baseGet();
+        let getNameMethod;
+        if (categories.length) {
+            getNameMethod = categories[0].getName;
+        }
+        categories = JSON.parse(JSON.stringify(categories));
+        const commands = categories.map(category => BlogArticleRepository.baseCount({
+            category: category._id,
+            isApproved: true,
+            isDraft: false,
+        }));
+        const articlesQuantity = await Promise.all(commands);
+        articlesQuantity.forEach((number, index) => {
+            categories[index].articlesCount = number;
+            categories[index].getName = getNameMethod;
+        });
+
+        return categories;
     }
 
     async delete(id) {

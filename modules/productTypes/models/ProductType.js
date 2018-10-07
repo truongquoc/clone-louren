@@ -35,15 +35,14 @@ const ProductType = new Schema({
     timestamps: true,
 });
 
-ProductType.virtual('getName').get(function callback() {
-    const locale = i18n.getLocale();
+ProductType.methods.getName = function callback(locale) {
     if (locale === 'vi') {
         return this.name;
     }
-    if (locale === 'en') {
+    if (locale === 'en' && this.names.en) {
         return this.names.en;
     }
-    return '';
-});
+    return this.name;
+};
 
 module.exports = mongoose.model('product_types', ProductType);

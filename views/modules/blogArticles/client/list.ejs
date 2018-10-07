@@ -29,7 +29,7 @@
                                 <li><%= moment(article.updatedAt).format('L') %></li>
                             <li>
                                 <ul class="post-categories">
-                                    <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.getName %></a></li>
+                                    <li><a href="/blog/chuyen-muc-<%= article.category.slug %>" rel="category tag"><%= article.category.getName(language) %></a></li>
                                 </ul>
                             </li>
                         </ul>

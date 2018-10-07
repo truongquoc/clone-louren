@@ -1,5 +1,8 @@
 const BlogTag = require('../models/BlogTag');
+const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
 const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
+
+const BlogArticleRepository = new BlogArticleRepositoryClass();
 
 class BlogTagRepository extends ClassificationRepository {
     model() {
