@@ -127,7 +127,8 @@ class BaseRepository {
 
     baseCount(conditions = {}) {
         conditions.deletedAt = null;
-        return this.model.count(conditions);
+
+        return this.model.countDocuments(conditions);
     }
 }
 

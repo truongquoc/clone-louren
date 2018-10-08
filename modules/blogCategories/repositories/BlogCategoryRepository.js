@@ -1,5 +1,4 @@
 const BlogCategory = require('../models/BlogCategory');
-
 const BlogArticleRepositoryClass = require('../../blogArticles/repositories/BlogArticleRepository');
 const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
 
@@ -12,7 +11,10 @@ class BlogCategoryRepository extends ClassificationRepository {
 
     async getCategories() {
         let categories = await this.baseGet();
-        const getNameMethod = categories[0].getName;
+        let getNameMethod;
+        if (categories.length) {
+            getNameMethod = categories[0].getName;
+        }
         categories = JSON.parse(JSON.stringify(categories));
         const commands = categories.map(category => BlogArticleRepository.baseCount({
             category: category._id,

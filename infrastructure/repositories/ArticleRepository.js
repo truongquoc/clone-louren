@@ -2,7 +2,17 @@ const BaseRepository = require('./BaseRepository');
 
 class ArticleRepository extends BaseRepository {
     getEditArticle(slug) {
-        return this.getDetail({ slug }, { select: '-author -isApproved -createdAt -updatedAt -__v' });
+        return this.model
+            .findOne({
+                slug,
+                deletedAt: null,
+            })
+            .populate({
+                path: 'tags',
+                select: '_id',
+                match: { deletedAt: null },
+            })
+            .select('-author -isApproved -createdAt -updatedAt -__v');
     }
 
     async approve(id) {

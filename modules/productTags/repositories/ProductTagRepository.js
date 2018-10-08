@@ -1,9 +1,9 @@
-const BlogTag = require('../models/ProductTag');
+const ProductTag = require('../models/ProductTag');
 const ClassificationRepository = require('../../../infrastructure/repositories/ClassificationRepository');
 
 class ProductTagRepository extends ClassificationRepository {
     model() {
-        return BlogTag;
+        return ProductTag;
     }
 }
 

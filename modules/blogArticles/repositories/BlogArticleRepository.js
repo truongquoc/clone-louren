@@ -29,7 +29,11 @@ class BlogArticleRepository extends ArticleRepository {
                 .find(conditions)
                 .populate('category', '-_id name names slug', { deletedAt: null })
                 .populate('author', '-_id name', { deletedAt: null })
-                .populate('tags', '-_id name names slug')
+                .populate({
+                    path: 'tags',
+                    select: '_id name names slug',
+                    match: { deletedAt: null },
+                })
                 .skip((options.query.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({ createdAt: -1 })
