@@ -66,8 +66,7 @@ function checkSoldOut() {
 function lazyLoad() {
     $('.lazyload').lazy({
         effect: 'fadeIn',
-        effectTime: 1000,
-        threshold: 0,
+        threshold: 200,
     });
 }
 
