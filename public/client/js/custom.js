@@ -292,6 +292,12 @@ function init_clickDetailMenu() {
     });
 }
 
+function init_preventImageRightClick() {
+  $('img').on('contextmenu',function(){
+    return false;
+  });
+}
+
 $(document).ready(function () {
     language = $('html').attr('lang');
 
@@ -305,4 +311,5 @@ $(document).ready(function () {
     hamburger();
     menu();
     init_clickDetailMenu();
+    init_preventImageRightClick();
 });
