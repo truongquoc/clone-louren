@@ -205,5 +205,6 @@
 		}
 	},
 	"send": "Gửi",
-	" ": " "
+	" ": " ",
+	"Email hoặc mật khẩu không chính xác": "Email hoặc mật khẩu không chính xác"
 }

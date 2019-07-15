@@ -12,6 +12,7 @@ async function fakeBlogCategories() {
             const name = faker.lorem.words(2);
             await BlogCategory.create({
                 name,
+                names: { en: name },
                 slug: getSlug(name),
             });
         }

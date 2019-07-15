@@ -8,15 +8,25 @@ function upload(path, body) {
         body.on('data', (data) => {
             buffers.push(data);
         });
-        body.on('end', () => {
+        body.on('end', async () => {
+            let currentPath = process.cwd();
+            const paths = `public/images/${path}`.split('/');
+            for (let i = 0; i < paths.length - 1; i += 1) {
+                try {
+                    currentPath += `/${paths[i]}`;
+                    fs.accessSync(currentPath);
+                } catch (e) {
+                    fs.mkdirSync(currentPath);
+                }
+            }
             buffer = Buffer.concat(buffers);
-                fs.writeFile(`${process.cwd()}/public/images/${path}`, buffer, 'binary', (err) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(`/public/images/${path}`);
-                });
+            fs.writeFile(`${process.cwd()}/public/images/${path}`, buffer, 'binary', (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(`/public/images/${path}`);
             });
+        });
     });
 }
 

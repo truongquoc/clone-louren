@@ -12,6 +12,7 @@ async function fakeBlogTags() {
             const name = faker.lorem.words(2);
             await BlogTag.create({
                 name,
+                names: { en: name },
                 slug: getSlug(name),
             });
         }

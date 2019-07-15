@@ -12,6 +12,7 @@ async function fakeProductTypes() {
             const name = faker.lorem.words(2);
             await ProductType.create({
                 name,
+                names: { en: name },
                 slug: getSlug(name),
             });
         }
